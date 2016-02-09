@@ -138,7 +138,9 @@ Images are typically represented and displayed on a regular grid. Rendering algo
 \TBC
 
 \section{The role of sampling}\index{The role of sampling}
+There are two distinctly different applications of sampling in the rendering process. One of them is for reconstruction, either in 2D or in 5D (as described above), and the other is for estimation of the integral in equation~\ref{eq:measeq}. Most rendering algorithms focus on the latter and perform reconstruction on a two-dimensional regular grid of pixels. A popular rendering method, called path-tracing, proceeds by estimating the virtual image measurement at each pixel by averaging the values of the measurement contribution function at a chosen set of paths through the pixels. This set of paths may either be sampled stochastically (Monte Carlo sampling) from amongst all paths through each pixel or based on deterministically sampled paths (Quasi-Monte Carlo). The properties of estimates yielded by these two broad classes of algorithms are strikingly different, as is the mathematical machinery used for their analyses.  
 
+\TBC
 
 \section{Sources and manifestation of error}\index{Error in rendering}
 

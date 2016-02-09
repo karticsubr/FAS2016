@@ -1,0 +1,94 @@
+
+
+\newcommand{\IGNORE} [1] {#1} %% use to remove comments
+
+
+\newcommand{\KARTIC} [1] {\IGNORE{\textcolor{red} {KARTIC:#1}}}
+\newcommand{\GURPRIT} [1] {\IGNORE{\textcolor{blue} {[GURPRIT:#1]}}}
+\newcommand{\WOJCIECH} [1] {\IGNORE{\textcolor{brown} {[WOJCIECH:#1]}}}
+
+
+% % % % % % % New variables (this course)
+\newcommand{\pth} {\ensuremath{\bar{p}}}
+\newcommand{\xs} {\ensuremath{j}}
+\newcommand{\Ij}[1] {\ensuremath{I_{#1}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OLD STUFF 
+
+% % % % % % %  General
+\newcommand{\imag}{\ensuremath{\mathrm{\imath}}}
+\newcommand{\MyExp}[1] {\ensuremath{\e^{#1}}}
+\newcommand{\cn} [2]{\ensuremath{#1+\imag#2}}
+\newcommand{\cp} [2]{\ensuremath{#1 \, \MyExp{-\imag #2}}}
+\newcommand{\RV}[1] {\ensuremath{\mathbf{#1}}}
+\newcommand{\Real}[1] {\ensuremath{\Re(#1)}}
+\newcommand{\Imag}[1] {\ensuremath{\Im (#1)}}
+\newcommand{\Exp}[1] {\ensuremath{\langle #1 \rangle}}
+\newcommand{\Ampl} [1]{\ensuremath{ |#1 |}}
+\newcommand{\Phase} [1]{\ensuremath{ \MyExp{\Phi({#1})}}}
+% \newcommand{\Ampl} [1]{\ensuremath{\left| #1 \right|}}
+% \newcommand{\Exp}[1] {\ensuremath{\left \langle #1 \right \rangle}}
+\newcommand{\Var}[1] {\ensuremath{\mathrm{V} \left(#1\right)}}
+\newcommand{\Cov}[2] {\ensuremath{\mathrm{Cov} (#1, #2)}}
+\newcommand{\e}{\ensuremath{\mathrm{e}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\conv}{\ensuremath{\otimes}}
+\newcommand{\sinc} [1] {\ensuremath{\mathrm{sinc(#1)}}}
+\newcommand{\twopartdef}[4]
+{
+	\left\{
+		\begin{array}{ll}
+			#1 & \mbox{if } #2 \\
+			#3 & \mbox{} #4
+		\end{array}
+	\right.
+}
+\newcommand{\DefInt}[4] {\int\limits_{#1}^{#2} \; #3 \;\; \mathrm{d}#4}
+\newcommand{\Int}[2] {\int  #1 \; \mathrm{d}#2}
+ 
+% % % % % % % Variables
+\newcommand{\N} {\ensuremath{N}}
+\newcommand{\rv} {\ensuremath{\varsigma}}
+\newcommand{\Est} {\ensuremath{\mathbb{E}}}
+\newcommand{\bias} {\ensuremath{\mathcal{B}}}
+\newcommand{\var} {\ensuremath{\mathcal{V}}}
+\newcommand{\err} {\ensuremath{\Delta}}
+\newcommand{\Estim}[1] {\ensuremath{\RV F_{#1}}}
+
+% % % % % % %  Primal
+\newcommand{\sfsym} {\ensuremath{\RV S}}
+\newcommand{\sdsym} {\ensuremath{g}}
+\newcommand{\ifsym} {\ensuremath{f}}
+\newcommand{\x} {\ensuremath{x}}
+\newcommand{\w} {\ensuremath{\alpha}}
+\newcommand{\xii} {\ensuremath{\RV X _i}}
+\newcommand{\wii} {\ensuremath{\w_i}}
+\newcommand{\Tx} {\ensuremath{T}}
+\newcommand{\sfn} {\ensuremath{\sfsym(\x)}}
+\newcommand{\sfnp} {\ensuremath{\sfsym'(\x)}}
+\newcommand{\ifn} {\ensuremath{\ifsym(\x)}}
+\newcommand{\ifnb} {\ensuremath{\ifsym_{\Pi}(\x)}}
+\newcommand{\sdn} {\ensuremath{\sdsym(\x)}}
+\newcommand{\boxf} [2]{\ensuremath{\Pi_{#1}^{#2}(\x)}}
+\newcommand{\shaf} [1]{\ensuremath{{\bot\hspace{-.7ex}\bot\hspace{-.7ex}\bot}_{#1}(\x)}}
+ 
+% % % % % % %  Fourier
+\newcommand{\fv} {\ensuremath{\omega}}
+\newcommand{\ifv} {\ensuremath{b}}
+\newcommand{\rfv} {\ensuremath{a}}
+\newcommand{\amp} {\ensuremath{\rho(\omega)}}
+\newcommand{\ph} {\ensuremath{\phi(\omega)}}
+\newcommand{\FTsym} [1] {\ensuremath{\hat{#1}}}
+\newcommand{\FT} [1] {\ensuremath{\hat{#1}(\fv)}}
+\newcommand{\SF} {\ensuremath{\FT{\sfsym}}}
+\newcommand{\SFp} {\ensuremath{\FTsym{\sfsym}'(\fv)}}
+\newcommand{\IFn} {\ensuremath{\FT{\ifsym}}}
+\newcommand{\IFnb} {\ensuremath{\FT{\ifsym_{\Pi}}}}
+\newcommand{\SFsym} {\ensuremath{\FTsym{\sfsym}}}
+\newcommand{\IFsym} {\ensuremath{\FTsym{\ifsym}}}
+\newcommand{\BOXF} [2]{\ensuremath{\FTsym{\Pi}_{#1}^{#2}(\fv)}}
+\newcommand{\SHAF} [1]{\ensuremath{\FTsym{{\bot\hspace{-.8ex}\bot\hspace{-.8ex}\bot}}_{#1}(\fv)}}
+
