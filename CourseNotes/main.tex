@@ -143,7 +143,9 @@ There are two distinctly different applications of sampling in the rendering pro
 \TBC
 
 \section{Sources and manifestation of error}\index{Error in rendering}
+The rendered image is represented on a discrete grid, while the distribution of the underlying light energy across the sensor is a continuous function. One potential source of error stems from this discretization. Recall that the true continuous function is a high-dimensional integral at each point on the sensor (equation~\ref{eq:measeq}). Any sampling-based approach used to estimate this function results in an approximation whose measured deviation from the true function is known referred to as \textit{approximation error}. Typically approximation error manifests itself in rendered images in one of two perceivably objectionable forms: structured artifacts or as noise. Various metrics, such as L1 norms, L2 norms, PSNR, etc., are used to quantify approximation error.
 
+\TBC 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 2
 %----------------------------------------------------------------------------------------
