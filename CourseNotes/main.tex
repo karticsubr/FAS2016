@@ -220,11 +220,7 @@ Rendering is a computationally expensive process that needs to be performed repe
 \section{Rendering}\index{Rendering}
 We refer to rendering as the process of producing a picture which represents a particular view of an environment, captured using a virtual camera, at a given time. The input to the rendering system, or renderer, is a detailed representation of all the objects in the scene. This representation is typically provided in a \textit{scene description file} that specifies the objects in the scene, their shapes, their material properties (rough, smooth, shiny, diffuse, translucent, etc.), their motion parameters and whether these objects emit light energy. In addition to the environment, the renderer is also provided with a description of the virtual camera used to capture the rendered view including its position, orientation, optical characteristics (any lenses, aperture, etc.), shutter parameters (exposure time)  and parameters of the virtual sensor (aspect ratio, optical sensitivity, etc.) embedded within it. 
 
-The goal of rendering is to estimate the quantity of radiant light energy impinging on the various pixels (or cells) on the virtual observer's camera (or eye). Current renderers perform this via physically-based simulation of light, following its intricate combinations of reflections within the scene. The virtual measurement \Ij {\xs} at a point \xs\  on the sensor~\cite{VeachChapter8} is
-\begin{eqnarray} \label{eq:measeq}
- \Ij {\xs} & = & \DefInt{\Omega}{}{f_\xs(\pth)}{\mu(\pth)}
-\end{eqnarray}
-where the measurement contribution function, $f_\xs(\pth)$, is the importance-weighted radiance arriving at \xs\ along the path \pth\ and $\mu(\pth)$ is a measure on the space of all paths $\Omega$. The paths \pth\ span space as well as time and may be of arbitrarily high dimensionality. Thus, physically-based rendering requires the esimation of high-dimensional integrals at each point \xs\ on the virtual sensor. 
+
 
 \TBC
 
@@ -355,12 +351,33 @@ Antialiasing is commonly viewed as an integration problem. The value to be assig
 %	CHAPTER 4
 %----------------------------------------------------------------------------------------
 \chapter{Estimating integrals}
+The goal of rendering is to estimate the quantity of radiant light energy impinging on the various pixels (or cells) distributed on a virtual observer's camera (or eye). Current renderers perform this via physically-based simulation of light, following its intricate combinations of reflections within the scene. The virtual measurement \Ij {\xs} at a point \xs\  on the sensor~\cite{VeachChapter8} is
+\begin{eqnarray} \label{eq:measeq}
+ \Ij {\xs} & = & \DefInt{\Omega}{}{f_\xs(\pth)}{\mu(\pth)}
+\end{eqnarray}
+where the measurement contribution function, $f_\xs(\pth)$, is the importance-weighted radiance arriving at \xs\ along the path \pth\ and $\mu(\pth)$ is a measure on the space of all paths $\Omega$. The paths \pth\ span space as well as time and may be of arbitrarily high dimensionality. Thus, physically-based rendering requires the esimation of high-dimensional integrals at each point \xs\ on the virtual sensor. 
+
+The exact nature of the integrand depends on the complexity and structure of the scene being rendered, along with detailed modelling of the constituent materials and shapes.  In general, the integrand is high-dimensional, discontinuous and costly to evaluate. Each evaluation of the integrand requires many rays to be traced within the environment, along with estimation of the radiant light energy along that path formed by linking the rays together. 
+The rendering community strives to estimate such integrals with low error as well as low computational cost.
+
 
 \section{Numerical integration via sampling}
+Henceforth in this chapter, we abstract away the details about the integrand and domain of integration (equation~\ref{eq:measeq}) that is encountered in rendering. We study the integration problem in the canonical domain.  
+Our goal is to analyze the of quality of numerical integration, within the interval $[0,\Tx]$, of a function $\ifsym: \R \mapsto \R^{+}$. 
+% in terms of the Fourier spectrum of the underlying sampling strategy. 
+For example, a \textit{primary} Monte Carlo estimator $\estim{1} = \ifsym(\xii)$ for the integral
+$$I \equiv \frac 1 \Tx \DefInt{0}{\Tx}{\ifn }{\x} $$
+is well known to be unbiased if the  single sample $\xii \in [0,\Tx] $ is drawn from a constant probability distribution function (pdf) within the domain $[0,\Tx]$.~i.e.~$\Exp{\estim{1}} = I$.
+The corresponding secondary estimator, obtained by averaging \N\ primary estimates at different \xii\ has the same expected value. However, the averaging scales the variance down by a factor of $\N$.~i.e.~$\Var{\estim{\N}} = \Var{\estim{1}}/\N.$ 
+
+\TBC
+
 \section{Error and convergence}
 \section{Consistency}
+\section{Homogenization}
 \section{Error in the Fourier domain due to sampling}
 \section{Uncertainty of estimates}
+
 \section{Assessing sampling patterns based on their spectra}
 \section{Analysis beyond the canonical domain}
 \subsection{Spherical domain}
