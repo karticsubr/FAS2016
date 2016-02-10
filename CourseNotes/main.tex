@@ -98,15 +98,15 @@
 \pagestyle{plain}
 \pagenumbering{roman}
 
-{\baselineskip=18pt
+{
 
 \cleardoublepage
 \phantomsection
 \addcontentsline{toc}{section}{Abstract}
 \section*{Abstract}
+Since being introduced to graphics in the 1980s, Monte Carlo sampling and integration has become the cornerstone of most modern rendering algorithms. Originally introduced to combat the effect of aliasing when estimating pixels values, Monte Carlo has since become a more general tool for solving complex, multi-dimensional integration problems in rendering. In this context, MC integration involves sampling a function at various stochastically placed points to approximate an integral, e.g. the radiance through a pixel integrated across the multi-dimensional space of possible light transport paths. Unfortunately, this estimation is error-prone, and the visual manifestation of this error depends critically on the properties of the integrand, placement of the stochastic sample points used, and the type of problem (integration vs.\ reconstruction) that is being solved with these samples.
 
-Photon density estimation techniques are a popular choice for simulating light transport in scenes with complicated geometry and materials. This class of algorithms can be used to accurately simulate inter-reflections, caustics, color bleeding, scattering in participating media and subsurface scattering. Since its introduction, photon density estimation has been significantly extended in computer graphics with the introduction of: specialized techniques that intelligently modify the positions or bandwidths to reduce visual error using a small number of photons, approaches which eliminate error completely in the limit, and methods that use higher-order samples and queries to reduce error in participating media. This course provides the necessary insight to implement all these latest advances in photon density estimation. The course starts out with a short introduction to photon density estimation using classical photon mapping, but the remainder of the two-part course provides new, hands-on explanations of the latest developments in this area by the experts behind each technique. The course will also cover recent applications of these techniques within industry. The course will give the audience concrete and practical understanding of the latest developments in photon density estimation techniques that have not been presented in prior SIGGRAPH courses.
-
+Fourier analysis, along with the Nyquist theorem, have long been used in graphics to motivate more intelligent sampling strategies which try to minimize errors due to noise and aliasing in the \textit{pixel reconstruction problem}. Only more recently, however, has the community started to apply these same Fourier tools to analyze error in the Monte Carlo \textit{integration problem}. Loosely speaking, in the context of rendering a 2D image, these two problems are concerned with errors introduced across pixels (reconstruction) vs.\ the errors introduced within any individual pixel (integration). In this course, we focus on the latter, and survey the recent developments and insights that Fourier analyses have provided about the magnitude and convergence rate of Monte Carlo integration error. We provide a historical perspective of Monte Carlo in graphics, review the necessary mathematical background, summarize the most recent developments, discuss the practical implications of these analyzes on the design of Monte Carlo rendering algorithms, and identify important remaining research problems that can propel the field forward.
 }
 
 \clearpage
