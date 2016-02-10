@@ -91,13 +91,104 @@
 % \noindent \textit{First printing, March 2013} % Printing/edition date
 
 %----------------------------------------------------------------------------------------
-%	TABLE OF CONTENTSPic	
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+
+
+\pagestyle{plain}
+\pagenumbering{roman}
+
+{\baselineskip=18pt
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{section}{Abstract}
+\section*{Abstract}
+
+Photon density estimation techniques are a popular choice for simulating light transport in scenes with complicated geometry and materials. This class of algorithms can be used to accurately simulate inter-reflections, caustics, color bleeding, scattering in participating media and subsurface scattering. Since its introduction, photon density estimation has been significantly extended in computer graphics with the introduction of: specialized techniques that intelligently modify the positions or bandwidths to reduce visual error using a small number of photons, approaches which eliminate error completely in the limit, and methods that use higher-order samples and queries to reduce error in participating media. This course provides the necessary insight to implement all these latest advances in photon density estimation. The course starts out with a short introduction to photon density estimation using classical photon mapping, but the remainder of the two-part course provides new, hands-on explanations of the latest developments in this area by the experts behind each technique. The course will also cover recent applications of these techniques within industry. The course will give the audience concrete and practical understanding of the latest developments in photon density estimation techniques that have not been presented in prior SIGGRAPH courses.
+
+}
+
+\clearpage
+
+
+%----------------------------------------------------------------------------------------
+%	LECTURERS PAGE
+%----------------------------------------------------------------------------------------
+
+\phantomsection
+\addcontentsline{toc}{section}{About the Lecturers}
+\section*{About the Lecturers}
+
+\subsection*{Prof.\ Kartic Subr}
+fixme college\\
+\href{mailto:fixme}{\texttt{<fixme.edu>}}\\
+\url{http://fixme.com}\\
+
+blah blah blah
+
+\bigskip
+
+\subsection*{Prof.\ Wojciech Jarosz}
+Dartmouth College\\
+\href{mailto:wojciech.k.jarosz@dartmouth.edu}{\texttt{<wojciech.k.jarosz@dartmouth.edu>}}\\
+\url{http://www.cs.dartmouth.edu/~wjarosz}\\
+
+Wojciech Jarosz is an Assistant Professor of Computer Science at Dartmouth College and co-founder of Dartmouth's Visual Computing Lab. Before joining Dartmouth in 2015, Wojciech was a Senior Research Scientist heading the rendering group at Disney Research Zürich, and an adjunct lecturer at ETH Zürich. He obtained his Ph.D. (2008) and M.S. (2005) in computer graphics from UC San Diego, and a B.S. (2003) in computer science from the University of Illinois at Urbana–Champaign.
+
+Prof.\ Jarosz’s research covers many areas of computer graphics and rendering, with a particular emphasis on \emph{light}: how to capture it, how to more efficiently simulate its interaction and propagation within scenes, how to author or edit appearance, and how to create physical objects with prescribed light interactions. Much of his work has involved developing more sophisticated sampling techniques in the context of Monte Carlo integration and the resulting methods have been incorporated into production rendering systems for the making of feature films, including Disney's \textit{Tangled} and \textit{Big Hero 6}. In 2013, Prof.\ Jarosz received the Eurographics Young Researcher Award.
+
+\bigskip
+
+\subsection*{Dr.\ Gurprit Singh}
+Dartmouth College\\
+\href{mailto:fixme}{\texttt{<fixme.edu>}}\\
+\url{http://fixme.com}\\
+
+blah blah blah
+
+\cleardoublepage
+
+
+
+%----------------------------------------------------------------------------------------
+%	COURSE SYLLABUS
+%----------------------------------------------------------------------------------------
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Course Syllabus}
+\chapterimage{temp.pdf} % Table of contents heading image
+\chapter*{Course Syllabus}
+
+Photon mapping techniques have progressed significantly in the last few years. The first part will include a brief introduction to light transport and the core ideas behind photon mapping. The remainder of the time will focus on recent advances in photon density estimation for surfaces.
+
+The second part will start with a brief introduction to participating media, followed by in-depth presentations on recent developments in volumetric photon mapping. The last portion of the course will cover the uses of photon density estimation in industry.
+
+These topics are shown below:
+
+A detailed breakdown in provided in Figure~\ref{fig:half-day}. Each slot is 5~min.
+
+\begin{figure}[b!]
+\begin{center}
+\end{center}
+\caption{%
+\label{fig:half-day}%
+Session timing breakdown for the course.
+}
+\end{figure}
+
+
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
 %----------------------------------------------------------------------------------------
 
 \chapterimage{temp.pdf} % Table of contents heading image
 
 \pagestyle{empty} % No headers
 
+\phantomsection
+\addcontentsline{toc}{chapter}{Table of Contents}
 \tableofcontents % Print the table of contents itself
 
 \cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
