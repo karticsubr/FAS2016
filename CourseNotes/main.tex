@@ -348,8 +348,9 @@ Halftoning is the process of determining a sampling function $S(x)$ so that a ke
 \TBC
 
 \section{Antialiasing as integration}
+Antialiasing is commonly viewed as an integration problem. The value to be assigned to a pixel is often estimated by averaging sampled values within a square around the pixel. That is, pixels are viewed as little squares and the values assigned to pixels are obtained by integrating the underlying function within their respective squares. On the contrary, if pixels are viewed as simply being points on the image plane~\cite{PixelsAreNotSquares}, this choice of integrating within the pixel appears to be an arbitrary choice. That is, it corresponds to performing reconstruction on the image plane exactly as in equation~\ref{eq:recons} followed by resampling of $\appr{\ifsym}(x)$ on a regular grid, with $K(x)$ chosen to be a box with a width that is half the inter-pixel distance. Although this view of antialiasing is better than not performing antialiasing, it is well known that the box-filter is not the ideal choice~\cite{}. 
 
-
+\TBC
 %----------------------------------------------------------------------------------------
 %	CHAPTER 4
 %----------------------------------------------------------------------------------------
