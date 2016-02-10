@@ -11,7 +11,7 @@
 %
 % License:
 % CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
-%
+%by a multiplication 
 % Compiling this template:
 % This template uses biber for its bibliography and makeindex for its index.
 % When you first open the template, compile it from the command line with the 
@@ -43,7 +43,7 @@
 
 \documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
 
-\newcommand{\TBC} {\vspace {1em} \noindent [SAMPLE TEXT. TO BE COMPLETED IN THE FINAL VERSION.] \vspace {1em}}
+\newcommand{\TBC} {\vspace {1em} \noindent [TO BE COMPLETED IN THE FINAL VERSION.] \vspace {1em}}
 
 %----------------------------------------------------------------------------------------
 
@@ -248,6 +248,31 @@ The rendered image is represented on a discrete grid, while the distribution of 
 %----------------------------------------------------------------------------------------
 \chapter{Mathematical preliminaries}
 We review relevant mathematical concepts and introduce the notation adopted in this course.
+
+
+\section{Random variables, expectation and variance}
+For the purpose of this course, it will suffice to think of random variates simply as variables whose value is subject to chance. We will restrict ourselves to continuous random variables, dnoted using bold capital letters (\RV X, \yii,~etc.), that assume values in some domain \Dom. The relative likelihood for these random variables to take on a given value is specified using a (normalized) probability density function (pdf) $\sdsym: \Dom \rightarrow \R$. We denote that \RV X\ is distributed according to \sdn\ by $\RV X \sim \sdn$. The probability that the random variable lies in a subdomain $\Domi{i} \subset \Dom$ is obtained as 
+% \begin{equation}
+  $\Prob(\RV X \in \Domi{i}) = \DefIntT{\Domi{i}}{}{\sdn}{x}.$
+% \end{equation}
+
+A function $\phi:\Dom\rightarrow\R$ evaluated at a location specified by a random variable, $\phi(\RV X)$, is also a random variable. For formal definitions of random variables and functions of random variables, we refer interested readers to standard mathematical textbooks on probability~\cite{ProbTextBook}.
+In this course, we are primarily concerned by the first two moments of random variables (specifically functions of random variables). The first moment, or ``average value'' of a random variable is captured by the mathematical concept of the \textit{expected value} of the random variable. We denote the expected value of \RV X\ as 
+$ \Expf{\phi(\RV X)}{\sdsym}   \equiv \DefIntT{\Dom}{}{\phi(x)\;\sdsym(x)}{x}$. 
+
+If the pdf has an expected value, the variance of the random variable is its second central moment which we denote
+$\Varf{\phi(\RV X)}{\sdsym} \equiv \Expf{\phi^2(\RV X)}{\sdsym} - \Expf{\phi(\RV X)}{\sdsym}^2$. 
+When \RV {X}\ is distributed uniformly within the domain (i.e.~\sdn\ is a constant), we drop the subscript and write the expectation as \Exp{\phi(\RV X)} and the variance as \Var{\phi(\RV X)}.
+
+\TBC 
+
+\section{Estimators}
+Consider Monte Carlo estimation of the multidimensional integral $ I = \DefIntT{\Dom}{}{\ifn}{x}, \; \x\in\Dom $.A simple \emph{primary} MC estimator for $I$ is
+$\estim{1}\equiv\ifsym(\RV X) , \;\RV X \in \Dom$. When \RV X\ is distributed
+uniformly, the estimator is unbiased. That is, its expected value is the integral:$\Exp{\estim{1}}=\Ival$. The function \ifsym(\RV X)\ is itself a random variable with an arbitrary distribution and, typically, a large variance. A more practical MC estimator is obtained by averaging a fixed number of (say \N) primary estimates:  $\estim{\N} = \sum \ifni/\N, \; i=1,2,...,\N$. Such \emph{secondary estimators}  are known to be unbiased and Gaussian-distributed when the primary estimator has finite variance. 
+
+\TBC 
+
 \begin{table}[hbpt]%
 \caption{\label{tab:notation}%
 Notation used in this course.}%
@@ -279,29 +304,6 @@ Variance with $ \RV X \sim \sdn$:
 \end{tabular}
 \end{table}
 
-\section{Random variables, expectation and variance}
-For the purpose of this course, it will suffice to think of random variates simply as variables whose value is subject to chance. We will restrict ourselves to continuous random variables, dnoted using bold capital letters (\RV X, \yii,~etc.), that assume values in some domain \Dom. The relative likelihood for these random variables to take on a given value is specified using a (normalized) probability density function (pdf) $\sdsym: \Dom \rightarrow \R$. We denote that \RV X\ is distributed according to \sdn\ by $\RV X \sim \sdn$. The probability that the random variable lies in a subdomain $\Domi{i} \subset \Dom$ is obtained as 
-% \begin{equation}
-  $\Prob(\RV X \in \Domi{i}) = \DefIntT{\Domi{i}}{}{\sdn}{x}.$
-% \end{equation}
-
-A function $\phi:\Dom\rightarrow\R$ evaluated at a location specified by a random variable, $\phi(\RV X)$, is also a random variable. For formal definitions of random variables and functions of random variables, we refer interested readers to standard mathematical textbooks on probability~\cite{ProbTextBook}.
-In this course, we are primarily concerned by the first two moments of random variables (specifically functions of random variables). The first moment, or ``average value'' of a random variable is captured by the mathematical concept of the \textit{expected value} of the random variable. We denote the expected value of \RV X\ as 
-$ \Expf{\phi(\RV X)}{\sdsym}   \equiv \DefIntT{\Dom}{}{\phi(x)\;\sdsym(x)}{x}$. 
-
-If the pdf has an expected value, the variance of the random variable is its second central moment which we denote
-$\Varf{\phi(\RV X)}{\sdsym} \equiv \Expf{\phi^2(\RV X)}{\sdsym} - \Expf{\phi(\RV X)}{\sdsym}^2$. 
-When \RV {X}\ is distributed uniformly within the domain (i.e.~\sdn\ is a constant), we drop the subscript and write the expectation as \Exp{\phi(\RV X)} and the variance as \Var{\phi(\RV X)}.
-
-\TBC 
-
-\section{Estimators}
-Consider Monte Carlo estimation of the multidimensional integral $ I = \DefIntT{\Dom}{}{\ifn}{x}, \; \x\in\Dom $.A simple \emph{primary} MC estimator for $I$ is
-$\estim{1}\equiv\ifsym(\RV X) , \;\RV X \in \Dom$. When \RV X\ is distributed
-uniformly, the estimator is unbiased. That is, its expected value is the integral:$\Exp{\estim{1}}=\Ival$. The function \ifsym(\RV X)\ is itself a random variable with an arbitrary distribution and, typically, a large variance. A more practical MC estimator is obtained by averaging a fixed number of (say \N) primary estimates:  $\estim{\N} = \sum \ifni/\N, \; i=1,2,...,\N$. Such \emph{secondary estimators}  are known to be unbiased and Gaussian-distributed when the primary estimator has finite variance. 
-
-\TBC 
-
 \section{The continuous Fourier transform}
 \TBC 
 
@@ -317,12 +319,36 @@ uniformly, the estimator is unbiased. That is, its expected value is the integra
 %----------------------------------------------------------------------------------------
 %	CHAPTER 3
 %----------------------------------------------------------------------------------------
-\chapter{Image reconstruction}
+\chapter{Sampling for reconstruction}
+The reconstruction problem entails approximating a function $\ifsym:\Dom\rightarrow\R$ as $\appr{\ifsym}(x_i), \; x_i\in\Dom, \;i=1,2,3,...,M$ given $\ifsym(y_i), \; y_i \in \Dom, \;j=1,2,3,...,\N$, where the sets of points $\{x_i\}$ and $\{y_j\}$ are mutually exclusive. If $\appr{\ifsym}(y_j) = \ifsym(y_j),\;\forall j$, the process is referred to as interpolation. This problem has received much attention in the classical signal processing literature~\cite{Nyquist,Shannon} as well as in the rendering community~\cite{DippeWold,Cook,Mitchell}. Such analyses have yielded effective reconstruction filters that are used in modern renderers, especially when dealing with low-dimensional domains such as the image plane.
 
-\section{The visual system and perceptual reconstruction}
-\section{Aliasing and error}
-\section{Quantitative assessment}
+Reconstruction is akin to nonlinear regression, a popular problem in the statistics and machine learning literature~\cite{MLTextBook}, which offers effective solutions in high-dimensional settings when the approximand exhibits stationarity. In rendering, the underlying functions represent a multitude of combinations (products, convolutions and sums) of a variety of non-stationary processes such as spatio-directional lighting, hard shadows, sharp reflections, textured materials, etc. The resulting discontinuities and variations in the radiant light energy (radiance function) across space-angle-time pose immense challenges for state of the art methods in non-linear regression.
+
+The reconstruction process generally consists of two steps. First, for any point $x$ in the domain, the influence of each of the $\ifsym(y_j)$ samples is specified using some \textit{weighting kernel} on the distance between $x$ and $y_i$ (typically Euclidean). Then, at each of the $x_i$, the approximate value is obtained by summing up the distance-weighted contributions of each of the $\ifsym(y_j)$. Depending on the choice of the kernel and the strategy for determining weights, the resulting methods are known by different names: Kernel Smoothers, Radial Basis Functions, Shepherd's method, etc.  
+
+\section{Aliasing in reconstruction}
+The general reconstruction process (above) may be written in terms of the underlying function (or signal). The samples, $\ifsym(y_i), \; y_i \in \Dom$, can be represented as the  product of the true (often unknown) function \ifn\ with a sampling function of the form $S(x) = \sum\limits_{j=1}^{\N} \updelta(x-y_j)$. 
+If $K(r)$ represents the kernel weight at a distance of $r$, the continuous approximand and its Fourier dual are
+\begin{equation} \label{eq:recons}
+ \appr{\ifsym}(x) = \left(\ifn . S(x) \right) \conv K(x) \Fdual 
+ \appr{\IFsym}(\fv) = \left(\IFn \conv \FTsym{S}(\fv)\right) . \FTsym{K}(\fv) 
+\end{equation}
+where \conv\ denotes convolution. That is, the effect of sampling can be seen in the Fourier domain as one of generating spurious replicas of \IFsym\, created due to the convolution with $\FTsym{S}$, which potentially hinders perfect reconstruction.   The kernel, on the other hand, can be viewed as a low-pass filter which suppresses replicated, or aliased, copies of the true function's spectrum at high frequencies. 
+
+If \ifn\ contains frequencies less than $\fv_b$ (is band-limited), if the sampling spectrum does not contain frequencies lower than $2\fv_b$, and if the kernel is a low-pass filter suppressing frequencies above $\fv_b$, the resulting reconstruction will be perfect. If these conditions are not satisfied, the approximation will contain error. The first potential source of error is that \ifn\ is not bandlimited and hence, regardless of the sampling function, the low-pass effect of the kernel results in the loss of high-frequencies. The other main source of error is due to the sampling spectrum containing low frequencies, which results in a \FTsym{\appr{\ifsym}}\ that contains a superposition of \IFn\ with its aliased copies.
+
 \section{Antialiasing}
+The error introduced by aliasing either appears as coherent structure or as noise, depending on the choice of sampling spectrum. Sampling on a regular grid corresponds to multiplication with a Dirac-train or Shah function, whose Fourier spectrum remains a Shah function. If the samples are not sufficiently dense in the image plane, the resulting spectrum contains impulses at lower frequencies which cause aliasing in the form of regular structure that has been shown to be particularly unpleasant to our perceptual system. If the function being reconstructed is bandlimited, and in the absence of a sampling budget, the sampling rate may be increased to eliminate aliasing. However, if the function contains arbitrarily high frequencies, a simple strategy is to introduce randomness in the spectrum thereby transforming coherent artifacts into visual noise. This has shown to be less objectionable to our visual systems.
+
+\TBC
+
+\section{Halftoning}
+Halftoning is the process of determining a sampling function $S(x)$ so that a kernel density estimate of the sampled function $\appr{\ifsym}(x) = \ifn.S(x)$ provides the best approximation to \ifn. It is a special case of reconstruction where the kernel is implicit and dependent on our visual systems. Halftoning methods strive to identify sampling functions for which the \textit{perceived} sampled function is as close to \ifn\ as possible. This may be achieved by varying the distributions of the samples, by weighting them or using a combination of both. Densely sampled regions of the sampled function are perceived to have darker tone. 
+
+\TBC
+
+\section{Antialiasing as integration}
+
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 4
@@ -331,13 +357,15 @@ uniformly, the estimator is unbiased. That is, its expected value is the integra
 
 \section{Numerical integration via sampling}
 \section{Error and convergence}
+\section{Consistency}
 \section{Error in the Fourier domain due to sampling}
 \section{Uncertainty of estimates}
 \section{Assessing sampling patterns based on their spectra}
 \section{Analysis beyond the canonical domain}
 \subsection{Spherical domain}
-\subsection{General domain}
+\subsection{General domains}
 \subsection{Gradient domain}
+\section{Manifestation of error in rendering}
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 5
