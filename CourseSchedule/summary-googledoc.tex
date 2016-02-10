@@ -1,0 +1,51 @@
+Introduction (15 mins)
+Rendering
+Problems in rendering
+integration
+reconstruction
+interplay
+The role of sampling.
+Practice: 
+How samples are used in a typical renderer. 
+Show black box data structure with samples
+Show how renderer uses these
+Explain how dimensionality is handled…
+Error: Sources and and how they manifest
+State of the art in sampling (10 mins) 
+Classical: Random, Jittered, Latin HC …
+QMC: Sobol, Hammersley 
+Blue Noise: Poisson disk, CCVT, Victor’s 
+Spectral specification
+The reconstruction problem (10 mins)
+Define problem
+Signal processing: Nyquist, Balakrishnan, Dippe and Wold, …
+Vision, perception: Yellott, Ulichney ...
+Graphics: Mitchell, cook, shirley, …
+transition via Mitchell’s analysis
+Quality assessment? 
+(Alvy Ray Smith (1995) has emphatically pointed out, thinking of pixels as small squares with finite area is an incorrect mental model that leads to a series of errors)
+Break (5 mins) : Questions? 
+Integration using stochastic sampling (30 mins) 
+Define problem
+Error in the fourier domain
+Errors in integration due to sampling (30 mins)
+The canonical domain
+From first principles
+MSE vs variance/bias. Relevance of phase.
+Measuring/predicting error
+periodogram: show examples in case study
+amplitude of the expected Fourier spectrum: show examples 
+behaviour at low frequencies (slope of the spectrum as it approaches DC): show all examples in case study
+Break (5 mins) : Questions? 
+Extensions (15 mins)
+Domain
+P’boue, Gurprit et al’s
+Differential Domain Sampling
+Spherical Fibonacci lattice (QMC)
+Gradients
+Jaakko and co’s two gradient domain papers
+Case study empirical comparisons (15 mins) 
+Mixture of Gaussians
+Mixture of Gaussians with step edges
+Canonical rendering examples
+Conclusion (5 mins)

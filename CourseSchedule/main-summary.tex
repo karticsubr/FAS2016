@@ -1,0 +1,102 @@
+%%% template.tex
+%%%
+%%% This LaTeX source document can be used as the basis for your technical
+%%% paper or abstract.
+%%%
+%%% This example is tailored toward the two-page abstract. Please see "template.tex"
+%%% for a more fully-annotated example.
+
+\documentclass[tog]{acmsiggraph}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Packages
+\usepackage{wrapfig}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{pdfpages} % For pdf includes
+\usepackage{amsthm}	%For Theorms
+\usepackage{amsfonts}  %%For mathbb
+\usepackage{mathtools}
+\usepackage{mathtools}
+\usepackage{graphicx,wrapfig}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{microtype}
+\usepackage{marginnote}
+\usepackage{subfigure}
+\usepackage{booktabs}
+\usepackage{mathdots}
+\usepackage{tikz}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{todonotes}
+\newcommand\todoin[2][]{\todo[inline, caption={2do}, #1]{
+\begin{minipage}{\textwidth-4pt}#2\end{minipage}}}
+%\usepackage[normalem]{ulem}
+\usepackage{overpic}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tcolorbox}
+\usepackage{rotating}
+\usepackage[toc,page]{appendix}
+\usepackage[normalem]{ulem}
+\usepackage{tikz}
+\clubpenalty=10000 \widowpenalty=10000
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Title of your article or abstract.
+
+\title{Syllabus and Schedule}
+
+\author{0000}
+\pdfauthor{0000}
+
+%%% Used by the ``review'' variation; the online ID will be printed on 
+%%% every page of the content.
+
+\TOGonlineid{0000}
+
+% User-generated keywords.
+
+\keywords{stochastic sampling, Monte Carlo Integration, Importance sampling}
+
+% With the "\setcopyright" command the appropriate rights management text will be added
+% to your document.
+
+%\setcopyright{none}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+\setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+%\setcopyright{rightsretained}
+
+% The year of publication in the "\copyrightyear" command.
+
+\copyrightyear{2016}
+
+%%% Conference information, from the completed rights management form.
+%%% The "\conferenceinfo" command has two parameters: 
+%%%    - conference name
+%%%    - conference date and location
+%%% The "\isbn" field includes the year and month after the article ISBN.
+
+%\conferenceinfo{SIGGRAPH 2016 Posters}{July 24-28, 2016, Anaheim, CA} 
+%\isbn{978-1-4503-ABCD-E/16/07} 
+%\doi{http://doi.acm.org/10.1145/9999997.9999999}
+
+\begin{document}
+
+%%% This is the ``teaser'' command, which puts an figure, centered, below 
+%%% the title and author information, and above the body of the content.
+
+% \teaser{
+%   \includegraphics[height=1.5in]{images/sampleteaser}
+%   \caption{Spring Training 2009, Peoria, AZ.}
+% }
+
+\maketitle
+
+\input{summary-googledoc}
+
+\end{document}
