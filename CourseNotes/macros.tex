@@ -15,30 +15,9 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OLD STUFF 
-
-% % % % % % %  General
-\newcommand{\imag}{\ensuremath{\mathrm{\imath}}}
-\newcommand{\MyExp}[1] {\ensuremath{\e^{#1}}}
-\newcommand{\cn} [2]{\ensuremath{#1+\imag#2}}
-\newcommand{\cp} [2]{\ensuremath{#1 \, \MyExp{-\imag #2}}}
-\newcommand{\RV}[1] {\ensuremath{\mathbf{#1}}}
-\newcommand{\Real}[1] {\ensuremath{\Re(#1)}}
-\newcommand{\Imag}[1] {\ensuremath{\Im (#1)}}
-\newcommand{\Exp}[1] {\ensuremath{\langle #1 \rangle}}
-\newcommand{\Ampl} [1]{\ensuremath{ |#1 |}}
-\newcommand{\Phase} [1]{\ensuremath{ \MyExp{\Phi({#1})}}}
-% \newcommand{\Ampl} [1]{\ensuremath{\left| #1 \right|}}
-% \newcommand{\Exp}[1] {\ensuremath{\left \langle #1 \right \rangle}}
-\newcommand{\Var}[1] {\ensuremath{\mathrm{V} \left(#1\right)}}
-\newcommand{\Cov}[2] {\ensuremath{\mathrm{Cov} (#1, #2)}}
-\newcommand{\e}{\ensuremath{\mathrm{e}}}
-\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
-\newcommand{\C}{\ensuremath{\mathbb{C}}}
-\newcommand{\R}{\ensuremath{\mathbb{R}}}
-\newcommand{\conv}{\ensuremath{\otimes}}
-\newcommand{\sinc} [1] {\ensuremath{\mathrm{sinc(#1)}}}
 \newcommand{\twopartdef}[4]
 {
+% % % % % % %  General
 	\left\{
 		\begin{array}{ll}
 			#1 & \mbox{if } #2 \\
@@ -46,34 +25,97 @@
 		\end{array}
 	\right.
 }
-\newcommand{\DefInt}[4] {\int\limits_{#1}^{#2} \; #3 \;\; \mathrm{d}#4}
-\newcommand{\Int}[2] {\int  #1 \; \mathrm{d}#2}
- 
+\newcommand{\CovMsym} {\ensuremath{\Sigma}}
+\newcommand{\CovM} [1]{\ensuremath{\CovMsym_{}}}
+\newcommand{\CovMel} [2]{\ensuremath{\CovMsym_{#1,#2}}}
+\newcommand{\eye} [1]{\ensuremath{\mathrm{I}_{#1\times#1}}}
+\newcommand{\imag}{\ensuremath{\mathrm{\imath}}}
+\newcommand{\MyExp}[1] {\ensuremath{\e^{#1}}}
+\newcommand{\ccs} [2]{\ensuremath{#1 \cos{#2} + #1 \sin{#2}}}
+\newcommand{\cn} [2]{\ensuremath{#1+\imag#2}}
+\newcommand{\cp} [2]{\ensuremath{#1 \, \MyExp{-\imag #2}}}
+\newcommand{\RV}[1] {\ensuremath{\mathbf{#1}}}
+\newcommand{\RVi}[2] {\ensuremath{\RV{#1}_{#2}}}
+\newcommand{\RVij}[3] {\ensuremath{\RV{\lowercase{#1}}_{#2,#3}}}
+\newcommand{\Real}[1] {\ensuremath{\Re\left(#1\right)}}
+\newcommand{\Imag}[1] {\ensuremath{\Im (#1)}}
+% \newcommand{\Exp}[1] {\ensuremath{\left \langle #1 \right \rangle}}
+\newcommand{\Exp}[1] {\ensuremath{\mathrm{E} \left[#1 \right]}}
+\newcommand{\Expf}[2] {\ensuremath{\Exp{#1}_{#2}}}
+\newcommand{\Ampl} [1]{\ensuremath{ |#1 |}}
+\newcommand{\Phase} [1]{\ensuremath{ \MyExp{\Phi({#1})}}}
+\newcommand{\PhaseAng} [1]{\ensuremath{ {\Phi_{#1}}}}
+% \newcommand{\Ampl} [1]{\ensuremath{\left| #1 \right|}}
+% \newcommand{\Exp}[1] {\ensuremath{\left \langle #1 \right \rangle}}
+\newcommand{\Var}[1] {\ensuremath{\mathrm{V} \left[#1\right]}}
+\newcommand{\Varf}[2] {\ensuremath{\Var{#1}_{#2}}}
+\newcommand{\Cov}[2] {\ensuremath{\mathrm{Cov} \left(#1, #2\right)}}
+\newcommand{\Corr}[2] {\ensuremath{\mathrm{Corr} (#1, #2)}}
+\newcommand{\e}{\ensuremath{\mathrm{e}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\Prob}{\ensuremath{\mathbb{P}}}
+\newcommand{\conv}{\ensuremath{\otimes}}
+\newcommand{\sinc} [1] {\ensuremath{\mathrm{sinc(#1)}}}
+\newcommand{\DefInt}[4] {\ensuremath{\displaystyle\int\limits_{#1}^{#2} \; #3 
+\;\; \mathrm{d}#4}}
+\newcommand{\DefIntT}[4] {\ensuremath{\int\limits_{#1}^{#2}  #3 
+\;\; \mathrm{d}#4}}
+\newcommand{\Int}[2] {\ensuremath{\displaystyle\int  #1 \; \mathrm{d}#2}}
+\newcommand{\drv} [2]{\ensuremath{\frac{\mathrm{d}}{\mathrm{d}#2}}#1}
+\newcommand{\estim}[1] {\ensuremath{\tilde\mu_\mathrm{#1}}}
+\newcommand{\estimnd} {\ensuremath{\mu}}
+
 % % % % % % % Variables
+\newcommand{\Ginv} {\ensuremath{G^{-1}}}
 \newcommand{\N} {\ensuremath{N}}
+\newcommand{\M} {\ensuremath{M}}
 \newcommand{\rv} {\ensuremath{\varsigma}}
+\newcommand{\rvs} [1]{\ensuremath{\RV Z_{#1}}}
 \newcommand{\Est} {\ensuremath{\mathbb{E}}}
 \newcommand{\bias} {\ensuremath{\mathcal{B}}}
 \newcommand{\var} {\ensuremath{\mathcal{V}}}
 \newcommand{\err} {\ensuremath{\Delta}}
 \newcommand{\Estim}[1] {\ensuremath{\RV F_{#1}}}
-
+\newcommand{\ncdf} {\ensuremath{\Phi}}
+\newcommand{\ncdfi}[1] {\ensuremath{\ncdf_{#1}}}
 % % % % % % %  Primal
+\newcommand{\wfsym} {\ensuremath{\alpha}}
 \newcommand{\sfsym} {\ensuremath{\RV S}}
 \newcommand{\sdsym} {\ensuremath{g}}
+\newcommand{\sdasym} {\ensuremath{g_1}}
+\newcommand{\sdbsym} {\ensuremath{g_2}}
+\newcommand{\sdavgsym} {\ensuremath{\bar{g}}}
 \newcommand{\ifsym} {\ensuremath{f}}
 \newcommand{\x} {\ensuremath{x}}
 \newcommand{\w} {\ensuremath{\alpha}}
 \newcommand{\xii} {\ensuremath{\RV X _i}}
+\newcommand{\yii} {\ensuremath{\RV Y _i}}
 \newcommand{\wii} {\ensuremath{\w_i}}
 \newcommand{\Tx} {\ensuremath{T}}
+\newcommand{\wfn} {\ensuremath{\wfsym(\x)}}
+\newcommand{\wfni} {\ensuremath{\wfsym(\xii)}}
 \newcommand{\sfn} {\ensuremath{\sfsym(\x)}}
+\newcommand{\sfna} {\ensuremath{\sfsym_1(\x)}}
+\newcommand{\sfnb} {\ensuremath{\sfsym_2(\x)}}
 \newcommand{\sfnp} {\ensuremath{\sfsym'(\x)}}
 \newcommand{\ifn} {\ensuremath{\ifsym(\x)}}
+\newcommand{\fgsym} {\ensuremath{\ifsym_{\sdsym}}}
+\newcommand{\fg} {\ensuremath{\ifsym_{\sdsym}(\x)}}
+\newcommand{\ifni} {\ensuremath{\ifsym(\xii)}}
+\newcommand{\ifnyi} {\ensuremath{\ifsym(\yii)}}
+\newcommand{\ifnsq} {\ensuremath{\ifsym^2(\x)}}
+\newcommand{\ifnbsq} {\ensuremath{\ifsym^2_{\Pi}(\x)}}
 \newcommand{\ifnb} {\ensuremath{\ifsym_{\Pi}(\x)}}
 \newcommand{\sdn} {\ensuremath{\sdsym(\x)}}
+\newcommand{\sdni} {\ensuremath{\sdsym(\xii)}}
+\newcommand{\sdna} {\ensuremath{\sdasym(\x)}}
+\newcommand{\sdnb} {\ensuremath{\sdbsym(\x)}}
+\newcommand{\sdnavg} {\ensuremath{\sdavgsym(\x)}}
 \newcommand{\boxf} [2]{\ensuremath{\Pi_{#1}^{#2}(\x)}}
 \newcommand{\shaf} [1]{\ensuremath{{\bot\hspace{-.7ex}\bot\hspace{-.7ex}\bot}_{#1}(\x)}}
+ \newcommand{\stwt} [1]{\ensuremath{\beta_i}}
  
 % % % % % % %  Fourier
 \newcommand{\fv} {\ensuremath{\omega}}
@@ -81,14 +123,33 @@
 \newcommand{\rfv} {\ensuremath{a}}
 \newcommand{\amp} {\ensuremath{\rho(\omega)}}
 \newcommand{\ph} {\ensuremath{\phi(\omega)}}
+\newcommand{\FTop} [1] {\ensuremath{\mathcal{F}\left({#1}\right)(\fv)}}
 \newcommand{\FTsym} [1] {\ensuremath{\hat{#1}}}
 \newcommand{\FT} [1] {\ensuremath{\hat{#1}(\fv)}}
 \newcommand{\SF} {\ensuremath{\FT{\sfsym}}}
+\newcommand{\WF} {\ensuremath{\FT{\wfsym}}}
+\newcommand{\SD} {\ensuremath{\FT{\sdsym}}}
 \newcommand{\SFp} {\ensuremath{\FTsym{\sfsym}'(\fv)}}
 \newcommand{\IFn} {\ensuremath{\FT{\ifsym}}}
 \newcommand{\IFnb} {\ensuremath{\FT{\ifsym_{\Pi}}}}
 \newcommand{\SFsym} {\ensuremath{\FTsym{\sfsym}}}
+\newcommand{\WFsym} {\ensuremath{\FTsym{\wfsym}}}
 \newcommand{\IFsym} {\ensuremath{\FTsym{\ifsym}}}
 \newcommand{\BOXF} [2]{\ensuremath{\FTsym{\Pi}_{#1}^{#2}(\fv)}}
 \newcommand{\SHAF} [1]{\ensuremath{\FTsym{{\bot\hspace{-.8ex}\bot\hspace{-.8ex}\bot}}_{#1}(\fv)}}
 
+\newcommand{\Ng}{\ensuremath{\N_g}}
+\newcommand{\Dom}{\ensuremath{\mathcal{D}}}
+\newcommand{\Domi}[1]{\ensuremath{\mathcal{D}_{#1}}}
+\newcommand{\Domai}[1]{\ensuremath{\mathcal{D}^1_{#1}}}
+\newcommand{\Dombi}[1]{\ensuremath{\mathcal{D}^2_{#1}}}
+\newcommand{\Domki}[2]{\ensuremath{\mathcal{D}^{#2}_{#1}}}
+\newcommand{\wfnab}{\ensuremath{\bar{\alpha}(x)}}
+\newcommand{\Ival}{\ensuremath{I}}
+\newcommand{\Ivali}[1]{\ensuremath{I_{#1}}}
+\newcommand{\Ivalg}[1]{\ensuremath{I_{\bar{g}#1}}}
+\newcommand{\Ivalgi}[2]{\ensuremath{I_{{g}#1}^{#2}}}
+\newcommand{\Ivalgd}[2]{\ensuremath{I_{\bar{g}#1}^{#2}}}
+\newcommand{\sdnIntsym}[1]{\ensuremath{\beta}}
+\newcommand{\sdnInti}[1]{\ensuremath{\sdnIntsym_{#1}}}
+\newcommand{\SDinv}[1]{\ensuremath{G^{-1}({#1})}}

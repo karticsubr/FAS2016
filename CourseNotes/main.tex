@@ -146,15 +146,77 @@ There are two distinctly different applications of sampling in the rendering pro
 The rendered image is represented on a discrete grid, while the distribution of the underlying light energy across the sensor is a continuous function. One potential source of error stems from this discretization. Recall that the true continuous function is a high-dimensional integral at each point on the sensor (equation~\ref{eq:measeq}). Any sampling-based approach used to estimate this function results in an approximation whose measured deviation from the true function is known referred to as \textit{approximation error}. Typically approximation error manifests itself in rendered images in one of two perceivably objectionable forms: structured artifacts or as noise. Various metrics, such as L1 norms, L2 norms, PSNR, etc., are used to quantify approximation error.
 
 \TBC 
+
 %----------------------------------------------------------------------------------------
 %	CHAPTER 2
 %----------------------------------------------------------------------------------------
 \chapter{Mathematical preliminaries}
+We review relevant mathematical concepts and introduce the notation adopted in this course.
+\begin{table}[hbpt]%
+\caption{\label{tab:notation}%
+Notation used in this course.}%
+\begin{tabular}{rl}%
+    \toprule
+    Symbol & Definition\\
+    \midrule
+    \ifn 	&  integrand \\
+    $\w(x)$	&  sample weights\\
+    \sdn 	&  sampling distribution (pdf) \\
+    \estim{\N} 	&  estimate of $I$  using \N\ samples \\
+%     \estim{is,\N} 	&  \N-sample importance sampling estimator\\
+%     \estim{is,1} 	&  primary (1-sample) imp. samp. estimator\\
+    \RV X, \RV Y, \xii, \yii & random variates \\
+    $\Exp{\phi(\RV X)}$ 		&
+      Expectation: $\DefIntT{\Dom}{}{x\;\phi(x)}{x}$\\[-2pt]
+    $\Var{\phi(\RV X)} $ 						&
+      Variance : $\DefIntT{\Dom}{}{x\;\phi^2(x)}{x} -
+      \DefIntT{\Dom}{}{x\;\phi(x)}{x}$\\
+    $\Expf{\phi(\RV X)}{\sdsym} $ &
+      Expectation with $ \RV X \sim \sdn$:
+$\DefIntT{\Dom}{}{\phi(x)\;\sdsym(x)}{x}$\\[-2pt]
+% $\Exp{\phi^2(\RV X)} - \Exp{\phi(\RV X)}^2$\\
+    $\Varf{\phi(\RV X)}{\sdsym} $					&
+Variance with $ \RV X \sim \sdn$:
+  $\DefIntT{\Dom}{}{\phi^2(x)\sdn}{x} -
+      (\DefIntT{\Dom}{}{\phi(x)\sdn}{x})^2$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Random variables, expectation and variance}
-\section{Fourier series}
+For the purpose of this course, it will suffice to think of random variates simply as variables whose value is subject to chance. We will restrict ourselves to continuous random variables, dnoted using bold capital letters (\RV X, \yii,~etc.), that assume values in some domain \Dom. The relative likelihood for these random variables to take on a given value is specified using a (normalized) probability density function (pdf) $\sdsym: \Dom \rightarrow \R$. We denote that \RV X\ is distributed according to \sdn\ by $\RV X \sim \sdn$. The probability that the random variable lies in a subdomain $\Domi{i} \subset \Dom$ is obtained as 
+% \begin{equation}
+  $\Prob(\RV X \in \Domi{i}) = \DefIntT{\Domi{i}}{}{\sdn}{x}.$
+% \end{equation}
+
+A function $\phi:\Dom\rightarrow\R$ evaluated at a location specified by a random variable, $\phi(\RV X)$, is also a random variable. For formal definitions of random variables and functions of random variables, we refer interested readers to standard mathematical textbooks on probability~\cite{ProbTextBook}.
+In this course, we are primarily concerned by the first two moments of random variables (specifically functions of random variables). The first moment, or ``average value'' of a random variable is captured by the mathematical concept of the \textit{expected value} of the random variable. We denote the expected value of \RV X\ as 
+$ \Expf{\phi(\RV X)}{\sdsym}   \equiv \DefIntT{\Dom}{}{\phi(x)\;\sdsym(x)}{x}$. 
+
+If the pdf has an expected value, the variance of the random variable is its second central moment which we denote
+$\Varf{\phi(\RV X)}{\sdsym} \equiv \Expf{\phi^2(\RV X)}{\sdsym} - \Expf{\phi(\RV X)}{\sdsym}^2$. 
+When \RV {X}\ is distributed uniformly within the domain (i.e.~\sdn\ is a constant), we drop the subscript and write the expectation as \Exp{\phi(\RV X)} and the variance as \Var{\phi(\RV X)}.
+
+\TBC 
+
+\section{Estimators}
+Consider Monte Carlo estimation of the multidimensional integral $ I = \DefIntT{\Dom}{}{\ifn}{x}, \; \x\in\Dom $.A simple \emph{primary} MC estimator for $I$ is
+$\estim{1}\equiv\ifsym(\RV X) , \;\RV X \in \Dom$. When \RV X\ is distributed
+uniformly, the estimator is unbiased. That is, its expected value is the integral:$\Exp{\estim{1}}=\Ival$. The function \ifsym(\RV X)\ is itself a random variable with an arbitrary distribution and, typically, a large variance. A more practical MC estimator is obtained by averaging a fixed number of (say \N) primary estimates:  $\estim{\N} = \sum \ifni/\N, \; i=1,2,...,\N$. Such \emph{secondary estimators}  are known to be unbiased and Gaussian-distributed when the primary estimator has finite variance. 
+
+\TBC 
+
 \section{The continuous Fourier transform}
+\TBC 
+
+\section{Fourier series}
+\TBC 
+
 \section{The Discrete Fourier transform}
+\TBC 
+
 \section{The Fast Fourier transform}
+\TBC 
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 3
