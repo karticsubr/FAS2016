@@ -383,13 +383,24 @@ The corresponding secondary estimator, obtained by averaging \N\ primary estimat
 
 \section{Error due to sampling}
 \subsection{Bias}
+\TBC
 \subsection{Consistency}
+\TBC
 \subsection{Variance (uncertainty)}
+\TBC
 \subsection{Convergence}
+\TBC
 \subsection{Homogenization}
+\TBC
 
-\section{Error expressed in the Fourier domain}
+\section{Monte Carlo integration in the Fourier domain}
+Monte Carlo sampling can be represented as an inner product of the integrand \ifn\ and the sampling pattern \sfn\ which is composed of a sum of impulses (delta functions) normalized by the number of impulses. Since inner products are preserved under Fourier Transforms, the na\"ive estimator 
+\begin{equation}
+  \estim{\N} = \DefInt{\Dom}{}{\ifn \sfn}{x} = 
+  \DefInt{\Omega}{}{\SF \; \IFsym^*(\fv) }{\fv}.
+\end{equation}
 
+\TBC 
 
 %\section{Assessing sampling patterns based on their spectra}
 %
@@ -398,24 +409,37 @@ The corresponding secondary estimator, obtained by averaging \N\ primary estimat
 \section{Analysis beyond the canonical domain}
 \TBC
 \subsection{Spherical domain}
+\TBC
 \subsection{General domains}
+\TBC
 \subsection{Gradient domain}
+\TBC
 \section{Manifestation of error in rendering}
+\TBC
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 5
 %----------------------------------------------------------------------------------------
-\chapter{Popular sampling strategies}
+\chapter{Popular sampling patterns}
+In this chapter, we describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behaviour is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram.
+
+\TBC
 
 \section{Classical}
 \subsection{Random sampling}
+\TBC
 \subsection{Jittered sampling}
+\TBC
 \subsection{Uniform jittered sampling}
+\TBC
 
 \section{Quasi-Monte Carlo}
 \subsection{Sobol sequence}
+\TBC
 \subsection{Hammersley sequence}
+\TBC
 \subsection{Latin hypercube sampling}
+\TBC
 
 \section{Blue noise}
 \GURPRIT{
@@ -425,11 +449,16 @@ section to the following: \\
 - Relaxation based methods \\
 - Tiling based methods 
 }
+\KARTIC{I've modified CCVT to Relaxation-based. However, I think Poisson-disk sampling is the general idea for which dart-based methods are used (rather than the other way around), so I've kept the first subsection PDisk}
 \subsection{Poisson-disk sampling}
-\subsection{CCVT sampling}
+\TBC
+\subsection{Relaxation-based methods}
+\TBC
 \subsection{Tiling-based methods}
+\TBC
 
 \section{Synthesis of sampling patterns with targeted spectral profiles}
+\TBC
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 6

@@ -24,21 +24,21 @@ More recently, the focus has been on quantification of estimation error in the F
 % shortcite
 Durand~\cite{durand2011frequency} derived mean-squared error (MSE) as the inner product of the spectral densities of the integrand and sampling function, 
 \begin{equation} \label{eq:durand11}
-   \Exp{(I-\estim{1})^2} = \DefInt{\Omega}{}{|\IFn| \; \Exp{|\SF|^2}}{\fv},
+   \Exp{(I-\estim{1})^2} = \DefInt{\Omega}{}{|\IFn|^2 \; \Exp{|\SF|^2}}{\fv},
 \end{equation}
 and verified that the convergence rate of the MSE of \estim{\N}\ is indeed $1/\N$. Following this work, it was shown~\cite{SubrKautz} that the bias and variance of \estim{1}\ may be expressed separately in terms of the spectra. They derived
 \begin{eqnarray}
   \Exp{I-\estim{1}} &=& I - \DefInt{\Omega}{}{\Exp{\SF} \; \IFn }{\fv}, \quad \mathrm{and} \\
     \Var{\estim{1}} &\leq& \DefInt{\Omega}{}{\Var{\SF} \; |\IFn|^2}{\fv}
 \end{eqnarray}
-as the expressions for bias and variance respectively. Tthat an estimator's bias is dependant on the relationship between the expected Fourier spectrum of the sampling pattern and the integrand's spectrum. The second equation, shows that the estimator's variance is bounded by the variance present in the sampling spectrum relative to the spectral density of the integrand. Subsequently, these results were collated and the expression for the variance was reformulated~\cite{Pilleboue:2015:VAM} for homogenized (unbiased) Monte Carlo estimators as
+as the expressions for bias and variance respectively.~i.e.~An estimator's bias is dependant on the relationship between the expected Fourier spectrum of the sampling pattern and the integrand's spectrum. The second equation, shows that the estimator's variance is bounded by the variance present in the sampling spectrum relative to the spectral density of the integrand. Subsequently, these results were collated and the expression for the variance was reformulated~\cite{Pilleboue:2015:VAM} for homogenized (unbiased) Monte Carlo estimators as
 %
-\begin{equation}
+\begin{equation} \label{eq:pillebouevar}
 \Var{\estim{1}} 
-= \DefInt{\Omega}{}{\Exp{|\SF|^2\;|\IFn| }}{\fv} 
+= \DefInt{\Omega}{}{\Exp{|\SF|^2}\;|\IFn|^2}{\fv} 
 = \DefInt{\Omega}{} {\Exp{\PowerSpec{\SFsym}(\fv)} \PowerSpec{\ifsym}(\fv)} {\fv} 
 \end{equation}
-which is identical to Durand's derivation of MSE (equation~\ref{eq:durand11}) for a general (possibly biased) estimator.
+which is identical to Durand's derivation of MSE (equation~\ref{eq:durand11}) for a general (possibly biased) estimator. However, the homogenized perspective yields important insights and results on the convergence rate of estimators.
 %
 
 \subsection{Quantifying convergence using periodograms}
