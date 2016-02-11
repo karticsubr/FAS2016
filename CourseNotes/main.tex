@@ -219,7 +219,7 @@ While the totality of the above decisions impacts the illusion of reality, the f
 The simulation of light transport is typically tedious and error-prone.
 Error-free rendering is a computationally expensive process that needs to be performed repetitively, on every frame, to generate high (production) quality video sequences. 
 
-In this course, we propose to focus on the analysis of error in rendered images as a function of the spectral (Fourier domain) statistics of the sampling patterns used.  Previous courses at SIGGRAPH have focused on various aspects of rendering such as physically-based shading computation~\cite{NatyCourse}, the benefits of specific algorithms for rendering~\cite{pathtracingrevolution,photonmapping}, summarization of state-of-the-art algorithms for light transport simulation~\cite{JaroRecentAdvances}, etc. There have also been courses on the fundamentals of Monte Carlo~\cite{MCRayTracing} and quasi Monte Carlo~\cite{AdvancedQuasiMC} sampling in the context of rendering. The focus of this course is complementary to previous rendering courses and the content will be self-contained. We do not expect or require that attendees of this course should have attended any of the previous courses mentioned above.
+In this course, we propose to focus on the analysis of error in rendered images as a function of the spectral (Fourier domain) statistics of the sampling patterns used.  Previous courses at SIGGRAPH have focused on various aspects of rendering such as physically-based shading computation~\cite{Hill:2015:PBSCourse}, the benefits of specific algorithms for rendering~\cite{pathtracingrevolution,photonmapping}, summarization of state-of-the-art algorithms for light transport simulation~\cite{JaroRecentAdvances}, etc. There have also been courses on the fundamentals of Monte Carlo~\cite{MCRayTracing} and quasi Monte Carlo~\cite{AdvancedQuasiMC} sampling in the context of rendering. The focus of this course is complementary to previous rendering courses and the content will be self-contained. We do not expect or require that attendees of this course should have attended any of the previous courses mentioned above.
 
 
 \section{Rendering}\index{Rendering}
@@ -233,7 +233,7 @@ Images are typically represented and displayed on a regular grid. Rendering algo
 \TBC
 
 \section{The role of sampling}
-There are two distinctly different applications of sampling in the rendering process. One of them is for reconstruction, either in 2D or in 5D (as described above), and the other is for estimation of integration, which lies at the core of light transport (equation~\ref{eq:measeq}). Most rendering algorithms focus on the latter and perform reconstruction on a two-dimensional regular grid of pixels. Path-tracing, a popular rendering algorithm, proceeds by estimating the virtual image measurement at each pixel by averaging the values of the measurement contribution function at a chosen set of paths through the pixels. Each path in the chosen set is obtained via a mapping from a sampling pattern (of appropriate dimensionality) to a set of rays in the scene. These sampling patterns may be stochastic (Monte Carlo sampling) or deterministic patterns that satisfy desirable criteria (Quasi-Monte Carlo). The statistics of the estimates of the virtual measurements yielded by these two broad classes of algorithms are strikingly different, as is the mathematical machinery used for their analyses.  
+There are two distinctly different applications of sampling in the rendering process. One of them is for reconstruction, either in 2D or in 5D (as described above), and the other is for estimation of integration, which lies at the core of light transport (equation~\ref{eq:measeq}). Most rendering algorithms focus on the latter and perform reconstruction on a two-dimensional regular grid of pixels. Path-tracing, a popular rendering algorithm, proceeds by estimating the virtual image measurement at each pixel by averaging the values of the measurement contributions of a chosen set of paths through each pixel. Each path in the chosen set is obtained via a mapping from a sampling pattern (of appropriate dimensionality) to a set of rays in the scene. These sampling patterns may be stochastic (Monte Carlo sampling) or deterministic patterns that satisfy desirable criteria (Quasi-Monte Carlo). The statistics of the estimates of the virtual measurements yielded by these two broad classes of algorithms are strikingly different, as is the mathematical machinery used for their analyses.  
 
 \TBC
 
@@ -496,14 +496,17 @@ In this chapter, we invent a suite of tests that may be used to compare the effi
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
 
-\chapter*{Bibliography}
+% \chapter*{Bibliography}
+% \nocite{*}
+% \section*{Books}
+% \addcontentsline{toc}{section}{Books}
+% \printbibliography[heading=bibempty,type=book]
+% \section*{Articles}
+% \addcontentsline{toc}{section}{Articles}
+% \printbibliography[heading=bibempty]
+\bibliographystyle{unsrt}
+\bibliography{bibliography.bib}
 \addcontentsline{toc}{chapter}{\textcolor{ocre}{Bibliography}}
-\section*{Books}
-\addcontentsline{toc}{section}{Books}
-\printbibliography[heading=bibempty,type=book]
-\section*{Articles}
-\addcontentsline{toc}{section}{Articles}
-\printbibliography[heading=bibempty,type=article]
 
 %----------------------------------------------------------------------------------------
 %	INDEX
