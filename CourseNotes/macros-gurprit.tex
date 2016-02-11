@@ -1,0 +1,132 @@
+%!TEX root = main.tex
+
+%Comments
+\newcommand\NeedRef{{\color{red!80}\textbf{Missing ref}}}
+\newcommand\NeedFigure{[{\color{red!80}\textbf{Missing figure}}]}
+% \newcommand\WJ[1]{[{\color{magenta!80}\textbf{WJ: #1}}]}
+\newcommand\WJ[1]{}
+\newcommand\CommentGS[1]{[{\color{blue!80}\textbf{GS: #1}}]}
+%\newcommand\Todo{{\color{red!80}\textbf{\large TO DO}}}
+
+%References
+\newcommand\RefEq[1]{Eq.~(\ref{eq:#1})}
+\newcommand\RefEqNum[1]{(\ref{eq:#1})}
+\newcommand\RefFig[1]{Fig.~\ref{fig:#1}}
+\newcommand\RefFigure[1]{Figure~\ref{fig:#1}}
+\newcommand\RefFigNum[1]{\ref{fig:#1}}
+\newcommand\RefSubFig[2]{Fig.~\ref{fig:#1}~(#2)}
+\newcommand\RefAppendix[1]{Appendix~\ref{sec:#1}}
+\newcommand\RefSec[1]{Sec.~\ref{sec:#1}}
+\newcommand\RefSecNum[1]{~\ref{sec:#1}}
+\newcommand\RefSubSec[1]{Sec.~\ref{subsec:#1}}
+\newcommand\RefTable[1]{Table~\ref{tab:#1}}
+\newcommand\RefTableNum[1]{\ref{tab:#1}}
+
+%%Math
+\newcommand\Dirac{\delta}
+\newcommand\Diff{d}
+\newcommand\Lebesgue[1]{{\mu(#1)}}
+\newcommand{\EqDef}{\!\ensuremath{\mathrel{\mathop:}=}\!}
+\newcommand\BigO[1]{\mathcal{O}\!\left(#1\right)}
+%\newcommand\Exp[1]{e^{#1}}
+\newcommand{\transpose}{^{\top}}
+\newcommand{\dif}{\mathrm{d}}
+\newcommand\Sinc[1]{\text{Sinc{$\left(#1\right)$}}}
+\newcommand\IntegerDomain{\mathbb{N}}
+\newcommand\ZeroVector{\mathbb{0}}
+\newcommand\InnerProduct[2]{#1\cdot#2 }
+
+
+%Polar Coordinates
+\newcommand\AngularDom{\textbf{n}}
+
+%Cartesian
+\newcommand\CanonicalVar[1]{\xi_{#1}}
+\newcommand\Vector[1]{
+\ifthenelse{\isempty{#1}}
+    {\textbf{x}}           % if #1 is empty
+    {\textbf{x}_{#1}}    % if #1 is not empty
+}
+
+
+%Matrix
+\newcommand\Transpose[1]{{#1}^T}
+
+%Complex numbers
+\newcommand\Complex{i}
+\newcommand\RealPart[1]{Re\left(#1\right)}
+\newcommand\ImagPart[1]{Im\left(#1\right)}
+\newcommand\Conjugate[1]{\overline{#1}}
+\newcommand\Iota{i}
+\newcommand\Norm[1]{||#1||^2}
+
+%Probability and stats
+\newcommand\Mean[1]{\left\langle #1 \right\rangle}
+\newcommand\VarianceName{\textit{Var}}
+\newcommand\CovarianceName{\textit{Cov}}
+\newcommand\Variance[1]{\VarianceName\left(#1\right)}
+\newcommand\Covariance[2]{\CovarianceName\left(#1,#2\right)}
+\newcommand\SampleCovariance[1]{\CovarianceName_{s}\left(#1\right)}
+\newcommand\Bias[1]{Bias\left(#1\right)}
+\newcommand\MSE[1]{MSE\left(#1\right)}
+\newcommand\PDF[1]{g\left(#1\right)}
+\newcommand\InvPDF[1]{\alpha \left(#1\right)}
+\newcommand\PDFFunc{g}
+
+%FourierTransform
+\newcommand\Fourier[1]{\mathcal{F}_{#1}}
+\newcommand\FourierRe[1]{\mathcal{R}_{#1}}
+\newcommand\FourierIm[1]{\mathcal{I}_{#1}}
+\newcommand\FourierAmp[1]{\mathcal{A}_{#1}}
+\newcommand\FourierPhase[1]{\Phi_{#1}}
+\newcommand\PowerSpec[1]{\mathcal{P}_{#1}}
+\newcommand\RadialPowerSpec[1]{\breve{\mathcal{P}_{#1}}}
+\newcommand\PowerTerm[2]{\breve{\mathcal{P}_{#1}}\left(#2\right)}
+\newcommand\PowerConstant{\gamma}
+\newcommand\RadialFreq{\rho}
+\newcommand\Power[1]{\mathcal{P}_{#1}}
+%\newcommand\Power[1]{\mathcal{P}(#1)}
+\newcommand\Frequency[1]{
+\ifthenelse{\isempty{#1}}%
+    {\omega}% if #1 is empty
+    {\omega_{#1}}% if #1 is not empty
+}
+
+%DifferentialDomain
+\newcommand\PowerDifferential[1]{\mathcal{P}_{#1}^{d}}
+%Sampling
+\newcommand\Npts{N}
+
+%Domain
+\newcommand\Dim[1][d]{{#1}}
+\newcommand\SamplingDom{{\mathbb{D}}}
+\newcommand\ToroidalDom[1]{{\mathcal{T}^#1}}
+\newcommand\FourierDom{{\Theta}}
+\newcommand\FourierDomDCPeak{\Phi}
+\newcommand\EuclidDom[1]{{\mathbb{R}^{#1}}}
+\newcommand\SphericalDom[1]{{\mathcal{S}^{#1}}}
+%\newcommand\DifferentialMetric{{d}}
+
+%Monte Carlo estimation
+\newcommand\Integrand{{f}}
+\newcommand\Integral{{I}}
+\newcommand\RvMCE{{\boldsymbol{I}_\Npts}}
+
+%Variables
+\newcommand{\sampleSpatial}{\mathbf{s}}
+\newcommand{\pointSpatial}{\mathbf{x}}
+\newcommand{\FreqVar}{\mathbf{\omega}}
+\newcommand\PolynomialDegree{b}
+\newcommand\WorstCase{W}
+\newcommand\BestCase{B}
+\newcommand\DummyVar{y}
+\newcommand\ExtinctionCoeff{\sigma}
+
+%Sampler
+\newcommand\Sampling{S}
+\newcommand\RvSampling{\textbf{S}}
+
+% Misc.
+\newcommand{\txtblue}[1]{\textcolor{blue}{#1}} 
+\newcommand{\txtgreen}[1]{\textcolor{green}{#1}} 
+\newcommand{\txtred}[1]{\textcolor{red}{#1}}

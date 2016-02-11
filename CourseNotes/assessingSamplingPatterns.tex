@@ -6,12 +6,35 @@
 \section{Assessing sampling patterns based on their spectra}
 Fourier domain has been extensively used to assess the quality of different point sample distributions. 
 Fourier tools like \emph{periodogram} and \emph{radial averaged periodogram}, are used since the mid 80s 
-to gain an in depth knowledge of various sampling patterns. \emph{Periodogram} contains the amplitude squared 
-values of Fourier coefficients that provide a good visual aid on how the low and high frequencies should be 
-interpreted in a given point sample distribution. 
+to gain an in depth knowledge of various sampling patterns. \emph{Periodogram} or the Fourier power 
+spectrum ($\PowerSpec{\Sampling}(\FreqVar)$) contains the amplitude squared values of Fourier coefficients ($\Fourier{\Sampling}(\FreqVar)$):
+%
+\begin{align}
+\PowerSpec{\Sampling}(\FreqVar) = \frac{1}{\Npts}\Norm{\Fourier{\Sampling}(\FreqVar)} \,,
+\end{align}
+%
+for a given set of $\Npts$ points. 
+%The normalization factor of $\Npts$ is used to keep the high frequency power values of random as well as other point sampling patterns to $1$. 
+The power spectra can provide a good visual aid to examine how the low and high frequencies are present
+in a given point sample distribution. 
 
-Following the seminal work by Robert Ulichney on \emph{blue noise} dithering, sampling patterns with minimal energy in the low frequency zone of their power spectra are advocated by researchers for applications like stippling and in rendering as well. 
-Periodograms does help in investigating low frequency zone region of sampling power spectra but 
-it is not always possible to get a precise behaviour of periodograms for various sampling patterns like 
-jitter and Poisson Disk. This is where radially averaged power spectra comes 
-handy. By performing radial averaging of sampling power spectra we can get a closer and better look at the low frequency as well as the mid to high frequency regions of the sampling power spectra.
+Following the seminal work by Robert Ulichney on \emph{blue noise} dithering~\cite{Ulichney:87:halftoning}, sampling patterns with minimal energy in the low frequency zone of their power spectra are advocated by researchers for applications like stippling and in rendering. To better examine the low to mid frequency regions 
+of various sampling power spectra Ulichney also proposed to use the \emph{radially averaged} power spectra, which can be mathematically written as:
+%
+\begin{align}
+\RadialPowerSpec{\Sampling}(\RadialFreq) = \int_{\FreqVar = \RadialFreq} \PowerSpec{\Sampling}(\FreqVar) \Diff \FreqVar \,.
+\end{align}
+%
+%Periodograms does help in investigating low frequency zone region of sampling power spectra but it is not always possible to get a precise behaviour of periodograms for various sampling patterns like jitter and Poisson Disk. This is where radially averaged power spectra comes handy. By performing radial averaging of sampling power spectra we can get a closer and better look at the low frequency as well as the mid to high frequency regions of the sampling power spectra.
+
+These tools are heavily employed to examine blue noise sampling patterns that help develop various algorithms that can generate high quality blue noise point samples. 
+Advanced Fourier tools like \emph{differential domain analysis}~\cite{Wei:2011:DDA} are also developed that could help examine quality of non-uniform distribtions of point samples. However, 
+the benefits of these high quality sampling patterns in Monte Carlo integration has been only recently unfolded in a step by step manner starting from Durand~\cite{durand2011frequency}, Subr and Kautz~\cite{Subr:2013:FAS}, and then by Pilleboue et al.~\cite{Pilleboue:2015:VAM} who proposed a closed form formulation for the variance in Monte Carlo integration:
+%
+\begin{align}
+\Variance{\Integral} = \frac{1}{\Npts} \int_{\FourierDom} \Mean{\PowerSpec{\Sampling}(\FreqVar)} \PowerSpec{\Integrand}(\FreqVar) \Diff \FreqVar \,.
+\end{align}
+%
+Here, $\FourierDom$ denotes the Fourier domain, except the DC component and $\Mean{\cdot}$ is the expectation operator, with expectation over multiple realizations. This formulation  
+represents the variance in Monte Carlo integration in terms of the power spectra of the sampling pattern 
+($\PowerSpec{\Sampling}(\FreqVar)$) and the integrand ($\PowerSpec{\Integrand}(\FreqVar)$) involved, given that the sampling distribution is \emph{homogenized}.
