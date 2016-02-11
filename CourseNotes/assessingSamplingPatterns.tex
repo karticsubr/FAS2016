@@ -1,0 +1,17 @@
+%!TEX root = main.tex
+%
+% Start with sampling patterns 
+%
+%
+\section{Assessing sampling patterns based on their spectra}
+Fourier domain has been extensively used to assess the quality of different point sample distributions. 
+Fourier tools like \emph{periodogram} and \emph{radial averaged periodogram}, are used since the mid 80s 
+to gain an in depth knowledge of various sampling patterns. \emph{Periodogram} contains the amplitude squared 
+values of Fourier coefficients that provide a good visual aid on how the low and high frequencies should be 
+interpreted in a given point sample distribution. 
+
+Following the seminal work by Robert Ulichney on \emph{blue noise} dithering, sampling patterns with minimal energy in the low frequency zone of their power spectra are advocated by researchers for applications like stippling and in rendering as well. 
+Periodograms does help in investigating low frequency zone region of sampling power spectra but 
+it is not always possible to get a precise behaviour of periodograms for various sampling patterns like 
+jitter and Poisson Disk. This is where radially averaged power spectra comes 
+handy. By performing radial averaging of sampling power spectra we can get a closer and better look at the low frequency as well as the mid to high frequency regions of the sampling power spectra.
