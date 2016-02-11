@@ -97,7 +97,7 @@
 
 
 \pagestyle{plain}
-\pagenumbering{roman}
+% \pagenumbering{roman}
 
 {
 
@@ -105,7 +105,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{Abstract}
 \section*{Abstract}
-Since being introduced to graphics in the 1980s, Monte Carlo sampling and integration has become the cornerstone of most modern rendering algorithms. Originally introduced to combat the effect of aliasing when estimating pixels values, Monte Carlo has since become a more general tool for solving complex, multi-dimensional integration problems in rendering. In this context, MC integration involves sampling a function at various stochastically placed points to approximate an integral, e.g. the radiance through a pixel integrated across the multi-dimensional space of possible light transport paths. Unfortunately, this estimation is error-prone, and the visual manifestation of this error depends critically on the properties of the integrand, placement of the stochastic sample points used, and the type of problem (integration vs.\ reconstruction) that is being solved with these samples.
+Since being introduced to graphics in the 1980s, Monte Carlo sampling and integration has become the cornerstone of most modern rendering algorithms. Originally introduced to combat the effect of aliasing \KARTIC{Is that true? Wasn't it cook with distributed ray tracing?} when estimating pixels values, Monte Carlo has since become a more general tool for solving complex, multi-dimensional integration problems in rendering. In this context, MC integration involves sampling a function at various stochastically placed points to approximate an integral, e.g. the radiance through a pixel integrated across the multi-dimensional space of possible light transport paths. Unfortunately, this estimation is error-prone, and the visual manifestation of this error depends critically on the properties of the integrand, placement of the stochastic sample points used, and the type of problem (integration vs.\ reconstruction) that is being solved with these samples.
 
 Fourier analysis, along with the Nyquist theorem, have long been used in graphics to motivate more intelligent sampling strategies which try to minimize errors due to noise and aliasing in the \textit{pixel reconstruction problem}. Only more recently, however, has the community started to apply these same Fourier tools to analyze error in the Monte Carlo \textit{integration problem}. Loosely speaking, in the context of rendering a 2D image, these two problems are concerned with errors introduced across pixels (reconstruction) vs.\ the errors introduced within any individual pixel (integration). In this course, we focus on the latter, and survey the recent developments and insights that Fourier analyses have provided about the magnitude and convergence rate of Monte Carlo integration error. We provide a historical perspective of Monte Carlo in graphics, review the necessary mathematical background, summarize the most recent developments, discuss the practical implications of these analyzes on the design of Monte Carlo rendering algorithms, and identify important remaining research problems that can propel the field forward.
 }
@@ -193,7 +193,7 @@ Session timing breakdown for the course.
 
 \chapterimage{temp.pdf} % Table of contents heading image
 
-\pagestyle{empty} % No headers
+% \pagestyle{empty} % No headers
 
 \phantomsection
 \addcontentsline{toc}{chapter}{Table of Contents}
@@ -201,7 +201,7 @@ Session timing breakdown for the course.
 
 \cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
 
-\pagestyle{fancy} % Print headers again
+% \pagestyle{fancy} % Print headers again
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 1
@@ -238,7 +238,7 @@ There are two distinctly different applications of sampling in the rendering pro
 \TBC
 
 \section{Sources and manifestation of error}\index{Error in rendering}
-The rendered image is represented on a discrete grid, while the distribution of the underlying light energy across the sensor is a continuous function. One potential source of error stems from this discretization. Recall that the true continuous function is a high-dimensional integral at each point on the sensor (equation~\ref{eq:measeq}). Any sampling-based approach used to estimate this function results in an approximation whose measured deviation from the true function is known referred to as \textit{approximation error}. Typically approximation error manifests itself in rendered images in one of two perceivably objectionable forms: structured artifacts or as noise. Various metrics, such as L1 norms, L2 norms, PSNR, etc., are used to quantify approximation error.
+Error in the context of estimating global illumination~\cite{Arvo94} arises from three sources: inaccuracies in the  input data or simulation, errors due to discretization and computational errors such as loss of precision. In this course, we focus on the first two sources. The rendered image is represented on a discrete grid, while the distribution of the underlying light energy across the sensor is a continuous function. A major source of error stems from this discretization. Recall that the true continuous function is a high-dimensional integral at each point on the sensor (equation~\ref{eq:measeq}). Any sampling-based approach used to estimate this function results in an approximation whose measured deviation from the true function is known referred to as \textit{approximation error}. Typically approximation error manifests itself in rendered images in one of two perceivably objectionable forms: structured artifacts or as noise. Various metrics, such as L1 norms, L2 norms, PSNR, etc., are used to quantify approximation error.
 
 \TBC 
 
@@ -396,7 +396,7 @@ The corresponding secondary estimator, obtained by averaging \N\ primary estimat
 \section{Monte Carlo integration in the Fourier domain}
 Monte Carlo sampling can be represented as an inner product of the integrand \ifn\ and the sampling pattern \sfn\ which is composed of a sum of impulses (delta functions) normalized by the number of impulses. Since inner products are preserved under Fourier Transforms, the na\"ive estimator 
 \begin{equation}
-  \estim{\N} = \DefInt{\Dom}{}{\ifn \sfn}{x} = 
+  \estim{\N} \quad = \quad \DefInt{\Dom}{}{\ifn \sfn}{x} \quad = \quad 
   \DefInt{\Omega}{}{\SF \; \IFsym^*(\fv) }{\fv}.
 \end{equation}
 
@@ -420,7 +420,7 @@ Monte Carlo sampling can be represented as an inner product of the integrand \if
 %----------------------------------------------------------------------------------------
 %	CHAPTER 5
 %----------------------------------------------------------------------------------------
-\chapter{Popular sampling patterns}
+\chapter{Popular sampling patterns} \label{ch:samplingpatterns}
 In this chapter, we describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behaviour is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram.
 
 \TBC
@@ -464,14 +464,25 @@ section to the following: \\
 %	CHAPTER 6
 %----------------------------------------------------------------------------------------
 \chapter{Case studies}
+In this chapter, we invent a suite of tests that may be used to compare the efficacy of sampling patterns when used in numerical integration. We will then tabulate this comparison, identifying the strengths and weaknesses of the different sampling strategies described in chapter~\ref{ch:samplingpatterns}. Our test suite will encompass a variety of integrands of various dimensionalities as well as smoothness criteria. We will make our code available to facilitate the comparison of any sampling patterns that may be proposed in the future with methods in our chosen set of algorithms. 
+
 \section{1D integrands}
+\TBC 
+
 \subsection{Smooth functions}
+\TBC 
 \subsection{Functions with discontinuities}
+\TBC 
 \section{2D integrands}
+\TBC 
 \subsection{Smooth functions}
-\subsection{Sub-pixel integration}
+\TBC 
 \subsection{Functions with discontinuities}
+\TBC 
+\subsection{Sub-pixel integration}
+\TBC 
 \section{Rendering test suite}
+\TBC 
 
 % 
 % \section{Figure}\index{Figure}
