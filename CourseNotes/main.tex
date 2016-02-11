@@ -122,11 +122,13 @@ Fourier analysis, along with the Nyquist theorem, have long been used in graphic
 \section*{About the Lecturers}
 
 \subsection*{Prof.\ Kartic Subr}
-fixme college\\
-\href{mailto:fixme}{\texttt{<fixme.edu>}}\\
-\url{http://fixme.com}\\
+Heriot Watt University\\
+\href{mailto:fixme}{\texttt{<k.subr@hw.ac.uk>}}\\
+\url{http://home.eps.hw.ac.uk/~ks400/}\\
 
-blah blah blah
+Kartic Subr is an Associate Professor of Engineering at Heriot Watt University and a Royal Society University Research Fellow. He has enjoyed a variety of positions in companies such as Hewlett Packard, Rhythm and Hues Studios, NVIDIA Corporation and Disney Research as well as academic post-doctoral research positions at INRIA-Grenoble and University College London. He obtained his Ph.D. (2008) and M.S. (2005) in Visual Computing from UC Irvine. 
+
+Kartic's research explores the benefits of stochastic and adaptive sampling when applied to a variety of classes of problems encountered in computer graphics such as numerical integration, signal reconstruction, edge-preserving smoothing of images, assisted segmentation of images and image completion. More recently, he has focused on error analyses of popular stochastic sampling strategies for numerical integration in the context of simulating light transport for rendering.
 
 \bigskip
 
@@ -313,6 +315,10 @@ Variance with $ \RV X \sim \sdn$:
 \section{The Fast Fourier transform}
 \TBC 
 
+\section{Power spectral density and the periodogram}
+The energy of a signal \ifn\ is generally considered to be the integral of the square of the signal (over its entire domain). Due to Parseval's theorem, this may also be expressed as the integral of the square of the Fourier spectrum of the signal over all frequencies. The integrand in this expression of power, $|\IFn|^2$, is referred to as the \textit{power spectrum} of \ifn. For discrete signals, the corresponding spectral density is called a \emph{periodogram}. We denote the periodogram of a discretised function $S(x)$ as $\PowerSpec{S}(\fv)$, which represents the squared amplitude of the Fourier coefficients corresponding to each frequency. 
+
+\TBC
 %----------------------------------------------------------------------------------------
 %	CHAPTER 3
 %----------------------------------------------------------------------------------------
@@ -367,23 +373,30 @@ Henceforth in this chapter, we abstract away the details about the integrand and
 Our goal is to analyze the of quality of numerical integration, within the interval $[0,\Tx]$, of a function $\ifsym: \R \mapsto \R^{+}$. 
 % in terms of the Fourier spectrum of the underlying sampling strategy. 
 For example, a \textit{primary} Monte Carlo estimator $\estim{1} = \ifsym(\xii)$ for the integral
-$$I \equiv \frac 1 \Tx \DefInt{0}{\Tx}{\ifn }{\x} $$
+\begin{equation} \label{eq:integcanonical}
+I \equiv \frac 1 \Tx \DefInt{0}{\Tx}{\ifn }{\x}  
+\end{equation}
 is well known to be unbiased if the  single sample $\xii \in [0,\Tx] $ is drawn from a constant probability distribution function (pdf) within the domain $[0,\Tx]$.~i.e.~$\Exp{\estim{1}} = I$.
 The corresponding secondary estimator, obtained by averaging \N\ primary estimates at different \xii\ has the same expected value. However, the averaging scales the variance down by a factor of $\N$.~i.e.~$\Var{\estim{\N}} = \Var{\estim{1}}/\N.$ 
 
 \TBC
 
-\section{Error and convergence}
-\section{Consistency}
-\section{Homogenization}
-\section{Error in the Fourier domain due to sampling}
-\section{Uncertainty of estimates}
+\section{Error due to sampling}
+\subsection{Bias}
+\subsection{Consistency}
+\subsection{Variance (uncertainty)}
+\subsection{Convergence}
+\subsection{Homogenization}
+
+\section{Error expressed in the Fourier domain}
+
 
 %\section{Assessing sampling patterns based on their spectra}
 %
 \input{assessingSamplingPatterns}
 %
 \section{Analysis beyond the canonical domain}
+\TBC
 \subsection{Spherical domain}
 \subsection{General domains}
 \subsection{Gradient domain}

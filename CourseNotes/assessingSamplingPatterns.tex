@@ -4,37 +4,44 @@
 %
 %
 \section{Assessing sampling patterns based on their spectra}
-Fourier domain has been extensively used to assess the quality of different point sample distributions. 
-Fourier tools like \emph{periodogram} and \emph{radial averaged periodogram}, are used since the mid 80s 
-to gain an in depth knowledge of various sampling patterns. \emph{Periodogram} or the Fourier power 
-spectrum ($\PowerSpec{\Sampling}(\FreqVar)$) contains the amplitude squared values of Fourier coefficients ($\Fourier{\Sampling}(\FreqVar)$):
-%
-\begin{align}
-\PowerSpec{\Sampling}(\FreqVar) = \frac{1}{\Npts}\Norm{\Fourier{\Sampling}(\FreqVar)} \,,
-\end{align}
-%
-for a given set of $\Npts$ points. 
-%The normalization factor of $\Npts$ is used to keep the high frequency power values of random as well as other point sampling patterns to $1$. 
-The power spectra can provide a good visual aid to examine how the low and high frequencies are present
-in a given point sample distribution. 
 
-Following the seminal work by Robert Ulichney on \emph{blue noise} dithering~\cite{Ulichney:87:halftoning}, sampling patterns with minimal energy in the low frequency zone of their power spectra are advocated by researchers for applications like stippling and in rendering. To better examine the low to mid frequency regions 
-of various sampling power spectra Ulichney also proposed to use the \emph{radially averaged} power spectra, which can be mathematically written as:
-%
-\begin{align}
-\RadialPowerSpec{\Sampling}(\RadialFreq) = \int_{\FreqVar = \RadialFreq} \PowerSpec{\Sampling}(\FreqVar) \Diff \FreqVar \,.
-\end{align}
+\subsection{Qualitative assessment using periodograms}
+Following the seminal work by Robert Ulichney on \emph{blue noise} dithering~\cite{Ulichney:87:halftoning}, sampling patterns with minimal energy in the low frequency zone of their power spectra are believed to be preferable, for applications such as stippling and numerical integration. Tools such as the \emph{periodogram} and its radially-averaged profile were introduced to the graphics community about three decades ago, and were primarily used for qualitative comparisons of sampling patterns. 
+% Ulichney also proposed to use \emph{radially-averaged} power spectra, as a means of explicitly visualizing 
+% which can be mathematically written as:
+% %
+% \begin{align}
+% \RadialPowerSpec{\Sampling}(\RadialFreq) = \int_{\FreqVar = \RadialFreq} \PowerSpec{\Sampling}(\FreqVar) \Diff \FreqVar \,.
+% \end{align}
 %
 %Periodograms does help in investigating low frequency zone region of sampling power spectra but it is not always possible to get a precise behaviour of periodograms for various sampling patterns like jitter and Poisson Disk. This is where radially averaged power spectra comes handy. By performing radial averaging of sampling power spectra we can get a closer and better look at the low frequency as well as the mid to high frequency regions of the sampling power spectra.
+These tools have been used to compare the qualities of blue noise sampling patterns generated using various algorithms, and have been extended for comparisons between spatially-varying sampling distributions~\cite{Wei:2011:DDA}. 
 
-These tools are heavily employed to examine blue noise sampling patterns that help develop various algorithms that can generate high quality blue noise point samples. 
-Advanced Fourier tools like \emph{differential domain analysis}~\cite{Wei:2011:DDA} are also developed that could help examine quality of non-uniform distribtions of point samples. However, 
-the benefits of these high quality sampling patterns in Monte Carlo integration has been only recently unfolded in a step by step manner starting from Durand~\cite{durand2011frequency}, Subr and Kautz~\cite{Subr:2013:FAS}, and then by Pilleboue et al.~\cite{Pilleboue:2015:VAM} who proposed a closed form formulation for the variance in Monte Carlo integration:
+\subsection{Quantifying error using the statistics of sampling spectra}
+More recently, the focus has been on quantification of estimation error in the Fourier domain. That is, the error of an estimator (e.g.~\estim{1} for $I$ in equation~{eq:integcanonical}) has been expressed in terms of the Fourier spectra of the integrand and sampling function. 
+% Monte Carlo integration has been only recently unfolded in a step by step manner starting from Durand~\cite{durand2011frequency}, Subr and Kautz~\cite{Subr:2013:FAS}, and then by 
+
+% shortcite
+Durand~\cite{durand2011frequency} derived mean-squared error (MSE) as the inner product of the spectral densities of the integrand and sampling function, 
+\begin{equation} \label{eq:durand11}
+   \Exp{(I-\estim{1})^2} = \DefInt{\Omega}{}{|\IFn| \; \Exp{|\SF|^2}}{\fv},
+\end{equation}
+and verified that the convergence rate of the MSE of \estim{\N}\ is indeed $1/\N$. Following this work, it was shown~\cite{SubrKautz} that the bias and variance of \estim{1}\ may be expressed separately in terms of the spectra. They derived
+\begin{eqnarray}
+  \Exp{I-\estim{1}} &=& I - \DefInt{\Omega}{}{\Exp{\SF} \; \IFn }{\fv}, \quad \mathrm{and} \\
+    \Var{\estim{1}} &\leq& \DefInt{\Omega}{}{\Var{\SF} \; |\IFn|^2}{\fv}
+\end{eqnarray}
+as the expressions for bias and variance respectively. Tthat an estimator's bias is dependant on the relationship between the expected Fourier spectrum of the sampling pattern and the integrand's spectrum. The second equation, shows that the estimator's variance is bounded by the variance present in the sampling spectrum relative to the spectral density of the integrand. Subsequently, these results were collated and the expression for the variance was reformulated~\cite{Pilleboue:2015:VAM} for homogenized (unbiased) Monte Carlo estimators as
 %
-\begin{align}
-\Variance{\Integral} = \frac{1}{\Npts} \int_{\FourierDom} \Mean{\PowerSpec{\Sampling}(\FreqVar)} \PowerSpec{\Integrand}(\FreqVar) \Diff \FreqVar \,.
-\end{align}
+\begin{equation}
+\Var{\estim{1}} 
+= \DefInt{\Omega}{}{\Exp{|\SF|^2\;|\IFn| }}{\fv} 
+= \DefInt{\Omega}{} {\Exp{\PowerSpec{\SFsym}(\fv)} \PowerSpec{\ifsym}(\fv)} {\fv} 
+\end{equation}
+which is identical to Durand's derivation of MSE (equation~\ref{eq:durand11}) for a general (possibly biased) estimator.
 %
-Here, $\FourierDom$ denotes the Fourier domain, except the DC component and $\Mean{\cdot}$ is the expectation operator, with expectation over multiple realizations. This formulation  
-represents the variance in Monte Carlo integration in terms of the power spectra of the sampling pattern 
-($\PowerSpec{\Sampling}(\FreqVar)$) and the integrand ($\PowerSpec{\Integrand}(\FreqVar)$) involved, given that the sampling distribution is \emph{homogenized}.
+
+\subsection{Quantifying convergence using periodograms}
+The primary advantage of studying the variance of the homogenized (equation~\ref{eq:pillebouevar}) estimator was that it allowed an analysis of the convergence rate of estimators in terms of their power spectra. In addition, the homogenization process provides an elegant means of quantitatively comparing errors due to random (Monte Carlo) sampling patterns with deterministic (quasi Monte Carlo) patterns.
+
+\TBC
