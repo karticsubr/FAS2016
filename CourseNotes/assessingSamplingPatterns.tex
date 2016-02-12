@@ -20,13 +20,12 @@ These tools have been used to compare the qualities of blue noise sampling patte
 \subsection{Quantifying error using the statistics of sampling spectra}
 More recently, the focus has been on quantification of estimation error in the Fourier domain. That is, the error of an estimator (e.g.~\estim{1} for $I$ in equation~{eq:integcanonical}) has been expressed in terms of the Fourier spectra of the integrand and sampling function. 
 % Monte Carlo integration has been only recently unfolded in a step by step manner starting from Durand~\cite{durand2011frequency}, Subr and Kautz~\cite{Subr:2013:FAS}, and then by 
-
 % shortcite
 Durand~\cite{durand2011frequency} derived mean-squared error (MSE) as the inner product of the spectral densities of the integrand and sampling function, 
 \begin{equation} \label{eq:durand11}
    \Exp{(I-\estim{1})^2} = \DefInt{\Omega}{}{|\IFn|^2 \; \Exp{|\SF|^2}}{\fv},
 \end{equation}
-and verified that the convergence rate of the MSE of \estim{\N}\ is indeed $1/\N$. Following this work, it was shown~\cite{SubrKautz} that the bias and variance of \estim{1}\ may be expressed separately in terms of the spectra. They derived
+and verified that the convergence rate of the MSE of \estim{\N}\ is indeed $1/\N$. Following this work, it was shown~\cite{Subr:2013:FAS} that the bias and variance of \estim{1}\ may be expressed separately in terms of the spectra. They derived
 \begin{eqnarray}
   \Exp{I-\estim{1}} &=& I - \DefInt{\Omega}{}{\Exp{\SF} \; \IFn }{\fv}, \quad \mathrm{and} \\
     \Var{\estim{1}} &\leq& \DefInt{\Omega}{}{\Var{\SF} \; |\IFn|^2}{\fv}
