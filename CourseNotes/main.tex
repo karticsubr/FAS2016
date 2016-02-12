@@ -393,12 +393,13 @@ The corresponding secondary estimator, obtained by averaging \N\ primary estimat
 \TBC
 \subsection{Consistency}
 \TBC
-\subsection{Variance (uncertainty)} 
+\subsection{Variance (uncertainty of estimates)} 
 \GURPRIT{
 Unless I am missing something I don't see why uncertainty refers to Variance. For me uncertainty is a relative concept. For example, 
 the variance of a kernel in the primal and the fourier domain cannot be predicted simultaneously at a given frequency. Reducing variance in one domain would increase variance in the other, which is what 
-uncertainty is all about. 
-}
+uncertainty is all about. }
+\KARTIC{Random variables introduce uncertainty. Variance is one form of the quantification of uncertainty. If you are estimating Variance, then you can talk about uncertainty of the variance estimates. I like to pose the process of quantifying error in the estimates as a form of uncertainty propagation (\url{https://en.wikipedia.org/wiki/Propagation_of_uncertainty}). That is, if we know the uncertainty in the sampling patterns, can we estimate uncertainty in the final estimates?}
+
 \TBC
 \subsection{Convergence}
 \TBC
