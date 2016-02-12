@@ -393,7 +393,12 @@ The corresponding secondary estimator, obtained by averaging \N\ primary estimat
 \TBC
 \subsection{Consistency}
 \TBC
-\subsection{Variance (uncertainty)}
+\subsection{Variance (uncertainty)} 
+\GURPRIT{
+Unless I am missing something I don't see why uncertainty refers to Variance. For me uncertainty is a relative concept. For example, 
+the variance of a kernel in the primal and the fourier domain cannot be predicted simultaneously at a given frequency. Reducing variance in one domain would increase variance in the other, which is what 
+uncertainty is all about. 
+}
 \TBC
 \subsection{Convergence}
 \TBC
@@ -458,6 +463,11 @@ section to the following: \\
 - Tiling based methods 
 }
 \KARTIC{I've modified CCVT to Relaxation-based. However, I think Poisson-disk sampling is the general idea for which dart-based methods are used (rather than the other way around), so I've kept the first subsection PDisk}
+
+\GURPRIT{This is correct but we can generate Poisson disk sampling using relaxation based methods 
+and/or tile based methods (Kopf et al.2006, Lagae and Dutre 2008). I was actually proposing to separate the generation process of sampling patterns. Dart throwing is one way of generating samples, which by 
+default give Poisson disk patterns. 
+}
 \subsection{Poisson-disk sampling}
 \TBC
 \subsection{Relaxation-based methods}

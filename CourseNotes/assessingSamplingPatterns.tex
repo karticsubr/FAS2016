@@ -37,10 +37,12 @@ as the expressions for bias and variance respectively.~i.e.~An estimator's bias 
 = \DefInt{\Omega}{}{\Exp{|\SF|^2}\;|\IFn|^2}{\fv} 
 = \DefInt{\Omega}{} {\Exp{\PowerSpec{\SFsym}(\fv)} \PowerSpec{\ifsym}(\fv)} {\fv} 
 \end{equation}
-which is identical to Durand's derivation of MSE (equation~\ref{eq:durand11}) for a general (possibly biased) estimator. However, the homogenized perspective yields important insights and results on the convergence rate of estimators.
+which is identical to Durand's derivation of MSE (equation~\ref{eq:durand11}) for a general (possibly biased) \GURPRIT{I think Durand derived the variance for only random (white noise) samples, as he mentioned. Pilleboue obtained the same variance formulation but it was generalised to all samplers, thanks to the homogenization property} estimator. However, the homogenized perspective yields important insights and results on the convergence rate of estimators. \GURPRIT{I don't understand this statement, are you saying thanks to homogenization the convergence rates can be obtained ? }
 %
 
 \subsection{Quantifying convergence using periodograms}
-The primary advantage of studying the variance of the homogenized (equation~\ref{eq:pillebouevar}) estimator was that it allowed an analysis of the convergence rate of estimators in terms of their power spectra. In addition, the homogenization process provides an elegant means of quantitatively comparing errors due to random (Monte Carlo) sampling patterns with deterministic (quasi Monte Carlo) patterns.
-
+The primary advantage of studying the variance of the homogenized (equation~\ref{eq:pillebouevar}) estimator was that it allowed an analysis of the convergence rate of estimators in terms of their power spectra. In addition, the homogenization process provides an elegant means of quantitatively comparing errors due to random (Monte Carlo) sampling patterns with deterministic (quasi Monte Carlo) patterns. 
+\GURPRIT{We should be careful while making statements about the QMC methods. Although we can use the homogenization property for any sampling pattern we do not give any insights on how our Fourier analysis would yield convergence rates for QMC methods. This is tricky because QMC methods like Sobol can give different power spectra depending on the number of samples used. Pilleboue et al's method 
+do not handle these cases.
+}
 \TBC

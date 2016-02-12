@@ -1,0 +1,116 @@
+%!TEX root=main.tex
+%
+% Syllabus and Schedule
+%
+
+\begin{enumerate}
+	\item Introduction (15 mins)
+	\begin{enumerate}
+	\itemsep-0.4em	
+		\item Rendering
+		\item The interplay between reconstruction and integration
+		\item The role of sampling
+		\item Sources and manifestation of error
+	\end{enumerate}
+	\item Mathematical Preliminaries (10 mins) 
+	\begin{enumerate}
+	\itemsep-0.4em	
+		\item Random variables, expectation and variance
+		\item Estimators
+		\item The Continuous Fourier Transform
+		\item Fourier Series
+		\item The Discrete Fourier Transform
+		\item The Fast Fourier Transform
+		\item Power spectral density and Periodogram
+	\end{enumerate}
+	\item Sampling and Reconstruction (10 mins)
+	\begin{enumerate}
+	\itemsep-0.4em
+		\item Aliasing in reconstruction
+		\item Antialiasing
+		\item Halftoning
+		\item Antialiasing as integration
+	\end{enumerate}
+	\textbf{Break (5 mins) : Questions?}
+	\item Estimating Integrals (30 mins) 
+	\begin{enumerate}
+	\itemsep-0.4em
+		\item Numerical integration via sampling
+		\item Error due to sampling
+		\begin{enumerate}
+		\itemsep-0.6em
+			\item Bias
+			\item Consistency
+			\item Variance (uncertainty)
+			\item Convergence
+			\item Homogenization
+		\end{enumerate}
+		\item Monte Carlo Integration in the Fourier domain
+		\item Assessing sampling patterns based on their spectra
+		\begin{enumerate}
+		\itemsep-0.6em
+			\item Qualitative assessment using periodograms
+			\item Quantifying error using the statistics of sampling spectra
+			\item Quantifying convergence using periodograms
+		\end{enumerate}
+		\item Analysis beyond the canonical domain
+		\begin{enumerate} 
+		\itemsep-0.6em
+			\item Spherical domain
+			\item General domains
+			\item Gradient domain
+		\end{enumerate}
+		\item Manifestation of error in rendering
+	\end{enumerate}
+	\textbf{Break (5 mins) : Questions?} 
+	\item Popular sampling patterns (15 mins)
+	\begin{enumerate}
+	\itemsep-0.4em
+		\item Classical
+		\begin{enumerate}
+		\itemsep-0.6em
+			\item Random sampling
+			\item Jittered sampling
+			\item Uniform jittered samping
+		\end{enumerate}
+		\item Quasi-Monte Carlo
+		\begin{enumerate}
+		\itemsep-0.6em
+			\item Sobol sequence
+			\item Hammersley sequence
+			\item Latin Hypercube sampling
+		\end{enumerate}
+		\item Blue noise
+		\begin{enumerate}
+		\itemsep-0.6em
+			\item Poisson disk sampling
+			\item Relaxation-based methods
+			\item Tiling based methods
+		\end{enumerate}
+		\item Synthesis of sampling patterns with targeted spectral profiles
+	\end{enumerate}
+	\item Case studies
+	\begin{enumerate}
+	\itemsep-0.4em
+		\item 1D integrands
+		\begin{enumerate}
+		\itemsep-0.6em
+			\item Smooth functions
+			\item Functions with discontinuities
+		\end{enumerate}
+	\end{enumerate}
+	\item 2D integrands
+		\begin{enumerate}
+		\itemsep-0.4em
+			\item 1D integrands
+			\item Smooth functions
+		\end{enumerate}
+	\item Sub pixel integration (5 mins)
+	\item Rendering test suite
+\end{enumerate}
+
+
+
+
+
+
