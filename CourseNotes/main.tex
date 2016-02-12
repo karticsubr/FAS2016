@@ -165,7 +165,7 @@ of various well known sampling patterns (jitter, Poisson Disk) that are extensiv
 
 \phantomsection
 \addcontentsline{toc}{chapter}{Course Syllabus}
-\chapterimage{temp.pdf} % Table of contents heading image
+\chapterimage{syllabus.pdf} % Table of contents heading image
 \chapter*{Course Syllabus}
 
 Photon mapping techniques have progressed significantly in the last few years. The first part will include a brief introduction to light transport and the core ideas behind photon mapping. The remainder of the time will focus on recent advances in photon density estimation for surfaces.
@@ -191,9 +191,9 @@ Session timing breakdown for the course.
 %	TABLE OF CONTENTS
 %----------------------------------------------------------------------------------------
 
-\chapterimage{temp.pdf} % Table of contents heading image
+\chapterimage{contents.pdf} % Table of contents heading image
 
-% \pagestyle{empty} % No headers
+\pagestyle{empty} % No headers
 
 \phantomsection
 \addcontentsline{toc}{chapter}{Table of Contents}
@@ -201,13 +201,13 @@ Session timing breakdown for the course.
 
 \cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
 
-% \pagestyle{fancy} % Print headers again
+\pagestyle{fancy} % Print headers again
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 1
 %----------------------------------------------------------------------------------------
 
-\chapterimage{temp.pdf} % Chapter heading image
+\chapterimage{ch1.pdf} % Chapter heading image
 
 \chapter{Introduction}
 % Evolution has honed the ability of our visual systems to interpret visual snapshots, or images of our environments, that are sensed by our eyes.
@@ -245,6 +245,7 @@ Error in the context of estimating global illumination~\cite{Arvo94} arises from
 %----------------------------------------------------------------------------------------
 %	CHAPTER 2
 %----------------------------------------------------------------------------------------
+\chapterimage{ch2.pdf} % Chapter heading image
 \chapter{Mathematical preliminaries}
 We review relevant mathematical concepts and introduce the notation adopted in this course.
 
@@ -325,6 +326,7 @@ The energy of a signal \ifn\ is generally considered to be the integral of the s
 %----------------------------------------------------------------------------------------
 %	CHAPTER 3
 %----------------------------------------------------------------------------------------
+\chapterimage{ch3.pdf} % Chapter heading image
 \chapter{Sampling for reconstruction}
 The reconstruction problem entails approximating a function $\ifsym:\Dom\rightarrow\R$ as $\appr{\ifsym}(x_i), \; x_i\in\Dom, \;i=1,2,3,...,M$ given $\ifsym(y_i), \; y_i \in \Dom, \;j=1,2,3,...,\N$, where the sets of points $\{x_i\}$ and $\{y_j\}$ are mutually exclusive. If $\appr{\ifsym}(y_j) = \ifsym(y_j),\;\forall j$, the process is referred to as interpolation. This problem has received much attention in the signal processing literature~\cite[chapters~5~\&~6]{engineering2008handbook} as well as in the rendering community~\cite{Wold85,Cook:1986:SSC,mitchell87a}. Such analyses have yielded effective reconstruction filters that are used in modern renderers, especially in low-dimensional domains such as the image plane.
 
@@ -360,6 +362,7 @@ Antialiasing is commonly viewed as an integration problem. The value to be assig
 %----------------------------------------------------------------------------------------
 %	CHAPTER 4
 %----------------------------------------------------------------------------------------
+\chapterimage{ch4.pdf} % Chapter heading image
 \chapter{Estimating integrals}
 The goal of rendering is to estimate the quantity of radiant light energy impinging on the various pixels (or cells) distributed on a virtual observer's camera (or eye). Current renderers perform this via physically-based simulation of light, following its intricate combinations of reflections within the scene. The virtual measurement \Ij {\xs} at a point \xs\  on the sensor~\cite{VeachChapter8} is
 \begin{eqnarray} \label{eq:measeq}
@@ -423,6 +426,7 @@ Monte Carlo sampling can be represented as an inner product of the integrand \if
 %----------------------------------------------------------------------------------------
 %	CHAPTER 5
 %----------------------------------------------------------------------------------------
+\chapterimage{ch5.pdf} % Chapter heading image
 \chapter{Popular sampling patterns} \label{ch:samplingpatterns}
 In this chapter, we describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behaviour is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram.
 
@@ -466,6 +470,7 @@ section to the following: \\
 %----------------------------------------------------------------------------------------
 %	CHAPTER 6
 %----------------------------------------------------------------------------------------
+\chapterimage{ch6.pdf} % Chapter heading image
 \chapter{Case studies}
 In this chapter, we invent a suite of tests that may be used to compare the efficacy of sampling patterns when used in numerical integration. We will then tabulate this comparison, identifying the strengths and weaknesses of the different sampling strategies described in chapter~\ref{ch:samplingpatterns}. Our test suite will encompass a variety of integrands of various dimensionalities as well as smoothness criteria. We will make our code available to facilitate the comparison of any sampling patterns that may be proposed in the future with methods in our chosen set of algorithms. 
 
@@ -498,6 +503,7 @@ In this chapter, we invent a suite of tests that may be used to compare the effi
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
+\chapterimage{biblio.pdf} % Chapter heading image
 
 % \chapter*{Bibliography}
 % \nocite{*}
