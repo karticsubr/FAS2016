@@ -176,7 +176,7 @@ of various well known sampling patterns (jitter, Poisson Disk) that are extensiv
 \addcontentsline{toc}{chapter}{Course Syllabus}
 \chapterimage{syllabus.pdf} % Table of contents heading image
 \chapter*{Course Syllabus}
-
+\GURPRIT{Needs to be updated}
 Photon mapping techniques have progressed significantly in the last few years. The first part will include a brief introduction to light transport and the core ideas behind photon mapping. The remainder of the time will focus on recent advances in photon density estimation for surfaces.
 
 The second part will start with a brief introduction to participating media, followed by in-depth presentations on recent developments in volumetric photon mapping. The last portion of the course will cover the uses of photon density estimation in industry.
@@ -247,7 +247,7 @@ There are two distinctly different applications of sampling in the rendering pro
 \TBC
 
 \section{Sources and manifestation of error}\index{Error in rendering}
-Error in the context of estimating global illumination~\cite{Arvo94} arises from three sources: inaccuracies in the  input data or simulation, errors due to discretization and computational errors such as loss of precision. In this course, we focus on the first two sources. The rendered image is represented on a discrete grid, while the distribution of the underlying light energy across the sensor is a continuous function. A major source of error stems from this discretization. Recall that the true continuous function is a high-dimensional integral at each point on the sensor (equation~\ref{eq:measeq}). Any sampling-based approach used to estimate this function results in an approximation whose measured deviation from the true function is known referred to as \textit{approximation error}. Typically approximation error manifests itself in rendered images in one of two perceivably objectionable forms: structured artifacts or as noise. Various metrics, such as L1 norms, L2 norms, PSNR, etc., are used to quantify approximation error.
+Error in the context of estimating global illumination~\cite{Arvo94} \GURPRIT{citation missing} arises from three sources: inaccuracies in the  input data or simulation, errors due to discretization and computational errors such as loss of precision. In this course, we focus on the first two sources. The rendered image is represented on a discrete grid, while the distribution of the underlying light energy across the sensor is a continuous function. A major source of error stems from this discretization. Recall that the true continuous function is a high-dimensional integral at each point on the sensor (equation~\ref{eq:measeq}). Any sampling-based approach used to estimate this function results in an approximation whose measured deviation from the true function is known referred to as \textit{approximation error}. Typically approximation error manifests itself in rendered images in one of two perceivably objectionable forms: structured artifacts or as noise. Various metrics, such as L1 norms, L2 norms, PSNR, etc., are used to quantify approximation error.
 
 \TBC 
 
@@ -415,7 +415,7 @@ uncertainty is all about. }
 \TBC
 
 \section{Monte Carlo integration in the Fourier domain}
-Monte Carlo sampling can be represented as an inner product of the integrand \ifn\ and the sampling pattern \sfn\ which is composed of a sum of impulses (delta functions) normalized by the number of impulses. Since inner products are preserved under Fourier Transforms, the na\"ive estimator 
+Monte Carlo sampling can be represented as an inner product of the integrand \ifn\ and the sampling pattern \sfn\ which is composed of a sum of impulses (delta functions) normalized by the number of impulses \GURPRIT{maybe we can also mathematically write \sfn\ }. Since inner products are preserved under Fourier Transforms, the na\"ive estimator 
 \begin{equation}
   \estim{\N} \quad = \quad \DefInt{\Dom}{}{\ifn \sfn}{x} \quad = \quad 
   \DefInt{\Omega}{}{\SF \; \IFsym^*(\fv) }{\fv}.
