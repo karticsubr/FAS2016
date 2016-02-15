@@ -228,7 +228,7 @@ While the totality of the above decisions impacts the illusion of reality, the f
 The simulation of light transport is typically tedious and error-prone.
 Error-free rendering is a computationally expensive process that needs to be performed repetitively, on every frame, to generate high (production) quality video sequences. 
 
-In this course, we propose to focus on the analysis of error in rendered images as a function of the spectral (Fourier domain) statistics of the sampling patterns used.  Previous courses at SIGGRAPH have focused on various aspects of rendering such as physically-based shading computation~\cite{Hill:2015:PBSCourse}, the benefits of specific algorithms for rendering~\cite{Keller:2015:PTRCourse,hachisuka13starpm}, summarization of state-of-the-art algorithms for light transport simulation~\cite{Krivanek:2014:RALCourse}, etc. There have also been courses on the fundamentals of Monte Carlo~\cite{Jensen2003Course} and quasi Monte Carlo~\cite{Keller:2012:AMCCourse} sampling in the context of rendering. The focus of this course is complementary to previous rendering courses and the content will be self-contained. We do not expect or require that attendees of this course should have attended any of the previous courses mentioned above.
+In this course, we propose to focus on the analysis of error in rendered images as a function of the spectral (Fourier domain) statistics of the sampling patterns used.  Previous courses at SIGGRAPH have focused on various aspects of rendering such as physically-based shading computation~\cite{Hill:2015:PBSCourse}, the benefits of specific algorithms for rendering~\cite{Keller:2015:PTRCourse,hachisuka13starpm}, summarization of state-of-the-art algorithms for light transport simulation~\cite{Krivanek:2014:RALCourse}, etc. There have also been courses on the fundamentals of Monte Carlo~\cite{Jensen2003Course} and quasi Monte Carlo~\cite{Keller:2012:AMCCourse} sampling in the context of rendering. The focus of this course is complementary to previous rendering courses and the content will be self-contained. We do not expect (or require) the audience to have attended any of the aforementioned courses.
 
 
 \section{Rendering}\index{Rendering}
@@ -287,7 +287,7 @@ uniformly, the estimator is unbiased. That is, its expected value is the integra
 
 \begin{table}[hbpt]%
 \caption{\label{tab:notation}%
-Notation used in this course.}%
+Notation used in this course.\TBC}%
 \begin{tabular}{rl}%
     \toprule
     Symbol & Definition\\
@@ -395,6 +395,13 @@ is well known to be unbiased if the  single sample $\xii \in [0,\Tx] $ is drawn 
 The corresponding secondary estimator, obtained by averaging \N\ primary estimates at different \xii\ has the same expected value. However, the averaging scales the variance down by a factor of $\N$.~i.e.~$\Var{\estim{\N}} = \Var{\estim{1}}/\N.$ 
 
 \TBC
+\begin{figure}
+ \centering
+ {
+  \includegraphics[width=\linewidth]{IntegRecons.pdf}
+ }
+ \caption{\KARTIC{From Subr and Kautz 13. Copyright/license issues?}}
+\end{figure}
 
 \section{Error due to sampling}
 \subsection{Bias}
