@@ -42,7 +42,8 @@
 %----------------------------------------------------------------------------------------
 
 \documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
-
+\usepackage{xcolor,colortbl}
+\usepackage{multirow}
 % \newcommand{\TBC} {\vspace {1em} \noindent [TO BE COMPLETED IN THE FINAL VERSION.] \vspace {1em}}
 \newcommand{\TBC} {\noindent [TO BE COMPLETED IN THE FINAL VERSION.] }
 
@@ -177,6 +178,9 @@ of various well known sampling patterns (jitter, Poisson Disk) that are extensiv
 \addcontentsline{toc}{chapter}{Course Syllabus}
 \chapterimage{syllabus.pdf} % Table of contents heading image
 \chapter*{Course Syllabus}
+%
+\input{table-schedule}
+%
 \GURPRIT{Needs to be updated}
 Photon mapping techniques have progressed significantly in the last few years. The first part will include a brief introduction to light transport and the core ideas behind photon mapping. The remainder of the time will focus on recent advances in photon density estimation for surfaces.
 
