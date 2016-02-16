@@ -9,37 +9,51 @@
 \definecolor{LightPink2}{rgb}{1,0.75,0.79}	
 \definecolor{Mint}{rgb}{0.74,0.98,0.79}
 \definecolor{Wheat}{rgb}{0.96,0.87,0.7}
+\definecolor{LightWheat}{rgb}{0.98,0.91,0.85}
+\definecolor{LighterWheat}{rgb}{0.99,0.97,0.94}
 
+\setlength{\extrarowheight}{0.12cm}
+
+\begin{table}[h!]
+  \caption{Course topics, overview and schedule} \label{tab:ovw}
 \begin{center}
-    \begin{tabular}{ | l | p{5cm} | p{2cm} | p{1.2cm} |}
-    \hline
-%    \multicolumn{1} { |c| }{Sections} & \multicolumn{1} { c| } {Speakers} & \multicolumn{1} { c| } {Timings} \\
-     Sections & Description & Speaker & Duration  \\
-    \hline
-   \rowcolor{LightCyan}
-    & Introduction &  Subr   & 15 mins\\ 
-    \hline
-    \rowcolor{Mint} & Probability and Fourier overview  & & \\
-    \rowcolor{Mint} & Monte Carlo Integration &  Subr &  20 mins \\
-    \rowcolor{Mint} \multirow{-3}{5cm}{Mathematical Preliminaries} &Sampling and Reconstruction  &  &   \\
-    \hline 
-    \multicolumn{4} { |c| }{Break (5 mins)} \\ \cline{1-4}
-    \hline
-     \rowcolor{LightPink1} & Assessing sampling patterns  &  &  \\
-     \rowcolor{LightPink1} & Beyond canonical domain & Singh & 15 mins\\
-     \rowcolor{LightPink1} \multirow{-3}{5cm}{Error and sampling analysis} & Manifestation of error & &  \\
-    \hline
-    \rowcolor{LightBlue} & Classical \& QMC samplers & &   \\
-    \rowcolor{LightBlue} & Blue noise samplers & Jarosz   & 15  mins\\
-     \rowcolor{LightBlue} \multirow{-3}{5cm}{Popular samplers} & Synthesising samplers &   &   \\
-    \hline
-    \rowcolor{Wheat}
-    & Case Studies & Jarosz & 10  mins\\
-    \rowcolor{Wheat} \multirow{-3}{5cm}{Experimentation} & Rendering test suite & Subr  & 10 mins \\
-    \hline
-    \multicolumn{4} { |c| }{Total (Out of 1.5 hours) = 65 mins (Theory) + 20 mins (Practice) + 5 mins (Break) = 90 mins}  \\ \cline{1-4}
-    \end{tabular}
+%     \begin{tabular}{ | l | p{5cm} | p{2cm} | p{1.2cm} |}
+    \adjustbox{max width=\columnwidth}
+    {
+      \begin{tabular}{  l | l | c | c }
+  %     \hline
+  %    \multicolumn{1} { |c| }{Sections} & \multicolumn{1} { c| } {Speakers} & \multicolumn{1} { c| } {Timings} \\
+      \textbf{Section} & \textbf{Description} & \textbf{Speaker} & \textbf{Dur.}\\ [.12 cm]
+      & & & (mins)\\[.12 cm]
+  %     \hline
+      \rowcolor{LightWheat} & Photorealistic rendering &  &  \\[.12 cm]
+      \rowcolor{LightWheat} & Sampling and reconstruction  & Subr & 15 \\[.12 cm]
+      \rowcolor{LightWheat} \multirow{-3}{2cm}{Introduction } & Monte Carlo (MC) rendering & &  \\[.12 cm]
+  %     \hline
+      \rowcolor{LighterWheat} & Probability \& Fourier theory & & \\[.12 cm]
+      \rowcolor{LighterWheat} & MC integration &  Subr &  20 \\[.12 cm]
+      \rowcolor{LighterWheat} \multirow{-3}{2cm}{Math. Review} & Fourier analysis of MC  &  &   \\[.12 cm]
+  %     \hline 
+      \multicolumn{4} { c }{Q. questions and/or break (5 mins)} \\ [.12 cm] \cline{1-4}
+  %     \hline
+      \rowcolor{LightWheat} & Assessing sampling patterns  &  &  \\[.12 cm]
+      \rowcolor{LightWheat} & Beyond canonical domain & Singh & 15 \\[.12 cm]
+      \rowcolor{LightWheat} \multirow{-3}{2cm}{Analysis of error due to sampling} & Manifestation of error & &  \\[.12 cm]
+  %     \hline
+      \rowcolor{LighterWheat} & Classical MC \& QMC & &   \\[.12 cm]
+      \rowcolor{LighterWheat} & Blue noise  & Jarosz   & 15 \\[.12 cm]
+      \rowcolor{LighterWheat} \multirow{-3}{2cm}{Sampling patterns: State of the art} & Patterns with targeted spectra &   &   \\[.12 cm]
+  %     \hline
+      \multicolumn{4} { c }{Q. questions and/or break (5 mins)} \\ \cline{1-4}
+  %     \hline
+      \rowcolor{LightWheat} & Case Studies & Singh & 10 \\[.12 cm]
+      \rowcolor{LightWheat} \multirow{-3}{2cm}{Experiments} & Rendering test suite & Subr  & 5  \\[.12 cm]
+      \hline
+      \multicolumn{4} { |c| }{\textbf{90 mins} = 50 (theory) + 20 (practice) + 10 (state of the art) + 10 (Q.)}  \\ [.12 cm] \cline{1-4}
+      \end{tabular}
+     }
 \end{center}
+\end{table}
 
 
 
