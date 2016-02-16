@@ -70,7 +70,8 @@ Kartic Subr  \thanks{e-mail:k.subr@hw.ac.uk}\\Heriot Watt University
 
  \teaser{
    \includegraphics[height=1.6in]{../CourseNotes/Pictures/RenderHL.pdf}
-   \caption{Spring Training 2009, Peoria, AZ.}
+   \caption{}
+   \label{fig:renderhl}
  }
 
 \maketitle
@@ -115,29 +116,33 @@ Fourier analysis, along with the Nyquist theorem, have long been used in graphic
 
 \keywordlist
 
-\conceptlist
+% \conceptlist
 
 \printcopyright
 
 \section{Estimation errors due to sampling patterns}
-Modern algorithms that are used to generate high-quality photorealistic pictures proceed by simulating the flow of radiant spatio-directional light energy (radiance) within environments. Given the geometric and material specifications of the objects in any scene, most \textit{renderers} output simulated images as seen through a virtual camera whose parameters are pre-specified. Such renderers essentially perform two important steps: First, they \textit{estimate} the radiance arriving at various points on the virtual sensor (of the specified camera) via simulation of light; and second, they \textit{reconstruct} the output image by resampling the estimated values on a regular grid of pixel-centers that lie on the virtual sensor. This course is dedicated to understanding errors in the former (estimation).
+Modern algorithms that are used to generate high-quality photorealistic pictures proceed by simulating the flow of radiant spatio-directional light energy (radiance) within environments. Given the geometric and material specifications of the objects in any scene, most \textit{renderers} output simulated images as seen through a virtual camera whose parameters are pre-specified (Fig.~\ref{fig:renderhl}.i). Such renderers essentially perform two important steps (Fig.~\ref{fig:renderhl}.iii): 1) they \textit{estimate} the radiance arriving at various points on the virtual sensor by integrating the simulated measurement contributions over paths; 2) they \textit{reconstruct} the output image by resampling the estimated values on a regular grid of pixel-centers that lie on the virtual sensor. This course is dedicated to understanding estimation errors.
 
-A popular approach for estimation proceeds by implicitly mapping high-dimensional random samples to \textit{important} light paths in the scene, followed by a carefully-weighted deposition of the radiance contributed by each path as (if) it impinges on the image plane. The efficiency of \textit {Monte Carlo renderers} can be quantified by how rapidly the image plane is populated with important estimates of radiance. The quality of the resulting estimation crucially depends on the statistical properties of the \textit {sampling pattern}, or the sum of impulses in the high-dimensional input space, which is used to generate the paths. To be practically useful, a renderer must be both efficient as well as able to generate ``high-quality'' estimation. The quality of estimation of global illumination, is plagued by error from many sources~\cite{arvo1994framework}. 
+The typical approach for estimation proceeds by implicitly mapping high-dimensional random samples to \textit{important} light paths in the scene (Fig.~\ref{fig:renderhl}.i), followed by a carefully-weighted deposition of the radiance contributed by each path as it impinges on the image plane. The efficiency of \textit {Monte Carlo renderers} can be quantified by how rapidly the image plane is populated with important estimates of radiance. The quality of the resulting estimation crucially depends on the statistical properties of the \textit {sampling pattern}, or the sum of impulses in the high-dimensional input space, which is used to generate the paths. To be practically useful, a renderer must be both efficient as well as able to generate ``high-quality'' estimation. The quality of estimation of global illumination, is plagued by error from many sources~\cite{arvo1994framework}. 
 
-The scope of this course will be limited to understanding approximation errors, in the estimation of numerically integrated radiance values, which stem from the choice of particular sampling patterns.
 
-\section{Fourier analysis of estimation error}
+% Beyond these objectives, we envision that this course will stimulate the development of new sampling algorithms.~e.g.~Knowledge of the Fourier properties of the underlying integrand (radiance function) via rapid measurements of local variation may be exploited to design sampling patterns for the specific scene rather than merely using this information to adapt sampling density~\cite{Cov5D}.
+
 During the process of estimation, multiple (vastly different) paths may co-incide on any given pixel. At one such pixel, imagine storing an array of \textit{all} the radiance values contributed by the paths arriving there. The histogram of this array is representative of the distribution of radiance at that pixel. The difference between the expected value of this distribution (or the average of the values in the array) and the true radiance at the pixel, \textit{bias} of the estimator, quantifies the accuracy of the simulation.  The second central moment of the distribution (or the \textit{variance} of the values in the array) quantifies the precision of the estimator. The behaviour of bias and variance at a pixel as the number of paths contributing radiance to that pixel increases is called the \textit{convergence rate}. 
 
 In practice, errors in estimation appear in the image as coherent structured artifacts (e.g.~banding), low-frequency smears and high-frequency noise. The first two are attributed to bias, while the third is attributed to variance. Although each pixel in an image is assigned a single, averaged estimate, poor precision leads to disagreement between estimates of neighboring pixels. If these neighboring pixels lie on what should be a smooth part of the image, the disagreement manifests as noise.
 
+\section{Need for analysis of error in rendering}
+
 While some estimators exhibit higher error than others for a budget of (say) 10 samples per pixel, their better convergence rate could lead to dramatically superior rendering at a higher computational budget of (say) 1000 samples per pixel.~i.e.~the estimator of choice for a scene may also depend on the computational budget (interactive vs offline rendering). Recent works have derived mean-squared error~\cite{durand2011frequency,Ramamoorthi:2012}, variance~\cite{Subr:2013:FAS,subr14error} and convergence rates~\cite{Pilleboue:2015:VAM} as functions of the Fourier statistics of typical sampling patterns that are used in Monte Carlo rendering. A thorough understanding of error will allow informed choices potentially leading to the use of the ``best available'' sampling strategy for a given scene and computational budget. 
 
+\section{Course scope and relevance at SIGGRAPH}
+Modern Monte Carlo renderers are large and sophisticated systems with numerical integration at their very crux. This course will focus on understanding estimation errors, in the Fourier domain, that arise during numerical integration of radiance values. The focus of this course is complementary to previous rendering courses. This novel course will explain the impact of sampling patterns with desirable Fourier characteristics on estimation error by surveying a number of recent works.
+
+Fourier analysis is also extensively used in the design of computational displays and cameras. Our focus on numerical integration is fundamentally different than those applications, where integration happens physically (implicitly) by propagation of real light energy  (e.g.~blurring of images due to a wide aperture). There have been conspicuously few courses on the application of Fourier analysis at SIGGRAPH and we believe that the sections containing generalized treatment of the problem will provide valuable insights into applications other than rendering. Finally, we envision this course to stimulate the development of new sampling algorithms when partial information is available about the integrand~\cite{Cov5D}.
+
 \section{Course overview and objectives}
-This course will be organized as shown in table~\ref{tab:ovw}. The content for the course will be a combination of intuition and insights (presentation slides), formal mathematical content (course material) as well as visualization and live demonstration (with source code). We attach a sample of the course notes and slides.
-
-\input{../CourseNotes/table-schedule}
-
+This course schedule is shown in table~\ref{tab:ovw}. The content for the course will be a combination of intuition and insights (presentation slides), formal mathematical content (course material) as well as visualization and live demonstration (with source code). We attach a sample of the course notes.
 At the end of this course, attendees will 
 \begin{itemize}[noitemsep,topsep=-1em,leftmargin=*]
 \item understand the impact of sampling patterns on MC integration
@@ -149,7 +154,6 @@ At the end of this course, attendees will
 \item develop an intuition for sampling patterns that lead to high error
 \item be equipped with mathematical tools as well as an empirical test-suite, to derive error and/or convergence rates of any new sampling patterns that they may develop.
 \end{itemize}
-Beyond these objectives, we envision that this course will stimulate the development of new sampling algorithms.~e.g.~Knowledge of the Fourier properties of the underlying integrand (radiance function) via rapid measurements of local variation may be exploited to design sampling patterns for the specific scene rather than merely using this information to adapt sampling density~\cite{Cov5D}.
 % \begin{figure*}[thbp]
 %   \centering
 %   \includegraphics[width=\linewidth]{../CourseNotes/Pictures/IntegRecons.pdf}
@@ -157,9 +161,10 @@ Beyond these objectives, we envision that this course will stimulate the develop
 %   \label{fig:ferrari}
 % \end{figure*}
 
+\input{../CourseNotes/table-schedule}
 
-\section*{Acknowledgement}
-Kartic Subr would like to acknowledge funding and encouragement from Royal Society's University Research Fellowship towards this form of scientific dissemination.
+% \section*{Acknowledgement}
+% Kartic Subr would like to acknowledge funding and encouragement from Royal Society's University Research Fellowship towards this form of scientific dissemination.
 
 \bibliographystyle{acmsiggraph}
 % \nocite{*}
