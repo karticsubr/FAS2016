@@ -20,10 +20,15 @@
 
 \title{Fourier Analysis of Numerical Integration in Monte Carlo Rendering:  \\Theory and Practice}
 
+% \author{
+% Kartic Subr  \thanks{e-mail:k.subr@hw.ac.uk}\\Heriot Watt University 
+% \and Wojciech Jarosz  \thanks{e-mail:wojciech.k.jarosz@dartmouth.edu}\\Dartmouth College
+% \and Gurprit Singh  \thanks{e-mail:gurprit.singh@dartmouth.edu}\\Dartmouth College
+% }
 \author{
-Kartic Subr  \thanks{e-mail:k.subr@hw.ac.uk}\\Heriot Watt University 
-\and Wojciech Jarosz  \thanks{e-mail:wojciech.k.jarosz@dartmouth.edu}\\Dartmouth College
-\and Gurprit Singh  \thanks{e-mail:gurprit.singh@dartmouth.edu}\\Dartmouth College
+Kartic Subr  \\Heriot Watt University 
+\and Wojciech Jarosz  \\Dartmouth College
+\and Gurprit Singh  \\Dartmouth College
 }
 \pdfauthor{Kartic Subr}
 
@@ -34,15 +39,15 @@ Kartic Subr  \thanks{e-mail:k.subr@hw.ac.uk}\\Heriot Watt University
 
 % User-generated keywords.
 
-\keywords{Fourier analysis, Monte Carlo sampling, numerical integration}
+\keywords{Fourier analysis, numerical integration, Monte Carlo}
 
 % With the "\setcopyright" command the appropriate rights management text will be added
 % to your document.
 
-%\setcopyright{none}
+\setcopyright{none}
 %\setcopyright{acmcopyright}
 %\setcopyright{acmlicensed}
-\setcopyright{rightsretained}
+% \setcopyright{rightsretained}
 %\setcopyright{usgov}
 %\setcopyright{usgovmixed}
 %\setcopyright{cagov}
@@ -80,7 +85,7 @@ Kartic Subr  \thanks{e-mail:k.subr@hw.ac.uk}\\Heriot Watt University
 
 Since being introduced to graphics in the 1980s, Monte Carlo sampling has become the cornerstone of most modern algorithms that are used to generate high-quality, photorealistic imagery. Originally introduced to combat the effect of aliasing when estimating values at pixels, it has attained popularity as a general tool for solving complex, multi-dimensional integration problems in rendering. In this context, MC integration involves \textit{sampling} a function at various stochastically placed points and averaging the sampled values to approximate an integral, e.g. the radiance through a pixel integrated across the multi-dimensional space of possible light transport paths. Unfortunately, such estimation is error-prone and the visual manifestation of this error depends critically on the properties of the integrand, placement of the stochastic sample points used, and the type of problem (integration vs.\ reconstruction) that is being solved with these samples.
 
-Fourier analysis, along with the Nyquist theorem, have long been used in graphics to motivate more intelligent sampling strategies which try to minimize errors due to noise and aliasing in the \textit{pixel reconstruction problem}. Only more recently, however, has the community started to apply these same Fourier tools to analyze error in the Monte Carlo \textit{integration problem}. Loosely speaking, in the context of rendering a 2D image, these two problems are concerned with errors introduced across pixels (reconstruction) vs.\ the errors introduced within any individual pixel (integration). In this course, we focus on the latter, and survey the recent developments and insights that Fourier analyses have provided about the magnitude and convergence rate of Monte Carlo integration error. We provide a historical perspective of Monte Carlo in graphics, review the necessary mathematical background, summarize the most recent developments, discuss the practical implications of these analyzes on the design of Monte Carlo rendering algorithms, and identify important remaining research problems that can propel the field forward.
+Fourier analysis, along with the Nyquist theorem, has long been used in graphics to motivate improved sampling strategies to reduce errors due to noise and aliasing in the \textit{pixel reconstruction problem}. Only more recently, however, has the community started to apply these same Fourier tools to analyze error in the Monte Carlo \textit{integration problem}. Loosely speaking, in the context of rendering a 2D image, these two problems are concerned with errors introduced across pixels (reconstruction) vs.\ the errors introduced within any individual pixel (integration). In this course, we focus on the latter, and survey the recent developments and insights that Fourier analyses have provided about the magnitude and convergence rate of Monte Carlo integration error. We review the necessary mathematical background, summarize the most recent developments, discuss the practical implications of these analyses on the design of Monte Carlo rendering algorithms, and identify important remaining research problems that can propel the field forward.
 
 \end{abstract}
 
