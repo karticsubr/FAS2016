@@ -78,36 +78,36 @@
 \end{tikzpicture}
 \vfill
 \endgroup
-
-%----------------------------------------------------------------------------------------
-%	COPYRIGHT PAGE
-%----------------------------------------------------------------------------------------
-
 \newpage
-~\vfill
-\thispagestyle{empty}
-
-\noindent Copyright \copyright\ 2016 XXXX\\ % Copyright notice
-
-\noindent \textsc{Published by Publisher}\\ % Publisher
-
-\noindent \textsc{Best-Course.com}\\ % URL
-
-\noindent Licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License (the ``License''). You may not use this file except in compliance with the License. You may obtain a copy of the License at \url{http://creativecommons.org/licenses/by-nc/3.0}. Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \textsc{``as is'' basis, without warranties or conditions of any kind}, either express or implied. See the License for the specific language governing permissions and limitations under the License.\\ % License information
-
-% \noindent \textit{First printing, March 2013} % Printing/edition date
+% %----------------------------------------------------------------------------------------
+% %	COPYRIGHT PAGE
+% %----------------------------------------------------------------------------------------
+% 
+% \newpage
+% ~\vfill
+% \thispagestyle{empty}
+% 
+% \noindent Copyright \copyright\ 2016 XXXX\\ % Copyright notice
+% 
+% \noindent \textsc{Published by Publisher}\\ % Publisher
+% 
+% \noindent \textsc{Best-Course.com}\\ % URL
+% 
+% \noindent Licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License (the ``License''). You may not use this file except in compliance with the License. You may obtain a copy of the License at \url{http://creativecommons.org/licenses/by-nc/3.0}. Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \textsc{``as is'' basis, without warranties or conditions of any kind}, either express or implied. See the License for the specific language governing permissions and limitations under the License.\\ % License information
+% 
+% % \noindent \textit{First printing, March 2013} % Printing/edition date
 
 %----------------------------------------------------------------------------------------
 %	ABSTRACT PAGE
 %----------------------------------------------------------------------------------------
 
 
-\pagestyle{plain}
+% \pagestyle{plain}
 % \pagenumbering{roman}
 
 {
 
-\cleardoublepage
+% % \cleardoublepage
 \phantomsection
 \addcontentsline{toc}{section}{Abstract}
 \section*{Abstract}
@@ -135,31 +135,36 @@ Moderate. We will begin by reviewing much of the intuition required for the appr
 \addcontentsline{toc}{section}{About the Lecturers}
 \section*{About the Lecturers}
 
-\subsection*{Prof.\ Kartic Subr}
+\noindent\textbf{Prof.\ Kartic Subr} \hfill
 Heriot Watt University\\
-\href{<k.subr@hw.ac.uk>}{\texttt{<k.subr@hw.ac.uk>}}\\
+\href{<k.subr@hw.ac.uk>}{\texttt{<k.subr@hw.ac.uk>}} \hfill
 \url{http://home.eps.hw.ac.uk/~ks400/}\\
 
 Kartic Subr is an Associate Professor of Engineering at Heriot Watt University and a Royal Society University Research Fellow. He has enjoyed a variety of positions in companies such as Hewlett Packard, Rhythm and Hues Studios, NVIDIA Corporation and Disney Research as well as academic post-doctoral research positions at INRIA-Grenoble and University College London. He obtained his Ph.D. (2008) and M.S. (2005) in Visual Computing from UC Irvine. 
 
 Kartic's research explores the benefits of stochastic and adaptive sampling when applied to a variety of classes of problems encountered in computer graphics such as numerical integration, signal reconstruction, edge-preserving smoothing of images, assisted segmentation of images and image completion. More recently, he has focused on error analyses of popular stochastic sampling strategies for numerical integration in the context of simulating light transport for rendering.
 
-\bigskip
+\medskip
+\textcolor[RGB]{220,220,220}{\rule{.9\columnwidth}{0.5pt}}
+\medskip
 
-\subsection*{Prof.\ Wojciech Jarosz}
+\noindent\textbf{Prof.\ Wojciech Jarosz} \hfill
 Dartmouth College\\
-\href{mailto:wojciech.k.jarosz@dartmouth.edu}{\texttt{<wojciech.k.jarosz@dartmouth.edu>}}\\
+\href{mailto:wojciech.k.jarosz@dartmouth.edu}{\texttt{<wojciech.k.jarosz@dartmouth.edu>}} \hfill
 \url{http://www.cs.dartmouth.edu/~wjarosz}\\
 
 Wojciech Jarosz is an Assistant Professor of Computer Science at Dartmouth College and co-founder of Dartmouth's Visual Computing Lab. Before joining Dartmouth in 2015, Wojciech was a Senior Research Scientist heading the rendering group at Disney Research Zürich, and an adjunct lecturer at ETH Zürich. He obtained his Ph.D. (2008) and M.S. (2005) in computer graphics from UC San Diego, and a B.S. (2003) in computer science from the University of Illinois at Urbana–Champaign.
 
 Prof.\ Jarosz’s research covers many areas of computer graphics and rendering, with a particular emphasis on \emph{light}: how to capture it, how to more efficiently simulate its interaction and propagation within scenes, how to author or edit appearance, and how to create physical objects with prescribed light interactions. Much of his work has involved developing more sophisticated sampling techniques in the context of Monte Carlo integration and the resulting methods have been incorporated into production rendering systems for the making of feature films, including Disney's \textit{Tangled} and \textit{Big Hero 6}. In 2013, Prof.\ Jarosz received the Eurographics Young Researcher Award.
 
-\bigskip
+% \bigskip
+\medskip
+\textcolor[RGB]{220,220,220}{\rule{.9\columnwidth}{0.5pt}}
+\medskip
 
-\subsection*{Dr.\ Gurprit Singh}
+\noindent\textbf{Dr.\ Gurprit Singh} \hfill
 Dartmouth College\\
-\href{mailto:gurprit.singh@dartmouth.edu}{\texttt{<gurprit.singh@dartmouth.edu>}}\\
+\href{mailto:gurprit.singh@dartmouth.edu}{\texttt{<gurprit.singh@dartmouth.edu>}} \hfill
 \url{http://www.cs.dartmouth.edu/~gsingh}\\
 
 Gurprit Singh is a post-doctoral researcher at Dartmouth College, working with Prof. Wojciech Jarosz in the Dartmouth's Visual Computing Lab. Before joining Dartmouth in 2015, Gurprit was a PhD candiate 
@@ -169,7 +174,7 @@ obtained his bachelor's thesis (2010) from IIT Delhi, India, under the supervisi
 
 Gurprit's research is mainly focused on understanding point sample distributions from the Fourier perspective. During his thesis work, Gurprit developed a theoretical model in the spherical domain that can characterise various sampling methods (jitter, Poisson Disk, Blue noise) based on their frequency content. This theoretical framework can be used to predict the exact variance for Monte Carlo integration. Later on, this framework is also used to analytically derive the variance convergence rates 
 of various well known sampling patterns (jitter, Poisson Disk) that are extensively used in production rendering.
-\cleardoublepage
+% \cleardoublepage
 
 
 
@@ -216,7 +221,7 @@ of various well known sampling patterns (jitter, Poisson Disk) that are extensiv
 \addcontentsline{toc}{chapter}{Table of Contents}
 \tableofcontents % Print the table of contents itself
 
-\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+% \cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
 
 % \pagestyle{fancy} % Print headers again
 
@@ -264,7 +269,8 @@ There are two distinctly different applications of sampling in the rendering pro
 \TBC
 
 \section{Sources and manifestation of error}\index{Error in rendering}
-Error in the context of estimating global illumination~\cite{arvo1994framework} arises from three sources: inaccuracies in the  input data or simulation, errors due to discretization and computational errors such as loss of precision. In this course, we focus on the first two sources. The rendered image is represented on a discrete grid, while the distribution of the underlying light energy across the sensor is a continuous function. A major source of error stems from this discretization. Recall that the true continuous function is a high-dimensional integral at each point on the sensor (equation~\ref{eq:measeq}). Any sampling-based approach used to estimate this function results in an approximation whose measured deviation from the true function is known referred to as \textit{approximation error}. Typically approximation error manifests itself in rendered images in one of two perceivably objectionable forms: structured artifacts or as noise. Various metrics, such as L1 norms, L2 norms, PSNR, etc., are used to quantify approximation error.
+Error in the context of estimating global illumination~\cite{arvo1994framework} arises from three sources: inaccuracies in the  input data or simulation, errors due to discretization and computational errors such as loss of precision. In this course, we focus on the first two sources. The rendered image is represented on a discrete grid, while the distribution of the underlying light energy across the sensor is a continuous function. A major source of error stems from this discretization. The underlying continuous function is a high-dimensional integral at each point on the sensor (equation~\ref{eq:measeq}). Any sampling-based approach used to estimate this function results in an approximation whose measured deviation from the true function is known referred to as \textit{approximation error}. Typically this error manifests in rendered images as structured artifacts or noise. 
+% Various metrics, such as L1 norms, L2 norms, PSNR, etc., are used to quantify approximation error.
 
 \TBC 
 
@@ -565,11 +571,11 @@ In this chapter, we invent a suite of tests that may be used to compare the effi
 %	INDEX
 %----------------------------------------------------------------------------------------
 
-\cleardoublepage
-\phantomsection
-\setlength{\columnsep}{0.75cm}
-\addcontentsline{toc}{chapter}{\textcolor{ocre}{Index}}
-\printindex
+% % \cleardoublepage
+% \phantomsection
+% \setlength{\columnsep}{0.75cm}
+% \addcontentsline{toc}{chapter}{\textcolor{ocre}{Index}}
+% \printindex
 
 %----------------------------------------------------------------------------------------
 
