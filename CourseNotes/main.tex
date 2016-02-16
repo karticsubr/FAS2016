@@ -87,15 +87,19 @@
 % ~\vfill
 % \thispagestyle{empty}
 % 
-% \noindent Copyright \copyright\ 2016 XXXX\\ % Copyright notice
+% \noindent Copyright \copyright\ 2016 --------\\ % Copyright notice
 % 
-% \noindent \textsc{Published by Publisher}\\ % Publisher
+% \noindent \textsc{Published by --------}\\ % Publisher
 % 
-% \noindent \textsc{Best-Course.com}\\ % URL
+% % \noindent \textsc{Best-Course.com}\\ % URL
 % 
-% \noindent Licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License (the ``License''). You may not use this file except in compliance with the License. You may obtain a copy of the License at \url{http://creativecommons.org/licenses/by-nc/3.0}. Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \textsc{``as is'' basis, without warranties or conditions of any kind}, either express or implied. See the License for the specific language governing permissions and limitations under the License.\\ % License information
+% \noindent Copyright information to be inserted here.
 % 
-% % \noindent \textit{First printing, March 2013} % Printing/edition date
+% % \noindent Licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License (the ``License''). You may not use this file except in compliance with the License. You may obtain a copy of the License at \url{http://creativecommons.org/licenses/by-nc/3.0}. Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \textsc{``as is'' basis, without warranties or conditions of any kind}, either express or implied. See the License for the specific language governing permissions and limitations under the License.\\ % License information
+% 
+% \noindent \textit{July 2016} % Printing/edition date
+% 
+% \newpage
 
 %----------------------------------------------------------------------------------------
 %	ABSTRACT PAGE
@@ -103,27 +107,29 @@
 
 
 % \pagestyle{plain}
-% \pagenumbering{roman}
+\pagenumbering{roman}
 
 {
 
 % % \cleardoublepage
 \phantomsection
-\addcontentsline{toc}{section}{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
 \section*{Abstract}
 Since being introduced to graphics in the 1980s, Monte Carlo sampling and integration has become the cornerstone of most modern rendering algorithms. Originally introduced to combat the effect of aliasing \KARTIC{Is that true? Wasn't it cook with distributed ray tracing?} when estimating pixels values, Monte Carlo has since become a more general tool for solving complex, multi-dimensional integration problems in rendering. In this context, MC integration involves sampling a function at various stochastically placed points to approximate an integral, e.g. the radiance through a pixel integrated across the multi-dimensional space of possible light transport paths. Unfortunately, this estimation is error-prone, and the visual manifestation of this error depends critically on the properties of the integrand, placement of the stochastic sample points used, and the type of problem (integration vs.\ reconstruction) that is being solved with these samples.
 
-Fourier analysis, along with the Nyquist theorem, have long been used in graphics to motivate more intelligent sampling strategies which try to minimize errors due to noise and aliasing in the \textit{pixel reconstruction problem}. Only more recently, however, has the community started to apply these same Fourier tools to analyze error in the Monte Carlo \textit{integration problem}. Loosely speaking, in the context of rendering a 2D image, these two problems are concerned with errors introduced across pixels (reconstruction) vs.\ the errors introduced within any individual pixel (integration). In this course, we focus on the latter, and survey the recent developments and insights that Fourier analyses have provided about the magnitude and convergence rate of Monte Carlo integration error. We provide a historical perspective of Monte Carlo in graphics, review the necessary mathematical background, summarize the most recent developments, discuss the practical implications of these analyzes on the design of Monte Carlo rendering algorithms, and identify important remaining research problems that can propel the field forward.
+We describe how errors present in rendered images may be analyzed as a function of the spectral (Fourier domain) statistics of the underlying sampling patterns fed to the renderer.  Fourier analysis, along with the Nyquist theorem, have long been used in graphics to motivate more intelligent sampling strategies which try to minimize errors due to noise and aliasing in the \textit{pixel reconstruction problem}. Only more recently, however, has the community started to apply these same Fourier tools to analyze error in the Monte Carlo \textit{integration problem}. Loosely speaking, in the context of rendering a 2D image, these two problems are concerned with errors introduced across pixels (reconstruction) vs.\ the errors introduced within any individual pixel (integration). In this course, we focus on the latter, and survey the recent developments and insights that Fourier analyses have provided about the magnitude and convergence rate of Monte Carlo integration error. We provide a historical perspective of Monte Carlo in graphics, review the necessary mathematical background, summarize the most recent developments, discuss the practical implications of these analyzes on the design of Monte Carlo rendering algorithms, and identify important remaining research problems that can propel the field forward.
+
+
+\addcontentsline{toc}{chapter}{Relationship to courses previously presented at SIGGRAPH}
+\section*{Relationship to courses previously presented at SIGGRAPH}
+Physically based rendering is a broad area that subsumes many active sub-areas of research.  
+Rendering courses, which have been previously presented at SIGGRAPH, have focused on aspects of physically-based shading computation, the benefits of specific algorithms for rendering, summarization of state-of-the-art algorithms for light transport simulation, etc. There have also been courses on the fundamentals of Monte Carlo and quasi Monte Carlo sampling in the context of rendering. The focus of this course is complementary to previous rendering courses. We do not expect (or require) the audience to have attended any of the aforementioned courses.
+
+Fourier analysis is also extensively used in the design of computational displays and cameras. Our focus on numerical integration is fundamentally different than those applications, where integration happens physically (implicitly) by propagation of real light energy  (e.g.~blurring of images due to a wide aperture). There have been conspicuously few courses on the application of Fourier analysis at SIGGRAPH and we hope that the sections containing generalized treatment of the problem will provide theoretical insights into applications other than rendering. 
 }
 
-\section*{Intended audience}
-Graduate students and professionals seeking to understand Monte Carlo rendering, Fourier analysis and/or errors due to sampling.
-
-\section*{Prerequisites}
-Undergraduate level proficiency in probability theory and calculus.
-
-\section*{Level of difficulty}
-Moderate. We will begin by reviewing much of the intuition required for the appreciation of an intricate combination of Monte Carlo rendering, Fourier analysis, sampling theory and probability, which is the focus of this course.
+\section*{Intended audience, prerequisites and level of difficulty}
+This course is designed for graduate students and professionals seeking to understand Monte Carlo rendering, Fourier analysis and/or errors due to sampling. We expect attendees to possess undergraduate-level proficiency in probability theory and calculus. We will begin by reviewing much of the intuition required for the appreciation of an intricate combination of Monte Carlo rendering, Fourier analysis, sampling theory and probability, which is the focus of this course.
 \clearpage
 
 
@@ -132,12 +138,12 @@ Moderate. We will begin by reviewing much of the intuition required for the appr
 %----------------------------------------------------------------------------------------
 
 \phantomsection
-\addcontentsline{toc}{section}{About the Lecturers}
-\section*{About the Lecturers}
+\addcontentsline{toc}{chapter}{About the lecturers}
+\section*{About the lecturers}
 
 \noindent\textbf{Prof.\ Kartic Subr} \hfill
-Heriot Watt University\\
-\href{<k.subr@hw.ac.uk>}{\texttt{<k.subr@hw.ac.uk>}} \hfill
+\href{<k.subr@hw.ac.uk>}{\texttt{<k.subr@hw.ac.uk>}} \\
+Heriot Watt University\hfill
 \url{http://home.eps.hw.ac.uk/~ks400/}\\
 
 Kartic Subr is an Associate Professor of Engineering at Heriot Watt University and a Royal Society University Research Fellow. He has enjoyed a variety of positions in companies such as Hewlett Packard, Rhythm and Hues Studios, NVIDIA Corporation and Disney Research as well as academic post-doctoral research positions at INRIA-Grenoble and University College London. He obtained his Ph.D. (2008) and M.S. (2005) in Visual Computing from UC Irvine. 
@@ -149,8 +155,8 @@ Kartic's research explores the benefits of stochastic and adaptive sampling when
 \medskip
 
 \noindent\textbf{Prof.\ Wojciech Jarosz} \hfill
-Dartmouth College\\
-\href{mailto:wojciech.k.jarosz@dartmouth.edu}{\texttt{<wojciech.k.jarosz@dartmouth.edu>}} \hfill
+\href{mailto:wojciech.k.jarosz@dartmouth.edu}{\texttt{<wojciech.k.jarosz@dartmouth.edu>}} \\
+Dartmouth College\hfill
 \url{http://www.cs.dartmouth.edu/~wjarosz}\\
 
 Wojciech Jarosz is an Assistant Professor of Computer Science at Dartmouth College and co-founder of Dartmouth's Visual Computing Lab. Before joining Dartmouth in 2015, Wojciech was a Senior Research Scientist heading the rendering group at Disney Research Zürich, and an adjunct lecturer at ETH Zürich. He obtained his Ph.D. (2008) and M.S. (2005) in computer graphics from UC San Diego, and a B.S. (2003) in computer science from the University of Illinois at Urbana–Champaign.
@@ -163,8 +169,8 @@ Prof.\ Jarosz’s research covers many areas of computer graphics and rendering,
 \medskip
 
 \noindent\textbf{Dr.\ Gurprit Singh} \hfill
-Dartmouth College\\
-\href{mailto:gurprit.singh@dartmouth.edu}{\texttt{<gurprit.singh@dartmouth.edu>}} \hfill
+{\texttt{<gurprit.singh@dartmouth.edu>}} \href{mailto:gurprit.singh@dartmouth.edu}\\
+Dartmouth College\hfill
 \url{http://www.cs.dartmouth.edu/~gsingh}\\
 
 Gurprit Singh is a post-doctoral researcher at Dartmouth College, working with Prof. Wojciech Jarosz in the Dartmouth's Visual Computing Lab. Before joining Dartmouth in 2015, Gurprit was a PhD candiate 
@@ -182,10 +188,10 @@ of various well known sampling patterns (jitter, Poisson Disk) that are extensiv
 %	COURSE SYLLABUS
 %----------------------------------------------------------------------------------------
 
-\phantomsection
+% \phantomsection
 \addcontentsline{toc}{chapter}{Course Syllabus}
 \chapterimage{syllabus.pdf} % Table of contents heading image
-\chapter*{Course Syllabus}
+\section*{Course Syllabus}
 %
 \input{table-schedule}
 %
@@ -224,12 +230,14 @@ of various well known sampling patterns (jitter, Poisson Disk) that are extensiv
 % \cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
 
 % \pagestyle{fancy} % Print headers again
-
+\newpage
 %----------------------------------------------------------------------------------------
 %	CHAPTER 1
 %----------------------------------------------------------------------------------------
 
+
 \chapterimage{ch1.pdf} % Chapter heading image
+\pagenumbering{arabic}
 
 \chapter{Introduction}
 % Evolution has honed the ability of our visual systems to interpret visual snapshots, or images of our environments, that are sensed by our eyes.
@@ -240,8 +248,6 @@ Realistic depiction is typically achieved by an artful combination of design con
 While the totality of the above decisions impacts the illusion of reality, the focus of this course is on a vital component in the pipeline --- \textit{the synthesis of photorealistic images} given the various models that describe the environment. The state of the art in the generation of plausible pictures -- which we will henceforth refer to as \textit{rendering} --  involves simulation of the physics of light. 
 The simulation of light transport is typically tedious and error-prone.
 Error-free rendering is a computationally expensive process that needs to be performed repetitively, on every frame, to generate high (production) quality video sequences. 
-
-In this course, we propose to focus on the analysis of error in rendered images as a function of the spectral (Fourier domain) statistics of the sampling patterns used.  Previous courses at SIGGRAPH have focused on various aspects of rendering such as physically-based shading computation~\cite{Hill:2015:PBSCourse}, the benefits of specific algorithms for rendering~\cite{Keller:2015:PTRCourse,hachisuka13starpm}, summarization of state-of-the-art algorithms for light transport simulation~\cite{Krivanek:2014:RALCourse}, etc. There have also been courses on the fundamentals of Monte Carlo~\cite{Jensen2003Course} and quasi Monte Carlo~\cite{Keller:2012:AMCCourse} sampling in the context of rendering. The focus of this course is complementary to previous rendering courses and the content will be self-contained. We do not expect (or require) the audience to have attended any of the aforementioned courses.
 
 
 \section{Rendering}\index{Rendering}
@@ -279,7 +285,7 @@ Error in the context of estimating global illumination~\cite{arvo1994framework} 
 %----------------------------------------------------------------------------------------
 \chapterimage{ch2.pdf} % Chapter heading image
 \chapter{Mathematical preliminaries}
-We review relevant mathematical concepts and introduce the notation adopted in this course.
+% We review relevant mathematical concepts and introduce the notation adopted in this course.
 
 
 \section{Random variables, expectation and variance}
@@ -310,7 +316,8 @@ uniformly, the estimator is unbiased. That is, its expected value is the integra
 
 \begin{table}[hbpt]%
 \caption{\label{tab:notation}%
-Notation used in this course.\TBC}%
+A summary of notation used in this course.\TBC}%
+\setlength{\extrarowheight}{0.3cm}
 \begin{tabular}{rl}%
     \toprule
     Symbol & Definition\\
@@ -322,6 +329,12 @@ Notation used in this course.\TBC}%
 %     \estim{is,\N} 	&  \N-sample importance sampling estimator\\
 %     \estim{is,1} 	&  primary (1-sample) imp. samp. estimator\\
     \RV X, \RV Y, \xii, \yii & random variates \\
+    $\PowerSpec{S}(\fv)$ &
+	  Power spectrum of \sfn \\ %: $\PowerSpec{S}(\fv) = $
+    $\ifn \Fdual \IFn $&
+          Fourier transform pair: integrand and its transform\\
+    $\sfn \Fdual \SF $&
+          Fourier transform pair: sampling function and its transform\\
     $\Exp{\phi(\RV X)}$ 		&
       Expectation: $\DefIntT{\Dom}{}{x\;\phi(x)}{x}$\\[-2pt]
     $\Var{\phi(\RV X)} $ 						&
@@ -352,7 +365,7 @@ Variance with $ \RV X \sim \sdn$:
 \TBC 
 
 \section{Power spectral density and the periodogram}
-The energy of a signal \ifn\ is generally considered to be the integral of the square of the signal (over its entire domain). Due to Parseval's theorem, this may also be expressed as the integral of the square of the Fourier spectrum of the signal over all frequencies. The integrand in this expression of power, $|\IFn|^2$, is referred to as the \textit{power spectrum} of \ifn. For discrete signals, the corresponding spectral density is called a \emph{periodogram}. We denote the periodogram of a discretised function $S(x)$ as $\PowerSpec{S}(\fv)$, which represents the squared amplitude of the Fourier coefficients corresponding to each frequency. 
+% The energy of a signal \ifn\ is generally considered to be the integral of the square of the signal (over its entire domain). Due to Parseval's theorem, this may also be expressed as the integral, over all frequencies, of the square (for real signals) of the Fourier transform of the signal. The integrand in this expression of power, $|\IFn|^2$, is referred to as the \textit{power spectrum} of \ifn. For discrete signals, the corresponding spectral density is called a \emph{periodogram}. We denote the periodogram of a discretised function $S(x)$ as $\PowerSpec{S}(\fv)$, which represents the squared amplitude of the Fourier coefficients corresponding to each frequency. 
 
 \TBC
 %----------------------------------------------------------------------------------------
@@ -360,7 +373,7 @@ The energy of a signal \ifn\ is generally considered to be the integral of the s
 %----------------------------------------------------------------------------------------
 \chapterimage{ch3.pdf} % Chapter heading image
 \chapter{Sampling for reconstruction}
-The reconstruction problem entails approximating a function $\ifsym:\Dom\rightarrow\R$ as $\appr{\ifsym}(x_i), \; x_i\in\Dom, \;i=1,2,3,...,M$ given $\ifsym(y_i), \; y_i \in \Dom, \;j=1,2,3,...,\N$, where the sets of points $\{x_i\}$ and $\{y_j\}$ are mutually exclusive. If $\appr{\ifsym}(y_j) = \ifsym(y_j),\;\forall j$, the process is referred to as interpolation. This problem has received much attention in the signal processing literature~\cite[chapters~5~\&~6]{engineering2008handbook} as well as in the rendering community~\cite{Wold85,Cook:1986:SSC,mitchell87a}. Such analyses have yielded effective reconstruction filters that are used in modern renderers, especially in low-dimensional domains such as the image plane.
+The reconstruction problem entails approximating a function $\ifsym:\Dom\rightarrow\R$ as $\appr{\ifsym}(x_i), \; x_i\in\Dom, \;i=1,2,3,...,M$ given $\ifsym(y_i), \; y_i \in \Dom, \;j=1,2,3,...,\N$, where the sets of points $\{x_i\}$ and $\{y_j\}$ are mutually exclusive. If $\appr{\ifsym}(y_j) = \ifsym(y_j),\;\forall j$, the process is referred to as interpolation. This problem has received much attention in the signal processing literature~\cite[chapters~5~\&~6]{engineering2008handbook} as well as in the rendering community~\cite{Wold85,Cook:1986:SSC,mitchell87a,journals/cga/Blinn89a}. Such analyses have yielded effective reconstruction filters that are used in modern renderers, especially in low-dimensional domains such as the image plane.
 
 Reconstruction is akin to nonlinear regression~\cite{GVK394929411}, a popular problem in the statistics (and more recently machine learning) literature, which offers effective solutions in high-dimensional settings when the approximand exhibits stationarity or accurate solutions for smooth and low-dimensional approximands. In rendering, the underlying functions represent a multitude of combinations (products, convolutions and sums) of a variety of non-stationary processes such as spatio-directional lighting, hard shadows, sharp reflections, textured materials, etc. The resulting discontinuities and variations in the radiant light energy (radiance function) across space-angle-time pose immense challenges which state of the art methods in non-linear regression are unable to cope with.
 
@@ -396,11 +409,11 @@ Antialiasing is commonly viewed as an integration problem. The value to be assig
 %----------------------------------------------------------------------------------------
 \chapterimage{ch4.pdf} % Chapter heading image
 \chapter{Estimating integrals}
-The goal of rendering is to estimate the quantity of radiant light energy impinging on the various pixels (or cells) distributed on a virtual observer's camera (or eye). Current renderers perform this via physically-based simulation of light, following its intricate combinations of reflections within the scene. The virtual measurement \Ij {\xs} at a point \xs\  on the sensor~\cite{VeachChapter8} is
+It has long been known that the problem of numerical integration lies at the heart of rendering~\cite{Perlin89Course}. The main objective of rendering is to estimate the quantity of radiant light energy impinging on the various pixels (or cells) distributed on a virtual observer's camera (or eye). Current renderers perform this via physically-based simulation of light, following its intricate combinations of reflections within the scene. The virtual measurement \Ij {\xs} at a point \xs\  on the sensor~\cite[ch.8]{Veach:1998:RMC:927297} is
 \begin{eqnarray} \label{eq:measeq}
  \Ij {\xs} & = & \DefInt{\Omega}{}{f_\xs(\pth)}{\mu(\pth)}
 \end{eqnarray}
-where the measurement contribution function, $f_\xs(\pth)$, is the importance-weighted radiance arriving at \xs\ along the path \pth\ and $\mu(\pth)$ is a measure on the space of all paths $\Omega$. The paths \pth\ span space as well as time and may be of arbitrarily high dimensionality. Thus, physically-based rendering requires the esimation of high-dimensional integrals at each point \xs\ on the virtual sensor. 
+where the measurement contribution function, $f_\xs(\pth)$, is the importance-weighted radiance arriving at \xs\ along the path \pth\ and $\mu(\pth)$ is a measure on the space of all paths $\Omega$. The paths \pth\ span space as well as time and may be of arbitrarily high dimensionality. 
 
 The exact nature of the integrand depends on the complexity and structure of the scene being rendered, along with detailed modelling of the constituent materials and shapes.  In general, the integrand is high-dimensional, discontinuous and costly to evaluate. Each evaluation of the integrand requires many rays to be traced within the environment, along with estimation of the radiant light energy along that path formed by linking the rays together. 
 The rendering community strives to estimate such integrals with low error as well as low computational cost.
@@ -473,7 +486,7 @@ Monte Carlo sampling can be represented as an inner product of the integrand \if
 %----------------------------------------------------------------------------------------
 \chapterimage{ch5.pdf} % Chapter heading image
 \chapter{Popular sampling patterns} \label{ch:samplingpatterns}
-In this chapter, we describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behaviour is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram.
+In this chapter, we will describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behaviour is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram.
 
 \TBC
 
@@ -522,7 +535,7 @@ default give Poisson disk patterns.
 %----------------------------------------------------------------------------------------
 \chapterimage{ch6.pdf} % Chapter heading image
 \chapter{Case studies}
-In this chapter, we invent a suite of tests that may be used to compare the efficacy of sampling patterns when used in numerical integration. We will then tabulate this comparison, identifying the strengths and weaknesses of the different sampling strategies described in chapter~\ref{ch:samplingpatterns}. Our test suite will encompass a variety of integrands of various dimensionalities as well as smoothness criteria. We will make our code available to facilitate the comparison of any sampling patterns that may be proposed in the future with methods in our chosen set of algorithms. 
+In this chapter, we will present a suite of tests that may be used to compare the efficacy of sampling patterns when used in numerical integration. We will then tabulate this comparison, identifying the strengths and weaknesses of the different sampling strategies described in chapter~\ref{ch:samplingpatterns}. Our test suite will encompass a variety of integrands of various dimensionalities as well as smoothness criteria. We will make our code available to facilitate the comparison of any sampling patterns that may be proposed in the future with methods in our chosen set of algorithms. 
 
 \section{1D integrands}
 \TBC 
