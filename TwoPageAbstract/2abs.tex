@@ -70,7 +70,7 @@ Kartic Subr  \thanks{e-mail:k.subr@hw.ac.uk}\\Heriot Watt University
 
  \teaser{
    \includegraphics[height=1.6in]{../CourseNotes/Pictures/RenderHL.pdf}
-   \caption{}
+   \caption{Modern renderers implicitly map high-dimensional sampling patterns into light paths along which virtual measurements are contributed to the image plane. Then, they perform a numerical integration across the paths to estimate radiance on the image plane. Finally, the image is reconstructed on a regular pixel-grid from the estimates. The focus of this course is on errors arising from numerical integration.}
    \label{fig:renderhl}
  }
 
@@ -132,9 +132,12 @@ During the process of estimation, multiple (vastly different) paths may co-incid
 
 In practice, errors in estimation appear in the image as coherent structured artifacts (e.g.~banding), low-frequency smears and high-frequency noise. The first two are attributed to bias, while the third is attributed to variance. Although each pixel in an image is assigned a single, averaged estimate, poor precision leads to disagreement between estimates of neighboring pixels. If these neighboring pixels lie on what should be a smooth part of the image, the disagreement manifests as noise.
 
-\section{Need for analysis of error in rendering}
+\section{Motivation for analysis of error in rendering}
+The analysis of error in light transport allows informed choices to be made regarding the sampling patterns (or estimators) for specific application domains.~e.g.~ Slow, but accurate, estimation of light transport might be preferable for certain medical applications while the absence of visible noise might be higher priority (than lowering bias) for cinematic rendering.
 
-While some estimators exhibit higher error than others for a budget of (say) 10 samples per pixel, their better convergence rate could lead to dramatically superior rendering at a higher computational budget of (say) 1000 samples per pixel.~i.e.~the estimator of choice for a scene may also depend on the computational budget (interactive vs offline rendering). Recent works have derived mean-squared error~\cite{durand2011frequency,Ramamoorthi:2012}, variance~\cite{Subr:2013:FAS,subr14error} and convergence rates~\cite{Pilleboue:2015:VAM} as functions of the Fourier statistics of typical sampling patterns that are used in Monte Carlo rendering. A thorough understanding of error will allow informed choices potentially leading to the use of the ``best available'' sampling strategy for a given scene and computational budget. 
+A thorough understanding of error and convergence rates is an important step towards the identification of the ``best available'' sampling strategy for a given scene and computational budget (interactive vs offline MC rendering).~e.g.~While an estimator might exhibit higher mean-squared-error than others for a budget of (say) 10 samples per pixel, its better convergence rate could lead to dramatically superior rendering than its competition when a higher computational budget of (say) 1000 spp is used.
+% ~i.e.~the estimator of choice for a scene may also depend on the computational budget (interactive vs offline rendering). 
+Recent works have derived mean-squared error~\cite{durand2011frequency,Ramamoorthi:2012}, variance~\cite{Subr:2013:FAS,subr14error} and convergence rates~\cite{Pilleboue:2015:VAM} as functions of the Fourier statistics of typical sampling patterns that are used in Monte Carlo rendering. 
 
 \section{Course scope and relevance at SIGGRAPH}
 Modern Monte Carlo renderers are large and sophisticated systems with numerical integration at their very crux. This course will focus on understanding estimation errors, in the Fourier domain, that arise during numerical integration of radiance values. The focus of this course is complementary to previous rendering courses. This novel course will explain the impact of sampling patterns with desirable Fourier characteristics on estimation error by surveying a number of recent works.
@@ -148,11 +151,11 @@ At the end of this course, attendees will
 \item understand the impact of sampling patterns on MC integration
 \item be aware of the state of the art in sampling for MC rendering
 \item understand the main sources of error in MC rendering 
-\item internalize the difference between error and convergence rate
+% \item internalize the difference between error and convergence rate
 \item appreciate the Fourier perspective of MC integration
-\item be able to identify different spectral signatures of sampling patterns that may indicate potential for high error
+% \item gain intuition into spectral signatures that may indicate potential for high error
 \item develop an intuition for sampling patterns that lead to high error
-\item be equipped with mathematical tools as well as an empirical test-suite, to derive error and/or convergence rates of any new sampling patterns that they may develop.
+\item be equipped with mathematical tools as well as an empirical test-suite, to assess novel estimators (sampling patterns).
 \end{itemize}
 % \begin{figure*}[thbp]
 %   \centering
