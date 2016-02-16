@@ -21,41 +21,52 @@ These tools have been used to compare the qualities of blue noise sampling patte
 More recently, the focus has been on quantification of estimation error in the Fourier domain. That is, the error of an estimator (e.g.~\estim{1} for $I$ in equation~\ref{eq:integcanonical}) has been expressed in terms of the Fourier spectra of the integrand and sampling function. 
 % Monte Carlo integration has been only recently unfolded in a step by step manner starting from Durand~\cite{durand2011frequency}, Subr and Kautz~\cite{Subr:2013:FAS}, and then by 
 % shortcite
-Durand~\cite{durand2011frequency} derived mean-squared error (MSE) as the inner product of the spectral densities of the integrand and sampling function\GURPRIT{For consistency, we should choose whether to keep Sampling part on the left or right side of the integrand, within the variance integral}, 
+Durand~\cite{durand2011frequency} derived mean-squared error (MSE) as the inner product of the spectral densities of the integrand and sampling function
+\GURPRIT{For consistency, we should choose whether to keep Sampling part on the left or right side of the integrand, within the variance integral}, 
+\KARTIC{Agree: fixed. I kept Fredo's original equation and then switched it in the second expression involving the PS.}
 \begin{equation} \label{eq:durand11}
-   \Exp{(I-\estim{1})^2} = \DefInt{\Omega}{}{|\IFn|^2 \; \Exp{|\SF|^2}}{\fv},
+   \Exp{(I-\estim{1})^2} = \DefInt{\Omega}{}{|\IFn|^2 \; \Exp{|\SF|^2}}{\fv} = \DefInt{\Omega}{} {\Exp{\PowerSpec{\sfsym}(\fv)} \PowerSpec{\ifsym}(\fv)} {\fv} ,
 \end{equation}
-and verified that the convergence rate of the MSE of \estim{\N}\ is indeed $1/\N$. Following this work, it was shown~\cite{Subr:2013:FAS} that the bias and variance of \estim{1}\ may be expressed separately in terms of the spectra. They derived
+and verified that the convergence rate of the MSE of \estim{\N}\ is indeed $1/\N$. While Durand's work derived it for the case of random sampling, more recently Pilleboue et al~\cite{Pilleboue:2015:VAM} showed that this holds for an entire class of (homogenized) sampling patterns. Further, they showed that since homogenization eliminates bias, that this error is exactly the variance of the $N$-sample homogenized estimator.~i.e.
+\begin{equation} \label{eq:pillebouevar}
+\Var{\estim{\N}} 
+= \DefInt{\Omega}{}{\Exp{|\SF|^2}\;|\IFn|^2}{\fv} 
+= \DefInt{\Omega}{} {\Exp{\PowerSpec{\SFsym}(\fv)} \PowerSpec{\ifsym}(\fv)} {\fv}. 
+\end{equation}
+
+In earlier work, Subr and Kautz ~\cite{Subr:2013:FAS} expressed the bias and variance of \estim{1}\ separately in terms of the spectra of the sampling pattern and integrand. They derived
 \begin{eqnarray}
   \Exp{I-\estim{1}} &=& I - \DefInt{\Omega}{}{\Exp{\SF} \; \IFn }{\fv}, \quad \mathrm{and} \\
     \Var{\estim{1}} &\leq& \DefInt{\Omega}{}{\Var{\SF} \; |\IFn|^2}{\fv}
 \end{eqnarray}
 \GURPRIT{I am a little confused with these two notations \estim{\N}\ and \estim{1}\ , especially, with 
 \Var{\estim{1}}\ .}
-as the expressions for bias and variance respectively.~i.e.~An estimator's bias is dependant on the relationship between the expected Fourier spectrum of the sampling pattern and the integrand's spectrum. The second equation, shows that the estimator's variance is bounded by the variance present in the sampling spectrum relative to the spectral density of the integrand. Subsequently, these results were collated and the expression for the variance was generalized~\cite{Pilleboue:2015:VAM} for homogenized (unbiased) Monte Carlo estimators as
-%
-\begin{equation} \label{eq:pillebouevar}
-\Var{\estim{1}} 
-= \DefInt{\Omega}{}{\Exp{|\SF|^2}\;|\IFn|^2}{\fv} 
-= \DefInt{\Omega}{} {\Exp{\PowerSpec{\SFsym}(\fv)} \PowerSpec{\ifsym}(\fv)} {\fv} 
-\end{equation}
-which is identical to Durand's derivation of MSE (equation~\ref{eq:durand11}) for random sampling 
-\GURPRIT{I think Durand derived the variance for only random (white noise) samples, as he mentioned. Pilleboue obtained the same variance formulation but it was generalised to all samplers, thanks to the homogenization property} \KARTIC{Indeed, I had worded that awkwardly. Fixed.} estimator. However, the homogenized perspective yields important insights and results on the convergence rate of estimators. 
-\GURPRIT{I don't understand this statement, are you saying thanks to homogenization the convergence rates can be obtained ? }
-\KARTIC{Without homogenization, there is no notion of 'variance' in QMC sampling. I was trying to say that the homogenization allows us to think of error for QMC as variance. You're right, this stuff needs to be tightened. Any suggestions. e.g. to complete the sentence ``Homogenization is useful because ...''.}
-\GURPRIT{Here my two cents: However, thanks to the homogenization of samples, variance due to 
-various samplers like jittered, can also be represented using equation~\ref{eq:pillebouevar}}.
+as the expressions for bias and variance respectively.~i.e.~An estimator's bias is dependant on the relationship between the expected Fourier spectrum of the sampling pattern and the integrand's spectrum. The second equation, shows that the estimator's variance is bounded by the variance present in the sampling spectrum relative to the spectral density of the integrand. 
+
+% Subsequently, these results were collated and the expression for the variance was generalized~\cite{Pilleboue:2015:VAM} for homogenized (unbiased) Monte Carlo estimators as
+% %
+% \begin{equation} \label{eq:pillebouevar}
+% \Var{\estim{1}} 
+% = \DefInt{\Omega}{}{\Exp{|\SF|^2}\;|\IFn|^2}{\fv} 
+% = \DefInt{\Omega}{} {\Exp{\PowerSpec{\SFsym}(\fv)} \PowerSpec{\ifsym}(\fv)} {\fv} 
+% \end{equation}
+% which is identical to Durand's derivation of MSE (equation~\ref{eq:durand11}) for random sampling 
+% \GURPRIT{I think Durand derived the variance for only random (white noise) samples, as he mentioned. Pilleboue obtained the same variance formulation but it was generalised to all samplers, thanks to the homogenization property} \KARTIC{Indeed, I had worded that awkwardly. Fixed.} estimator. However, the homogenized perspective yields important insights and results on the convergence rate of estimators. 
+% \GURPRIT{I don't understand this statement, are you saying thanks to homogenization the convergence rates can be obtained ? }
+% \KARTIC{Without homogenization, there is no notion of 'variance' in QMC sampling. I was trying to say that the homogenization allows us to think of error for QMC as variance. You're right, this stuff needs to be tightened. Any suggestions. e.g. to complete the sentence ``Homogenization is useful because ...''.}
+% \GURPRIT{Here my two cents: However, thanks to the homogenization of samples, variance due to 
+% various samplers like jittered, can also be represented using equation~\ref{eq:pillebouevar}}.
 %
 
 \subsection{Quantifying convergence using periodograms}
-The primary advantage of studying the variance of the homogenized (equation~\ref{eq:pillebouevar}) estimator was that it allowed an analysis of the convergence rate of estimators in terms of their power spectra. \GURPRIT{... "it allows convergence rate analysis of various stochastic sampling patterns".}
-In addition, the homogenization process provides an elegant means of quantitatively comparing errors due to random (Monte Carlo) sampling patterns with deterministic (quasi Monte Carlo) patterns. 
-\GURPRIT{We should be careful while making statements about the QMC methods. Although we can use the homogenization property for any sampling pattern we do not give any insights on how our Fourier analysis would yield convergence rates for QMC methods. This is tricky because QMC methods like Sobol can give different power spectra depending on the number of samples used. Pilleboue et al's method 
-do not handle these cases.}  \KARTIC{I see. Let's discuss this in our meeting on Monday's. Here it would be good if you address the key part of your paper which allows the quantification of convergence rate as the slope of the periodogram around DC. With minimal equations, I would like to convey the point that convergence can be quantified thanks to your work.}
-\GURPRIT{
-Sorry, I missed your last comment. I am working on the equations related to convergence for this section.
-}
-To derive the variance convergence rate, the \emph{radially averaged} expected power spectra \Exp{\RadialPowerSpec{\SFsym}(\RadialFreq)}\ are used for mathematical convenience. For most of the samplers,  radial power spectra is not analytically known but there are some mathematical  tools proposed~\cite{Pilleboue:2015:VAM} that can be used to approximate the bounds of any sampling power spectra. These approximated bounds can be used directly in equation~(\ref{eq:pillebouevar}) to obtain variance convergence rates.
+The primary advantage of studying the variance of the homogenized estimator was that it allows allows analysis of convergence rates of various stochastic sampling patterns.
+% In addition, the homogenization process provides an elegant means of quantitatively comparing errors due to random (Monte Carlo) sampling patterns with deterministic (quasi Monte Carlo) patterns. 
+% \GURPRIT{We should be careful while making statements about the QMC methods. Although we can use the homogenization property for any sampling pattern we do not give any insights on how our Fourier analysis would yield convergence rates for QMC methods. This is tricky because QMC methods like Sobol can give different power spectra depending on the number of samples used. Pilleboue et al's method 
+% do not handle these cases.}  \KARTIC{I see. Let's discuss this in our meeting on Monday's. Here it would be good if you address the key part of your paper which allows the quantification of convergence rate as the slope of the periodogram around DC. With minimal equations, I would like to convey the point that convergence can be quantified thanks to your work.}
+% \GURPRIT{
+% Sorry, I missed your last comment. I am working on the equations related to convergence for this section.
+% }
+To derive the convergence rate of the variance, the \emph{radially averaged} expected power spectra \Exp{\RadialPowerSpec{\sfsym}(\RadialFreq)}\ are used for mathematical convenience. For most of the samplers,  radial power spectra is not analytically known but there are some mathematical  tools proposed~\cite{Pilleboue:2015:VAM} that can be used to approximate the bounds of any sampling power spectra. These approximated bounds can be used directly in equation~(\ref{eq:pillebouevar}) to obtain variance convergence rates.
 \GURPRIT{
 I have added a simple text explaining what tools are used to obtain convergence rates. I think we can survive without equations as they were making this whole subsection very cumbersome.
 }

@@ -47,7 +47,8 @@
 \usepackage[export]{adjustbox}
 \usepackage{mathtools}
 % \newcommand{\TBC} {\vspace {1em} \noindent [TO BE COMPLETED IN THE FINAL VERSION.] \vspace {1em}}
-\newcommand{\TBC} {\noindent [TO BE COMPLETED IN THE FINAL VERSION.] }
+% \newcommand{\TBC} {\noindent [TO BE COMPLETED IN THE FINAL VERSION.] }
+\newcommand{\TBC} {}
 
 %----------------------------------------------------------------------------------------
 
@@ -116,13 +117,13 @@ Fourier analysis, along with the Nyquist theorem, have long been used in graphic
 }
 
 \section*{Intended audience}
-\KARTIC{Graduate students and professionals seeking to understand Monte Carlo rendering, Fourier analysis and/or errors due to sampling.}
+Graduate students and professionals seeking to understand Monte Carlo rendering, Fourier analysis and/or errors due to sampling.
 
 \section*{Prerequisites}
-\KARTIC{Undergraduate level proficiency in probability theory and calculus.}
+Undergraduate level proficiency in probability theory and calculus.
 
 \section*{Level of difficulty}
-\KARTIC{Moderate. We will begin by reviewing much of the intuition required for the appreciation of an intricate combination of Monte Carlo rendering, Fourier analysis, sampling theory and probability, which is the focus of this course.}
+Moderate. We will begin by reviewing much of the intuition required for the appreciation of an intricate combination of Monte Carlo rendering, Fourier analysis, sampling theory and probability, which is the focus of this course.
 \clearpage
 
 
@@ -247,22 +248,23 @@ We refer to rendering as the process of producing a picture which represents a p
  {
   \includegraphics[width=\linewidth]{RenderHL.pdf}
  }
- \caption{\KARTIC{From Subr and Kautz 13. Copyright/license issues?}}
+ \caption{\emph{The renderer implicitly maps samples from some high-dimensional space to light paths in a specified scene. The contributions of radiant light energy along these paths are recorded on the image plane as virtual measurements. Three light paths (a,b,c) are shown along with their canonical samples in the (hyper-) cube. The next two steps of rendering are integration along the path-dimension (step 1) followed by reconstruction on a regular grid (step 2). In this course, we focus on the impact of Fourier spectral properties of the canonical samples on the errors due to numerical integration.}}
+ \label{fig:renderhl}
 \end{figure}
 
 
 \section{The interplay between reconstruction and integration}\index{Reconstruction and integration}
-Images are typically represented and displayed on a regular grid. Rendering algorithms, however, may estimate virtual measurements at arbitrarily points on the sensor. We refer to the process of resampling the measurements \Ij{}\ on a regular grid as \textit{2D reconstruction}. Some rendering algorithms~\cite{Hachisuka:2008,Egan:2009,Soler:2009} partition the space of paths ($\Omega$ in equation~\ref{eq:measeq}) explicitly into dimensions that are dependent on the camera, such as exposure time and aperture, and those that depend on the scene. Since the sensor is two-dimensional, exposure time is one-dimensional and the aperture is two-dimensional, they estimate virtual measurements in a five-dimensional, camera-dependent space. This involves a reconstruction in 5D followed by a further projection (integration) down to the two-dimensional plane of the sensor. Such a partitioning is exploited for efficient rendering of camera-dependent blur effects resulting from relative motion between the camera and the scene or from defocus due to a finite (rather than infinitesemal) aperture.
+Images are typically represented and displayed on a regular grid. Rendering algorithms, however, may estimate virtual measurements at arbitrarily points on the sensor. We refer to the process of resampling the measurements \Ij{}\ on a regular grid as \textit{2D reconstruction}. Some rendering algorithms~\cite{Hachisuka:2008,Egan:2009,Soler:2009,Cov5D} partition the space of paths ($\Omega$ in equation~\ref{eq:measeq}) explicitly into dimensions that are dependent on the camera, such as exposure time and aperture, and those that depend on the scene. Since the sensor is two-dimensional, exposure time is one-dimensional and the aperture is two-dimensional, they estimate virtual measurements in a five-dimensional, camera-dependent space. This involves a reconstruction in 5D followed by a further projection (integration) down to the two-dimensional plane of the sensor. Such a partitioning is exploited for efficient rendering of camera-dependent blur effects resulting from relative motion between the camera and the scene or from defocus due to a finite (rather than infinitesemal) aperture.
 
 \TBC
 
 \section{The role of sampling}
-There are two distinctly different applications of sampling in the rendering process. One of them is for reconstruction, either in 2D or in 5D (as described above), and the other is for estimation of integration, which lies at the core of light transport (equation~\ref{eq:measeq}). Most rendering algorithms focus on the latter and perform reconstruction on a two-dimensional regular grid of pixels. Path-tracing, a popular rendering algorithm, proceeds by estimating the virtual image measurement at each pixel by averaging the values of the measurement contributions of a chosen set of paths through each pixel. Each path in the chosen set is obtained via a mapping from a sampling pattern (of appropriate dimensionality) to a set of rays in the scene. These sampling patterns may be stochastic (Monte Carlo sampling) or deterministic patterns that satisfy desirable criteria (Quasi-Monte Carlo). The statistics of the estimates of the virtual measurements yielded by these two broad classes of algorithms are strikingly different, as is the mathematical machinery used for their analyses.  
+There are two distinctly different applications of sampling in the rendering process (see figure~\ref{fig:renderhl}). One of them is for reconstruction, either in 2D or in 5D (as described above), and the other is for estimation of integration, which lies at the core of light transport (equation~\ref{eq:measeq}). Most rendering algorithms focus on the latter and perform reconstruction on a two-dimensional regular grid of pixels. Path-tracing, a popular rendering algorithm, proceeds by estimating the virtual image measurement at each pixel by averaging the values of the measurement contributions of a chosen set of paths through each pixel. Each path in the chosen set is obtained via a mapping from a sampling pattern (of appropriate dimensionality) to a set of rays in the scene. These sampling patterns may be stochastic (Monte Carlo sampling) or deterministic patterns that satisfy desirable criteria (Quasi-Monte Carlo). The statistics of the estimates of the virtual measurements yielded by these two broad classes of algorithms are strikingly different, as is the mathematical machinery used for their analyses.  
 
 \TBC
 
 \section{Sources and manifestation of error}\index{Error in rendering}
-Error in the context of estimating global illumination~\cite{Arvo94} \GURPRIT{citation missing} arises from three sources: inaccuracies in the  input data or simulation, errors due to discretization and computational errors such as loss of precision. In this course, we focus on the first two sources. The rendered image is represented on a discrete grid, while the distribution of the underlying light energy across the sensor is a continuous function. A major source of error stems from this discretization. Recall that the true continuous function is a high-dimensional integral at each point on the sensor (equation~\ref{eq:measeq}). Any sampling-based approach used to estimate this function results in an approximation whose measured deviation from the true function is known referred to as \textit{approximation error}. Typically approximation error manifests itself in rendered images in one of two perceivably objectionable forms: structured artifacts or as noise. Various metrics, such as L1 norms, L2 norms, PSNR, etc., are used to quantify approximation error.
+Error in the context of estimating global illumination~\cite{arvo1994framework} arises from three sources: inaccuracies in the  input data or simulation, errors due to discretization and computational errors such as loss of precision. In this course, we focus on the first two sources. The rendered image is represented on a discrete grid, while the distribution of the underlying light energy across the sensor is a continuous function. A major source of error stems from this discretization. Recall that the true continuous function is a high-dimensional integral at each point on the sensor (equation~\ref{eq:measeq}). Any sampling-based approach used to estimate this function results in an approximation whose measured deviation from the true function is known referred to as \textit{approximation error}. Typically approximation error manifests itself in rendered images in one of two perceivably objectionable forms: structured artifacts or as noise. Various metrics, such as L1 norms, L2 norms, PSNR, etc., are used to quantify approximation error.
 
 \TBC 
 
@@ -415,7 +417,7 @@ The corresponding secondary estimator, obtained by averaging \N\ primary estimat
  {
   \includegraphics[width=\linewidth]{IntegRecons.pdf}
  }
- \caption{\KARTIC{From Subr and Kautz 13. Copyright/license issues?}}
+ \caption{\emph{This figure highlights the difference in the analysis of sampling rates for error-free reconstruction vs numerical integration of a bandlimited function. Fewer samples (factor of 2 per dimension~\cite{Cov5D}) are sufficient for error-free numerical integration.}}
 \end{figure}
 
 \section{Error due to sampling}
