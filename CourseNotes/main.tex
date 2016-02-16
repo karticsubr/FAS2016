@@ -46,6 +46,8 @@
 \usepackage{multirow}
 \usepackage[export]{adjustbox}
 \usepackage{mathtools}
+\usepackage[final]{pdfpages}
+
 % \newcommand{\TBC} {\vspace {1em} \noindent [TO BE COMPLETED IN THE FINAL VERSION.] \vspace {1em}}
 % \newcommand{\TBC} {\noindent [TO BE COMPLETED IN THE FINAL VERSION.] }
 \newcommand{\TBC} {}
@@ -485,8 +487,8 @@ Monte Carlo sampling can be represented as an inner product of the integrand \if
 %	CHAPTER 5
 %----------------------------------------------------------------------------------------
 \chapterimage{ch5.pdf} % Chapter heading image
-\chapter{Popular sampling patterns} \label{ch:samplingpatterns}
-In this chapter, we will describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behaviour is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram.
+\chapter{Popular sampling patterns} \label{ch:stateoftheart}
+In this chapter, we will describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behaviour is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram. Example slides for this topic are included (chapter~\ref{ch:exslides}).
 
 \TBC
 
@@ -563,6 +565,19 @@ In this chapter, we will present a suite of tests that may be used to compare th
 % \caption{Figure caption}
 % \end{figure}
 
+\chapter{Example slides}\label{ch:exslides}
+The remaining pages in this document contain representative slides for the content in chapter~\ref{ch:stateoftheart}.
+% % \cleardoublepage
+% \phantomsection
+% \setlength{\columnsep}{0.75cm}
+% \addcontentsline{toc}{chapter}{\textcolor{ocre}{Index}}
+% \printindex
+
+%----------------------------------------------------------------------------------------
+
+\includepdf[pages={40-75}]{../SampleCourseSlides/example-wj.pdf}
+
+
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
@@ -581,15 +596,8 @@ In this chapter, we will present a suite of tests that may be used to compare th
 \addcontentsline{toc}{chapter}{\textcolor{ocre}{Bibliography}}
 
 %----------------------------------------------------------------------------------------
-%	INDEX
-%----------------------------------------------------------------------------------------
 
-% % \cleardoublepage
-% \phantomsection
-% \setlength{\columnsep}{0.75cm}
-% \addcontentsline{toc}{chapter}{\textcolor{ocre}{Index}}
-% \printindex
+% \includepdf[pages={40-69}]{../SampleCourseSlides/example-wj.pdf}
 
-%----------------------------------------------------------------------------------------
 
 \end{document}
