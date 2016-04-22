@@ -109,7 +109,11 @@ Given data $f_n, \; n=0,1,...,N-1$, the $k^{th}$ ($k\in\Z$) coefficients of the 
 \end{eqnarray}
 respectively. Due to periodicity, the domain of k is typically $[0,N-1]$. The DFT is a linear, invertible transformation $\mathcal{F}_{DFT}: \C \rightarrow \C$ that exhibits most properties of the continuous Fourier transform such as completeness and orthogonality. Also, important theorems such as the convolution theorem, shift theorem, Plancherel's and Parseval's theorems also have their equivalents in the context of the DFT. Na\"ive calculation of the $N$ coefficients $c_k$ requires $O(N^2)$ computation since each coefficient involves a summation over $N$ terms. Fast Fourier Transform (FFT) algorithms solve this with $O(N \log{N})$ computation.
 
-\section{Power spectral density and the periodogram}
-% The energy of a signal \ifn\ is generally considered to be the integral of the square of the signal (over its entire domain). Due to Parseval's theorem, this may also be expressed as the integral, over all frequencies, of the square (for real signals) of the Fourier transform of the signal. The integrand in this expression of power, $|\IFn|^2$, is referred to as the \textit{power spectrum} of \ifn. For discrete signals, the corresponding spectral density is called a \emph{periodogram}. We denote the periodogram of a discretised function $S(x)$ as $\PowerSpec{S}(\fv)$, which represents the squared amplitude of the Fourier coefficients corresponding to each frequency. 
+\section{Power spectral density (PSD) and the periodogram}
+The energy of a signal \ifn\ is generally considered to be the integral of the square of the signal (over its entire domain). Due to Parseval's theorem, this may also be expressed as the integral, over all frequencies, of the square (for real signals) of the Fourier transform of the signal. The integrand in this expression of power, $|\IFn|^2$, is referred to as the \textit{power spectrum} of \ifn. We denote the PSD of $f(x)$ as $\PowerSpec{f}(\fv)$, which represents the squared amplitude of the Fourier coefficients at the frequency \fv. 
 
+Now consider a wide-sense stationary random processes, from which a single observation is made. The data from this observation may be subjected to Fourier analysis and the PSD of the observed data --- called a \textit{periodogram} --- may be considered as an estimate of the PSD of the generating process. Although the periodogram is not a very good estimate~\cite{}, it is convenient and hence popular~\cite{lagaeDutre}. 
+% Look at Bartlett 55
+% Need to clean up usage of periodogram and power spectrum
+% cite http://www.dcs.warwick.ac.uk/~feng/teaching/PowerSpectrum.pdf
 \TBC
