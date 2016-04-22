@@ -25,7 +25,7 @@ When \RV {X}\ is distributed uniformly within the domain (i.e.~\sdn\ is a consta
 \section{Estimators}
 Consider Monte Carlo estimation of the multidimensional integral $ I = \DefIntT{\Dom}{}{\ifn}{x}, \; \x\in\Dom $.A simple \emph{primary} MC estimator for $I$ is
 $\estim{1}\equiv\ifsym(\RV X) , \;\RV X \in \Dom$. When \RV X\ is distributed
-uniformly, the estimator is unbiased. That is, its expected value is the integral:$\Exp{\estim{1}}=\Ival$. The function \ifsym(\RV X)\ is itself a random variable with an arbitrary distribution and, typically, a large variance. A more practical MC estimator is obtained by averaging a fixed number of (say \N) primary estimates:  $\estim{\N} = \sum \ifni/\N, \; i=1,2,...,\N$. Such \emph{secondary estimators}  are known to be unbiased and Gaussian-distributed when the primary estimator has finite variance. 
+uniformly, the estimator is unbiased. That is, its expected value is the integral:$\Exp{\estim{1}}=\Ival$. The function \ifsym(\RV X)\ is itself a random variable with an arbitrary distribution and, typically, a large variance. A more practical MC estimator is obtained by averaging a fixed number of (say \N) primary estimates:  $\estim{\N} = \sum \ifni/\N, \; i=1,2,...,\N$. Such \emph{secondary estimators}  are known to be unbiased and approach Gaussian distributions as \N\ is increased, if the primary estimator has finite variance. 
 
 \TBC 
 
@@ -46,7 +46,7 @@ A summary of notation used in this course.\TBC}%
     \RV X, \RV Y, \xii, \yii & random variates \\
     $\PowerSpec{S}(\fv)$ &
 	  Power spectrum of \sfn \\ %: $\PowerSpec{S}(\fv) = $
-    $\ifn \Fdual \IFn $&
+    $\sfn \Fdual \SF $&
           Fourier transform pair: integrand and its transform\\
     $\sfn \Fdual \SF $&
           Fourier transform pair: sampling function and its transform\\
@@ -68,13 +68,39 @@ Variance with $ \RV X \sim \sdn$:
 \end{table}
 
 \section{The continuous Fourier transform}
-\TBC 
+
+The process of solving differential equations is simplified by projecting relevant functions onto a basis formed by eigenfunctions of the differential operator. The class of functions $x \rightarrow \MyExp{\imag \fvn x}$ forms a natural choice since $\frac {\mathrm{d}}{\mathrm{d}x} \MyExp{\imag \fvn x} = \imag \fvn . \MyExp{\imag \fvn x}$. The projection of a given function, $\ifsym: \Re \rightarrow \C$, results in a set of coefficients --- one coefficient corresponding to every function in the basis (so, per choice of \fvn). If the basis is chosen so that it contains continuous (real) values of \fv, the corresponding coefficients may be viewed as a function of \fv. $\IFsym: \Re\rightarrow\C$. Under certain conditions
+\footnote{
+We refer readers to textbooks on the subject~\cite{} for a mathematically rigorous treatment.
+}
+ the relationship between \ifn\ 
+and its coefficients of projection \IFn\ can be written as 
+\begin{eqnarray}
+ \label{eq:FT} \IFn & = & \DefInt{-\infty}{\infty}{\ifn \; \MyExp{- \imag 2\pi \fv x}}{x}  \\
+ \label{eq:IFT} \ifn & = & \DefInt{-\infty}{\infty}{\IFn \; \MyExp{ \imag 2\pi \fv x}}{\fv}.
+\end{eqnarray}
+The integral transforms in eq.~\ref{eq:FT} and eq.~\ref{eq:IFT} are known as the \textit{Fourier transform} and the \textit{inverse Fourier transform} respectively. Due to Euler's formula in complex analysis,  $\MyExp{\imag 2\pi \fv x} = \cos({2\pi\fvn x}) + \imag \sin({2\pi\fvn x})$, the projection of functions onto complex exponentials is equivalent to a projection onto sinusoids of frequencies given by $2\pi\fv$. For this reason, \fv\ is referred to as the \textit{frequency variable} and \IFn\ is said to be a representation of \ifn\ in the \textit{frequency domain}. We denote the Fourier transform pair using \ifn \Fdual \IFn. In summary, the continuous Fourier transform decomposes a function on the infinite (real) domain into a continuous sum (integral) of sinsuoids of continuous and unbounded set of frequencies. The set of continuous complex coefficients arising from this decomposition is called the \textit{Fourier spectrum} of the function. 
 
 \section{Fourier series}
-\TBC 
+The projection of periodic functions onto complex exponentials leads to a special case. Consider a general periodic function \ipn T\ obtained by convolving a function \ifn\ with a Dirac comb \shaf{T} with period $T$. Since $\ipn T = \ifn  \conv \shaf T$, the Fourier transformed periodic function is a product $\IPn T = \IFn \SHAF T$ (due to the convolution theorem). Since \SHAF T\ is also a Dirac comb (with a period of $1/T$ in the frequency domain), the Fourier spectrum of \ipn T\ is only non-zero at the set of locations where \SHAF T\ is non-zero. Therefore, the Fourier spectrum of a continuous periodic function is non-zero at discrete (regular) frequencies.
 
-\section{The Discrete Fourier transform}
-\TBC 
+The inverse Fourier transform of the periodic function can then be written as a summation:
+\begin{eqnarray}
+  \ipn T & = & \sum\limits_{n\in\Z}^{} c_n \; \MyExp{\imag 2\pi n x / T}.
+\end{eqnarray}
+The $c_n$, known as the \textit{Fourier series coefficients}, are obtained as 
+\begin{eqnarray}
+\label{eq:cn}  c_n & = & \frac 1 T \; \DefInt{x_0}{x_0+T}{\ifn \; \MyExp{- \imag 2\pi n x / T}}{x} \;\; = \;\; \frac {\IFsym (n/T)} T
+\end{eqnarray}
+where $x_0$ is any choice for $x$ so that \ifn\ is integrable within $[x_0, x_0+T]$. Typically the complex exponential in eq.~\ref{eq:cn} is expanded in terms of $\sin{}$ and $\cos{}$, leading to two sets of coefficients. This crucial observation, that even periodic functions with discontinuities may be expressed as the sum of an infinite set of harmonics was made by Joseph Fourier in his study of heat. It was subsequently rigorously proved by Fourier's prot\'eg\'e, Peter Dirichlet, who also outlined requirements for convergence of the Fourier series. Dirichlet's results formed the theoretical foundation which led to the derivation of the continuous Fourier transform. 
+
+
+\section{Discrete time Fourier transform (DTFT)}
+Recall that the Fourier transform of a periodic function results in a discrete spectrum. Conversely, the Fourier transform of a uniformly sampled continuous function results in a periodic Fourier spectrum. Consider the a discrete function obtained by sampling by a Dirac comb.~i.~e.~ the function is $\ifn . \shaf T$. The resulting Fourier spectrum (of the discrete function) will be $\IFn \conv \SHAF T$ which is periodic (with a period of $1/T$).
+
+
+\section{The Discrete Fourier transform (DFT)}
+
 
 \section{The Fast Fourier transform}
 \TBC 
