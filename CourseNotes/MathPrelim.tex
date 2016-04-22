@@ -96,14 +96,18 @@ where $x_0$ is any choice for $x$ so that \ifn\ is integrable within $[x_0, x_0+
 
 
 \section{Discrete time Fourier transform (DTFT)}
-Recall that the Fourier transform of a periodic function results in a discrete spectrum. Conversely, the Fourier transform of a uniformly sampled continuous function results in a periodic Fourier spectrum. Consider the a discrete function obtained by sampling by a Dirac comb.~i.~e.~ the function is $\ifn . \shaf T$. The resulting Fourier spectrum (of the discrete function) will be $\IFn \conv \SHAF T$ which is periodic (with a period of $1/T$).
+Recall that the Fourier transform of a periodic function results in a discrete spectrum. Conversely, the Fourier transform of a uniformly sampled continuous function results in a periodic Fourier spectrum. Consider the a discrete function obtained by sampling by a Dirac comb.~i.~e.~ the function is $\ifn . \shaf s$, where $s$ is the sampling period. The resulting Fourier spectrum (of the discrete function) will be the convolved spectrum, $\IFn \conv \SHAF s$, which is periodic (with a period of $1/s$).
 
 
 \section{The Discrete Fourier transform (DFT)}
+In practice, Fourier analysis is often performed on sampled functions that span a finite domain. In most cases, the discrete function is also assumed to be replaced by its periodic version with a period equal to the width of the domain. Combining the analysis for Fourier series and DTFT, we can write the input function as $\ipn{sT} = (\ifn . \shaf s) \conv \shaf T$. The Fourier transform of this discrete-time periodic function is $(\IFn \conv \SHAF s) . \SHAF T$ which is periodic (with a period of $1/s$) and discrete due to the frequency-domain sampling by \SHAF T.
 
-
-\section{The Fast Fourier transform}
-\TBC 
+Given data $f_n, \; n=0,1,...,N-1$, the $k^{th}$ ($k\in\Z$) coefficients of the DFT and IDFT are 
+\begin{eqnarray}
+ \label{eq:DFT}c_k &=& \quad \sum\limits_{n=0}^{N-1} f_n \; \left( \cos{(-2\pi k n/N)} + \imag \sin{(-2\pi k n/N)} \right) \;\; \mathrm{and}\\
+ \label{eq:IDFT} f_n &=& \frac 1 N \sum\limits_{k=0}^{N-1} c_k \; \left( \cos{(-2\pi k n/N)} + \imag \sin{(-2\pi k n/N)} \right)
+\end{eqnarray}
+respectively. Due to periodicity, the domain of k is typically $[0,N-1]$. The DFT is a linear, invertible transformation $\mathcal{F}_{DFT}: \C \rightarrow \C$ that exhibits most properties of the continuous Fourier transform such as completeness and orthogonality. Also, important theorems such as the convolution theorem, shift theorem, Plancherel's and Parseval's theorems also have their equivalents in the context of the DFT. Na\"ive calculation of the $N$ coefficients $c_k$ requires $O(N^2)$ computation since each coefficient involves a summation over $N$ terms. Fast Fourier Transform (FFT) algorithms solve this with $O(N \log{N})$ computation.
 
 \section{Power spectral density and the periodogram}
 % The energy of a signal \ifn\ is generally considered to be the integral of the square of the signal (over its entire domain). Due to Parseval's theorem, this may also be expressed as the integral, over all frequencies, of the square (for real signals) of the Fourier transform of the signal. The integrand in this expression of power, $|\IFn|^2$, is referred to as the \textit{power spectrum} of \ifn. For discrete signals, the corresponding spectral density is called a \emph{periodogram}. We denote the periodogram of a discretised function $S(x)$ as $\PowerSpec{S}(\fv)$, which represents the squared amplitude of the Fourier coefficients corresponding to each frequency. 
