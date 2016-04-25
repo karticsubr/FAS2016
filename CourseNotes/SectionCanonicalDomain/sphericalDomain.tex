@@ -1,6 +1,68 @@
-%!TEX root = main.tex
+%!TEX root = ./../main.tex
 %
 % Start with sampling patterns 
 %
 %
 \subsection{Spherical domain}
+
+On the sphere, the most commonly used tool for spectral analysis is the spherical harmonics
+(SH)~\cite{Groemer1996}, which is the Fourier analog on the sphere, and is given by:
+%
+\begin{equation}
+\label{eq:SH}
+Y_l^m(\theta,\phi) \EqDef {\sqrt{(2-\delta_{0m})\frac{(2l+1)}{\Lebesgue{\SphericalDom{2}}}\frac{(l-m)!}{(l+m)!}}} \, P_l^m(\cos\theta) \, \exp({im\phi})\,.
+\end{equation}
+%
+Here, $\delta_{ij}$ is the Kronecker delta function, $\Lebesgue{\SphericalDom{2}}=4\pi$, is the Lebesgue measure of a unit 
+sphere, $Y_l^m(\theta,\phi)$ is the spherical harmonic basis
+function of degree $l$ and order $m$ and $P_l^m(x)$ denotes  the \emph{asssociated Legendre
+Polynomials}, for $x \in [-1,1]$. SH $(Y_l^m)$ are orthonormal basis functions, such that,  any integrable function
+$\DummyIntegrand$ on $\SphericalDom{2}$ can be decomposed into SH components.
+ as:
+ %
+\begin{align}
+\label{eq:SHDecomposition}
+\DummyIntegrand(\SpaceVar) = \sum_{l=0}^{\infty} \sum_{m=-l}^{l}  \SPH{\DummyIntegrand}(l,m) \, Y_l^m(\SpaceVar)\,,
+\end{align}
+%
+where $\SPH{\DummyIntegrand}(l,m)$ are the (complex) spectral coefficients of $\DummyIntegrand(\SpaceVar)$. 
+It can be easily shown that:
+%
+\begin{equation}
+%\label{eq:SHParsevalF}
+\int_{\SphericalDom{2}} \Norm{\DummyIntegrand(\SpaceVar)} \Diff\omega = \sum_{l=0}^{\infty} \sum_{m=-l}^{l} \Norm{\SPH{\DummyIntegrand}(l,m)}\,.
+\end{equation}
+
+which is the Parseval's theorem on the sphere. Analogously,
+the inner product between any two arbitrary functions, $\DummyIntegrand(\SpaceVar)$ and
+$\Integrand(\SpaceVar)$ defined over a unit sphere, is related to their corresponding spectral coefficients by:
+%
+\begin{equation}
+%\label{eq:SHParsevalGF}
+\int_{\SphericalDom{2}} \DummyIntegrand(\SpaceVar) \, \mathrm{\overline{\Integrand}}(\SpaceVar) \, \Diff\SpaceVar =
+\sum_{l=0}^{\infty} \sum_{m=-l}^{l}\, \SPH{\DummyIntegrand}(l,m)\cdot\overline{\SPH{\Integrand}(l,m)}\,,
+\end{equation}
+%
+where $\SPH{\DummyIntegrand}(l,m)=\langle\DummyIntegrand,Y_l^m\rangle$ is the $(l,m)$-th spherical harmonic coefficients of $\DummyIntegrand(\SpaceVar)$. The angular mean power spectrum at a frequency band $l$ is defined as the average energy distributed over different $m$ for a given $l$, as follows:
+%
+\begin{equation}
+%\label{eq:angular_power}
+\RadialPowerSpec{\DummyIntegrand}(l) \EqDef \frac{1}{2l+1} \sum_{m=-l}^{l} \left\|\SPH{\DummyIntegrand}(l,m)\right\|^2\,.
+\end{equation}
+%
+The \emph{mean} angular power spectrum $\RadialPowerSpec{\DummyIntegrand}(l)$ is invariant 
+under a rotation of the coordinate system (\cite{Kaula1967,lowes1974spatial}), as they contain a sum over all orders $m$. 
+A spherical harmonic power spectrum can be defined with or without the averaging factor. In our formulation, 
+we prefer to work with the average power per degree, or power spectral density, $\RadialPowerSpec{\DummyIntegrand}(l)$, as 
+this ensures that the spectral coefficients of a spherical Dirac delta function are constant and independent of degree $l$  (\cite{hipkin2001statistics}). 
+
+%
+Using the above knowledge, variance expression for Monte Carlo integration can be derived~\cite{Pilleboue:2015:VAM} in the spherical domain as:
+%
+\begin{align}
+\label{eq:sphere_var_finale}
+\Variance{\RvMCE} = \frac{\Lebesgue{\SphericalDom{2}}}{N} \sum_{l=0}^{\infty}\, (2l+1) \Exp{\PowerSpec{\RvSampling}(l)} \RadialPowerSpec{\Integrand}(l)
+\end{align}
+%
+which gives the final expression for the variance in terms of the angular mean power spectra of both the sampling pattern 
+$\RvSampling$ and the integrand $\Integrand$. 
