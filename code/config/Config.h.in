@@ -1,0 +1,5 @@
+#cmakedefine linesegmentsampling
+#cmakedefine linesampling
+#cmakedefine homogenization
+#cmakedefine varianceanalysis
+#cmakedefine pointset
