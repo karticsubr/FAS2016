@@ -405,24 +405,49 @@ In rendering, Monte Carlo integration is not restricted to the Euclidean domain.
 %----------------------------------------------------------------------------------------
 \chapterimage{ch5.pdf} % Chapter heading image
 \chapter{Popular sampling patterns} \label{ch:stateoftheart}
-In this chapter, we will describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behaviour is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram. Example slides for this topic are included (chapter~\ref{ch:exslides}).
+In this chapter, we will describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behavior is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram. For simplicity we will primarily discuss these sampling routines in the context of generating locations within a canonical unit square interval in 2D, and briefly explain how each routine generalizes to higher dimensions. Example slides for this topic are included (chapter~\ref{ch:exslides}).
 
 \TBC
 
 \section{Classical}
-\subsection{Random sampling}
-\TBC
-\subsection{Jittered sampling}
-\TBC
+\subsection{Independent random sampling}
+Purely independent random sampling is the most basic form of sampling pattern. When uniformly sampling a 2D square domain, the $x$ and $y$ coordinates of each point are computed from independently drawn uniform pseudo-random numbers $\xi \in [0,1)$. New sample points are generated without regard to the previously generated sample points. Figure~\ref{fig:independent-points} shows an illustration of 64 and 256 independent random samples in a unit square.
+
+One benefit of this approach is that the sampling routine is trivially \textit{progressive}: we can continually add new samples without needing to know how many total sample points we will be generating. It is also trivial to generate samples in arbitrary dimensions by simply drawing a canonical random number $\xi$ for each dimension of a sample point. Unfortunately, however, since samples are drawn completely independently, the resulting sampling patterns many contain many samples which fall in close proximity while large regions of the sampling domain receive no samples.
+
+Independent random sampling leads to the most basic form of Monte Carlo integration. The variance of a Monte Carlo estimator using independent random samples has a convergence rate of $\mathcal{O}(N^{-1})$. This result can be easily derived from the definitions of expected value and variance, but it can likewise be derived in the frequency domain from the periodogram of the sampling pattern. An important characteristic of this convergence rate is that (in contrast to deterministic quadrature techniques) the dimensionality of the integration problem does not appear in the expression for the convergence rate. Monte Carlo integration using independent random samples therefore does not suffer from the so-called ``curve of dimensionality''. This is one of the reasons why Monte Carlo techniques are so attractive for high-dimensional integration problems like the rendering of global illumination. Unfortunately, this convergence rate also means that error will always go down relatively slowly: we need four times as many samples to reduce the error by a factor of two.
+
+Due to these limitations, many more sophisticated sampling techniques have been developed over the years which relax the assumption of independence in the hopes of reducing variance or improving convergence rate.
+
+\subsection{Stratified/Jittered sampling}
+Stratified sampling divides the integration domain into a number of disjoint regions (a.k.a ``strata'' or ``cells''), and places one or more independent random samples within each region. Jittered sampling, introduced to graphics by Cook and colleagues~\cite{Cook:1986:SSC}, is a restricted form of stratified sampling where the strata are of equal size with each receiving exactly one sample. Jittered sampling of a 2D unit square involves dividing the square into a grid of $N = M\times M$ square cells, and placing a single sample randomly positioned inside each cell. For 2D, this process would result in $N^2$ samples. Figure~\ref{fig:jittered-points} shows an illustration of $8\times8 =64$ and $16\times16 = 256$ jittered sample points in a unit square.
+
+Jittered sampling considerably reduces the likelihood that many samples will fall within close proximity, and, since each stratum is guaranteed one sample, also places a strict upper bound on the size of any region void of any samples. These two properties considerably improve how well evenly distributed the sample points are compared to independent random sampling. Unfortunately, this improvement comes at the cost of some inconvenience. Jittered sampling is not progressive, so we cannot continually add more samples, and we must know the total number of samples before constructing the point set. Furthermore, the total number of samples is only set indirectly through the number of subdivisions along each dimension. With the same number of subdivisions along each dimension, the total number of samples has to be a perfect square in 2D, a perfect cube in 3D, etc. This can be cumbersome, and becomes increasingly so as the dimensionality of the point set grows. Setting the total number of samples with fine granularity becomes increasing difficult, e.g. dividing each dimension of a five-dimensional domain into two cells results in $2^5 = 32 samples$ and increasing the divisions to three per dimension already increases the sample count to $3^5 = 243$. While it is possible to set an different number of subdivisions along each dimension to obtain finer granularity, it is not easy to determine these values automatically or optimally for a particular integration problem.
+
+It can be shown~\cite{} that jittered sampling cannot increase the variance of a Monte Carlo estimator compared to using independent random samples. In fact, it can often reduce variance considerably. Moreover, analysis of the periodogram reveals that jittered sampling has can result in asymptotically better convergence rates of XXX and YYY.
+
 \subsection{Uniform jittered sampling}
-\TBC
+Uniform jittered sampling is a further restriction of jittered sampling where the random location of a point within its stratum is the same across the entire point set. In other words, a single jitter is applied to all samples of a regular uniform pattern (as opposed to jittering each stratum's sample independently as in jittered/stratified sampling). For the 2D unit square, any single realization of a uniform jittered sampling pattern is simply a randomly shifted rectangular grid pattern. Figure~\ref{fig:uniform-jittered-points} shows two independent realizations of 256 uniform jittered points.
+
+Uniform jitter sampling can be beneficial for some low-dimensional problems in rendering. For instance, Pauly et al.~\cite{pauly00metropolis} used uniform jittered sampling for performing the one-dimensional line integral of radiance along each camera ray, and Ramamoorthi and colleagues~\cite{Ramamoorthi:2012} analyzed the error of uniform jittered sampling for integrating visibility from area light sources.
+
+
+\subsection{Uncorrelated Jitter, N-Rooks, and Latin hypercube sampling}
+To overcome the issue of generating jittered sample points in high dimensions, Cook et al.~\cite{Cook:1984:DRT} proposed to randomly combine jittered sample sets over subspaces of the full domain. For instance, to generate sample distributions for a nine dimensional space, we could separately partitioning four two-dimensional subspaces (e.g. pixel area, camera lens area, reflection direction, and shadow ray direction) as well as one one-dimensional subspace (time) and then combine the subspace dimensions at random. He called this technique uncorrelated jittering.
+
+In 2D, generating $N$ samples would entail creating two separate 1D jittered point sets $X$ and $Y$ with $N$ samples each, and then using the samples in $X$ as the $x$-coordinate of each 2D point, and couple each $x$ with a $y$ from $Y$ in randomly permuted order. Another way to view this is that we must divide the 2D domain into $N$ rows and $N$ columns, and ensuring that example one 2D sample falls within any row or column. Shirley~\cite{Shirley91-DQMSD} called this idea $N$-Rooks sampling since the sample positions correspond to the arrangement of rooks on an $N\times N$ chessboard where none of the rooks can capture another in a single move. Figure~\ref{fig:jittered-points} shows an illustration of N-Rooks sampling patterns with $64$ and $256$ points in a unit square.
+
+Combining $D$ randomly permuted 1D jittered samples in this way for arbitrary dimension $D$ is called Latin hypercube sampling. Like jittered sampling, this sampling approach is not progress as we need to know the total number of samples in advance. However, we can easily use an arbitrary number of samples, and no longer have to deal with the difficulty of specifying a $N = M^D$ samples for a $D$ dimensional domain.
+
+Jittered sampling and Latin-hypercube sampling are related, but offer different stratification guarantees, and therefore have different variance reduction behavior. As an illustrative example, a 2D jittered sampling pattern with $N$ points will ensure that few samples can clump together in 2D, but as many as $\sqrt{N}$ samples may project to exactly the same location along either of the two axes (in other words, the projections actually correspond to $\sqrt{N}$ strata with $\sqrt{N}$ points in each stratum). On the other hand, a 2D Latin-hypercube sampling pattern with $N$ points provides less guarantees of clumping reduction in 2D, but ensures that along either of the axis projections each of the $N$ sample points falls into a different stratum. Latin-hypercube sampling can lead to better variance and convergence if the integrand does not depend strongly on some of the dimensions. In the extreme, where the integrand depends only on the $x$ coordinate, but not on $y$, Latin-hypercube sampling would provide better stratification of the relevant dimensions than jittered sampling.
+
+\subsection{Multi-Jittered sampling}
+Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectively enforces the stratification guarantees of jittered sampling and N-rooks sampling simultaneously: for $N=M\times M$ points in 2D we generate exactly one sample in each of the $M\times M$ strata, but also guarantee that there is exactly one sample in each of the $N$ rows and $N$ columns (projected strata along the coordinate axes). Figure~\ref{fig:jittered-points} shows an illustration of $8\times8 = 64$ and $16\times16 = 256$ multi-jittered sample points in a unit square.
 
 \section{Quasi-Monte Carlo}
 \subsection{Halton sequence}
 \TBC
 \subsection{Hammersley sequence}
-\TBC
-\subsection{Latin hypercube sampling}
 \TBC
 
 \section{Blue noise}
