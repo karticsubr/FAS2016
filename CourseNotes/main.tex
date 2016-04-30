@@ -457,7 +457,18 @@ Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectiv
 %
 
 \section{Synthesis of sampling patterns with targeted spectral profiles}
-\TBC
+
+Recently, researchers have noticed the importance of having a \emph{spectral control} on sampling methods. 
+The idea behind having a sampler with spectral control is to be able to generate samples %which are guided 
+from the pre-assigned Fourier characteristics. Consequently, the samples can spatially arrange themselves according 
+to the characteristics assigned in the spectral domain. Parker and colleagues~\cite{Parker:1991:PSHP} were the first to propose an algorithm for manipulating the
+power spectra of blue noise halftone patterns. A blue noise spectrum
+defined by a step function is used as input to influence the
+sample distributions. Recently, Zhou and colleagues~\cite{Zhou:2012} construct point sets matching a Fourier power spectrum function by performing 
+a gradient descent optimization on an energy derived from the autocorrelation function. 
+Such a Fourier power spectrum function can be either obtained from a known sampling
+method, or completely constructed by the user.
+
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 6
