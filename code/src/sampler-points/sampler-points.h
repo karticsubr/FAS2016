@@ -22,6 +22,9 @@ public:
     static std::vector<T> uniformjitter_samples(int N, T *bbox, int dim=Dimension);
     static std::vector<T> multijitter_samples(int N, T *bbox, int dim=2, bool shuffle=true);
     static std::vector<T> darthrowing_samples(int N, T *bBox, int dim=Dimension, bool toroidal=true);
+
+    static std::vector<T> halton_sequence_samples(const int& N, T *bbox, int dim=Dimension, bool shuffle=true);
+    static std::vector<T> hammersley_sequence_samples(const int& N, T *bbox, int dim=Dimension, bool shuffle=true);
 };
 
 template<typename T>

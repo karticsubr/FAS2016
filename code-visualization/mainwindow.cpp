@@ -36,22 +36,22 @@
 #include <sstream>
 #include <iomanip>
 
-MainWindow::MainWindow(QString &outfile, std::vector<double> &data, std::string pattern, int demoIndex, double ptRadius,
-                       double *domain, QWidget *parent) :
-  QMainWindow(parent),
+MainWindow::MainWindow(QString &outfile, std::vector<double> &data, std::string pattern, int N, int demoIndex,
+                       double ptRadius, double *domain, QWidget *parent) :  QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
 
-  setupDemo(outfile, data, pattern, demoIndex, ptRadius, domain);
+  setupDemo(outfile, data, pattern, N, demoIndex, ptRadius, domain);
 }
 
-void MainWindow::setupDemo(QString &outfile, std::vector<double> &data, std::string pattern, int demoIndex, double ptRadius,
+void MainWindow::setupDemo(QString &outfile, std::vector<double> &data, std::string pattern, int N,
+                           int demoIndex, double ptRadius,
                            double* domain)
 {
     switch (demoIndex){
-    case 0: showPointsDemo(outfile, data, pattern, ui->customPlot, ptRadius, domain); break;
-    case 1: setupRadialSpectrumDemo(outfile, data, pattern, ui->customPlot); break;
+    case 0: showPointsDemo(outfile, data, pattern, N, ui->customPlot, ptRadius, domain); break;
+    case 1: setupRadialSpectrumDemo(outfile, data, pattern, N, ui->customPlot); break;
     }
     setWindowTitle("Plot: "+demoName);
     statusBar()->clearMessage();
@@ -59,7 +59,8 @@ void MainWindow::setupDemo(QString &outfile, std::vector<double> &data, std::str
     ui->customPlot->replot();
 }
 
-void MainWindow::setupRadialSpectrumDemo(QString &outfile, std::vector<double> &data, std::string pattern, QCustomPlot *customPlot){
+void MainWindow::setupRadialSpectrumDemo(QString &outfile, std::vector<double> &data, std::string pattern,
+                                         int N, QCustomPlot *customPlot){
 
     setGeometry(50, 50, 1024, 512);
     demoName = "radial-spectrum";
@@ -67,21 +68,29 @@ void MainWindow::setupRadialSpectrumDemo(QString &outfile, std::vector<double> &
     // generate some data:
     int dataSize = data.size() * 0.5;
     QVector<double> x(dataSize-1), y(dataSize-1); // initialize with entries 0..100
-    int nSamples = dataSize;
-    std::cerr << dataSize << std::endl;
+    std::cerr << "datasize:" << N << std::endl;
     for (int i=1; i<dataSize; ++i)
     {
       //x[i-1] = data[2*i]*(1/(sqrt(2*nSamples)));
         if(pattern == "ccvt")
-            x[i-1] = data[2*i]*(1/(sqrt(2.42*nSamples)));
+            x[i-1] = data[2*i]*(1/(sqrt(2.42*N)));
         else if(pattern == "poissondisk" || pattern == "dartthrowing")
-            x[i-1] = data[2*i]*(1/(sqrt(2.75*nSamples)));
+            x[i-1] = data[2*i]*(1/(0.908*sqrt(N)));
         else if(pattern == "jitter")
-            x[i-1] = data[2*i]*(1/(sqrt(15.0*nSamples)));
+            x[i-1] = data[2*i]*(1/(sqrt(N)));
         else if(pattern == "random")
-            x[i-1] = data[2*i]*(1/(sqrt(15*nSamples)));
+            x[i-1] = data[2*i]*(1/(sqrt(15*N)));
+        else if(pattern == "multijitter")
+            x[i-1] = data[2*i]*(1/(sqrt(N)));
+        else if(pattern == "regular")
+            x[i-1] = data[2*i]*(1/(sqrt(N)));
+        else if(pattern == "halton")
+            x[i-1] = data[2*i]*(1/(sqrt(N)));
+        else if(pattern == "hammerslay")
+            x[i-1] = data[2*i]*(1/(0.55*sqrt(N)));
         else{
             std::cerr << "Requested sampling pattern not available !!!" << std::endl;
+            exit(-2);
         }
         y[i-1] = data[2*i+1];
     }
@@ -119,8 +128,8 @@ void MainWindow::setupRadialSpectrumDemo(QString &outfile, std::vector<double> &
     customPlot->savePdf(outfile,true, 512,256);
 }
 
-void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples,
-                                std::string samplingpattern, QCustomPlot *customPlot, double ptRadius, double *domain){
+void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, std::string samplingpattern,
+                                int N, QCustomPlot *customPlot, double ptRadius, double *domain){
     setGeometry(50, 50, 768, 768);
     demoName = "Point set";
 

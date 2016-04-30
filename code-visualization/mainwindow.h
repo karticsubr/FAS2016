@@ -57,16 +57,18 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QString &outfile,std::vector<double> &data, std::string pattern, int demoIndex, double ptRadius,
+    explicit MainWindow(QString &outfile,std::vector<double> &data, std::string pattern, int  N,
+                        int demoIndex, double ptRadius,
                         double* domain,  QWidget *parent = 0);
     ~MainWindow();
 
-    void setupDemo(QString &outfile, std::vector<double> &data, std::string pattern, int demoIndex, double ptRadius, double *domain);
+    void setupDemo(QString &outfile, std::vector<double> &data, std::string pattern, int N, int demoIndex, double ptRadius, double *domain);
 
-    void setupRadialSpectrumDemo(QString &outfile, std::vector<double> &data, std::string pattern,
+    void setupRadialSpectrumDemo(QString &outfile, std::vector<double> &data, std::string pattern, int N,
                                  QCustomPlot *customPlot);
     void showPointsDemo(QString &outfile, std::vector<double> &samples,
-                        std::string samplingpattern, QCustomPlot *customPlot, double ptRadius, double* domain);
+                        std::string samplingpattern, int N, QCustomPlot *customPlot,
+                        double ptRadius, double* domain);
 
     void setupQuadraticDemo(QCustomPlot *customPlot);
     void setupSimpleDemo(QCustomPlot *customPlot);
@@ -94,7 +96,7 @@ private slots:
     void realtimeDataSlot();
     void bracketDataSlot();
     void screenShot();
-    void allScreenShots(QString &outfile, std::vector<double> &data, std::string pattern, double *domain);
+    void allScreenShots(QString &outfile, std::vector<double> &data, std::string pattern, int N, double *domain);
 
 private:
     Ui::MainWindow *ui;

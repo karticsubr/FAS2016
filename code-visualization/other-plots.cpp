@@ -1365,7 +1365,8 @@ void MainWindow::screenShot()
   qApp->quit();
 }
 
-void MainWindow::allScreenShots(QString &outfile, std::vector<double> &data, std::string pattern, double* domain)
+void MainWindow::allScreenShots(QString &outfile, std::vector<double> &data, std::string pattern, int N,
+                                double* domain)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
   QPixmap pm = QPixmap::grabWindow(qApp->desktop()->winId(), this->x()+2, this->y()+2, this->frameGeometry().width()-4, this->frameGeometry().height()-4);
@@ -1384,7 +1385,7 @@ void MainWindow::allScreenShots(QString &outfile, std::vector<double> &data, std
     delete ui->customPlot;
     ui->customPlot = new QCustomPlot(ui->centralWidget);
     ui->verticalLayout->addWidget(ui->customPlot);
-    setupDemo(outfile, data, pattern, currentDemoIndex+1, 3, domain);
+    setupDemo(outfile, data, pattern, N, currentDemoIndex+1, 3, domain);
     // setup delay for demos that need time to develop proper look:
     int delay = 250;
     if (currentDemoIndex == 10) // Next is Realtime data demo

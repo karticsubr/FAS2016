@@ -82,6 +82,12 @@ int main(int argc, char* argv[]){
     else if(samplingpattern == "dartthrowing"){
         pointset = pointSampler2dd::darthrowing_samples(nsamples, domain);
     }
+    else if(samplingpattern == "halton"){
+        pointset = pointSampler2dd::halton_sequence_samples(nsamples, domain);
+    }
+    else if(samplingpattern == "hammerslay"){
+        pointset = pointSampler2dd::hammersley_sequence_samples(nsamples, domain);
+    }
     else{
         std::cerr << "Requested sampling pattern not available !!!" << std::endl;
         return 1;

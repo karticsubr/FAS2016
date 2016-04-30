@@ -131,7 +131,7 @@ int main(int argc, char *argv[]){
 
 //    std::cerr << data.size() << std::endl;
 
-    MainWindow w(outputFileName, data, samplingpattern, demoIndex, ptRadius, domain);
+    MainWindow w(outputFileName, data, samplingpattern, nsamples, demoIndex, ptRadius, domain);
     w.show();
     //############################################################
 
