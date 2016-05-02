@@ -1,48 +1,55 @@
 %!TEX root = main.tex
 %
 \section{Blue noise}
-
-Yellot~\cite{Ylt83} studied the distribution of cones in an extrafoveal region of the eye of  a 
-rhesus monkey, which has a photoreceptor distribution similar to that in the humam eye. Yellot took 
-the optical Fourier transform of this distribution, which had characteristics of a \emph{Poisson Disk distribution}. 
-Motivated from the work by Yellot, Cook~\cite{Cook:1986:SSC} performed a 
-careful Fourier analysis of white noise, Poisson Disk and jittered sampling patterns. 
-He advocated the use of sampling patterns that lacks low frequency content. 
-Although, Cook in his theoretical analysis mentioned that the Fourier transform of Poisson Disk has 
-no low frequency content, Dipp\'{e} and Wold~\cite{Wold85} have correctly shown an offset in the low frequency zone of the spectrum of Poisson Disk using the \emph{flat field response noise spectrum}. 
-
-Even though Dippe and Wold, Cook and Mitchell~\cite{mitchell87a} clearly indicated the importance of no low frequency content in the 
-sampling patterns' Fourier spectra, the characteristics of an optimal sampling Fourier spectrum was still missing. Ulichney~\cite{Ulichney:87:halftoning}, in 1987, was the first to provide qualitative 
-characterization of a good sampling pattern, which he called \emph{Blue Noise}.
-
-
-The nature of the spectral distribution property of various types of noise is mainly described by color 
-names. The most common example is \emph{white noise}, so named because its power spectrum is 
-flat across all frequencies with equal energy distributed in all frequency bands, 
-much like the visible frequencies in the white light. \emph{Pink noise} has 
-the power spectrum such that the power spectral density is inversly proportional to the frequency. 
-Green noise, as its name suggests, consists of primarily mid-range frequencies. 
-Robert Ulichney~\cite{Ulichney:87:halftoning} also mentioned the curious case of \emph{brown noise}, named for the spectrum associated 
-with the Brownian motion~\cite{gardner1978white}. He introduced \emph{blue noise}, the high 
-frequency complement of the pink noise. Pink noise occurs very frequently in nature and thus is used 
-for physical simulation and biological distribution.
-
-\paragraph{Characteristics of Blue noise} 
-Ulichney performed a careful study of rectangular and hexagonal regular grid patterns to improve the 
-quality of digital halftones. He estimated the power spectrum of various grid patterns using the 
-Bartlett's method~\cite{bar64b}
-%cite{Bartlett:ZAMM1979}
-of averaging periodograms. He mentioned that a 
-desirable attribute of a well-produced halftone of a gray level is \emph{radial symmetry}. Therefore, 
-he investivated a radially averaged power spectra of various patterns. 
-Ulichney advocated three important features for an ideal radial power spectrum;  
+Any sampling pattern with Blue noise characteristics is suppose to be well distributed within the spatial domain without containing any regular structures. The term Blue noise was coined by Ulichney~\cite{Ulichney:87:halftoning}, 
+who investivated a radially averaged power spectra of various sampling patterns. 
+He advocated three important features for an ideal radial power spectrum;  
 First, its peak should be at the principal frequency. % for that gray level.  
 Second, the principal frequency marks a sharp transition level below which little or no energy exists. 
-And finally, the uncorrelated high-frequency fluctuations are characterized by high-frequency white noise. 
-%In~\RefFig{ulichney-blue-noise}(b), taken from Ulichney's article, all these three regions are marked. 
-The radial power spectrum with above featurs is called the \emph{blue noise} power spectrum. 
-In the following subsections, we discuss various methods used to generate sampling patterns 
-with blue noise characteristics.
+And finally, the uncorrelated high-frequency fluctuations are characterized by high-frequency white noise. Poisson Disk sampling pattern (shown in~\RefFig{points-powspec-radialmean}) closely resembles 
+the above features in the low frequency zone.
+
+%Yellot~\cite{Ylt83} studied the distribution of cones in an extrafoveal region of the eye of  a 
+%rhesus monkey, which has a photoreceptor distribution similar to that in the humam eye. Yellot took 
+%the optical Fourier transform of this distribution, which had characteristics of a \emph{Poisson Disk distribution}. 
+%Motivated from the work by Yellot, Cook~\cite{Cook:1986:SSC} performed a 
+%careful Fourier analysis of white noise, Poisson Disk and jittered sampling patterns. 
+%He advocated the use of sampling patterns that lacks low frequency content. 
+%Although, Cook in his theoretical analysis mentioned that the Fourier transform of Poisson Disk has 
+%no low frequency content, Dipp\'{e} and Wold~\cite{Wold85} have correctly shown an offset in the low frequency zone of the spectrum of Poisson Disk using the \emph{flat field response noise spectrum}. 
+%
+%Even though Dippe and Wold, Cook and Mitchell~\cite{mitchell87a} clearly indicated the importance of no low frequency content in the 
+%sampling patterns' Fourier spectra, the characteristics of an optimal sampling Fourier spectrum was still missing. Ulichney~\cite{Ulichney:87:halftoning}, in 1987, was the first to provide qualitative 
+%characterization of a good sampling pattern, which he called \emph{Blue Noise}.
+%
+%
+%The nature of the spectral distribution property of various types of noise is mainly described by color 
+%names. The most common example is \emph{white noise}, so named because its power spectrum is 
+%flat across all frequencies with equal energy distributed in all frequency bands, 
+%much like the visible frequencies in the white light. \emph{Pink noise} has 
+%the power spectrum such that the power spectral density is inversly proportional to the frequency. 
+%Green noise, as its name suggests, consists of primarily mid-range frequencies. 
+%Robert Ulichney~\cite{Ulichney:87:halftoning} also mentioned the curious case of \emph{brown noise}, named for the spectrum associated 
+%with the Brownian motion~\cite{gardner1978white}. He introduced \emph{blue noise}, the high 
+%frequency complement of the pink noise. Pink noise occurs very frequently in nature and thus is used 
+%for physical simulation and biological distribution.
+%
+%\paragraph{Characteristics of Blue noise} 
+%Ulichney performed a careful study of rectangular and hexagonal regular grid patterns to improve the 
+%quality of digital halftones. He estimated the power spectrum of various grid patterns using the 
+%Bartlett's method~\cite{bar64b}
+%%cite{Bartlett:ZAMM1979}
+%of averaging periodograms. He mentioned that a 
+%desirable attribute of a well-produced halftone of a gray level is \emph{radial symmetry}. Therefore, 
+%he investivated a radially averaged power spectra of various patterns. 
+%Ulichney advocated three important features for an ideal radial power spectrum;  
+%First, its peak should be at the principal frequency. % for that gray level.  
+%Second, the principal frequency marks a sharp transition level below which little or no energy exists. 
+%And finally, the uncorrelated high-frequency fluctuations are characterized by high-frequency white noise. 
+%%In~\RefFig{ulichney-blue-noise}(b), taken from Ulichney's article, all these three regions are marked. 
+%The radial power spectrum with above featurs is called the \emph{blue noise} power spectrum. 
+%In the following subsections, we discuss various methods used to generate sampling patterns 
+%with blue noise characteristics.
 
 %\GURPRIT{
 %I think the we can cover different classes of samplers if we can simply rename the subsections of this 
@@ -58,14 +65,20 @@ with blue noise characteristics.
 %default give Poisson disk patterns. 
 %}
 \subsection{Poisson-disk sampling}
-As Ripley~\cite{Ripley77} mentioned, several point processes could be referred to as 
-``Poisson-disk'', but by strict definition, a true Poisson-disk process is realized by generating complete 
-patterns with Poisson statistics until one is found that meets the minimum-distance constraint. 
-Cook~\cite{Cook:1986:SSC} proposed the first \emph{dart throwing} 
+Poisson Disk sampling patterns can be generated by simply assigning a disk with minimum radius to each sample point and allowing new samples to get placed only outside the disk radii of existing samples. Cook~\cite{Cook:1986:SSC} proposed the first \emph{dart throwing} 
 algorithm for generating Poisson Disk distributed point sets. 
 Random samples are continually tested and only those that satisfy the minimum
 distance constraint relative to samples already in the distribution
 are accepted.
+
+%As Ripley~\cite{Ripley77} mentioned, several point processes could be referred to as 
+%``Poisson-disk'', but by strict definition, a true Poisson-disk process is realized by generating complete 
+%patterns with Poisson statistics until one is found that meets the minimum-distance constraint. 
+%Cook~\cite{Cook:1986:SSC} proposed the first \emph{dart throwing} 
+%algorithm for generating Poisson Disk distributed point sets. 
+%Random samples are continually tested and only those that satisfy the minimum
+%distance constraint relative to samples already in the distribution
+%are accepted.
 
 For many years, dart-throwing was the only available method for
 accurate Poisson-disk sampling. Its inefficiency led to the development
@@ -77,16 +90,17 @@ we refer the interested readers to the survey by Lagae and Dutre~\cite{journals/
 \subsection{Relaxation-based methods}
 
 There are many \emph{relaxation} based methods for the generation of blue noise sample 
-distributions. The early algorithms proposed were inspired from the traditional artistic technique of 
-stippling, which involves placing small dots of ink onto paper such that their density give the 
-impression of tone. The artist tightly controls the relative placement of the stipples on the paper to 
-produce even tones and avoid artifacts, leading to long creation times for the drawings. 
-
+distributions. 
+%The early algorithms proposed were inspired from the traditional artistic technique of 
+%stippling, which involves placing small dots of ink onto paper such that their density give the 
+%impression of tone. The artist tightly controls the relative placement of the stipples on the paper to 
+%produce even tones and avoid artifacts, leading to long creation times for the drawings. 
 Lloyd~\cite{Lloyd.82} 
-which is a powerful and flexible iterative method that is commonly used to enhance the spectral properties of existing distributions of points or similar entities. However, the results from Lloyd’s method are satisfactory only to a limited 
-extent. First, if the method is not stopped at a suitable iteration step, the resulting point distributions will develop regularity 
-artifacts. A reliable universal termination criterion to prevent this behavior is unknown. Second, the adaptation to given 
-heterogenous density functions is suboptimal, requiring additional application-dependent optimizations to improve the 
+which is a powerful and flexible iterative method, is commonly used to enhance the spectral properties of 
+existing distributions of points or similar entities. However, the results from Lloyd’s method are 
+satisfactory only to a limited extent. First, if the method is not stopped at a suitable iteration step, the 
+resulting point distributions will develop regularity artifacts. A reliable universal termination criterion to 
+prevent this behavior is unknown. Second, the adaptation to given heterogenous density functions is suboptimal, requiring additional application-dependent optimizations to improve the 
 results.
 
 Balzer and colleagues~\cite{Balzer:2009:CPD:1531326.1531392} present a variant of Lloyd’s method, termed capacity constrained Voronoi 
@@ -105,3 +119,11 @@ corresponding centroids.
 There are some tile-based approaches that can be used to generate blue noise samples 
 Tile-based methodsovercome the computational complexity of  
 \emph{dart-throwing} and/or \emph{relaxation} based approaches in generating blue noise sampling patterns. In computer graphics community, two tile-based approaches are well known: First approach uses a set of precomputed tiles, with each tile composed of multiple samples, and later use these tiles, in a sophisticated way, to pave the sampling domain. Second approach employed tiles with \emph{one sample per tile} and uses some relaxation-based schemes, with look-up tables, to improve the over all quality of samples. 
+
+\subsection{Discussion}
+
+Recently~\cite{Pilleboue:2015:VAM}, it has been shown that the low frequency region of various sampling 
+radial power spectrum plays a crucial role in deciding the overall variance convergence rates of sampling 
+patterns used for Monte Carlo integration. Since blue noise sampling patterns contains almost no radial 
+energy in the low frequency region, they are of great interest for future research to obtain fast results in 
+rendering problems. Surprisingly, Poisson Disk samples have shown the convergence rate of $\BigO{N^{-1}}$ which is the same as given by purely random samples. This can be explained by looking at the low frequency region in the radial power spectrum of Poisson Disk samples (\RefFig{points-powspec-radialmean}) which is not zero.
