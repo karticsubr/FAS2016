@@ -47,6 +47,8 @@
 \usepackage[export]{adjustbox}
 \usepackage{mathtools}
 \usepackage[final]{pdfpages}
+\usepackage{microtype}
+
 
 % \newcommand{\TBC} {\vspace {1em} \noindent [TO BE COMPLETED IN THE FINAL VERSION.] \vspace {1em}}
 % \newcommand{\TBC} {\noindent [TO BE COMPLETED IN THE FINAL VERSION.] }
@@ -391,13 +393,13 @@ Monte Carlo sampling can be represented as an inner product of the integrand \if
 %
 
 \section{Analysis beyond the canonical domain}
-In rendering, Monte Carlo integration is not restricted to the Euclidean domain. For example, direct and global illumination methods involve integration over a visible  hemisphere of directions at the surface hit points, and over the sphere of directions in the presence of participating media within the scene. This implies that, it is of uttermost importance to analyse variance due to Monte Carlo integration in these domains. In this section, we first discuss the tools that are developed to study sampling patterns in various domains, followed by providing closed form variance formulation for( hemi-)spherical domain. We also take a look at the gradient domain which has been explored for rendering purposes.  At the end, we also study sampling analysis tools in the differential domain that allows characterising sampling patterns that are not uniformly distributed in the domain.
+In rendering, Monte Carlo integration is not restricted to the Euclidean domain. For example, direct and global illumination methods involve integration over a visible  hemisphere of directions at the surface hit points, and over the sphere of directions in the presence of participating media within the scene. In this section we discuss a variety of such contexts. In particular, we focus on a closed form formulation for variance in the ( hemi-)spherical domain. 
 
 \input{SectionCanonicalDomain/sphericalDomain}
 
 \input{SectionCanonicalDomain/generalDomain}
 
-\input{SectionCanonicalDomain/gradientDomain}
+% \input{SectionCanonicalDomain/gradientDomain}
 
 \input{manifestationErrorRendering}
 %----------------------------------------------------------------------------------------

@@ -3,8 +3,14 @@
 % Start with sampling patterns 
 %
 %
-\subsection{General domains}
+\subsection{Other domains}
 
+Recently, there has been interest in performing image synthesis by sampling in the gradient domain \cite{}. The path-tracing problem is reformulated to cover a multi-dimensional space spanning across paths and pixels. Rather than to estimate radiance at each pixel these methods estimate the gradients, in the subspace of pixels, of radiance. Finally, the image is reconstructed from the estimated gradients. The primary benefit of applying the gradient operator is that it attenuates the low-frequency content of the integrand. While jittered sampling reduces error by attenuating low-frequencies in the sampling pattern, gradient domain path tracing operates by reducing the low-frequency content of the integrand.  Although the gradient operator amplifies the energy at higher frequencies, it has been observed to remain within practical range at the Nyquist rate.
+
+The spectral analysis of error due to stochastic sampling makes assumptions about the sampling strategy as well as the sampling domain. For extensions to domains with complex topology, or when non-uniform sampling is used, it is possible that other mathematical tools may be required. For example, Wei and Wang \cite{} proposed a formulation equivalent to Fourier analysis, but based on the distribution of the differentials of sampling locations. The use of this \textit{Differential Domain Analysis} permits the comparison of sampling strategies with different distributions.~e.~g.~two instances of the same sampling strategy, but with different target sampling densities, can be identified to have similar spectral properties. The advantages of the analysis are that it can be performed on general domains, and for non-uniform sampling. However, its invariance to distributions makes it less suitable for the analysis of error in integration. 
+
+
+  
 %
 % Differential domain analysis
 %
