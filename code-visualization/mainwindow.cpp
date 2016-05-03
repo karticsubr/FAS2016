@@ -104,6 +104,10 @@ void MainWindow::setupRadialSpectrumDemo(QString &outfile, std::vector<double> &
     customPlot->graph(0)->setBrush(QColor(20, 20, 220, 10));
     customPlot->graph(0)->setChannelFillGraph(customPlot->graph(0));
 
+    customPlot->xAxis->setLabelFont(QFont( "Helvetica", 20));
+    customPlot->yAxis->setLabelFont(QFont( "Helvetica", 20));
+
+
     // give the axes some labels:
     customPlot->xAxis->setLabel("Frequency");
     customPlot->yAxis->setLabel("Power");
