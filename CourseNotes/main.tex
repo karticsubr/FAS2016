@@ -360,23 +360,36 @@ The corresponding secondary estimator, obtained by averaging \N\ primary estimat
  \caption{\emph{This figure highlights the difference in the analysis of sampling rates for error-free reconstruction vs numerical integration of a bandlimited function. Fewer samples (factor of 2 per dimension~\cite{Cov5D}) are sufficient for error-free numerical integration.}}
 \end{figure}
 
-\section{Error due to sampling}
-\subsection{Bias}
-\TBC
-\subsection{Consistency}
-\TBC
-\subsection{Variance (uncertainty of estimates)} 
-\GURPRIT{
-Unless I am missing something I don't see why uncertainty refers to Variance. For me uncertainty is a relative concept. For example, 
-the variance of a kernel in the primal and the fourier domain cannot be predicted simultaneously at a given frequency. Reducing variance in one domain would increase variance in the other, which is what 
-uncertainty is all about. }
-\KARTIC{Random variables introduce uncertainty. Variance is one form of the quantification of uncertainty. If you are estimating Variance, then you can talk about uncertainty of the variance estimates. I like to pose the process of quantifying error in the estimates as a form of uncertainty propagation (\url{https://en.wikipedia.org/wiki/Propagation_of_uncertainty}). That is, if we know the uncertainty in the sampling patterns, can we estimate uncertainty in the final estimates?}
+\section{Error due to sampling} 
+Numerical integration methods like Monte Carlo are very powerful in approximating the underlying  multi-dimensional integrand using stochastically generated samples, but the overall process is highly error prone. Based on the sampling strategy, the error depends on an intricate combination of three factors: the distribution of the sample locations; the weighting used to accumulate
+sampled contributions; and the arrangement and structure of
+samples. This error can be distinguished in the form of bias and variance.
 
-\TBC
-\subsection{Convergence}
-\TBC
+\subsection{Bias and Variance}
+Bias corresponds to the value by which the numerically integrated value deviates from the ground truth value. In the Fourier domain, bias can be represented as an expected value of the error~\cite{Subr:2013:FAS}. Another form of error is variance which is manifested in the form of noise during image synthesis. Variance represents the uncertainty in the primary Monte Carlo estimates. 
+
+%\subsection{Variance (uncertainty of estimates)} 
+%Another form of error is variance which is manifested in the form of noise during image synthesis. %Variance represents the uncertainty in the primary Monte Carlo estimates. 
+
+%\GURPRIT{
+%Unless I am missing something I don't see why uncertainty refers to Variance. For me uncertainty is a relative concept. For example, 
+%the variance of a kernel in the primal and the fourier domain cannot be predicted simultaneously at a given frequency. Reducing variance in one domain would increase variance in the other, which is what 
+%uncertainty is all about. }
+%\KARTIC{Random variables introduce uncertainty. Variance is one form of the quantification of uncertainty. If you are estimating Variance, then you can talk about uncertainty of the variance estimates. I like to pose the process of quantifying error in the estimates as a form of uncertainty propagation (\url{https://en.wikipedia.org/wiki/Propagation_of_uncertainty}). That is, if we know the uncertainty in the sampling patterns, can we estimate uncertainty in the final estimates?}
+
 \subsection{Homogenization}
-\TBC
+Analysing both bias and variance at the same time in Monte Carlo integration can be challenging. 
+However, it is possible to obtain error in the form of variance only for an unbiased estimator. 
+ One way to obtain an unbiased estimator is to ensure that the expected Fourier coefficients of sample 
+ points are non-zero only at the DC peak~\cite{Subr:2013:FAS}. This can be achieved by making sure that  
+ the complex coefficients cancel out each other at all frequencies except at DC. 
+ Pilleboue and colleagues have shown that this can be achieved by homogenizing the samples, that is,    by randomly and uniformly shifting each realization of the samples in the underlying space. This process is called homogenization. In the point processes literature, homogenization is also known as \emph{stationary point processes} for which the average number of points per some unit of extent such as length, area, volume, or time, is constant depending on the underlying mathematical space.
+
+%\subsection{Consistency}
+%\TBC
+
+\subsection{Consistency and Convergence}
+Sampling strategies for which error goes down with the increase in number of samples are considered consistent. Although, reducing variance in Monte Carlo estimators have been given paramount importance in the past, it is also worth while to investigate the convergence rate, which represents the rate at which error goes down with the increase in the number of samples. 
 
 \section{Monte Carlo integration in the Fourier domain}
 Monte Carlo sampling can be represented as an inner product of the integrand \ifn\ and the sampling pattern \sfn\ which is composed of a sum of impulses (delta functions) normalized by the number of impulses \GURPRIT{maybe we can also mathematically write \sfn\ }. Since inner products are preserved under Fourier Transforms, the na\"ive estimator 

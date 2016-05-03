@@ -37,21 +37,21 @@
 #include <iomanip>
 
 MainWindow::MainWindow(QString &outfile, std::vector<double> &data, std::string pattern, int N, int demoIndex,
-                       double ptRadius, double *domain, QWidget *parent) :  QMainWindow(parent),
+                       double ptRadius, bool gridVisualize, double *domain, QWidget *parent) :  QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
 
-  setupDemo(outfile, data, pattern, N, demoIndex, ptRadius, domain);
+  setupDemo(outfile, data, pattern, N, demoIndex, ptRadius, gridVisualize, domain);
 }
 
 void MainWindow::setupDemo(QString &outfile, std::vector<double> &data, std::string pattern, int N,
-                           int demoIndex, double ptRadius,
+                           int demoIndex, double ptRadius, bool gridVisualize,
                            double* domain)
 {
     switch (demoIndex){
-    case 0: showPointsDemo(outfile, data, pattern, N, ui->customPlot, ptRadius, domain); break;
-    case 1: setupRadialSpectrumDemo(outfile, data, pattern, N, ui->customPlot); break;
+    case 0: showPointsDemo(outfile, data, pattern, N, ui->customPlot, ptRadius, gridVisualize, domain); break;
+    case 1: setupRadialSpectrumDemo(outfile, data, pattern, N, ui->customPlot, gridVisualize); break;
     }
     setWindowTitle("Plot: "+demoName);
     statusBar()->clearMessage();
@@ -60,7 +60,7 @@ void MainWindow::setupDemo(QString &outfile, std::vector<double> &data, std::str
 }
 
 void MainWindow::setupRadialSpectrumDemo(QString &outfile, std::vector<double> &data, std::string pattern,
-                                         int N, QCustomPlot *customPlot){
+                                         int N, QCustomPlot *customPlot, bool gridVisualize){
 
     setGeometry(50, 50, 1024, 512);
     demoName = "radial-spectrum";
@@ -73,7 +73,7 @@ void MainWindow::setupRadialSpectrumDemo(QString &outfile, std::vector<double> &
     {
       //x[i-1] = data[2*i]*(1/(sqrt(2*nSamples)));
         if(pattern == "ccvt")
-            x[i-1] = data[2*i]*(1/(sqrt(2.42*N)));
+            x[i-1] = data[2*i]*(1/(0.875*sqrt(N)));
         else if(pattern == "poissondisk" || pattern == "dartthrowing")
             x[i-1] = data[2*i]*(1/(0.908*sqrt(N)));
         else if(pattern == "jitter")
@@ -115,12 +115,12 @@ void MainWindow::setupRadialSpectrumDemo(QString &outfile, std::vector<double> &
     customPlot->xAxis->setAutoTickStep(false);
     customPlot->xAxis->setTickStep(1.0);
     customPlot->xAxis->setAutoSubTicks(false);
-    customPlot->xAxis->grid()->setVisible(false);
+    customPlot->xAxis->grid()->setVisible(gridVisualize);
 
     customPlot->yAxis->setRange(0.0,2.0);
     customPlot->yAxis->setAutoTickStep(false);
     customPlot->yAxis->setTickStep(1.0);
-    customPlot->yAxis->grid()->setVisible(false);
+    customPlot->yAxis->grid()->setVisible(gridVisualize);
 
     customPlot->setInteraction(QCP::iRangeDrag, true);
     customPlot->setInteraction(QCP::iRangeZoom, true);
@@ -131,7 +131,7 @@ void MainWindow::setupRadialSpectrumDemo(QString &outfile, std::vector<double> &
 }
 
 void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, std::string samplingpattern,
-                                int N, QCustomPlot *customPlot, double ptRadius, double *domain){
+                                int N, QCustomPlot *customPlot, double ptRadius, bool gridVisualize, double *domain){
     setGeometry(50, 50, 768, 768);
     demoName = "Point set";
 

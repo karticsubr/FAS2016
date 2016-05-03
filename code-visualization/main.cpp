@@ -53,7 +53,8 @@ int main(int argc, char *argv[]){
             ("file", po::value<std::string>(), "string: filename")
             ("dinf", po::value<double>()->default_value(0), "double: minimum (infimum) of the domain")
             ("dsupp", po::value<double>()->default_value(1), "double: maximum (supremum) of the domain")
-            ("rad", po::value<double>()->default_value(8), "double: point radius");
+            ("rad", po::value<double>()->default_value(8), "double: point radius")
+            ("grid", po::value<bool>()->default_value(false), "bool: 0 or 1, to visualize the grid");
 
     po::variables_map vm;
     //##########################################################
@@ -87,6 +88,7 @@ int main(int argc, char *argv[]){
     double minDomain            = vm["dinf"].as<double>();
     double maxDomain            = vm["dsupp"].as<double>();
     double ptRadius             = vm["rad"].as<double>();
+    bool gridVisualize          = vm["grid"].as<bool>();
     //############################################################
 
     //###############Creating Folders##############################
@@ -131,7 +133,7 @@ int main(int argc, char *argv[]){
 
 //    std::cerr << data.size() << std::endl;
 
-    MainWindow w(outputFileName, data, samplingpattern, nsamples, demoIndex, ptRadius, domain);
+    MainWindow w(outputFileName, data, samplingpattern, nsamples, demoIndex, ptRadius, gridVisualize, domain);
     w.show();
     //############################################################
 

@@ -1385,7 +1385,7 @@ void MainWindow::allScreenShots(QString &outfile, std::vector<double> &data, std
     delete ui->customPlot;
     ui->customPlot = new QCustomPlot(ui->centralWidget);
     ui->verticalLayout->addWidget(ui->customPlot);
-    setupDemo(outfile, data, pattern, N, currentDemoIndex+1, 3, domain);
+    setupDemo(outfile, data, pattern, N, currentDemoIndex+1, 3, false, domain);
     // setup delay for demos that need time to develop proper look:
     int delay = 250;
     if (currentDemoIndex == 10) // Next is Realtime data demo

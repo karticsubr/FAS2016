@@ -58,17 +58,19 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QString &outfile,std::vector<double> &data, std::string pattern, int  N,
-                        int demoIndex, double ptRadius,
+                        int demoIndex, double ptRadius, bool gridVisualize,
                         double* domain,  QWidget *parent = 0);
     ~MainWindow();
 
-    void setupDemo(QString &outfile, std::vector<double> &data, std::string pattern, int N, int demoIndex, double ptRadius, double *domain);
+    void setupDemo(QString &outfile, std::vector<double> &data, std::string pattern, int N, int demoIndex,
+                   double ptRadius, bool gridVisualize, double *domain);
 
-    void setupRadialSpectrumDemo(QString &outfile, std::vector<double> &data, std::string pattern, int N,
-                                 QCustomPlot *customPlot);
+    void setupRadialSpectrumDemo(QString &outfile, std::vector<double> &data, std::string pattern,
+                                 int N, QCustomPlot *customPlot, bool gridVisualize);
+
     void showPointsDemo(QString &outfile, std::vector<double> &samples,
                         std::string samplingpattern, int N, QCustomPlot *customPlot,
-                        double ptRadius, double* domain);
+                        double ptRadius, bool gridVisualize, double* domain);
 
     void setupQuadraticDemo(QCustomPlot *customPlot);
     void setupSimpleDemo(QCustomPlot *customPlot);
