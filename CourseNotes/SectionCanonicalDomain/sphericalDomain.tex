@@ -4,18 +4,18 @@
 %
 %
 \subsection{Spherical domain}
-On the sphere, the most commonly used tool for spectral analysis is the spherical harmonics
-(SH)~\cite{Groemer1996}, which is the Fourier analog on the sphere, and is given by:
+On the sphere, the most commonly used tool for spectral analysis is spherical harmonics
+(SH)~\cite{Groemer1996}, which is analogous to Fourier analog on the sphere. While the bases for Fourier analysis are chosen to be Eigenfunctions of the derivative operator on the plane, the SH bases are chosen to be Eigenfunctions of the rotation invariant differential operator, or Laplacian, on the sphere and are
 %
 \begin{equation}
 \label{eq:SH}
-Y_l^m(\theta,\phi) \EqDef {\sqrt{(2-\delta_{0m})\frac{(2l+1)}{\Lebesgue{\SphericalDom{2}}}\frac{(l-m)!}{(l+m)!}}} \, P_l^m(\cos\theta) \, \exp({im\phi})\,.
+Y_l^m(\theta,\phi) \equiv {\sqrt{(2-\delta_{0m})\frac{(2l+1)}{\Lebesgue{\SphericalDom{2}}}\frac{(l-m)!}{(l+m)!}}} \, P_l^m(\cos\theta) \, \exp({im\phi})\,.
 \end{equation}
 %
 Here, $\delta_{ij}$ is the Kronecker delta function, $\Lebesgue{\SphericalDom{2}}=4\pi$, is the Lebesgue measure of a unit 
 sphere, $Y_l^m(\theta,\phi)$ is the spherical harmonic basis
 function of degree $l$ and order $m$ and $P_l^m(x)$ denotes  the \emph{asssociated Legendre
-Polynomials}, for $x \in [-1,1]$. SH $(Y_l^m)$ are orthonormal basis functions, such that,  any integrable function
+Polynomials}, for $x \in [-1,1]$. SH $(Y_l^m)$ are orthonormal basis functions such that  any integrable function
 $\DummyIntegrand$ on $\SphericalDom{2}$ can be decomposed into SH components.
  as:
  %

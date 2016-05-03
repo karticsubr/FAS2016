@@ -46,7 +46,7 @@ and its coefficients of projection \IFn\ can be written as
 \end{eqnarray}
 The integral transforms in eq.~\ref{eq:FT} and eq.~\ref{eq:IFT} are known as the \textit{Fourier transform} and the \textit{inverse Fourier transform} respectively. Due to Euler's formula in complex analysis,  $\MyExp{\imag 2\pi \fv x} = \cos({2\pi\fvn x}) + \imag \sin({2\pi\fvn x})$, the projection of functions onto complex exponentials is equivalent to a projection onto sinusoids of frequencies given by $2\pi\fv$. For this reason, \fv\ is referred to as the \textit{frequency variable} and \IFn\ is said to be a representation of \ifn\ in the \textit{frequency domain}. We denote the Fourier transform pair using \ifn \Fdual \IFn. In summary, the continuous Fourier transform decomposes a function on the infinite (real) domain into a continuous sum (integral) of sinsuoids of continuous and unbounded set of frequencies. The set of continuous complex coefficients arising from this decomposition is called the \textit{Fourier spectrum} of the function. 
 
-\section{Fourier series}
+\section{Fourier series} \label{sec:PFT}
 The projection of periodic functions onto complex exponentials leads to a special case. Consider a general periodic function \ipn T\ obtained by convolving a function \ifn\ with a Dirac comb \shaf{T} with period $T$. Since $\ipn T = \ifn  \conv \shaf T$, the Fourier transformed periodic function is a product $\IPn T = \IFn \SHAF T$ (due to the convolution theorem). Since \SHAF T\ is also a Dirac comb (with a period of $1/T$ in the frequency domain), the Fourier spectrum of \ipn T\ is only non-zero at the set of locations where \SHAF T\ is non-zero. Therefore, the Fourier spectrum of a continuous periodic function is non-zero at discrete (regular) frequencies.
 
 The inverse Fourier transform of the periodic function can then be written as a summation:
@@ -75,13 +75,14 @@ Given data $f_n, \; n=0,1,...,N-1$, the $k^{th}$ ($k\in\Z$) coefficients of the 
 respectively. Due to periodicity, the domain of k is typically $[0,N-1]$. The DFT is a linear, invertible transformation $\mathcal{F}_{DFT}: \C \rightarrow \C$ that exhibits most properties of the continuous Fourier transform such as completeness and orthogonality. Also, important theorems such as the convolution theorem, shift theorem, Plancherel's and Parseval's theorems also have their equivalents in the context of the DFT. Na\"ive calculation of the $N$ coefficients $c_k$ requires $O(N^2)$ computation since each coefficient involves a summation over $N$ terms. Fast Fourier Transform (FFT) algorithms solve this with $O(N \log{N})$ computation.
 
 \section{Power spectral density (PSD) and the periodogram}
-The energy of a signal \ifn\ is generally considered to be the integral of the square of the signal (over its entire domain). Due to Parseval's theorem, this may also be expressed as the integral, over all frequencies, of the square (for real signals) of the Fourier transform of the signal. The integrand in this expression of power, $|\IFn|^2$, is referred to as the \textit{power spectrum} of \ifn. We denote the PSD of $f(x)$ as $\PowerSpec{f}(\fv)$, which represents the squared amplitude of the Fourier coefficients at the frequency \fv. 
+The energy of a signal \ifn\ is generally considered to be the integral of the square of the signal (over its entire domain). Due to Parseval's theorem, this may also be expressed as the integral, over all frequencies, of the square (for real signals) of the Fourier transform of the signal. The integrand in this expression of power, $|\IFn|^2$, is referred to as the \textit{power spectrum} of \ifn. 
 
 Now consider a wide-sense stationary random processes, from which a single observation is made. The data from this observation may be subjected to Fourier analysis and the PSD of the observed data --- called a \textit{periodogram} --- may be considered as an estimate of the PSD of the generating process. Although the periodogram is not a very good estimate~\cite{}, it is convenient and hence popular~\cite{lagaeDutre}. 
 
+We denote the PSD of $f(x)$ as $\PowerSpec{f}(\fv)$, which represents the squared amplitude of the Fourier coefficients at the frequency \fv. While we use the same notation for stochastic signals, the interpretation is slightly different. $\PowerSpec{\sfsym}(\fv) \equiv |\SF|^2$ denotes the power spectrum of a single instance of a sampling function. This is not the PSD of the stochastic process, rather it is an estimate of the periodogram $\Exp{|\SF|^2}$. The PSD of the stochastic process is $|\Exp{\SF}|^2$.
 
 
-\section{Sampling functions in the canonical domain and their spectra}
+\section{Sampling functions in the canonical domain and their spectra} \label{sec:sfn}
 We express sampling functions as the sum of weighted unit impulses, or Dirac Delta functions:
 \begin{eqnarray}
     S(x) &=& \frac { \sum\limits_{i=1}^{\N} w_i \; \updelta(x-x_i) } {\sum\limits_{i=1}^{\N} w_i }.
@@ -106,7 +107,7 @@ A summary of notation used in this course.\TBC}%
 %     \estim{is,1} 	&  primary (1-sample) imp. samp. estimator\\
     \RV X, \RV Y, \xii, \yii & random variates \\
     $\PowerSpec{S}(\fv)$ &
-	  Power spectrum of \sfn \\ %: $\PowerSpec{S}(\fv) = $
+	  Power spectrum of a single instance of \sfn\ (periodogram)\\ %: $\PowerSpec{S}(\fv) = $
     $\sfn \Fdual \SF $&
           Fourier transform pair: integrand and its transform\\
     $\sfn \Fdual \SF $&
