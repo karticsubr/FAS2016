@@ -11,5 +11,6 @@
 
 #include "write-exr.h"
 #include "write-png.h"
+#include "write-eps.h"
 
 #endif

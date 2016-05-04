@@ -4,7 +4,7 @@
 #include <boost/filesystem.hpp>
 #include <sys/stat.h>
 
-#include "./../../io/write-image.h"
+#include "./../../io/write-eps.h"
 #include "./../../core/utils.h"
 #include "./../../sampler-points/sampler-points.h"
 
@@ -67,6 +67,9 @@ int main(int argc, char* argv[]){
     if(samplingpattern == "jitter"){
         pointset = pointSampler2dd::jitter_samples(nsamples, domain);
     }
+    else if(samplingpattern == "nrooks"){
+        pointset = pointSampler2dd::nrooks_samples(nsamples, domain);
+    }
     else if(samplingpattern == "regular"){
         pointset = pointSampler2dd::regular_samples(nsamples, domain);
     }
@@ -128,7 +131,7 @@ int main(int argc, char* argv[]){
 
     ss.str(std::string());
     ss << images << "pointset-" << mode << "-" << samplingpattern << "-n" << N << ".png";
-    write_png_grey(ss.str(), testImage, width, height, true);
+    write_eps(ss.str(), finalsamples);
 
     return 0;
 }

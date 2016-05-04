@@ -96,6 +96,9 @@ int main(int argc, char* argv[]){
         if(samplingpattern == "jitter"){
             pointset = pointSampler2dd::jitter_samples(nsamples, domain);
         }
+        else if(samplingpattern == "nrooks"){
+            pointset = pointSampler2dd::nrooks_samples(nsamples, domain);
+        }
         else if(samplingpattern == "regular"){
             pointset = pointSampler2dd::regular_samples(nsamples, domain);
         }

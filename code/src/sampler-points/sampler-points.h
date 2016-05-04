@@ -18,6 +18,7 @@ class PointSampler{
 public:
     static std::vector<T> random_samples(int N, T *bbox, int dim=Dimension);
     static std::vector<T> jitter_samples(int N, T *bbox, int dim=Dimension);
+    static std::vector<T> nrooks_samples(int N, T *bbox, int dim=Dimension, bool shuffle=true);
     static std::vector<T> regular_samples(int N, T *bbox, int dim=Dimension);
     static std::vector<T> uniformjitter_samples(int N, T *bbox, int dim=Dimension);
     static std::vector<T> multijitter_samples(int N, T *bbox, int dim=2, bool shuffle=true);

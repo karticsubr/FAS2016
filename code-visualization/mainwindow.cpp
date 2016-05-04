@@ -82,6 +82,8 @@ void MainWindow::setupRadialSpectrumDemo(QString &outfile, std::vector<double> &
             x[i-1] = data[2*i]*(1/(sqrt(N)));
         else if(pattern == "uniformjitter")
             x[i-1] = data[2*i]*(1/(sqrt(N)));
+        else if(pattern == "nrooks")
+            x[i-1] = data[2*i]*(1/(sqrt(N)));
         else if(pattern == "random")
             x[i-1] = data[2*i]*(1/(sqrt(N)));
         else if(pattern == "regular")

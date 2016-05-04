@@ -76,7 +76,6 @@ std::vector<T> PointSampler<Dimension, T>::jitter_samples(int N, T *bbox, int di
     return samples;
 }
 
-
 template<int Dimension, typename T>
 std::vector<T> PointSampler<Dimension, T>::uniformjitter_samples(int N, T *bbox, int dim){
 
