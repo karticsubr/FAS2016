@@ -1,0 +1,63 @@
+
+Film "image" "integer xresolution" [512] "integer yresolution" [512] 
+#"float cropwindow"  [0.3 .4 .4 .7]
+#"string filename" "testmb_ball.scene.exr"
+
+"string filename" "_FNAME_"
+
+
+#LD# 	Sampler "lowdiscrepancy" "integer pixelsamples" [_NSAMP_]
+#GRID#	Sampler "stratified" "integer xsamples" [_NSAMP_] "integer ysamples" [_NSAMP_] "bool jitter" ["false"]
+#RAND#	Sampler "random" "integer pixelsamples" [_NSAMP_] 
+
+
+LookAt 2 2 6   -1.3 -.6 0 0 1 0
+Camera "perspective" "float fov" [35 ]
+	"float focaldistance" [3.25] 
+	"float lensradius" [.15] 
+
+#SurfaceIntegrator "directlighting" "integer maxdepth" [5]
+Integrator "path" "integer maxdepth" [7]
+#SurfaceIntegrator "photonmap" "integer maxdepth" [4]
+
+
+#PixelFilter "box"
+PixelFilter "gaussian" "float xwidth" [5] "float ywidth" [5] "float alpha" [0.01] 
+
+WorldBegin
+LightSource "distant" "point from" [0 4 15 ] "point to" [0 0 0 ] "color L"
+	[3.141593 3.141593 3.141593 ] 
+
+AttributeBegin
+#Rotate 90 1 0 0 
+LightSource "infinite" 	"integer nsamples" [64]
+    "string mapname" ["grace-new.exr"] "color L" [10 10 10]
+  #"string mapname" ["_LOC_textures/uffizi_latlong.exr"] "color L" [10 10 10]
+AttributeEnd
+
+AttributeBegin
+AreaLightSource "area" "color L" [8 7 7] "integer nsamples" [1]
+Translate -2 4 -2
+Rotate 90 1 0 0
+Shape "disk" "float radius" [3]
+AttributeEnd
+
+AttributeBegin
+Translate 1.4 1.5 4.8 
+#Material "glass"
+Material "mirror"
+ActiveTransform StartTime
+Translate .28 0 0
+ActiveTransform All
+Shape "sphere" "float radius" [.3]
+ AttributeEnd
+
+
+Translate .85 1.3 4.6 
+#Material "matte" "color Kd" [.8 .3 .2]
+Material "metal"  "float roughness" [.001]
+    "spectrum eta" "Au.eta.spd"
+#   "spectrum k" "Cu.k.spd"
+Shape "sphere" "float radius" [.4]
+
+WorldEnd
