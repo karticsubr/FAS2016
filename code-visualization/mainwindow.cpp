@@ -145,8 +145,8 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     double minDomainY = domain[1];
     double maxDomainX = domain[2];
     double maxDomainY = domain[3];
-    //double maxRangeX = domain[2] - domain[0];
-    //double maxRangeY = domain[3] - domain[1];
+    double maxRangeX = domain[2] - domain[0];
+    double maxRangeY = domain[3] - domain[1];
 
     // generate some data:
     int dataSize = samples.size() * 0.5;
@@ -163,21 +163,26 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
         y[i] = samples[2*i+1];
     }
 
+    double TickStepLength = 1.0;
+
+    if(samplingpattern == "jitter" || samplingpattern == "uniformjitter" || samplingpattern == "regular"){
+       TickStepLength = maxRangeX / sqrt(N);
+    }
+    else if(samplingpattern == "multijitter" || samplingpattern == "nrooks")
+        TickStepLength = maxRangeX / (N);
+
     customPlot->graph()->setData(x, y);
     customPlot->graph()->rescaleAxes(true);
 
     customPlot->xAxis->setRange(minDomainX,maxDomainX);
     customPlot->xAxis->setAutoTickStep(false);
-    //customPlot->xAxis->setTickStep(1.0);
-    customPlot->xAxis->setTickLabels(false);
-    //customPlot->xAxis->setLabel("Imag");
-    customPlot->xAxis->grid()->setVisible(false);
-    customPlot->xAxis->setVisible(false);
+    customPlot->xAxis->setTickStep(TickStepLength);
+    customPlot->xAxis->setTicks(false);
+    customPlot->xAxis->grid()->setVisible(gridVisualize);
 
     //Make the top and right axes visible.
-    //customPlot->xAxis2->setVisible(true);
-    //customPlot->yAxis2->setVisible(true);
-
+    customPlot->xAxis2->setVisible(true);
+    customPlot->xAxis2->setTicks(false);
     //customPlot->xAxis2->setRange(minDomainY,maxDomainY);
     //customPlot->xAxis2->setAutoTickStep(false);
     //customPlot->xAxis2->setTickStep(1.0);
@@ -185,12 +190,16 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
 
     customPlot->yAxis->setRange(minDomainY,maxDomainY);
     customPlot->yAxis->setAutoTickStep(false);
-    //customPlot->yAxis->setTickStep(1.0);
+    customPlot->yAxis->setTickStep(TickStepLength);
     //customPlot->yAxis->setLabel("Real");
-    customPlot->yAxis->grid()->setVisible(false);
+    //customPlot->yAxis->setVisible(false);
+    customPlot->yAxis->grid()->setVisible(gridVisualize);
     customPlot->yAxis->setTickLabels(false);
-    customPlot->yAxis->setVisible(false);
+    customPlot->yAxis->setTicks(false);
+    customPlot->yAxis->setSelectedLabelColor(QColor(1,1,1));
 
+    customPlot->yAxis2->setVisible(true);
+    customPlot->yAxis2->setTicks(false);
 //    customPlot->yAxis2->setRange(0,range);
 //    customPlot->yAxis2->setAutoTickStep(false);
 //    //customPlot->yAxis2->setTickStep(1.0);
