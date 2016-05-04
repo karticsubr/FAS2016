@@ -78,7 +78,7 @@
 %    {\centering Fourier Analysis of Sampling Patterns \\ for Rendering: Theory and Practice \\[15pt] % Book title 
    {\centering Fourier Analysis of Numerical Integration in \\ Monte Carlo Rendering: Theory and Practice \\[15pt] % Book title
    {\Large Understanding estimation error in Monte Carlo Image Synthesis}\\[20pt] % Subtitle
-   {\huge Kartic Subr, Wojciech Jarosz and Gurprit Singh}}}; % Author name
+   {\huge Kartic Subr, Gurprit Singh and Wojciech Jarosz}}}; % Author name
 \end{tikzpicture}};
 \end{tikzpicture}
 \vfill
@@ -159,20 +159,6 @@ Kartic's research explores the benefits of stochastic and adaptive sampling when
 \textcolor[RGB]{220,220,220}{\rule{.9\columnwidth}{0.5pt}}
 \medskip
 
-\noindent\textbf{Prof.\ Wojciech Jarosz} \hfill
-\href{mailto:wojciech.k.jarosz@dartmouth.edu}{\texttt{<wojciech.k.jarosz@dartmouth.edu>}} \\
-Dartmouth College\hfill
-\url{http://www.cs.dartmouth.edu/~wjarosz}\\
-
-Wojciech Jarosz is an Assistant Professor of Computer Science at Dartmouth College and co-founder of Dartmouth's Visual Computing Lab. Before joining Dartmouth in 2015, Wojciech was a Senior Research Scientist heading the rendering group at Disney Research Zürich, and an adjunct lecturer at ETH Zürich. He obtained his Ph.D. (2008) and M.S. (2005) in computer graphics from UC San Diego, and a B.S. (2003) in computer science from the University of Illinois at Urbana–Champaign.
-
-Prof.\ Jarosz’s research covers many areas of computer graphics and rendering, with a particular emphasis on \emph{light}: how to capture it, how to more efficiently simulate its interaction and propagation within scenes, how to author or edit appearance, and how to create physical objects with prescribed light interactions. Much of his work has involved developing more sophisticated sampling techniques in the context of Monte Carlo integration and the resulting methods have been incorporated into production rendering systems for the making of feature films, including Disney's \textit{Tangled} and \textit{Big Hero 6}. In 2013, Prof.\ Jarosz received the Eurographics Young Researcher Award.
-
-% \bigskip
-\medskip
-\textcolor[RGB]{220,220,220}{\rule{.9\columnwidth}{0.5pt}}
-\medskip
-
 \noindent\textbf{Dr.\ Gurprit Singh} \hfill
 {\texttt{<gurprit.singh@dartmouth.edu>}} \href{mailto:gurprit.singh@dartmouth.edu}\\
 Dartmouth College\hfill
@@ -185,6 +171,22 @@ obtained his bachelor's thesis (2010) from IIT Delhi, India, under the supervisi
 
 Gurprit's research is mainly focused on understanding point sample distributions from the Fourier perspective. During his thesis work, Gurprit developed a theoretical model in the spherical domain that can characterise various sampling methods (jitter, Poisson Disk, Blue noise) based on their frequency content. This theoretical framework can be used to predict the exact variance for Monte Carlo integration. Later on, this framework is also used to analytically derive the variance convergence rates 
 of various well known sampling patterns (jitter, Poisson Disk) that are extensively used in production rendering.
+
+\medskip
+\textcolor[RGB]{220,220,220}{\rule{.9\columnwidth}{0.5pt}}
+\medskip
+
+\noindent\textbf{Prof.\ Wojciech Jarosz} \hfill
+\href{mailto:wojciech.k.jarosz@dartmouth.edu}{\texttt{<wojciech.k.jarosz@dartmouth.edu>}} \\
+Dartmouth College\hfill
+\url{http://www.cs.dartmouth.edu/~wjarosz}\\
+
+Wojciech Jarosz is an Assistant Professor of Computer Science at Dartmouth College and co-founder of Dartmouth's Visual Computing Lab. Before joining Dartmouth in 2015, Wojciech was a Senior Research Scientist heading the rendering group at Disney Research Zürich, and an adjunct lecturer at ETH Zürich. He obtained his Ph.D. (2008) and M.S. (2005) in computer graphics from UC San Diego, and a B.S. (2003) in computer science from the University of Illinois at Urbana–Champaign.
+
+Prof.\ Jarosz’s research covers many areas of computer graphics and rendering, with a particular emphasis on \emph{light}: how to capture it, how to more efficiently simulate its interaction and propagation within scenes, how to author or edit appearance, and how to create physical objects with prescribed light interactions. Much of his work has involved developing more sophisticated sampling techniques in the context of Monte Carlo integration and the resulting methods have been incorporated into production rendering systems for the making of feature films, including Disney's \textit{Tangled} and \textit{Big Hero 6}. In 2013, Prof.\ Jarosz received the Eurographics Young Researcher Award.
+
+% \bigskip
+
 % \cleardoublepage
 
 
@@ -385,7 +387,7 @@ Consistent estimators, whether biased or unbiased, are desirable for image synth
 The analytical characterization of both, bias as well as variance, across a general set of sampling strategies is challenging. 
 % Analysing both bias and variance at the same time in Monte Carlo integration can be challenging. 
  However, focusing on unbiased estimators makes it possible to express error in the form of variance only. To apply this analysis to a wide variety of estimators, it would be beneficial to first be able to transform them into unbiased estimators, albeit by introducing extra variance. 
- One way to mitigate the bias of an estimator is by ensuring that the sampling spectrum only contains energy at the DC~\cite{Subr:2013:FAS}. Inspired by the process of generating unbiased estimators from randomly jittering a regular grid~\cite{}, Pilleboue et al~\cite{Pilleboue:2015:VAM} shifted each realization of the samples by uniformly random amounts. They termed this process \textit{homogenization}. In the point processes literature homogenization is also known as \emph{stationary point processes} for which the average number of points per some unit of extent such as length, area, volume, or time, is constant depending on the underlying mathematical space.
+ One way to mitigate the bias of an estimator is by ensuring that the sampling spectrum only contains energy at the DC~\cite{Subr:2013:FAS}. Inspired by the process of generating unbiased estimators from randomly jittering a regular grid~\cite{Ramamoorthi:2012}, Pilleboue et al~\cite{Pilleboue:2015:VAM} shifted each realization of the samples by uniformly random amounts. They termed this process \textit{homogenization}. In the point processes literature homogenization is also known as \emph{stationary point processes} for which the average number of points per some unit of extent such as length, area, volume, or time, is constant depending on the underlying mathematical space.
 
 %\subsection{Consistency}
 %\TBC
@@ -440,7 +442,7 @@ Stratified sampling divides the integration domain into a number of disjoint reg
 
 Jittered sampling considerably reduces the likelihood that many samples will fall within close proximity, and, since each stratum is guaranteed one sample, also places a strict upper bound on the size of any region void of any samples. These two properties considerably improve how well evenly distributed the sample points are compared to independent random sampling. Unfortunately, this improvement comes at the cost of some inconvenience. Jittered sampling is not progressive, so we cannot continually add more samples, and we must know the total number of samples before constructing the point set. Furthermore, the total number of samples is only set indirectly through the number of subdivisions along each dimension. With the same number of subdivisions along each dimension, the total number of samples has to be a perfect square in 2D, a perfect cube in 3D, etc. This can be cumbersome, and becomes increasingly so as the dimensionality of the point set grows. Setting the total number of samples with fine granularity becomes increasing difficult, e.g. dividing each dimension of a five-dimensional domain into two cells results in $2^5 = 32 samples$ and increasing the divisions to three per dimension already increases the sample count to $3^5 = 243$. While it is possible to set an different number of subdivisions along each dimension to obtain finer granularity, it is not easy to determine these values automatically or optimally for a particular integration problem.
 
-It can be shown~\cite{} that jittered sampling cannot increase the variance of a Monte Carlo estimator compared to using independent random samples. In fact, it can often reduce variance considerably. Moreover, analysis of the periodogram reveals that jittered sampling has can result in asymptotically better convergence rates of XXX and YYY.
+It can be shown that jittered sampling cannot increase the variance of a Monte Carlo estimator compared to using independent random samples. In fact, it can often reduce variance considerably. Moreover, analysis of the periodogram reveals that jittered sampling has can result in asymptotically better convergence rates of XXX and YYY.
 
 \subsection{Uniform jittered sampling}
 Uniform jittered sampling is a further restriction of jittered sampling where the random location of a point within its stratum is the same across the entire point set. In other words, a single jitter is applied to all samples of a regular uniform pattern (as opposed to jittering each stratum's sample independently as in jittered/stratified sampling). For the 2D unit square, any single realization of a uniform jittered sampling pattern is simply a randomly shifted rectangular grid pattern. Figure~\ref{fig:uniform-jittered-points} shows two independent realizations of 256 uniform jittered points.
@@ -545,7 +547,7 @@ method, or completely constructed by the user.
 % \section*{Articles}
 % \addcontentsline{toc}{section}{Articles}
 % \printbibliography[heading=bibempty]
-\bibliographystyle{unsrt}
+\bibliographystyle{acm}
 \bibliography{bibliography.bib}
 \addcontentsline{toc}{chapter}{\textcolor{ocre}{Bibliography}}
 

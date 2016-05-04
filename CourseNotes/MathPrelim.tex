@@ -36,7 +36,7 @@ uniformly, the estimator is unbiased. That is, its expected value is the integra
 
 The process of solving differential equations is simplified by projecting relevant functions onto a basis formed by eigenfunctions of the differential operator. The class of functions $x \rightarrow \MyExp{\imag \fvn x}$ forms a natural choice since $\frac {\mathrm{d}}{\mathrm{d}x} \MyExp{\imag \fvn x} = \imag \fvn . \MyExp{\imag \fvn x}$. The projection of a given function, $\ifsym: \Re \rightarrow \C$, results in a set of coefficients --- one coefficient corresponding to every function in the basis (so, per choice of \fvn). If the basis is chosen so that it contains continuous (real) values of \fv, the corresponding coefficients may be viewed as a function of \fv. $\IFsym: \Re\rightarrow\C$. Under certain conditions
 \footnote{
-We refer readers to textbooks on the subject~\cite{} for a mathematically rigorous treatment.
+We refer readers to textbooks~\cite{bracewell00fourier,kammlerFourier} on the subject for a mathematically rigorous treatment.
 }
  the relationship between \ifn\ 
 and its coefficients of projection \IFn\ can be written as 
@@ -77,7 +77,7 @@ respectively. Due to periodicity, the domain of k is typically $[0,N-1]$. The DF
 \section{Power spectral density (PSD) and the periodogram}
 The energy of a signal \ifn\ is generally considered to be the integral of the square of the signal (over its entire domain). Due to Parseval's theorem, this may also be expressed as the integral, over all frequencies, of the square (for real signals) of the Fourier transform of the signal. The integrand in this expression of power, $|\IFn|^2$, is referred to as the \textit{power spectrum} of \ifn. 
 
-Now consider a wide-sense stationary random processes, from which a single observation is made. The data from this observation may be subjected to Fourier analysis and the PSD of the observed data --- called a \textit{periodogram} --- may be considered as an estimate of the PSD of the generating process. Although the periodogram is not a very good estimate~\cite{}, it is convenient and hence popular~\cite{lagaeDutre}. 
+Now consider a wide-sense stationary random processes, from which a single observation is made. The data from this observation may be subjected to Fourier analysis and the PSD of the observed data --- called a \textit{periodogram} --- may be considered as an estimate of the PSD of the generating process. Although the periodogram is not a good estimate~\cite[Sec.14.2.2]{DimitrisIngle}, it is convenient and hence popular~\cite{journals/cgf/LagaeD08}. 
 
 We denote the PSD of $f(x)$ as $\PowerSpec{f}(\fv)$, which represents the squared amplitude of the Fourier coefficients at the frequency \fv. While we use the same notation for stochastic signals, the interpretation is slightly different. $\PowerSpec{\sfsym}(\fv) \equiv |\SF|^2$ denotes the power spectrum of a single instance of a sampling function. This is not the PSD of the stochastic process, rather it is an estimate of the periodogram $\Exp{|\SF|^2}$. The PSD of the stochastic process is $|\Exp{\SF}|^2$.
 
