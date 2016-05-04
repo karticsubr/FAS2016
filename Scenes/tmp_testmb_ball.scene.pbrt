@@ -3,12 +3,12 @@ Film "image" "integer xresolution" [512] "integer yresolution" [512]
 #"float cropwindow"  [0.3 .4 .4 .7]
 #"string filename" "testmb_ball.scene.exr"
 
-"string filename" "testmb_ball.scene_GRID_8_Samps_iter_1_1_uj.exr"
+"string filename" "testmb_ball.scene_GRID_64_Samps_iter_1_1_uj.exr"
 
 
-#LD# 	Sampler "lowdiscrepancy" "integer pixelsamples" [8]
- 	Sampler "stratified" "integer xsamples" [8] "integer ysamples" [8] "bool jitter" ["false"]
-#RAND#	Sampler "random" "integer pixelsamples" [8] 
+#LD# 	Sampler "lowdiscrepancy" "integer pixelsamples" [64]
+ 	Sampler "stratified" "integer xsamples" [64] "integer ysamples" [64] "bool jitter" ["false"]
+#RAND#	Sampler "random" "integer pixelsamples" [64] 
 
 
 LookAt 2 2 6   -1.3 -.6 0 0 1 0
