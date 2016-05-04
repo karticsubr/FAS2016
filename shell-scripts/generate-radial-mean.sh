@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#  run-cft.sh
+#  generate-radial-mean.sh
 #  
 #
 #  Created by Gurprit Singh on 5/02/16.
