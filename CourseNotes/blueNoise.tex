@@ -6,8 +6,7 @@ who investivated a radially averaged power spectra of various sampling patterns.
 He advocated three important features for an ideal radial power spectrum;  
 First, its peak should be at the principal frequency. % for that gray level.  
 Second, the principal frequency marks a sharp transition level below which little or no energy exists. 
-And finally, the uncorrelated high-frequency fluctuations are characterized by high-frequency white noise. Poisson Disk sampling pattern (shown in~\RefFig{points-powspec-radialmean}) closely resembles 
-the above features in the low frequency zone.
+And finally, the uncorrelated high-frequency fluctuations are characterized by high-frequency white noise. Poisson Disk sampling pattern (shown in~\RefFig{powspec-radialmean-bluenoise}) closely resembles the above features in the low frequency zone.
 
 %Yellot~\cite{Ylt83} studied the distribution of cones in an extrafoveal region of the eye of  a 
 %rhesus monkey, which has a photoreceptor distribution similar to that in the humam eye. Yellot took 
@@ -126,5 +125,5 @@ Recently~\cite{Pilleboue:2015:VAM}, it has been shown that the low frequency reg
 radial power spectrum (of a given sampling pattern) plays a crucial role in deciding the overall variance convergence rates of sampling 
 patterns used for Monte Carlo integration. Since blue noise sampling patterns contains almost no radial 
 energy in the low frequency region, they are of great interest for future research to obtain fast results in 
-rendering problems. Surprisingly, Poisson Disk samples have shown the convergence rate of $\BigO{N^{-1}}$ which is the same as given by purely random samples. This can be explained by looking at the low frequency region in the radial power spectrum of Poisson Disk samples (\RefFig{points-powspec-radialmean}) which is not zero.
+rendering problems. Surprisingly, Poisson Disk samples have shown the convergence rate of $\BigO{N^{-1}}$ which is the same as given by purely random samples. This can be explained by looking at the low frequency region in the radial power spectrum of Poisson Disk samples (\RefFig{powspec-radialmean-bluenoise}) which is not zero.
 The importance of the shape of the radial mean power spectrum in the  low frequency region demands  methods and algorithms that could eventually allow sample generation directly from a target Fourier spectrum.
