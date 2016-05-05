@@ -491,6 +491,25 @@ Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectiv
 \subsection{Radially-averaged periodograms}
 Figures~\ref{fig:points-powspec-radialmean} and~\ref{fig:bluenoise-powspec-radialmean} depict radially averaged periodograms of the various sampling strategies described in this chapter. These spectra reveal two important characteristics of estimators built using the corresponding sampling strategies. 
 
+\paragraph{Normalizing periodograms} 
+One of the major issues which is normally encountered while comparing periodograms of different sampling patterns is that there is no well defined metric that could allow a fair comparison betweeen various sampling periodograms by simply looking at them. We here propose a few tips that could allow normalizing all kinds of periodograms. For reference, we use random sampling periodogram for which we have an analytical form given by: $\Dirac(\omega) \Npts^2 + \Npts$. 
+%
+%\begin{align}
+%\label{eq:random}
+%\PowerSpec{\Sampling}(\FreqVar) &= 
+%\begin{dcases*}
+%       \Npts^2  & $ \FreqVar = 0 $\\
+%         \Npts & otherwise
+%        \end{dcases*}
+%\end{align}
+%
+If you divide this expression by $\Npts$ you would get $\Dirac(\omega) \Npts + 1$, which implies that at frequencies other than the DC, the power would be $1$ irrespective of the number of samples. 
+To make all periodograms look alike, irrespective of the number of samples used $\Npts$, it is adviced to compute $\PowerSpec{\Sampling}(\FreqVar) = \Norm{\Sampling(\FreqVar)} / \Npts$, for visualization  purposes only. As a result of this normalization, the periodograms would always converge towards power value $1$ irrespective of the number of samples used.
+
+\paragraph{Normalizing radially averaged periodograms} 
+Once we obtain the periodograms using above normalization, we can compute the radially averaged periodograms that would have power converging towards $1$ towards higher frequencies. However, with the increase in number of samples the low frequency region of the radially averaged periodogram would keep scaling towards high frequencies as shown in~\RefFig{}. For comparison sake we would like to avoid this scaling without compromising the underlying information. For this purpose, we can further divide the radially averaged periodogram power by $\frac{1}{\alpha \sqrt[d]{\Npts}}$, where $\Dim$ represents the dimensions and $\alpha > 0$ is a parameter that you can tweak to bring different radial periodograms to the same scale. For regular sampling patterns, $\alpha=1$.
+
+\paragraph{Decoding convergence rates}
 First, the absence of energy in certain bands of the spectrum indicate that they will be efficient for integrating functions with complementary spectra.~e.~g.~Jitter, multi-jitter, Halton and Hammerseley exhibit low energy in the low-frequency region. This makes these strategies efficient for estimating integrals of low-frequency functions. Of these, regular sampling contains arbitrarily high values at certain fixed mid- and high- frequencies, making it a poor choice if the integrand contains mid- or high-frequencies. 
 Second, the convergence rate of the corresponding estimators can be derived as described in sec.~\ref{sec:convErr}, if the asymptotic behavior of the radially-averaged periodograms can be characterized analytically.~e.~g.~we expect, from visual inspection that jittered sampling (or multi-jitter) will exhibit improved convergence compared to n-rooks sampling. 
 
