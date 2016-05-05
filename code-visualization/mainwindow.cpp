@@ -163,13 +163,17 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
         y[i] = samples[2*i+1];
     }
 
-    double TickStepLength = 1.0;
+    double strataLength = 1.0;
+    double subStrataLength = 1.0;
 
     if(samplingpattern == "jitter" || samplingpattern == "uniformjitter" || samplingpattern == "regular"){
-       TickStepLength = maxRangeX / sqrt(N);
+       strataLength = maxRangeX / sqrt(N);
     }
-    else if(samplingpattern == "multijitter" || samplingpattern == "nrooks")
-        TickStepLength = maxRangeX / (N);
+    else if(samplingpattern == "multijitter" || samplingpattern == "nrooks"){
+        strataLength = maxRangeX / (N);
+        subStrataLength = maxRangeX / sqrt(N);
+    }
+
 
     customPlot->graph()->setData(x, y);
     customPlot->graph()->rescaleAxes(true);
