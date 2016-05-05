@@ -50,6 +50,7 @@
 \usepackage{mathtools}
 \usepackage[final]{pdfpages}
 \usepackage{microtype}
+\usepackage{nicefrac}
 
 % \newcommand{\TBC} {\vspace {1em} \noindent [TO BE COMPLETED IN THE FINAL VERSION.] \vspace {1em}}
 % \newcommand{\TBC} {\noindent [TO BE COMPLETED IN THE FINAL VERSION.] }
@@ -463,22 +464,59 @@ Uniform jitter sampling can be beneficial for some low-dimensional problems in r
 
 
 \subsection{Uncorrelated Jitter, N-Rooks, and Latin hypercube sampling}
-To overcome the issue of generating jittered sample points in high dimensions, Cook et al.~\cite{Cook:1984:DRT} proposed to randomly combine jittered sample sets over subspaces of the full domain. For instance, to generate sample distributions for a nine dimensional space, we could separately partitioning four two-dimensional subspaces (e.g. pixel area, camera lens area, reflection direction, and shadow ray direction) as well as one one-dimensional subspace (time) and then combine the subspace dimensions at random. He called this technique uncorrelated jittering.
+To overcome the issue of generating jittered sample points in high dimensions, Cook et al.~\cite{Cook:1984:DRT} proposed to randomly combine jittered sample sets over subspaces of the full domain. For instance, to generate sample distributions for a nine dimensional space, we could separately partition four two-dimensional subspaces (e.g.\ pixel area, camera lens area, reflection direction, and shadow ray direction) as well as one one-dimensional subspace (time) and then combine the subspace dimensions at random. He called this technique uncorrelated jittering.
 
-In 2D, generating $N$ samples would entail creating two separate 1D jittered point sets $X$ and $Y$ with $N$ samples each, and then using the samples in $X$ as the $x$-coordinate of each 2D point, and couple each $x$ with a $y$ from $Y$ in randomly permuted order. Another way to view this is that we must divide the 2D domain into $N$ rows and $N$ columns, and ensuring that example one 2D sample falls within any row or column. Shirley~\cite{Shirley91-DQMSD} called this idea $N$-Rooks sampling since the sample positions correspond to the arrangement of rooks on an $N\times N$ chessboard where none of the rooks can capture another in a single move. Figure~\ref{fig:jittered-points} shows an illustration of N-Rooks sampling patterns with $64$ and $256$ points in a unit square.
+In 2D, generating $N$ samples would entail creating two separate 1D jittered point sets $X$ and $Y$ with $N$ samples each, and then using the samples in $X$ as the $x$-coordinate of each 2D point, and coupling each $x$ with a $y$ from $Y$ in randomly permuted order. This construction ensures that, if we were to divide the 2D domain into $N$ rows and $N$ columns, exactly one 2D sample project into any row or any column. Shirley~\cite{Shirley91-DQMSD} called this idea $N$-Rooks sampling since the sample positions correspond to the arrangement of rooks on an $N\times N$ chessboard where none of the rooks can capture another in a single move. Figure~\ref{fig:jittered-points} shows an illustration of N-Rooks sampling patterns with $64$ and $256$ points in a unit square.
 
-Combining $D$ randomly permuted 1D jittered samples in this way for arbitrary dimension $D$ is called Latin hypercube sampling. Like jittered sampling, this sampling approach is not progress as we need to know the total number of samples in advance. However, we can easily use an arbitrary number of samples, and no longer have to deal with the difficulty of specifying a $N = M^D$ samples for a $D$ dimensional domain.
+Combining $D$ randomly permuted 1D jittered samples in this way for arbitrary dimension $D$ is called Latin hypercube sampling. Like jittered sampling, we need to know the total number of samples in advance, so this sampling approach is not progress. However, we can easily use an arbitrary number of samples, and no longer have to deal with the difficulty of specifying a $N = M^D$ samples for a $D$ dimensional domain.
 
 Jittered sampling and Latin-hypercube sampling are related, but offer different stratification guarantees, and therefore have different variance reduction behavior. As an illustrative example, a 2D jittered sampling pattern with $N$ points will ensure that few samples can clump together in 2D, but as many as $\sqrt{N}$ samples may project to exactly the same location along either of the two axes (in other words, the projections actually correspond to $\sqrt{N}$ strata with $\sqrt{N}$ points in each stratum). On the other hand, a 2D Latin-hypercube sampling pattern with $N$ points provides less guarantees of clumping reduction in 2D, but ensures that along either of the axis projections each of the $N$ sample points falls into a different stratum. Latin-hypercube sampling can lead to better variance and convergence if the integrand does not depend strongly on some of the dimensions. In the extreme, where the integrand depends only on the $x$ coordinate, but not on $y$, Latin-hypercube sampling would provide better stratification of the relevant dimensions than jittered sampling.
 
 \subsection{Multi-Jittered sampling}
 Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectively enforces the stratification guarantees of jittered sampling and N-rooks sampling simultaneously: for $N=M\times M$ points in 2D we generate exactly one sample in each of the $M\times M$ strata, but also guarantee that there is exactly one sample in each of the $N$ rows and $N$ columns (projected strata along the coordinate axes). Figure~\ref{fig:jittered-points} shows an illustration of $8\times8 = 64$ and $16\times16 = 256$ multi-jittered sample points in a unit square.
 
-\section{Quasi-Monte Carlo}
+\section{Quasi-Monte Carlo \& Low-discrepancy Sampling}
+Instead of using random samples, Quasi-Monte Carlo averages the integrand at carefully crafted \textit{deterministic} locations to approximate integrals. These locations are specially crafted to minimize clumping in the hopes of reducing the variance or improving the convergence rate. One formal definition of such clumping is \textit{discrepancy}, which describes the maximum deviation between the number of sample points in a region compared to the expected number of points that should fall into that sized region. There are a vast number of such low-discrepancy sampling routines~\cite{niederreiter1992quasi}, but we will briefly summarize just two such approaches as illustrative examples that can be used in rendering.
+
+
+\subsection{The van der Corput sequence}
+The one-dimensional van der Corput sequence is one of the simplest examples of a low-discrepancy sequence. It takes a prime number $b$ as a base, and uses a deterministic procedure to transform a positive integer index $i$ into a value in the unit one-dimensional interval $[0,1)$. The deterministic process that generates these values is often denoted as a function $\Phi_b(i)$ which divides the unit interval into $b$ equal-sized pieces, iterates over these fractional locations, then repeats the process by successively subdividing those regions into $b$ piece as well. For a base of $2$, for instance, the interval is split into halves, then fourths, then eights, etc., forming the sequence:
+%
+% \begin{align}
+$\left\{\nicefrac{1}{2}, \nicefrac{1}{4}, \nicefrac{3}{4}, \nicefrac{1}{8}, \nicefrac{5}{8}, \nicefrac{3}{8}, \nicefrac{7}{8}, \cdots \right\}$.
+% \end{align}
+%
+In base $3$, the sequence would be:
+%
+% \begin{align}
+$\left\{\nicefrac{1}{3}, \nicefrac{2}{3}, \nicefrac{1}{9}, \nicefrac{4}{9}, \nicefrac{7}{9}, \nicefrac{2}{9}, \nicefrac{5}{9}, \nicefrac{8}{9}\cdots \right\}$.
+% \end{align}
+%
+
+This procedure can be performed for any arbitrary prime base $b$, and iterating with increasing index $i$ effectively places the next point into the biggest ``gap'' in the current sequence. This sequence is progressive, so the number of samples need not be known in advance, but it only generates samples in one dimension.
+
+% More generally, this procedure can be expressed mathematically by starting with the $b$-ary representation of the positive integer $i$:
+% %
+% \begin{align}
+% i=\sum_{k=0}^{L-1}d_k(n)b^k,
+% \end{align}
+% %
+% where $b$ is the base in which number $i$ is represented, $L$ is the total number of necessary digits, and $0 <= d_k(n) < b$, is the $k$-th digit in the $b$-ary expansion of $i$. We can then flip the digits of this $b$-ary representation about the decimal point to create numbers in the interval $[0,1)$:
+% %
+% \begin{align}
+% \Phi_b(i)=\sum_{k=0}^{L-1}d_k(n)b^{-k-1}.
+% \end{align}
+% %
+
+% The sequence of values can be enumerated by and $i$ and constructed using a deterministic method that uses relative prime numbers as the base for each dimension, where the value for each coordinate can be enumerated deterministically by the sample index $i$.
+
 \subsection{Halton sequence}
-\TBC
-\subsection{Hammersley sequence}
-\TBC
+The Halton sequence is a generalization of the one-dimensional van der Corput sequence to arbitrary dimensions. It operates by using van der Corput sequences with relative prime numbers as the bases for each dimension. Using the example of base $2$ and $3$ above, for instance, the Halton sequence would create a 2D point set by pairing the $i$-th entry of each one-dimensional sequence as the two dimensions of the $i$-th point:  $\left\{(\nicefrac{1}{2},\nicefrac{1}{3}), (\nicefrac{1}{4},\nicefrac{2}{3}), (\nicefrac{3}{4}, \nicefrac{1}{9}), (\nicefrac{1}{8}, \nicefrac{4}{9}), \cdots\right\}$.
+
+The Halton sequence has low-discrepancy, so the points tend to be more evenly distributed over the entire domain. It also provides even more strict stratification guarantees than jittered, n-rooks, or multi-jittered sampling, and is a progressive sequence. Figure~\ref{fig:halton-points} illustrates a Halton sequence with \textcolor{red}{XX} and \textcolor{red}{YY} points in 2D.
+
+\subsection{Hammersley point sets}
+By sacrificing progressivity, the discrepancy of the Halton sequence can be further improved by using a regular subdivision of the unit domain for the first dimension, and a Halton sequence for the remaining dimensions. For instance, in 2D, the $x$ dimension would be $\left\{\nicefrac{0}{4}, \nicefrac{1}{4}, \nicefrac{2}{4}, \nicefrac{3}{4}\right\}$, and the $y$ dimension would take the van der Corput sequence of base $b=2$. This modification of the Halton sequence is called the Hammersley sequence, which can create a even lower discrepancy point set for arbitrary dimensions, but due to the first dimension being a regular sampling, knowledge of the number of total samples is necessary. Figure~\ref{fig:hammersley-points} illustrates the Hammersley point set with \textcolor{red}{XX} and \textcolor{red}{YY} points in 2D.
 
 %
 \input{Pictures/fig-points-powspec-radialmean}
