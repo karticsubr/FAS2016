@@ -178,10 +178,11 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     customPlot->xAxis->setAutoTickStep(false);
     customPlot->xAxis->setTickStep(TickStepLength);
     customPlot->xAxis->setTicks(false);
+    customPlot->xAxis->setVisible(gridVisualize);
     customPlot->xAxis->grid()->setVisible(gridVisualize);
 
     //Make the top and right axes visible.
-    customPlot->xAxis2->setVisible(true);
+    customPlot->xAxis2->setVisible(gridVisualize);
     customPlot->xAxis2->setTicks(false);
     //customPlot->xAxis2->setRange(minDomainY,maxDomainY);
     //customPlot->xAxis2->setAutoTickStep(false);
@@ -192,13 +193,13 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     customPlot->yAxis->setAutoTickStep(false);
     customPlot->yAxis->setTickStep(TickStepLength);
     //customPlot->yAxis->setLabel("Real");
-    //customPlot->yAxis->setVisible(false);
+    customPlot->yAxis->setVisible(gridVisualize);
     customPlot->yAxis->grid()->setVisible(gridVisualize);
     customPlot->yAxis->setTickLabels(false);
     customPlot->yAxis->setTicks(false);
     customPlot->yAxis->setSelectedLabelColor(QColor(1,1,1));
 
-    customPlot->yAxis2->setVisible(true);
+    customPlot->yAxis2->setVisible(gridVisualize);
     customPlot->yAxis2->setTicks(false);
 //    customPlot->yAxis2->setRange(0,range);
 //    customPlot->yAxis2->setAutoTickStep(false);

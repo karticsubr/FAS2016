@@ -117,11 +117,11 @@
 %
 %=====================
 %
-\rotatebox{90}{\qquad Poisson Disk} & 
+\rotatebox{90}{\qquad\quad N-rooks} & 
 \begin{tikzpicture}
   \node[anchor=south west,inner sep=0] (image) at (0,0)
   {
-    \pdfliteral{ 1 w}\includegraphics[width=0.2\columnwidth,page=1]{pointset/points-dartthrowing-n256.pdf}
+    \pdfliteral{ 1 w}\includegraphics[width=0.2\columnwidth,page=1]{pointset/points-nrooks-n256.pdf}
   };
 
   \begin{scope}[x={(image.south east)},y={(image.north west)}]
@@ -132,7 +132,7 @@
 \begin{tikzpicture}
   \node[anchor=south west,inner sep=0] (image) at (0,0)
   {
-    \pdfliteral{ 1 w}\includegraphics[width=0.2\columnwidth,page=1]{power-spectra/powerspectrum-dartthrowing-n4096.png}
+    \pdfliteral{ 1 w}\includegraphics[width=0.2\columnwidth,page=1]{power-spectra/powerspectrum-nrooks-n4096.png}
   };
 
   \begin{scope}[x={(image.south east)},y={(image.north west)}]
@@ -143,7 +143,7 @@
 \begin{tikzpicture}
   \node[anchor=south west,inner sep=0] (image) at (0,0)
   {
-    \pdfliteral{ 1 w}\includegraphics[width=0.4\columnwidth,page=1]{power-spectra/radial-mean-dartthrowing-n4096.pdf}
+    \pdfliteral{ 1 w}\includegraphics[width=0.4\columnwidth,page=1]{power-spectra/radial-mean-nrooks-n1024.pdf}
   };
 
   \begin{scope}[x={(image.south east)},y={(image.north west)}]
@@ -261,5 +261,5 @@
 \end{tabular}
 %
 \caption{\label{fig:points-powspec-radialmean}%
-Illustration of some well known sampling patterns in 2D with the corresponding Fourier expected power spectra and the corresponding radial mean of their expected power spectra.}
+Illustration of some well known sampling patterns with the corresponding Fourier expected power spectra and the corresponding radial mean of their expected power spectra.}
 \end{figure}
