@@ -494,6 +494,23 @@ Figures~\ref{fig:points-powspec-radialmean} and~\ref{fig:bluenoise-powspec-radia
 First, the absence of energy in certain bands of the spectrum indicate that they will be efficient for integrating functions with complementary spectra.~e.~g.~Jitter, multi-jitter, Halton and Hammerseley exhibit low energy in the low-frequency region. This makes these strategies efficient for estimating integrals of low-frequency functions. Of these, regular sampling contains arbitrarily high values at certain fixed mid- and high- frequencies, making it a poor choice if the integrand contains mid- or high-frequencies. 
 Second, the convergence rate of the corresponding estimators can be derived as described in sec.~\ref{sec:convErr}, if the asymptotic behavior of the radially-averaged periodograms can be characterized analytically.~e.~g.~we expect, from visual inspection that jittered sampling (or multi-jitter) will exhibit improved convergence compared to n-rooks sampling. 
 
+To derive the exact variance convergence rate of these sampling patterns, we can use recently proposed theoretical tools~\cite{Pilleboue:2015:VAM}---adopted for a special class of functions~\cite{brandolini2001}---that allow approixmating the shape of these radial power spectra using simple polynomial profiles of degree $\PolynomialDegree$. It has been shown that Poisson Disk sampler, although exhibit blue noise characteristics, have the convergence rate of random Monte Carlo samples ($\BigO{N^{-1}}$). This can be explained from the fact that for Poisson Disk samples, the radially averaged periodogram has a non-zero energy in the low frequency region. As a result, the  radially averaged periodgram can only be approximated (bounded) using a \emph{constant profile} which matches the radially averaged periodgram of random samples. This explains why Poisson Disk samples  behave badly in terms of variance convergence rate. However, for CCVT~\cite{Balzer:2009:CPD:1531326.1531392}, the radially averaged periodogram goes to zero in the low frequency region as we move towards the DC peak ($\RadialFreq=0$). It has been shown that radially averaged periodogram of CCVT can be approximated by a \emph{quadratic profile (\PolynomialDegree=2)}, which results in better variance convergence rate~\cite{Pilleboue:2015:VAM}. In~\RefTable{convergencerates}, we summarise theoretically derived convergence rates of some of the well known sampling patterns in terms of the dimensionality $\Dim$ of the domain of integration and the polynomial degree $\PolynomialDegree$ used to approximate the shape of the radial periodogram under study. 
+
+\begin{table}[ht]
+  \centering
+  \caption{Convergence rates of different sampling patterns}
+  \label{tab:convergencerates}
+  \begin{tabular}{|c|l|l|}
+    \hline
+    Sampler & Best Case & Worst Case \\
+    \hline
+    Random & $\BigO{N^{-1}}$ & $\BigO{N^{-1}}$ \\
+    Jitter &  $\BigO{N^{-1-\frac{\PolynomialDegree}{d}}}$ & $\BigO{N^{-1-\frac{1}{d}}}$\\ 
+    PoissonDisk & $\BigO{N^{-1}}$ & $\BigO{N^{-1}}$\\
+    CCVT & $\BigO{N^{-1-\frac{\PolynomialDegree}{d}}}$ & $\BigO{N^{-1-\frac{1}{d}}}$ \\ 
+    \hline
+  \end{tabular}
+\end{table}
 
 \subsection{Synthesis of sampling patterns with targeted spectral profiles}
 Since the theory expresses estimation error in terms of the spectral density of the integrand, indeed it would be desirable to tailor the sampling strategy to the given integrand. Although many methods have been proposed for obtaining spectral information about the integrand in special cases~\cite{Egan:2009,Soler:2009,Ramamoorthi:2012,bagher:2013} as well as more generally~\cite{Durand:2005,Cov5D}, this information has only been used to adapt sampling rates and to design improved reconstruction filters. There has also been some work in tailoring sampling particularly for the problem of anti-aliasing ~\cite{Ahmed:2015:APP,Heck:2013:BNS}. The next, natural step would be to synthesise customised sampling strategies, adaptively, for general integrands. 
