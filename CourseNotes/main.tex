@@ -488,7 +488,7 @@ Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectiv
 
 \section{Interpreting and exploiting knowledge of the sampling spectra}
 
-\subsection{Radially averaged periodograms}
+\subsection{Radially-averaged periodograms}
 Figures~\ref{fig:points-powspec-radialmean} and~\ref{fig:bluenoise-powspec-radialmean} depict radially averaged periodograms of the various sampling strategies described in this chapter. These spectra reveal two important characteristics of estimators built using the corresponding sampling strategies. 
 
 First, the absence of energy in certain bands of the spectrum indicate that they will be efficient for integrating functions with complementary spectra.~e.~g.~Jitter, multi-jitter, Halton and Hammerseley exhibit low energy in the low-frequency region. This makes these strategies efficient for estimating integrals of low-frequency functions. Of these, regular sampling contains arbitrarily high values at certain fixed mid- and high- frequencies, making it a poor choice if the integrand contains mid- or high-frequencies. 
@@ -496,7 +496,7 @@ Second, the convergence rate of the corresponding estimators can be derived as d
 
 
 \subsection{Synthesis of sampling patterns with targeted spectral profiles}
-Since the theory expresses estimation error in terms of the spectral density of the integrand, indeed it would be desirable to tailor the sampling strategy to the given integrand. Although many methods have been proposed for obtaining spectral information about the integrand in special cases~\cite{Egan:2009,Soler:2009,Ramamoorthi:2012,bagher:2013} as well as more generally~\cite{Cov5D}, this information has only been used to adapt sampling rates and to design improved reconstruction filters. There has also been some work in tailoring sampling particularly for the problem of anti-aliasing ~\cite{Ahmed:2015:APP,Heck:2013:BNS}. The next, natural step would be to synthesise customised sampling strategies, adaptively, for general integrands. 
+Since the theory expresses estimation error in terms of the spectral density of the integrand, indeed it would be desirable to tailor the sampling strategy to the given integrand. Although many methods have been proposed for obtaining spectral information about the integrand in special cases~\cite{Egan:2009,Soler:2009,Ramamoorthi:2012,bagher:2013} as well as more generally~\cite{Durand:2005,Cov5D}, this information has only been used to adapt sampling rates and to design improved reconstruction filters. There has also been some work in tailoring sampling particularly for the problem of anti-aliasing ~\cite{Ahmed:2015:APP,Heck:2013:BNS}. The next, natural step would be to synthesise customised sampling strategies, adaptively, for general integrands. 
 
 The importance of having \emph{spectral control} on sampling methods has been explored.  Many methods are  able to generate samples that satisfy pre-assigned Fourier characteristics. Parker and colleagues~\cite{parker1991new} were the first to propose an algorithm for manipulating the power spectra of halftone patterns with blue-noise characteristics. They developed an algorithm that could generate samples whose spectral characteristics would match a given (input) step function. Zhou and colleagues~\cite{Zhou:2012} constructed point sets matching given target Fourier power spectra, by performing  gradient-descent optimization on an energy derived from the autocorrelation function. 
 

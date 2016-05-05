@@ -100,14 +100,16 @@ A summary of notation used in this course.\TBC}%
     Symbol & Definition\\
     \midrule
     \ifn 	&  integrand \\
-    $\w(x)$	&  sample weights\\
-    \sdn 	&  sampling distribution (pdf) \\
+%     $\w(x)$	&  sample weights\\
+%     \sdn 	&  sampling distribution (pdf) \\
     \estim{\N} 	&  estimate of $I$  using \N\ samples \\
 %     \estim{is,\N} 	&  \N-sample importance sampling estimator\\
 %     \estim{is,1} 	&  primary (1-sample) imp. samp. estimator\\
-    \RV X, \RV Y, \xii, \yii & random variates \\
+    \RV X, \RV Y, \xii, \yii & random variates in domain \Dom\ with probability density functions $\phi(.)$\\
     $\PowerSpec{S}(\fv)$ &
-	  Power spectrum of a single instance of \sfn\ (periodogram)\\ %: $\PowerSpec{S}(\fv) = $
+	  Power spectrum of a single instance of \sfn\ (periodogram)\\ 
+    $\RadialPowerSpec{S}(\RadialFreq)$ &
+	  Radially-averaged power spectrum where $\RadialFreq = \| \fv \|_2$.\\ 
     $\sfn \Fdual \SF $&
           Fourier transform pair: integrand and its transform\\
     $\sfn \Fdual \SF $&
@@ -116,15 +118,15 @@ A summary of notation used in this course.\TBC}%
       Expectation: $\DefIntT{\Dom}{}{x\;\phi(x)}{x}$\\[-2pt]
     $\Var{\phi(\RV X)} $ 						&
       Variance : $\DefIntT{\Dom}{}{x\;\phi^2(x)}{x} -
-      \DefIntT{\Dom}{}{x\;\phi(x)}{x}$\\
-    $\Expf{\phi(\RV X)}{\sdsym} $ &
-      Expectation with $ \RV X \sim \sdn$:
-$\DefIntT{\Dom}{}{\phi(x)\;\sdsym(x)}{x}$\\[-2pt]
-% $\Exp{\phi^2(\RV X)} - \Exp{\phi(\RV X)}^2$\\
-    $\Varf{\phi(\RV X)}{\sdsym} $					&
-Variance with $ \RV X \sim \sdn$:
-  $\DefIntT{\Dom}{}{\phi^2(x)\sdn}{x} -
-      (\DefIntT{\Dom}{}{\phi(x)\sdn}{x})^2$\\
+      \DefIntT{\Dom}{}{x\;\phi(x)}{x}$ \\
+%     $\Expf{\phi(\RV X)}{\sdsym} $ &
+%       Expectation with $ \RV X \sim \sdn$:
+% $\DefIntT{\Dom}{}{\phi(x)\;\sdsym(x)}{x}$\\[-2pt]
+% % $\Exp{\phi^2(\RV X)} - \Exp{\phi(\RV X)}^2$\\
+%     $\Varf{\phi(\RV X)}{\sdsym} $					&
+% Variance with $ \RV X \sim \sdn$:
+%   $\DefIntT{\Dom}{}{\phi^2(x)\sdn}{x} -
+%       (\DefIntT{\Dom}{}{\phi(x)\sdn}{x})^2$\\
 \bottomrule
 \end{tabular}
 \end{table}
