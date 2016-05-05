@@ -374,7 +374,7 @@ Numerical integration methods like Monte Carlo are very powerful in approximatin
 
 The MSE of an estimator is comprised of two different types of error: One that is associated with the accuracy of the estimator, and another which describes the precision of the estimates. The former, which is the deviation of the expected value from the true (or desired) result is known as \textit{bias}. The latter, which quantifies the uncertainty of the estimator is known as \textit{variance}. The MSE is expressed as the sum of the squared bias and the variance.
 
-Consistent estimators, whether biased or unbiased, are desirable for image synthesis. Although objectionable image artifacts may be produced by the use of na\"ively-designed biased estimators (say using regular sampling), in many cases connsistent and biased estimators are used to reduce noise as well as to improve convergence rates~\cite{Keller:2012:AMCCourse}. 
+Consistent estimators, whether biased or unbiased, are desirable for image synthesis. Although objectionable image artifacts may be produced by the use of na\"ively-designed biased estimators (say using regular sampling), in many cases consistent and biased estimators are used to reduce noise as well as to improve convergence rates~\cite{Keller:2012:AMCCourse}. 
 
 % Bias is defined as the value by which the numerically integrated value deviates from the ground truth value. In the Fourier domain, bias can be represented as an expected value of the error~\cite{Subr:2013:FAS}. Another form of error is variance which is manifested in the form of noise during image synthesis. Variance represents the uncertainty in the primary Monte Carlo estimates. 
 
@@ -402,7 +402,7 @@ The analytical characterization of both, bias as well as variance, across a gene
 % Sampling strategies for which error goes down with the increase in number of samples are considered consistent. Although, reducing variance in Monte Carlo estimators have been given paramount importance in the past, it is also worth while to investigate the convergence rate, which represents the rate at which error goes down with the increase in the number of samples. 
 
 \section{Monte Carlo integration in the Fourier domain}
-Monte Carlo sampling can be represented as an inner product of the integrand \ifn\ and a random sampling pattern \sfn\ which is composed of a sum of impulses (delta functions) normalized by the number of impulses (see Sec.~\ref{sec:sfn}). Since inner products are preserved under Fourier Transforms, the na\"ive estimator  can be expressed in the frequency domain as 
+Monte Carlo sampling can be represented as an inner product~\cite{FredoTR} of the integrand \ifn\ and a random sampling pattern \sfn\ which is composed of a sum of impulses (delta functions) normalized by the number of impulses (see Sec.~\ref{sec:sfn}). Since inner products are preserved under Fourier Transforms, the na\"ive estimator  can be expressed in the frequency domain as 
 \begin{equation}
   \estim{\N} \quad = \quad \DefInt{\Dom}{}{\ifn \sfn}{x} \quad = \quad 
   \DefInt{\Omega}{}{\SF \; \IFsym^*(\fv) }{\fv}, 
@@ -429,7 +429,8 @@ In rendering, Monte Carlo integration is not restricted to the Euclidean domain.
 %----------------------------------------------------------------------------------------
 \chapterimage{ch5.pdf} % Chapter heading image
 \chapter{Popular sampling patterns} \label{ch:stateoftheart}
-In this chapter, we will describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behavior is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram. For simplicity we will primarily discuss these sampling routines in the context of generating locations within a canonical unit square interval in 2D, and briefly explain how each routine generalizes to higher dimensions. Example slides for this topic are included (chapter~\ref{ch:exslides}).
+In this chapter, we will describe sampling strategies that are popularly used in modern renderers. For each of these, we provide insight on its error, explain the contexts where its behavior is best and/or worst and also comment on its expected convergence rate using its homogenized periodogram. For simplicity we will primarily discuss these sampling routines in the context of generating locations within a canonical unit square interval in 2D, and briefly explain how each routine generalizes to higher dimensions. 
+% Example slides for this topic are included (chapter~\ref{ch:exslides}).
 
 \TBC
 
@@ -448,7 +449,7 @@ Stratified sampling divides the integration domain into a number of disjoint reg
 
 Jittered sampling considerably reduces the likelihood that many samples will fall within close proximity, and, since each stratum is guaranteed one sample, also places a strict upper bound on the size of any region void of any samples. These two properties considerably improve how well evenly distributed the sample points are compared to independent random sampling. Unfortunately, this improvement comes at the cost of some inconvenience. Jittered sampling is not progressive, so we cannot continually add more samples, and we must know the total number of samples before constructing the point set. Furthermore, the total number of samples is only set indirectly through the number of subdivisions along each dimension. With the same number of subdivisions along each dimension, the total number of samples has to be a perfect square in 2D, a perfect cube in 3D, etc. This can be cumbersome, and becomes increasingly so as the dimensionality of the point set grows. Setting the total number of samples with fine granularity becomes increasing difficult, e.g. dividing each dimension of a five-dimensional domain into two cells results in $2^5 = 32 samples$ and increasing the divisions to three per dimension already increases the sample count to $3^5 = 243$. While it is possible to set an different number of subdivisions along each dimension to obtain finer granularity, it is not easy to determine these values automatically or optimally for a particular integration problem.
 
-It can be shown that jittered sampling cannot increase the variance of a Monte Carlo estimator compared to using independent random samples. In fact, it can often reduce variance considerably. Moreover, analysis of the periodogram reveals that jittered sampling has can result in asymptotically better convergence rates of XXX and YYY.
+It can be shown that jittered sampling cannot increase the variance of a Monte Carlo estimator compared to using independent random samples. In fact, it can often reduce variance considerably. Moreover, analysis of the periodogram reveals that jittered sampling has can result in asymptotically better convergence rates of \textcolor{red}{XXX and YYY}.
 
 %
 \input{Pictures/fig-points-grid-visualization}
@@ -485,19 +486,20 @@ Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectiv
 
 \input{blueNoise}
 
-\section{Synthesis of sampling patterns with targeted spectral profiles}
+\section{Interpreting and exploiting knowledge of the sampling spectra}
 
-Recently, researchers have noticed the importance of having a \emph{spectral control} on sampling methods. 
-The idea behind having a sampler with spectral control is to be able to generate samples %which are guided 
-from the pre-assigned Fourier characteristics. Consequently, the samples can spatially arrange themselves according 
-to the characteristics assigned in the spectral domain. Parker and colleagues~\cite{Parker:1991:PSHP} were the first to propose an algorithm for manipulating the
-power spectra of blue noise halftone patterns. A blue noise spectrum
-defined by a step function is used as input to influence the
-sample distributions. Recently, Zhou and colleagues~\cite{Zhou:2012} construct point sets matching a Fourier power spectrum function by performing 
-a gradient descent optimization on an energy derived from the autocorrelation function. 
-Such a Fourier power spectrum function can be either obtained from a known sampling
-method, or completely constructed by the user.
-%
+\subsection{Radially averaged periodograms}
+Figures~\ref{fig:points-powspec-radialmean} and~\ref{fig:bluenoise-powspec-radialmean} depict radially averaged periodograms of the various sampling strategies described in this chapter. These spectra reveal two important characteristics of estimators built using the corresponding sampling strategies. 
+
+First, the absence of energy in certain bands of the spectrum indicate that they will be efficient for integrating functions with complementary spectra.~e.~g.~Jitter, multi-jitter, Halton and Hammerseley exhibit low energy in the low-frequency region. This makes these strategies efficient for estimating integrals of low-frequency functions. Of these, regular sampling contains arbitrarily high values at certain fixed mid- and high- frequencies, making it a poor choice if the integrand contains mid- or high-frequencies. 
+Second, the convergence rate of the corresponding estimators can be derived as described in sec.~\ref{sec:convErr}, if the asymptotic behavior of the radially-averaged periodograms can be characterized analytically.~e.~g.~we expect, from visual inspection that jittered sampling (or multi-jitter) will exhibit improved convergence compared to n-rooks sampling. 
+
+
+\subsection{Synthesis of sampling patterns with targeted spectral profiles}
+Since the theory expresses estimation error in terms of the spectral density of the integrand, indeed it would be desirable to tailor the sampling strategy to the given integrand. Although many methods have been proposed for obtaining spectral information about the integrand in special cases~\cite{Egan:2009,Soler:2009,Ramamoorthi:2012,bagher:2013} as well as more generally~\cite{Cov5D}, this information has only been used to adapt sampling rates and to design improved reconstruction filters. There has also been some work in tailoring sampling particularly for the problem of anti-aliasing ~\cite{Ahmed:2015:APP,Heck:2013:BNS}. The next, natural step would be to synthesise customised sampling strategies, adaptively, for general integrands. 
+
+The importance of having \emph{spectral control} on sampling methods has been explored.  Many methods are  able to generate samples that satisfy pre-assigned Fourier characteristics. Parker and colleagues~\cite{parker1991new} were the first to propose an algorithm for manipulating the power spectra of halftone patterns with blue-noise characteristics. They developed an algorithm that could generate samples whose spectral characteristics would match a given (input) step function. Zhou and colleagues~\cite{Zhou:2012} constructed point sets matching given target Fourier power spectra, by performing  gradient-descent optimization on an energy derived from the autocorrelation function. 
+
 \input{Pictures/fig-bluenoise-powspec-radialmean}
 %
 
