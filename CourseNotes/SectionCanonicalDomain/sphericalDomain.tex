@@ -60,7 +60,7 @@ Based on this background, variance expression for Monte Carlo integration can be
 %
 \begin{align}
 \label{eq:sphere_var_finale}
-\Variance{\RvMCE} = \frac{\Lebesgue{\SphericalDom{2}}}{N} \sum_{l=0}^{\infty}\, (2l+1) \Exp{\PowerSpec{\RvSampling}(l)} \RadialPowerSpec{\Integrand}(l)
+\Variance{\RvMCE} = \Lebesgue{\SphericalDom{2}} \sum_{l=0}^{\infty}\, (2l+1) \Exp{\PowerSpec{\RvSampling}(l)} \RadialPowerSpec{\Integrand}(l)
 \end{align}
 %
 which gives the final expression for the variance in terms of the angular mean power spectra of both the sampling pattern 
