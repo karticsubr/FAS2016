@@ -50,6 +50,7 @@
 \usepackage{mathtools}
 \usepackage[final]{pdfpages}
 \usepackage{microtype}
+\usepackage{nicefrac}
 
 % \newcommand{\TBC} {\vspace {1em} \noindent [TO BE COMPLETED IN THE FINAL VERSION.] \vspace {1em}}
 % \newcommand{\TBC} {\noindent [TO BE COMPLETED IN THE FINAL VERSION.] }
@@ -445,7 +446,7 @@ In this chapter, we will describe sampling strategies that are popularly used in
   \label{fig:random}
 \end{figure}
 %
-Purely independent random sampling is the most basic form of sampling pattern. When uniformly sampling a 2D square domain, the $x$ and $y$ coordinates of each point are computed from independently drawn uniform pseudo-random numbers $\xi \in [0,1)$. New sample points are generated without regard to the previously generated sample points. Figure~\ref{fig:independent-points} shows an illustration of 64 and 256 independent random samples in a unit square.
+Purely independent random sampling is the most basic form of sampling pattern. When uniformly sampling a 2D square domain, the $x$ and $y$ coordinates of each point are computed from independently drawn uniform pseudo-random numbers $\xi \in [0,1)$. New sample points are generated without regard to the previously generated sample points. Figure~\ref{fig:random} shows an illustration of 16 and 64 independent random samples in a unit square.
 
 One benefit of this approach is that the sampling routine is trivially \textit{progressive}: we can continually add new samples without needing to know how many total sample points we will be generating. It is also trivial to generate samples in arbitrary dimensions by simply drawing a canonical random number $\xi$ for each dimension of a sample point. Unfortunately, however, since samples are drawn completely independently, the resulting sampling patterns many contain many samples which fall in close proximity while large regions of the sampling domain receive no samples.
 
@@ -466,12 +467,12 @@ Due to these limitations, many more sophisticated sampling techniques have been 
   \label{fig:jitter}
 \end{figure}
 
-Stratified sampling divides the integration domain into a number of disjoint regions (a.k.a ``strata'' or ``cells''), and places one or more independent random samples within each region. Jittered sampling, introduced to graphics by Cook and colleagues~\cite{Cook:1986:SSC}, is a restricted form of stratified sampling where the strata are of equal size with each receiving exactly one sample. Jittered sampling of a 2D unit square involves dividing the square into a grid of $N = M\times M$ square cells, and placing a single sample randomly positioned inside each cell. For 2D, this process would result in $N^2$ samples. Figure~\ref{fig:jittered-points} shows an illustration of $8\times8 =64$ and $16\times16 = 256$ jittered sample points in a unit square.
+Stratified sampling divides the integration domain into a number of disjoint regions (a.k.a ``strata'' or ``cells''), and places one or more independent random samples within each region. Jittered sampling, introduced to graphics by Cook and colleagues~\cite{Cook:1986:SSC}, is a restricted form of stratified sampling where the strata are of equal size with each receiving exactly one sample. Jittered sampling of a 2D unit square involves dividing the square into a grid of $N = M\times M$ square cells, and placing a single sample randomly positioned inside each cell. For 2D, this process would result in $N^2$ samples. Figure~\ref{fig:jitter} shows an illustration of $4\times4 =16$  and $8\times8 =64$ jittered sample points in a unit square.
 
 
 Jittered sampling considerably reduces the likelihood that many samples will fall within close proximity, and, since each stratum is guaranteed one sample, also places a strict upper bound on the size of any region void of any samples. These two properties considerably improve how well evenly distributed the sample points are compared to independent random sampling. Unfortunately, this improvement comes at the cost of some inconvenience. Jittered sampling is not progressive, so we cannot continually add more samples, and we must know the total number of samples before constructing the point set. Furthermore, the total number of samples is only set indirectly through the number of subdivisions along each dimension. With the same number of subdivisions along each dimension, the total number of samples has to be a perfect square in 2D, a perfect cube in 3D, etc. This can be cumbersome, and becomes increasingly so as the dimensionality of the point set grows. Setting the total number of samples with fine granularity becomes increasing difficult, e.g. dividing each dimension of a five-dimensional domain into two cells results in $2^5 = 32 samples$ and increasing the divisions to three per dimension already increases the sample count to $3^5 = 243$. While it is possible to set an different number of subdivisions along each dimension to obtain finer granularity, it is not easy to determine these values automatically or optimally for a particular integration problem.
 
-It can be shown that jittered sampling cannot increase the variance of a Monte Carlo estimator compared to using independent random samples. In fact, it can often reduce variance considerably. Moreover, analysis of the periodogram reveals that jittered sampling has can result in asymptotically better convergence rates of \textcolor{red}{XXX and YYY}.
+It can be shown that jittered sampling cannot increase the variance of a Monte Carlo estimator compared to using independent random samples. In fact, it can often reduce variance considerably. Moreover, analysis of the periodogram reveals that jittered sampling can result in asymptotically better convergence rates of $\BigO{N^{-1.5}}$.% \textcolor{red}{XXX and YYY}.
 %
 %\input{Pictures/fig-powspec-radialmean-jitter}
 %
@@ -489,7 +490,7 @@ It can be shown that jittered sampling cannot increase the variance of a Monte C
   \label{fig:uniformjitter}
 \end{figure}
 %
-Uniform jittered sampling is a further restriction of jittered sampling where the random location of a point within its stratum is the same across the entire point set. In other words, a single jitter is applied to all samples of a regular uniform pattern (as opposed to jittering each stratum's sample independently as in jittered/stratified sampling). For the 2D unit square, any single realization of a uniform jittered sampling pattern is simply a randomly shifted rectangular grid pattern. Figure~\ref{fig:uniform-jittered-points} shows two independent realizations of 256 uniform jittered points.
+Uniform jittered sampling is a further restriction of jittered sampling where the random location of a point within its stratum is the same across the entire point set. In other words, a single jitter is applied to all samples of a regular uniform pattern (as opposed to jittering each stratum's sample independently as in jittered/stratified sampling). For the 2D unit square, any single realization of a uniform jittered sampling pattern is simply a randomly shifted rectangular grid pattern. Figure~\ref{fig:uniformjitter} shows two independent realizations of 64 uniform jittered points.
 
 Uniform jitter sampling can be beneficial for some low-dimensional problems in rendering. For instance, Pauly et al.~\cite{pauly00metropolis} used uniform jittered sampling for performing the one-dimensional line integral of radiance along each camera ray, and Ramamoorthi and colleagues~\cite{Ramamoorthi:2012} analyzed the error of uniform jittered sampling for integrating visibility from area light sources.
 
@@ -507,9 +508,9 @@ Uniform jitter sampling can be beneficial for some low-dimensional problems in r
 %
 To overcome the issue of generating jittered sample points in high dimensions, Cook et al.~\cite{Cook:1984:DRT} proposed to randomly combine jittered sample sets over subspaces of the full domain. For instance, to generate sample distributions for a nine dimensional space, we could separately partitioning four two-dimensional subspaces (e.g. pixel area, camera lens area, reflection direction, and shadow ray direction) as well as one one-dimensional subspace (time) and then combine the subspace dimensions at random. He called this technique uncorrelated jittering.
 
-In 2D, generating $N$ samples would entail creating two separate 1D jittered point sets $X$ and $Y$ with $N$ samples each, and then using the samples in $X$ as the $x$-coordinate of each 2D point, and couple each $x$ with a $y$ from $Y$ in randomly permuted order. Another way to view this is that we must divide the 2D domain into $N$ rows and $N$ columns, and ensuring that example one 2D sample falls within any row or column. Shirley~\cite{Shirley91-DQMSD} called this idea $N$-Rooks sampling since the sample positions correspond to the arrangement of rooks on an $N\times N$ chessboard where none of the rooks can capture another in a single move. Figure~\ref{fig:jittered-points} shows an illustration of N-Rooks sampling patterns with $64$ and $256$ points in a unit square.
+In 2D, generating $N$ samples would entail creating two separate 1D jittered point sets $X$ and $Y$ with $N$ samples each, and then using the samples in $X$ as the $x$-coordinate of each 2D point, and coupling each $x$ with a $y$ from $Y$ in randomly permuted order. This construction ensures that, if we were to divide the 2D domain into $N$ rows and $N$ columns, exactly one 2D sample project into any row or any column. Shirley~\cite{Shirley91-DQMSD} called this idea $N$-Rooks sampling since the sample positions correspond to the arrangement of rooks on an $N\times N$ chessboard where none of the rooks can capture another in a single move. Figure~\ref{fig:nrooks} shows an illustration of N-Rooks sampling patterns with $16$ and $64$ points in a unit square.
 
-Combining $D$ randomly permuted 1D jittered samples in this way for arbitrary dimension $D$ is called Latin hypercube sampling. Like jittered sampling, this sampling approach is not progress as we need to know the total number of samples in advance. However, we can easily use an arbitrary number of samples, and no longer have to deal with the difficulty of specifying a $N = M^D$ samples for a $D$ dimensional domain.
+Combining $D$ randomly permuted 1D jittered samples in this way for arbitrary dimension $D$ is called Latin hypercube sampling. Like jittered sampling, we need to know the total number of samples in advance, so this sampling approach is not progress. However, we can easily use an arbitrary number of samples, and no longer have to deal with the difficulty of specifying a $N = M^D$ samples for a $D$ dimensional domain.
 
 Jittered sampling and Latin-hypercube sampling are related, but offer different stratification guarantees, and therefore have different variance reduction behavior. As an illustrative example, a 2D jittered sampling pattern with $N$ points will ensure that few samples can clump together in 2D, but as many as $\sqrt{N}$ samples may project to exactly the same location along either of the two axes (in other words, the projections actually correspond to $\sqrt{N}$ strata with $\sqrt{N}$ points in each stratum). On the other hand, a 2D Latin-hypercube sampling pattern with $N$ points provides less guarantees of clumping reduction in 2D, but ensures that along either of the axis projections each of the $N$ sample points falls into a different stratum. Latin-hypercube sampling can lead to better variance and convergence if the integrand does not depend strongly on some of the dimensions. In the extreme, where the integrand depends only on the $x$ coordinate, but not on $y$, Latin-hypercube sampling would provide better stratification of the relevant dimensions than jittered sampling.
 %
@@ -523,18 +524,28 @@ Jittered sampling and Latin-hypercube sampling are related, but offer different 
   \label{fig:multijitter}
 \end{figure}
 %
-Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectively enforces the stratification guarantees of jittered sampling and N-rooks sampling simultaneously: for $N=M\times M$ points in 2D we generate exactly one sample in each of the $M\times M$ strata, but also guarantee that there is exactly one sample in each of the $N$ rows and $N$ columns (projected strata along the coordinate axes). Figure~\ref{fig:jittered-points} shows an illustration of $8\times8 = 64$ and $16\times16 = 256$ multi-jittered sample points in a unit square.
+Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectively enforces the stratification guarantees of jittered sampling and N-rooks sampling simultaneously: for $N=M\times M$ points in 2D we generate exactly one sample in each of the $M\times M$ strata, but also guarantee that there is exactly one sample in each of the $N$ rows and $N$ columns (projected strata along the coordinate axes). Figure~\ref{fig:multijitter} shows an illustration of  $4\times4 = 16$ and $8\times8 = 64$  multi-jittered sample points in a unit square.
 %
 \input{Pictures/fig-powspec-radialmean-stochastic}
 %
 
-\section{Quasi-Monte Carlo}
+\section{Quasi-Monte Carlo \& Low-discrepancy Sampling}
+Instead of using random samples, Quasi-Monte Carlo averages the integrand at carefully crafted \textit{deterministic} locations to approximate integrals. These locations are specially crafted to minimize clumping in the hopes of reducing the variance or improving the convergence rate. One formal definition of such clumping is \textit{discrepancy}, which describes the maximum deviation between the number of sample points in a region compared to the expected number of points that should fall into that sized region. There are a vast number of such low-discrepancy sampling routines~\cite{niederreiter1992quasi}, but we will briefly summarize just two such approaches as illustrative examples that can be used in rendering.
 %
-\begin{figure}[ht]
+\subsection{The van der Corput sequence}
+%
+\begin{figure}[!h]
   \centering
   \includegraphics[width=2.5in]{Pictures/pointset-gridvisualize/points-halton-n16.pdf}
     \includegraphics[width=2.5in]{./Pictures/pointset-gridvisualize/points-halton-n64.pdf}
-    
+%  \caption{Halton (top) and Hammerslay (bottom) sampling pattern with $N=16$ (left) and $N = 64$ samples (right).}
+%  \label{fig:deterministic}
+%\end{figure}
+%
+%
+%\begin{figure}[h]
+%  \centering 
+  
       \includegraphics[width=2.5in]{Pictures/pointset-gridvisualize/points-hammerslay-n16.pdf}
     \includegraphics[width=2.5in]{./Pictures/pointset-gridvisualize/points-hammerslay-n64.pdf}
   \caption{Halton (top) and Hammerslay (bottom) sampling pattern with $N=16$ (left) and $N = 64$ samples (right).}
@@ -542,10 +553,42 @@ Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectiv
 \end{figure}
 %
 
+The one-dimensional van der Corput sequence is one of the simplest examples of a low-discrepancy sequence. It takes a prime number $b$ as a base, and uses a deterministic procedure to transform a positive integer index $i$ into a value in the unit one-dimensional interval $[0,1)$. The deterministic process that generates these values is often denoted as a function $\Phi_b(i)$ which divides the unit interval into $b$ equal-sized pieces, iterates over these fractional locations, then repeats the process by successively subdividing those regions into $b$ piece as well. For a base of $2$, for instance, the interval is split into halves, then fourths, then eights, etc., forming the sequence:
+%
+% \begin{align}
+$\left\{\nicefrac{1}{2}, \nicefrac{1}{4}, \nicefrac{3}{4}, \nicefrac{1}{8}, \nicefrac{5}{8}, \nicefrac{3}{8}, \nicefrac{7}{8}, \cdots \right\}$.
+% \end{align}
+%
+In base $3$, the sequence would be:
+%
+% \begin{align}
+$\left\{\nicefrac{1}{3}, \nicefrac{2}{3}, \nicefrac{1}{9}, \nicefrac{4}{9}, \nicefrac{7}{9}, \nicefrac{2}{9}, \nicefrac{5}{9}, \nicefrac{8}{9}\cdots \right\}$.
+% \end{align}
+%
+
+This procedure can be performed for any arbitrary prime base $b$, and iterating with increasing index $i$ effectively places the next point into the biggest ``gap'' in the current sequence. This sequence is progressive, so the number of samples need not be known in advance, but it only generates samples in one dimension.
+
+% More generally, this procedure can be expressed mathematically by starting with the $b$-ary representation of the positive integer $i$:
+% %
+% \begin{align}
+% i=\sum_{k=0}^{L-1}d_k(n)b^k,
+% \end{align}
+% %
+% where $b$ is the base in which number $i$ is represented, $L$ is the total number of necessary digits, and $0 <= d_k(n) < b$, is the $k$-th digit in the $b$-ary expansion of $i$. We can then flip the digits of this $b$-ary representation about the decimal point to create numbers in the interval $[0,1)$:
+% %
+% \begin{align}
+% \Phi_b(i)=\sum_{k=0}^{L-1}d_k(n)b^{-k-1}.
+% \end{align}
+% %
+
+% The sequence of values can be enumerated by and $i$ and constructed using a deterministic method that uses relative prime numbers as the base for each dimension, where the value for each coordinate can be enumerated deterministically by the sample index $i$.
+
 \subsection{Halton sequence}
-\TBC
-\subsection{Hammersley sequence}
-\TBC
+The Halton sequence has low-discrepancy, so the points tend to be more evenly distributed over the entire domain. It also provides even more strict stratification guarantees than jittered, n-rooks, or multi-jittered sampling, and is a progressive sequence. Figure~\ref{fig:deterministic} illustrates a Halton sequence with 16 and 64 points in 2D.
+
+\subsection{Hammersley point sets}
+By sacrificing progressivity, the discrepancy of the Halton sequence can be further improved by using a regular subdivision of the unit domain for the first dimension, and a Halton sequence for the remaining dimensions. For instance, in 2D, the $x$ dimension would be $\left\{\nicefrac{0}{4}, \nicefrac{1}{4}, \nicefrac{2}{4}, \nicefrac{3}{4}\right\}$, and the $y$ dimension would take the van der Corput sequence of base $b=2$. This modification of the Halton sequence is called the Hammersley sequence, which can create a even lower discrepancy point set for arbitrary dimensions, but due to the first dimension being a regular sampling, knowledge of the number of total samples is necessary. Figure~\ref{fig:deterministic} illustrates the Hammersley point set with 16 and 64 points in 2D.
+%
 %
 \input{Pictures/fig-powspec-radialmean-deterministic}
 %
@@ -563,7 +606,7 @@ Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectiv
 \section{Interpreting and exploiting knowledge of the sampling spectra}
 
 \subsection{Radially-averaged periodograms}
-Figures~\ref{fig:points-powspec-radialmean} and~\ref{fig:bluenoise-powspec-radialmean} depict radially averaged periodograms of the various sampling strategies described in this chapter. These spectra reveal two important characteristics of estimators built using the corresponding sampling strategies. 
+Figures~\ref{fig:powspec-radialmean-stochastic},~\RefFigNum{powspec-radialmean-deterministic} and~\RefFigNum{powspec-radialmean-bluenoise} depict radially averaged periodograms of the various sampling strategies described in this chapter. These spectra reveal two important characteristics of estimators built using the corresponding sampling strategies. 
 
 \paragraph{Normalizing periodograms} 
 One of the major issues which is normally encountered while comparing periodograms of different sampling patterns is that there is no well defined metric that could allow a fair comparison betweeen various sampling periodograms by simply looking at them. We here propose a few tips that could allow normalizing all kinds of periodograms. For reference, we use random sampling periodogram for which we have an analytical form given by: $\Dirac(\omega) \Npts^2 + \Npts$. 
