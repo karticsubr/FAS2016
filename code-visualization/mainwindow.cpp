@@ -166,49 +166,97 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     double strataLength = 1.0;
     double subStrataLength = 1.0;
 
-    if(samplingpattern == "jitter" || samplingpattern == "uniformjitter" || samplingpattern == "regular"){
-       strataLength = maxRangeX / sqrt(N);
-    }
-    else if(samplingpattern == "multijitter" || samplingpattern == "nrooks"){
-        strataLength = maxRangeX / (N);
-        subStrataLength = maxRangeX / sqrt(N);
-    }
+//    if(samplingpattern == "jitter" || samplingpattern == "uniformjitter" || samplingpattern == "regular"){
+//       strataLength = maxRangeX / sqrt(N);
+//       subStrataLength = strataLength;
+//    }
+//    else if(samplingpattern == "multijitter" || samplingpattern == "nrooks"){
+        strataLength = maxRangeX / sqrt(N);
+        subStrataLength = maxRangeX / (N);
+//    }
 
+    std::cerr << strataLength << " " << subStrataLength << std::endl;
 
     customPlot->graph()->setData(x, y);
     customPlot->graph()->rescaleAxes(true);
 
     customPlot->xAxis->setRange(minDomainX,maxDomainX);
+
+    QPen strataPen, subStrataPen;
+    strataPen.setColor(Qt::black);
+    subStrataPen.setColor(Qt::gray);
+    subStrataPen.setStyle(Qt::DashLine);
+
+    customPlot->xAxis->setRange(minDomainX,maxDomainX);
+    customPlot->xAxis->grid()->setPen(strataPen);
+    customPlot->xAxis->grid()->setSubGridPen(subStrataPen);
     customPlot->xAxis->setAutoTickStep(false);
-    customPlot->xAxis->setTickStep(TickStepLength);
+    customPlot->xAxis->setAutoSubTicks(false);
     customPlot->xAxis->setTicks(false);
-    customPlot->xAxis->setVisible(gridVisualize);
+    customPlot->xAxis->setTickStep(strataLength);
+    customPlot->xAxis->setSubTickLength(subStrataLength);
     customPlot->xAxis->grid()->setVisible(gridVisualize);
+    customPlot->xAxis->grid()->setSubGridVisible(gridVisualize);
+
+    customPlot->yAxis->setRange(minDomainY,maxDomainY);
+    customPlot->yAxis->grid()->setPen(strataPen);
+    customPlot->yAxis->grid()->setSubGridPen(subStrataPen);
+    customPlot->yAxis->setAutoTickStep(false);
+    customPlot->yAxis->setAutoSubTicks(false);
+    customPlot->yAxis->setTicks(false);
+    customPlot->yAxis->setTickStep(strataLength);
+    customPlot->yAxis->setTickLength(strataLength);
+    customPlot->yAxis->setSubTickLength(subStrataLength);
+    customPlot->yAxis->grid()->setVisible(gridVisualize);
+    customPlot->yAxis->grid()->setSubGridVisible(gridVisualize);
+
+//    customPlot->xAxis2->grid()->setPen(strataPen);
+//    customPlot->xAxis2->grid()->setSubGridPen(subStrataPen);
+//    customPlot->xAxis2->setTickLength(strataLength);
+//    customPlot->xAxis2->setSubTickLength(subStrataLength);
+//    customPlot->xAxis2->grid()->setVisible(gridVisualize);
+//    customPlot->xAxis2->grid()->setSubGridVisible(true);
+//    customPlot->xAxis2->setTicks(false);
+
+//    customPlot->yAxis2->grid()->setPen(strataPen);
+//    customPlot->yAxis2->grid()->setSubGridPen(subStrataPen);
+//    customPlot->yAxis2->setTickLength(strataLength);
+//    customPlot->yAxis2->setSubTickLength(subStrataLength);
+//    customPlot->yAxis2->grid()->setVisible(gridVisualize);
+//    customPlot->yAxis2->grid()->setSubGridVisible(true);
+//    customPlot->yAxis2->setTicks(false);
+
+    //    customPlot->xAxis->setAutoTickStep(false);
+//    customPlot->xAxis->setTickStep(subStrataLength);
+
+//    customPlot->xAxis->setVisible(gridVisualize);
+//    customPlot->xAxis->grid()->setVisible(gridVisualize);
 
     //Make the top and right axes visible.
-    customPlot->xAxis2->setVisible(gridVisualize);
-    customPlot->xAxis2->setTicks(false);
+//    customPlot->xAxis2->setVisible(gridVisualize);
+//    customPlot->xAxis2->setTicks(false);
     //customPlot->xAxis2->setRange(minDomainY,maxDomainY);
     //customPlot->xAxis2->setAutoTickStep(false);
     //customPlot->xAxis2->setTickStep(1.0);
     //customPlot->xAxis2->setTickLabels(false);
 
-    customPlot->yAxis->setRange(minDomainY,maxDomainY);
-    customPlot->yAxis->setAutoTickStep(false);
-    customPlot->yAxis->setTickStep(TickStepLength);
-    //customPlot->yAxis->setLabel("Real");
-    customPlot->yAxis->setVisible(gridVisualize);
-    customPlot->yAxis->grid()->setVisible(gridVisualize);
-    customPlot->yAxis->setTickLabels(false);
-    customPlot->yAxis->setTicks(false);
-    customPlot->yAxis->setSelectedLabelColor(QColor(1,1,1));
 
-    customPlot->yAxis2->setVisible(gridVisualize);
-    customPlot->yAxis2->setTicks(false);
-//    customPlot->yAxis2->setRange(0,range);
-//    customPlot->yAxis2->setAutoTickStep(false);
-//    //customPlot->yAxis2->setTickStep(1.0);
-//    customPlot->yAxis2->setTickLabels(false);
+//    customPlot->yAxis->setAutoTickStep(false);
+//    customPlot->yAxis->setTickStep(subStrataLength);
+//    //customPlot->yAxis->setLabel("Real");
+//    customPlot->yAxis->setVisible(gridVisualize);
+//    customPlot->yAxis->grid()->setVisible(gridVisualize);
+//    customPlot->yAxis->setTickLabels(false);
+//    customPlot->yAxis->setTicks(false);
+//    customPlot->yAxis->setSelectedLabelColor(QColor(1,1,1));
+
+//    customPlot->yAxis2->setVisible(gridVisualize);
+//    customPlot->yAxis2->setTicks(false);
+////    customPlot->yAxis2->setRange(0,range);
+////    customPlot->yAxis2->setAutoTickStep(false);
+////    //customPlot->yAxis2->setTickStep(1.0);
+////    customPlot->yAxis2->setTickLabels(false);
+
 
     customPlot->setInteraction(QCP::iRangeDrag, true);
     customPlot->setInteraction(QCP::iRangeZoom, true);
