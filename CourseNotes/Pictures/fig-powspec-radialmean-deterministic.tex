@@ -1,0 +1,121 @@
+%!TEX root = ../main.tex
+%
+%
+\begin{figure}[t!]
+\centering
+\footnotesize
+\begin{tabular}{@{}c@{\;}c@{\;}c@{\;}c@{}}
+& Samples & Power spectrum & Radial mean \\
+%
+%==================
+%
+\rotatebox{90}{\qquad\quad Halton} & 
+\begin{tikzpicture}
+  \node[anchor=south west,inner sep=0] (image) at (0,0)
+  {
+    \pdfliteral{ 1 w}\includegraphics[width=1.4in,page=1]{pointset/points-halton-n256.pdf}
+  };
+
+  \begin{scope}[x={(image.south east)},y={(image.north west)}]
+  \draw[black,thick] (0,0) rectangle (1,1);
+  \end{scope}
+\end{tikzpicture} 
+&
+\begin{tikzpicture}
+  \node[anchor=south west,inner sep=0] (image) at (0,0)
+  {
+    \pdfliteral{ 1 w}\includegraphics[width=1.4in,page=1]{power-spectra/powerspectrum-halton-n4096.png}
+  };
+
+  \begin{scope}[x={(image.south east)},y={(image.north west)}]
+  \draw[black,thick] (0,0) rectangle (1,1);
+  \end{scope}
+\end{tikzpicture}
+&
+\begin{tikzpicture}
+  \node[anchor=south west,inner sep=0] (image) at (0,0)
+  {
+    \pdfliteral{ 1 w}\includegraphics[width=2.8in,page=1]{power-spectra/radial-mean-halton-n4096.pdf}
+  };
+
+  \begin{scope}[x={(image.south east)},y={(image.north west)}]
+  \draw[black,thick] (0,0) rectangle (1,1);
+  \end{scope}
+\end{tikzpicture}\\
+%
+%==============
+%
+\rotatebox{90}{\quad\quad Hammerslay} & 
+\begin{tikzpicture}
+  \node[anchor=south west,inner sep=0] (image) at (0,0)
+  {
+    \pdfliteral{ 1 w}\includegraphics[width=1.4in,page=1]{pointset/points-hammerslay-n256.pdf}
+  };
+
+  \begin{scope}[x={(image.south east)},y={(image.north west)}]
+  \draw[black,thick] (0,0) rectangle (1,1);
+  \end{scope}
+\end{tikzpicture} 
+&
+\begin{tikzpicture}
+  \node[anchor=south west,inner sep=0] (image) at (0,0)
+  {
+    \pdfliteral{ 1 w}\includegraphics[width=1.4in,page=1]{power-spectra/powerspectrum-hammerslay-n4096.png}
+  };
+
+  \begin{scope}[x={(image.south east)},y={(image.north west)}]
+  \draw[black,thick] (0,0) rectangle (1,1);
+  \end{scope}
+\end{tikzpicture}
+&
+\begin{tikzpicture}
+  \node[anchor=south west,inner sep=0] (image) at (0,0)
+  {
+    \pdfliteral{ 1 w}\includegraphics[width=2.8in,page=1]{power-spectra/radial-mean-hammerslay-n4096.pdf}
+  };
+
+  \begin{scope}[x={(image.south east)},y={(image.north west)}]
+  \draw[black,thick] (0,0) rectangle (1,1);
+  \end{scope}
+\end{tikzpicture}\\
+%
+%==============
+%
+\rotatebox{90}{\qquad\qquad Regular} & 
+\begin{tikzpicture}
+  \node[anchor=south west,inner sep=0] (image) at (0,0)
+  {
+    \pdfliteral{ 1 w}\includegraphics[width=1.4in,page=1]{pointset/points-regular-n256.pdf}
+  };
+
+  \begin{scope}[x={(image.south east)},y={(image.north west)}]
+  \draw[black,thick] (0,0) rectangle (1,1);
+  \end{scope}
+\end{tikzpicture} 
+&
+\begin{tikzpicture}
+  \node[anchor=south west,inner sep=0] (image) at (0,0)
+  {
+    \pdfliteral{ 1 w}\includegraphics[width=1.4in,page=1]{power-spectra/powerspectrum-regular-n256-cropped2.png}
+  };
+
+  \begin{scope}[x={(image.south east)},y={(image.north west)}]
+  \draw[black,thick] (0,0) rectangle (1,1);
+  \end{scope}
+\end{tikzpicture}
+&
+\begin{tikzpicture}
+  \node[anchor=south west,inner sep=0] (image) at (0,0)
+  {
+    \pdfliteral{ 1 w}\includegraphics[width=2.8in,page=1]{power-spectra/radial-mean-regular-n4096.pdf}
+  };
+
+  \begin{scope}[x={(image.south east)},y={(image.north west)}]
+  \draw[black,thick] (0,0) rectangle (1,1);
+  \end{scope}
+\end{tikzpicture}\\
+\end{tabular}
+%
+\caption{\label{fig:powspec-radialmean-deterministic}%
+Illustration of some well known deterministic sampling patterns with the corresponding Fourier expected power spectra and the corresponding radial mean of their expected power spectra.}
+\end{figure}

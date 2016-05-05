@@ -436,9 +436,14 @@ In this chapter, we will describe sampling strategies that are popularly used in
 
 \section{Classical}
 \subsection{Independent random sampling}
+
 Purely independent random sampling is the most basic form of sampling pattern. When uniformly sampling a 2D square domain, the $x$ and $y$ coordinates of each point are computed from independently drawn uniform pseudo-random numbers $\xi \in [0,1)$. New sample points are generated without regard to the previously generated sample points. Figure~\ref{fig:independent-points} shows an illustration of 64 and 256 independent random samples in a unit square.
 
 One benefit of this approach is that the sampling routine is trivially \textit{progressive}: we can continually add new samples without needing to know how many total sample points we will be generating. It is also trivial to generate samples in arbitrary dimensions by simply drawing a canonical random number $\xi$ for each dimension of a sample point. Unfortunately, however, since samples are drawn completely independently, the resulting sampling patterns many contain many samples which fall in close proximity while large regions of the sampling domain receive no samples.
+
+%
+%\input{Pictures/fig-powspec-radialmean-random}
+%
 
 Independent random sampling leads to the most basic form of Monte Carlo integration. The variance of a Monte Carlo estimator using independent random samples has a convergence rate of $\mathcal{O}(N^{-1})$. This result can be easily derived from the definitions of expected value and variance, but it can likewise be derived in the frequency domain from the periodogram of the sampling pattern. An important characteristic of this convergence rate is that (in contrast to deterministic quadrature techniques) the dimensionality of the integration problem does not appear in the expression for the convergence rate. Monte Carlo integration using independent random samples therefore does not suffer from the so-called ``curve of dimensionality''. This is one of the reasons why Monte Carlo techniques are so attractive for high-dimensional integration problems like the rendering of global illumination. Unfortunately, this convergence rate also means that error will always go down relatively slowly: we need four times as many samples to reduce the error by a factor of two.
 
@@ -447,9 +452,13 @@ Due to these limitations, many more sophisticated sampling techniques have been 
 \subsection{Stratified/Jittered sampling}
 Stratified sampling divides the integration domain into a number of disjoint regions (a.k.a ``strata'' or ``cells''), and places one or more independent random samples within each region. Jittered sampling, introduced to graphics by Cook and colleagues~\cite{Cook:1986:SSC}, is a restricted form of stratified sampling where the strata are of equal size with each receiving exactly one sample. Jittered sampling of a 2D unit square involves dividing the square into a grid of $N = M\times M$ square cells, and placing a single sample randomly positioned inside each cell. For 2D, this process would result in $N^2$ samples. Figure~\ref{fig:jittered-points} shows an illustration of $8\times8 =64$ and $16\times16 = 256$ jittered sample points in a unit square.
 
+
 Jittered sampling considerably reduces the likelihood that many samples will fall within close proximity, and, since each stratum is guaranteed one sample, also places a strict upper bound on the size of any region void of any samples. These two properties considerably improve how well evenly distributed the sample points are compared to independent random sampling. Unfortunately, this improvement comes at the cost of some inconvenience. Jittered sampling is not progressive, so we cannot continually add more samples, and we must know the total number of samples before constructing the point set. Furthermore, the total number of samples is only set indirectly through the number of subdivisions along each dimension. With the same number of subdivisions along each dimension, the total number of samples has to be a perfect square in 2D, a perfect cube in 3D, etc. This can be cumbersome, and becomes increasingly so as the dimensionality of the point set grows. Setting the total number of samples with fine granularity becomes increasing difficult, e.g. dividing each dimension of a five-dimensional domain into two cells results in $2^5 = 32 samples$ and increasing the divisions to three per dimension already increases the sample count to $3^5 = 243$. While it is possible to set an different number of subdivisions along each dimension to obtain finer granularity, it is not easy to determine these values automatically or optimally for a particular integration problem.
 
 It can be shown that jittered sampling cannot increase the variance of a Monte Carlo estimator compared to using independent random samples. In fact, it can often reduce variance considerably. Moreover, analysis of the periodogram reveals that jittered sampling has can result in asymptotically better convergence rates of \textcolor{red}{XXX and YYY}.
+%
+%\input{Pictures/fig-powspec-radialmean-jitter}
+%
 
 %
 \input{Pictures/fig-points-grid-visualization}
@@ -463,6 +472,9 @@ Uniform jitter sampling can be beneficial for some low-dimensional problems in r
 
 
 \subsection{Uncorrelated Jitter, N-Rooks, and Latin hypercube sampling}
+%
+%\input{Pictures/fig-powspec-radialmean-nrooks}
+%
 To overcome the issue of generating jittered sample points in high dimensions, Cook et al.~\cite{Cook:1984:DRT} proposed to randomly combine jittered sample sets over subspaces of the full domain. For instance, to generate sample distributions for a nine dimensional space, we could separately partitioning four two-dimensional subspaces (e.g. pixel area, camera lens area, reflection direction, and shadow ray direction) as well as one one-dimensional subspace (time) and then combine the subspace dimensions at random. He called this technique uncorrelated jittering.
 
 In 2D, generating $N$ samples would entail creating two separate 1D jittered point sets $X$ and $Y$ with $N$ samples each, and then using the samples in $X$ as the $x$-coordinate of each 2D point, and couple each $x$ with a $y$ from $Y$ in randomly permuted order. Another way to view this is that we must divide the 2D domain into $N$ rows and $N$ columns, and ensuring that example one 2D sample falls within any row or column. Shirley~\cite{Shirley91-DQMSD} called this idea $N$-Rooks sampling since the sample positions correspond to the arrangement of rooks on an $N\times N$ chessboard where none of the rooks can capture another in a single move. Figure~\ref{fig:jittered-points} shows an illustration of N-Rooks sampling patterns with $64$ and $256$ points in a unit square.
@@ -470,6 +482,9 @@ In 2D, generating $N$ samples would entail creating two separate 1D jittered poi
 Combining $D$ randomly permuted 1D jittered samples in this way for arbitrary dimension $D$ is called Latin hypercube sampling. Like jittered sampling, this sampling approach is not progress as we need to know the total number of samples in advance. However, we can easily use an arbitrary number of samples, and no longer have to deal with the difficulty of specifying a $N = M^D$ samples for a $D$ dimensional domain.
 
 Jittered sampling and Latin-hypercube sampling are related, but offer different stratification guarantees, and therefore have different variance reduction behavior. As an illustrative example, a 2D jittered sampling pattern with $N$ points will ensure that few samples can clump together in 2D, but as many as $\sqrt{N}$ samples may project to exactly the same location along either of the two axes (in other words, the projections actually correspond to $\sqrt{N}$ strata with $\sqrt{N}$ points in each stratum). On the other hand, a 2D Latin-hypercube sampling pattern with $N$ points provides less guarantees of clumping reduction in 2D, but ensures that along either of the axis projections each of the $N$ sample points falls into a different stratum. Latin-hypercube sampling can lead to better variance and convergence if the integrand does not depend strongly on some of the dimensions. In the extreme, where the integrand depends only on the $x$ coordinate, but not on $y$, Latin-hypercube sampling would provide better stratification of the relevant dimensions than jittered sampling.
+%
+\input{Pictures/fig-powspec-radialmean-stochastic}
+%
 
 \subsection{Multi-Jittered sampling}
 Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectively enforces the stratification guarantees of jittered sampling and N-rooks sampling simultaneously: for $N=M\times M$ points in 2D we generate exactly one sample in each of the $M\times M$ strata, but also guarantee that there is exactly one sample in each of the $N$ rows and $N$ columns (projected strata along the coordinate axes). Figure~\ref{fig:jittered-points} shows an illustration of $8\times8 = 64$ and $16\times16 = 256$ multi-jittered sample points in a unit square.
@@ -479,12 +494,19 @@ Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectiv
 \TBC
 \subsection{Hammersley sequence}
 \TBC
+%
+\input{Pictures/fig-powspec-radialmean-deterministic}
+%
 
 %
-\input{Pictures/fig-points-powspec-radialmean}
+%\input{Pictures/fig-points-powspec-radialmean}
 %
 
 \input{blueNoise}
+
+%
+\input{Pictures/fig-powspec-radialmean-bluenoise}
+%
 
 \section{Interpreting and exploiting knowledge of the sampling spectra}
 
@@ -507,7 +529,9 @@ If you divide this expression by $\Npts$ you would get $\Dirac(\omega) \Npts + 1
 To make all periodograms look alike, irrespective of the number of samples used $\Npts$, it is adviced to compute $\PowerSpec{\Sampling}(\FreqVar) = \Norm{\Sampling(\FreqVar)} / \Npts$, for visualization  purposes only. As a result of this normalization, the periodograms would always converge towards power value $1$ irrespective of the number of samples used.
 
 \paragraph{Normalizing radially averaged periodograms} 
-Once we obtain the periodograms using above normalization, we can compute the radially averaged periodograms that would have power converging towards $1$ towards higher frequencies. However, with the increase in number of samples the low frequency region of the radially averaged periodogram would keep scaling towards high frequencies as shown in~\RefFig{}. For comparison sake we would like to avoid this scaling without compromising the underlying information. For this purpose, we can further divide the radially averaged periodogram power by $\frac{1}{\alpha \sqrt[d]{\Npts}}$, where $\Dim$ represents the dimensions and $\alpha > 0$ is a parameter that you can tweak to bring different radial periodograms to the same scale. For regular sampling patterns, $\alpha=1$.
+Once we obtain the periodograms using above normalization, we can compute the radially averaged periodograms that would have power converging towards $1$ towards higher frequencies. However, with the increase in number of samples the low frequency region of the radially averaged periodogram would keep scaling towards high frequencies. % as shown in~\RefFig{}. 
+For comparison sake, we would like to avoid this scaling without compromising the underlying information. For this purpose, we can further divide the radial frequency by $\frac{1}{\alpha \sqrt[d]{\Npts}}$, where $\Dim$ represents the dimensions and $\alpha > 0$ is a parameter that you can tweak to bring different radial periodograms to the same scale. For regular sampling patterns, $\alpha=1$. We used the above normalization heuristics to visualize periodograms and radially avareged periodograms 
+of different sampling patterns for fair comparison.
 
 \paragraph{Decoding convergence rates}
 First, the absence of energy in certain bands of the spectrum indicate that they will be efficient for integrating functions with complementary spectra.~e.~g.~Jitter, multi-jitter, Halton and Hammerseley exhibit low energy in the low-frequency region. This makes these strategies efficient for estimating integrals of low-frequency functions. Of these, regular sampling contains arbitrarily high values at certain fixed mid- and high- frequencies, making it a poor choice if the integrand contains mid- or high-frequencies. 
@@ -517,7 +541,7 @@ To derive the exact variance convergence rate of these sampling patterns, we can
 
 \begin{table}[ht]
   \centering
-  \caption{Convergence rates of different sampling patterns}
+  \caption{Convergence rates of different stochastic samplers}
   \label{tab:convergencerates}
   \begin{tabular}{|c|l|l|}
     \hline
@@ -536,8 +560,6 @@ Since the theory expresses estimation error in terms of the spectral density of 
 
 The importance of having \emph{spectral control} on sampling methods has been explored.  Many methods are  able to generate samples that satisfy pre-assigned Fourier characteristics. Parker and colleagues~\cite{parker1991new} were the first to propose an algorithm for manipulating the power spectra of halftone patterns with blue-noise characteristics. They developed an algorithm that could generate samples whose spectral characteristics would match a given (input) step function. Zhou and colleagues~\cite{Zhou:2012} constructed point sets matching given target Fourier power spectra, by performing  gradient-descent optimization on an energy derived from the autocorrelation function. 
 
-\input{Pictures/fig-bluenoise-powspec-radialmean}
-%
 
 
 % %----------------------------------------------------------------------------------------
