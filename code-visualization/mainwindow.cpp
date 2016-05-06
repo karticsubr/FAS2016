@@ -212,6 +212,21 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     customPlot->yAxis->grid()->setVisible(gridVisualize);
     customPlot->yAxis->grid()->setSubGridVisible(gridVisualize);
 
+    customPlot->xAxis2->setRange(minDomainY,maxDomainY);
+    customPlot->yAxis2->setRange(minDomainY,maxDomainY);
+
+    customPlot->xAxis2->setAutoTickStep(false);
+    customPlot->xAxis2->setAutoSubTicks(false);
+    customPlot->xAxis2->setTicks(false);
+
+    customPlot->yAxis2->setAutoTickStep(false);
+    customPlot->yAxis2->setAutoSubTicks(false);
+    customPlot->yAxis2->setTicks(false);
+    customPlot->xAxis2->setVisible(true);
+    customPlot->yAxis2->setVisible(true);
+//    customPlot->xAxis2->grid()->setVisible(true);
+//    customPlot->yAxis2->grid()->setVisible(true);
+
 //    customPlot->xAxis2->grid()->setPen(strataPen);
 //    customPlot->xAxis2->grid()->setSubGridPen(subStrataPen);
 //    customPlot->xAxis2->setTickLength(strataLength);
