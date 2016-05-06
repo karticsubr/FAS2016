@@ -180,6 +180,15 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     customPlot->graph()->setData(x, y);
     customPlot->graph()->rescaleAxes(true);
 
+    ///Overlay Dots at the center of the disc visualization of points
+    customPlot->addGraph();
+    customPlot->graph(1)->setData(x, y);
+    customPlot->graph(1)->rescaleAxes(true);
+    customPlot->graph(1)->setPen(QColor(0,0,0, 255));
+    customPlot->graph(1)->setLineStyle(QCPGraph::lsNone);
+    customPlot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 0.5));
+
+
     customPlot->xAxis->setRange(minDomainX,maxDomainX);
 
     QPen strataPen, subStrataPen;

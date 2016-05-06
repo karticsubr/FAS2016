@@ -658,12 +658,12 @@ This is one of the major issues which is normally encountered while comparing pe
 %\end{align}
 %
 If you divide the random sampling periodogram by $\Npts$ you would obtain: $\Dirac(\omega) \Npts + 1$, which implies that at frequencies other than the DC, the power would be $1$ irrespective of the number of samples. 
-We can use this same approach for the other sampling periodograms. We compute the power (magnitude squared Fourier coefficients) by dividing the magnitude square coefficient values by $\Npts$,i.e $\Norm{\Fourier{\Sampling}(\FreqVar)} / \Npts$, for visualization  purposes only. As a result of this normalization, the periodograms would always converge towards the power value of $1$ with increasing frequency, irrespective of the number of samples. 
+We can use this same approach for the other sampling periodograms and compute the power (magnitude squared Fourier coefficients) by dividing the magnitude square coefficient values by $\Npts$,i.e $\Norm{\Fourier{\Sampling}(\FreqVar)} / \Npts$ (for visualization  purposes only). As a result of this normalization, the periodograms would always converge to the power value of $1$ towards higher frequencies, irrespective of the number of samples. 
 
 %    to make other sampling periodograms look alike, irrespective of the number of samples used $\Npts$. 
 
 \paragraph{Normalizing radially averaged periodograms} 
-Once we obtain the periodograms using above normalization, we can compute the radially averaged periodograms that would have power converging towards $1$ towards higher frequencies. 
+Once we obtain the periodograms using above normalization, we can compute the radially averaged periodograms that would have power converging to $1$ towards higher frequencies. 
 However, with the increase in number of samples the low frequency region of the radially averaged periodograms would keep scaling towards high frequencies. % as shown in~\RefFig{}. 
 For comparison sake, we would like to avoid this scaling without compromising the underlying information. For this purpose, we can further divide the \emph{radial frequency variable $\RadialFreq$} by $\frac{1}{\alpha \sqrt[\Dim]{\Npts}}$, where $\Dim$ represents the dimensions and $\alpha > 0$ is a parameter that you can tweak to bring different radially averaged periodograms to the same scale. For regular sampling patterns, $\alpha=1$, because the first Fourier peak (alias) is at a distance $\sqrt[\Dim]{\Npts}$ from the DC peak in the regular sampling periodogram. As a result of this normalization of the radial frequency variable $\RadialFreq$, the radial periodogram shows the first peak at $\RadialFreq=1$ for regular pattern~(\RefFig{powspec-radialmean-deterministic}). All averaged and radially averaged periodograms shown in this chapter are illustrated using the above normalization heuristics.
 
