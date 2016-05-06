@@ -486,7 +486,7 @@ It can be shown that jittered sampling cannot increase the variance of a Monte C
   \centering
   \includegraphics[width=2.5in]{Pictures/pointset-gridvisualize/points-uniformjitter-n64-1.pdf}
     \includegraphics[width=2.5in]{./Pictures/pointset-gridvisualize/points-uniformjitter-n64.pdf}
-  \caption{Uniform jitter sampling pattern with ttwo realisations of $N=64$ samples.}
+  \caption{Uniform jitter sampling pattern with two realisations of $N=64$ samples.}
   \label{fig:uniformjitter}
 \end{figure}
 %
@@ -524,7 +524,7 @@ Jittered sampling and Latin-hypercube sampling are related, but offer different 
   \label{fig:multijitter}
 \end{figure}
 %
-Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectively enforces the stratification guarantees of jittered sampling and N-rooks sampling simultaneously: for $N=M\times M$ points in 2D we generate exactly one sample in each of the $M\times M$ strata, but also guarantee that there is exactly one sample in each of the $N$ rows and $N$ columns (projected strata along the coordinate axes). Figure~\ref{fig:multijitter} shows an illustration of  $4\times4 = 16$ and $8\times8 = 64$  multi-jittered sample points in a unit square.
+Chiu et al.~\cite{chiu94multi} introduce multi-jittered sampling, which effectively enforces the stratification guarantees of jittered sampling and N-rooks sampling simultaneously: for $N=M\times M$ points in 2D we generate exactly one sample in each of the $M\times M$ strata, but also guarantee that there is exactly one sample in each of the $N$ rows and $N$ columns (projected strata along the coordinate axes). Figure~\ref{fig:multijitter} shows an illustration of  $4\times4 = 16$ and $8\times8 = 64$  multi-jittered sample points in a unit square. In Figures~\ref{fig:powspec-radialmean-stochastic}, we summarize the Fourier power spectra of these sampling patterns.
 %
 \input{Pictures/fig-powspec-radialmean-stochastic}
 %
@@ -587,7 +587,7 @@ This procedure can be performed for any arbitrary prime base $b$, and iterating 
 The Halton sequence has low-discrepancy, so the points tend to be more evenly distributed over the entire domain. It also provides even more strict stratification guarantees than jittered, n-rooks, or multi-jittered sampling, and is a progressive sequence. Figure~\ref{fig:deterministic} illustrates a Halton sequence with 16 and 64 points in 2D.
 
 \subsection{Hammersley point sets}
-By sacrificing progressivity, the discrepancy of the Halton sequence can be further improved by using a regular subdivision of the unit domain for the first dimension, and a Halton sequence for the remaining dimensions. For instance, in 2D, the $x$ dimension would be $\left\{\nicefrac{0}{4}, \nicefrac{1}{4}, \nicefrac{2}{4}, \nicefrac{3}{4}\right\}$, and the $y$ dimension would take the van der Corput sequence of base $b=2$. This modification of the Halton sequence is called the Hammersley sequence, which can create a even lower discrepancy point set for arbitrary dimensions, but due to the first dimension being a regular sampling, knowledge of the number of total samples is necessary. Figure~\ref{fig:deterministic} illustrates the Hammersley point set with 16 and 64 points in 2D.
+By sacrificing progressivity, the discrepancy of the Halton sequence can be further improved by using a regular subdivision of the unit domain for the first dimension, and a Halton sequence for the remaining dimensions. For instance, in 2D, the $x$ dimension would be $\left\{\nicefrac{0}{4}, \nicefrac{1}{4}, \nicefrac{2}{4}, \nicefrac{3}{4}\right\}$, and the $y$ dimension would take the van der Corput sequence of base $b=2$. This modification of the Halton sequence is called the Hammersley sequence, which can create a even lower discrepancy point set for arbitrary dimensions, but due to the first dimension being a regular sampling, knowledge of the number of total samples is necessary. Figure~\ref{fig:deterministic} illustrates the Hammersley point set with 16 and 64 points in 2D. The corresponding sampling power spectra for Halton and Hammersley samples (first two components) are summarised in  Figures~\ref{fig:powspec-radialmean-deterministic}.
 %
 %
 \input{Pictures/fig-powspec-radialmean-deterministic}
@@ -605,11 +605,16 @@ By sacrificing progressivity, the discrepancy of the Halton sequence can be furt
 
 \section{Interpreting and exploiting knowledge of the sampling spectra}
 
-\subsection{Radially-averaged periodograms}
-Figures~\ref{fig:powspec-radialmean-stochastic},~\RefFigNum{powspec-radialmean-deterministic} and~\RefFigNum{powspec-radialmean-bluenoise} depict radially averaged periodograms of the various sampling strategies described in this chapter. These spectra reveal two important characteristics of estimators built using the corresponding sampling strategies. 
+Recently~\cite{Pilleboue:2015:VAM}, it has been shown that the low frequency region of the
+radial power spectrum (of a given sampling pattern) plays a crucial role in deciding the overall variance convergence rates of sampling 
+patterns used for Monte Carlo integration. Since blue noise sampling patterns contains almost no radial 
+energy in the low frequency region, they are of great interest for future research to obtain fast results in 
+rendering problems. Surprisingly, Poisson Disk samples have shown the convergence rate of $\BigO{N^{-1}}$ which is the same as given by purely random samples. This can be explained by looking at the low frequency region in the radial power spectrum of Poisson Disk samples (\RefFig{powspec-radialmean-bluenoise}) which is not zero.
+The importance of the shape of the radial mean power spectrum in the  low frequency region demands  methods and algorithms that could eventually allow sample generation directly from a target Fourier spectrum. Since, periodograms contain essential information regarding the sample distirbution, it is important to find a way first to represent different periodograms on a same scale.
 
 \paragraph{Normalizing periodograms} 
-One of the major issues which is normally encountered while comparing periodograms of different sampling patterns is that there is no well defined metric that could allow a fair comparison betweeen various sampling periodograms by simply looking at them. We here propose a few tips that could allow normalizing all kinds of periodograms. For reference, we use random sampling periodogram for which we have an analytical form given by: $\Dirac(\omega) \Npts^2 + \Npts$. 
+
+One of the major issues which is normally encountered while comparing periodograms of different sampling patterns is that there is no well defined metric that could allow a fair comparison betweeen various sampling periodograms by simply looking at them. We, therefore, propose one way of normalization that could allow fair comparison between different periodograms. For reference, we use random sampling periodogram for which we have an analytical form given by: $\Dirac(\omega) \Npts^2 + \Npts$. 
 %
 %\begin{align}
 %\label{eq:random}
@@ -621,17 +626,21 @@ One of the major issues which is normally encountered while comparing periodogra
 %\end{align}
 %
 If you divide this expression by $\Npts$ you would get $\Dirac(\omega) \Npts + 1$, which implies that at frequencies other than the DC, the power would be $1$ irrespective of the number of samples. 
-To make all periodograms look alike, irrespective of the number of samples used $\Npts$, it is adviced to compute $\PowerSpec{\Sampling}(\FreqVar) = \Norm{\Sampling(\FreqVar)} / \Npts$, for visualization  purposes only. As a result of this normalization, the periodograms would always converge towards power value $1$ irrespective of the number of samples used.
+We can use the same approach to make other sampling periodograms look alike, irrespective of the number of samples used $\Npts$. For this purpose, it is adviced to compute $\PowerSpec{\Sampling}(\FreqVar) = \Norm{\Sampling(\FreqVar)} / \Npts$, for visualization  purposes only. As a result of this normalization, the periodograms would always converge towards power value of $1$ irrespective of the number of samples with increasing frequency.
 
 \paragraph{Normalizing radially averaged periodograms} 
-Once we obtain the periodograms using above normalization, we can compute the radially averaged periodograms that would have power converging towards $1$ towards higher frequencies. However, with the increase in number of samples the low frequency region of the radially averaged periodogram would keep scaling towards high frequencies. % as shown in~\RefFig{}. 
-For comparison sake, we would like to avoid this scaling without compromising the underlying information. For this purpose, we can further divide the radial frequency by $\frac{1}{\alpha \sqrt[d]{\Npts}}$, where $\Dim$ represents the dimensions and $\alpha > 0$ is a parameter that you can tweak to bring different radial periodograms to the same scale. For regular sampling patterns, $\alpha=1$. We used the above normalization heuristics to visualize periodograms and radially avareged periodograms 
-of different sampling patterns for fair comparison.
+%Once we obtain the periodograms using above normalization, we can compute the radially averaged periodograms that would have power converging towards $1$ towards higher frequencies. 
+Now, with the increase in number of samples the low frequency region of the radially averaged periodogram would keep scaling towards high frequencies. % as shown in~\RefFig{}. 
+For comparison sake, we would like to avoid this scaling without compromising the underlying information. For this purpose, we can further divide the radial frequency variable by $\frac{1}{\alpha \sqrt[d]{\Npts}}$, where $\Dim$ represents the dimensions and $\alpha > 0$ is a parameter that you can tweak to bring different radial periodograms to the same scale. For regular sampling patterns, $\alpha=1$. All averaged and radially averaged periodograms shown in this chapter uses the above normalization heuristics to visualize periodograms.
 
-\paragraph{Decoding convergence rates}
+\subsection{Radially-averaged periodograms}
+
+Figures~\ref{fig:powspec-radialmean-stochastic},~\RefFigNum{powspec-radialmean-deterministic} and~\RefFigNum{powspec-radialmean-bluenoise} depict radially averaged periodograms of the various sampling strategies described in this chapter. These spectra reveal two important characteristics of estimators built using the corresponding sampling strategies. 
+
 First, the absence of energy in certain bands of the spectrum indicate that they will be efficient for integrating functions with complementary spectra.~e.~g.~Jitter, multi-jitter, Halton and Hammerseley exhibit low energy in the low-frequency region. This makes these strategies efficient for estimating integrals of low-frequency functions. Of these, regular sampling contains arbitrarily high values at certain fixed mid- and high- frequencies, making it a poor choice if the integrand contains mid- or high-frequencies. 
 Second, the convergence rate of the corresponding estimators can be derived as described in sec.~\ref{sec:convErr}, if the asymptotic behavior of the radially-averaged periodograms can be characterized analytically.~e.~g.~we expect, from visual inspection that jittered sampling (or multi-jitter) will exhibit improved convergence compared to n-rooks sampling. 
 
+\paragraph{Decoding convergence rates}
 To derive the exact variance convergence rate of these sampling patterns, we can use recently proposed theoretical tools~\cite{Pilleboue:2015:VAM}---adopted for a special class of functions~\cite{brandolini2001}---that allow approixmating the shape of these radial power spectra using simple polynomial profiles of degree $\PolynomialDegree$. It has been shown that Poisson Disk sampler, although exhibit blue noise characteristics, have the convergence rate of random Monte Carlo samples ($\BigO{N^{-1}}$). This can be explained from the fact that for Poisson Disk samples, the radially averaged periodogram has a non-zero energy in the low frequency region. As a result, the  radially averaged periodgram can only be approximated (bounded) using a \emph{constant profile} which matches the radially averaged periodgram of random samples. This explains why Poisson Disk samples  behave badly in terms of variance convergence rate. However, for CCVT~\cite{Balzer:2009:CPD:1531326.1531392}, the radially averaged periodogram goes to zero in the low frequency region as we move towards the DC peak ($\RadialFreq=0$). It has been shown that radially averaged periodogram of CCVT can be approximated by a \emph{quadratic profile (\PolynomialDegree=2)}, which results in better variance convergence rate~\cite{Pilleboue:2015:VAM}. In~\RefTable{convergencerates}, we summarise theoretically derived convergence rates of some of the well known sampling patterns in terms of the dimensionality $\Dim$ of the domain of integration and the polynomial degree $\PolynomialDegree$ used to approximate the shape of the radial periodogram under study. 
 
 \begin{table}[ht]

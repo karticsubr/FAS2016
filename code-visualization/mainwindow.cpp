@@ -175,7 +175,7 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
         subStrataLength = maxRangeX / (N);
 //    }
 
-    std::cerr << strataLength << " " << subStrataLength << std::endl;
+    std::cerr << strataLength << " " << subStrataLength << " "<< sqrt(N) << " " << N << std::endl;
 
     customPlot->graph()->setData(x, y);
     customPlot->graph()->rescaleAxes(true);
@@ -194,7 +194,8 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     customPlot->xAxis->setAutoSubTicks(false);
     customPlot->xAxis->setTicks(false);
     customPlot->xAxis->setTickStep(strataLength);
-    customPlot->xAxis->setSubTickLength(subStrataLength);
+    customPlot->xAxis->setSubTickCount(sqrt(N)-1);
+    //customPlot->xAxis->setSubTickLength(subStrataLength);
     customPlot->xAxis->grid()->setVisible(gridVisualize);
     customPlot->xAxis->grid()->setSubGridVisible(gridVisualize);
 
@@ -206,7 +207,8 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     customPlot->yAxis->setTicks(false);
     customPlot->yAxis->setTickStep(strataLength);
     customPlot->yAxis->setTickLength(strataLength);
-    customPlot->yAxis->setSubTickLength(subStrataLength);
+    customPlot->yAxis->setSubTickCount(sqrt(N)-1);
+    //customPlot->yAxis->setSubTickLength(subStrataLength);
     customPlot->yAxis->grid()->setVisible(gridVisualize);
     customPlot->yAxis->grid()->setSubGridVisible(gridVisualize);
 

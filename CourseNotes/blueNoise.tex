@@ -116,14 +116,14 @@ corresponding centroids.
 \subsection{Tiling-based methods}
 
 There are some tile-based approaches that can be used to generate blue noise samples 
-Tile-based methodsovercome the computational complexity of  
-\emph{dart-throwing} and/or \emph{relaxation} based approaches in generating blue noise sampling patterns. In computer graphics community, two tile-based approaches are well known: First approach uses a set of precomputed tiles, with each tile composed of multiple samples, and later use these tiles, in a sophisticated way, to pave the sampling domain. Second approach employed tiles with \emph{one sample per tile} and uses some relaxation-based schemes, with look-up tables, to improve the over all quality of samples. 
+Tile-based methods overcome the computational complexity of  
+\emph{dart-throwing} and/or \emph{relaxation} based approaches in generating blue noise sampling patterns. In computer graphics community, two tile-based approaches are well known: First approach uses a set of precomputed tiles~\cite{Cohen:2003,Kopf:2006:RWT}, with each tile composed of multiple samples, and later use these tiles, in a sophisticated way, to pave the sampling domain. Second approach employed tiles with \emph{one sample per tile}~\cite{Ostromoukhov:2004:FHI,Ostromoukhov:2007:SP:1275808.1276475,Wachtel:2014:FTA} and uses some relaxation-based schemes, with look-up tables, to improve the over all quality of samples. 
+Although many blue noise sample generation algorithms exist, none of them are easily extendable to higher dimensions $(>5)$.
+%\subsection{Discussion}
 
-\subsection{Discussion}
-
-Recently~\cite{Pilleboue:2015:VAM}, it has been shown that the low frequency region of the
-radial power spectrum (of a given sampling pattern) plays a crucial role in deciding the overall variance convergence rates of sampling 
-patterns used for Monte Carlo integration. Since blue noise sampling patterns contains almost no radial 
-energy in the low frequency region, they are of great interest for future research to obtain fast results in 
-rendering problems. Surprisingly, Poisson Disk samples have shown the convergence rate of $\BigO{N^{-1}}$ which is the same as given by purely random samples. This can be explained by looking at the low frequency region in the radial power spectrum of Poisson Disk samples (\RefFig{powspec-radialmean-bluenoise}) which is not zero.
-The importance of the shape of the radial mean power spectrum in the  low frequency region demands  methods and algorithms that could eventually allow sample generation directly from a target Fourier spectrum.
+%Recently~\cite{Pilleboue:2015:VAM}, it has been shown that the low frequency region of the
+%radial power spectrum (of a given sampling pattern) plays a crucial role in deciding the overall variance convergence rates of sampling 
+%patterns used for Monte Carlo integration. Since blue noise sampling patterns contains almost no radial 
+%energy in the low frequency region, they are of great interest for future research to obtain fast results in 
+%rendering problems. Surprisingly, Poisson Disk samples have shown the convergence rate of $\BigO{N^{-1}}$ which is the same as given by purely random samples. This can be explained by looking at the low frequency region in the radial power spectrum of Poisson Disk samples (\RefFig{powspec-radialmean-bluenoise}) which is not zero.
+%The importance of the shape of the radial mean power spectrum in the  low frequency region demands  methods and algorithms that could eventually allow sample generation directly from a target Fourier spectrum. Although many blue noise sample generation algorithms exist, none of them are easily extendable to higher dimensions $(>5)$.

@@ -27,6 +27,7 @@ std::vector<T> PointSampler<Dimension, T>::nrooks_samples(int N, T *bbox, int di
 
         for(int r = 0; r < N; r++){
             T x = (r + drand48())/N;
+//            T x = (r)/double(N);
             bins[r] = x;
             //samples[2*index] = x;
         }
@@ -41,7 +42,7 @@ std::vector<T> PointSampler<Dimension, T>::nrooks_samples(int N, T *bbox, int di
         }
 
         for(int c = 0; c < N; c++){
-            T y = (c + drand48())/N;
+            T y = (c+drand48())/double(N);
             bins[c] = y;
         }
 

@@ -10,7 +10,7 @@ DATE=2016-05-04
 
 NSAMPLES=$1
 
-SAMPLERS=(regular jitter multijitter nrooks uniformjitter random halton hammerslay dartthrowing)
+SAMPLERS=(regular jitter multijitter nrooks uniformjitter random halton hammerslay)
 
 for((ns=0;ns<9;ns++))
 do

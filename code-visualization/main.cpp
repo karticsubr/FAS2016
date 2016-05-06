@@ -134,10 +134,10 @@ int main(int argc, char *argv[]){
 //    std::cerr << data.size() << std::endl;
 
     MainWindow w(outputFileName, data, samplingpattern, nsamples, demoIndex, ptRadius, gridVisualize, domain);
-    w.show();
+//    w.show();
     //############################################################
 
-//    return 0;
-    return a.exec();
+    return 0;
+//    return a.exec();
 }
 
