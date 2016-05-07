@@ -90,6 +90,28 @@ We express sampling functions as the sum of weighted unit impulses, or Dirac Del
 where $x_i \in [0,1]$ are the sampled locations. Sampling of a continuous signal \ifn\ can then be seen as multiplication by the sampling function, and the resulting sampled function is $ \ifn \; S(x)$. If the samples are equally weighted, $w_i = 1/\N$. If the locations $x_i$ are random variables (chosen stochastically), then the resulting sampling function is also a random variable defined across instances of the sampled $x_i$. We are mostly interested with this type of sampling functions, which we will denote using boldface, \sfn, to be consistent with our notation for random variables. We denote the Fourier transformed sampling function using \SF. Since this is also a random variable defined over specific instances of \N\ sample locations, we may define its expectation $\Exp{\SF}$ and variance \Var{\SF}. The $k$-sample periodogram of the sampling function is obtained by averaging $k$ estimates of $|\SF|^2$. The PSD of the sampling process is $|\Exp{\SF}|^2$. Clearly, in this case, the periodogram is not an accurate estimator for the PSD, since averaging is performed without phase information. 
 
 
+\section{Normalizing Periodograms}
+Since periodograms characterise sample distributions, a common practical hurdle encountered while comparing periodograms of different sampling patterns is that they are not on a common scale. There is no well defined metric for such a comparison betweeen various sampling periodograms and visual inspection is clearly insufficient. We propose a normalization procedure to enable fair comparison. 
+As a reference, we use the periodogram of random sampling for which we have an analytical form: $\Norm{\Fourier{\Sampling}(\FreqVar)} = \Dirac(\omega) \Npts^2 + \Npts$. 
+%
+%\begin{align}
+%\label{eq:random}
+%\PowerSpec{\Sampling}(\FreqVar) &= 
+%\begin{dcases*}
+%       \Npts^2  & $ \FreqVar = 0 $\\
+%         \Npts & otherwise
+%        \end{dcases*}
+%\end{align}
+%
+Dividing the random sampling periodogram by the number of points $\Npts$ yields unity at $\fv\neq0$. 
+Using a similar approach for the other sampling periodograms, we propose to compute the power (magnitude squared Fourier coefficients) by dividing the magnitude square coefficient values by $\Npts$.~i.~e.~$\Norm{\Fourier{\Sampling}(\FreqVar)} / \Npts$. As a result of this normalization, the periodograms would always converge to the power value of unity towards higher frequencies, irrespective of the number of samples. 
+
+%    to make other sampling periodograms look alike, irrespective of the number of samples used $\Npts$. 
+
+\paragraph{Heuristic for normalizing radially averaged periodograms} 
+Once the above normalization is performed, we can compute the radially averaged periodograms with power converging to unity at higher frequencies. 
+Increasing the number of samples causes energy to shift from the low frequency region of the radially averaged periodograms towards higher frequencies. 
+During comparison, we would like to avoid this scaling without compromising the underlying information. So, we further divide the \emph{radial frequency variable $\RadialFreq$} by $\frac{1}{\alpha \sqrt[\Dim]{\Npts}}$, where $\Dim$ represents the dimensionality of the space and $\alpha > 0$ is a parameter that be used to unify the scales of different radially averaged periodograms. For regular sampling patterns, $\alpha=1$, since the first Fourier peak  is at a distance of $\sqrt[\Dim]{\Npts}$ from the DC peak in the periodogram. As a result of normalizing $\RadialFreq$, the radial periodogram exhibits a first peak at $\RadialFreq=1$ for regular patterns~(\RefFig{powspec-radialmean-deterministic}). All averaged and radially averaged periodograms depicted in chapter~\ref{ch:stateoftheart} are obtained using the above normalization heuristics.
 
 \begin{table}[hbpt]%
 \caption{\label{tab:notation}%

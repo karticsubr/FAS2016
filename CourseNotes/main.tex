@@ -95,7 +95,7 @@
 
 \noindent Copyright \copyright\ 2016 held by the owner/author(s)\\ % Copyright notice
 % 
-\noindent \textsc{SIGGRAPH '16 Courses, July 24-28, 2016, Anaheim, CA.}\\ % Publisher
+\noindent \textsc{SIGGRAPH 2016 Courses, July 24-28, 2016, Anaheim, CA.}\\ % Publisher
 % 
 \noindent Permission to make digital or hard copies of part or all of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for third-party components of this work must be honored. For all other uses, contact the Owner/Author.\\ 
 % License information
@@ -619,8 +619,9 @@ Figures~\ref{fig:powspec-radialmean-stochastic},~\RefFigNum{powspec-radialmean-d
 First, the absence of energy in certain bands of the spectrum indicate that they will be efficient for integrating functions with complementary spectra.~e.~g.~Jitter, multi-jitter, Halton and Hammerseley exhibit low energy in the low-frequency region. This makes these strategies efficient for estimating integrals of low-frequency functions. Of these, regular sampling contains arbitrarily high values at certain fixed mid- and high- frequencies, making it a poor choice if the integrand contains mid- or high-frequencies. 
 Second, the convergence rate of the corresponding estimators can be derived as described in sec.~\ref{sec:convErr}, if the asymptotic behavior of the radially-averaged periodograms can be characterized analytically.~e.~g.~we expect, from visual inspection that jittered sampling (or multi-jitter) will exhibit improved convergence compared to n-rooks sampling. 
 
-\paragraph{Decoding convergence rates}
-To derive the exact variance convergence rate of these sampling patterns, we can use recently proposed theoretical tools~\cite{Pilleboue:2015:VAM}---adopted for a special class of functions~\cite{brandolini2001}---that allow approixmating the shape of these radial power spectra using simple polynomial profiles of degree $\PolynomialDegree$. It has been shown that Poisson Disk sampler, although exhibit blue noise characteristics, have the convergence rate of random Monte Carlo samples ($\BigO{N^{-1}}$). This can be explained from the fact that for Poisson Disk samples, the radially averaged periodogram has a non-zero energy in the low frequency region. As a result, the  radially averaged periodgram can only be approximated (bounded) using a \emph{constant profile} which matches the radially averaged periodgram of random samples. This explains why Poisson Disk samples  behave badly in terms of variance convergence rate. However, for CCVT~\cite{Balzer:2009:CPD:1531326.1531392}, the radially averaged periodogram goes to zero in the low frequency region as we move towards the DC peak ($\RadialFreq=0$). It has been shown that radially averaged periodogram of CCVT can be approximated by a \emph{quadratic profile (\PolynomialDegree=2)}, which results in better variance convergence rate~\cite{Pilleboue:2015:VAM}. In~\RefTable{convergencerates}, we summarise theoretically derived convergence rates of some of the well known sampling patterns in terms of the dimensionality $\Dim$ of the domain of integration and the polynomial degree $\PolynomialDegree$ used to approximate the shape of the radial periodogram under study. 
+\paragraph{Understanding convergence rates}
+The convergence rate of these sampling patterns may be derived for a special class of functions~\cite{brandolini2001} using tools~\cite{Pilleboue:2015:VAM} that allow approixmation of the shape of radial power spectra using simple polynomial profiles. It has been shown that the Poisson Disk sampler, despite its blue noise characteristics, has a convergence rate of random Monte Carlo sampling ($\BigO{N^{-1}}$). The radially averaged periodogram of Poisson Disk samples contains non-zero energy in the low frequency (approaching DC) region, implying that averaged periodgram in this region can only be approximated (bounded) using a \emph{constant profile}. This similar to the case for radially averaged periodgram of random samples. Consequently, Poisson Disk samples, when homogenized, do not show improved variance convergence over random sampling. However, for CCVT~\cite{Balzer:2009:CPD:1531326.1531392}, the radially averaged periodogram approaches zero in the low frequency region as we move towards the DC peak ($\RadialFreq=0$). It has been shown that radially averaged periodogram of CCVT can be approximated by a \emph{quadratic profile (\PolynomialDegree=2)}, which results in better variance convergence rate~\cite{Pilleboue:2015:VAM}. In~\RefTable{convergencerates}, we summarise the theoretically-derived convergence rates for some sampling patterns in terms of the dimensionality $\Dim$ of the domain of integration. 
+\vspace {-2ex}
 
 \begin{table}[ht]
   \centering
@@ -637,35 +638,13 @@ To derive the exact variance convergence rate of these sampling patterns, we can
     \hline
   \end{tabular}
 \end{table}
-
+\vspace {-2ex}
 \subsection{Synthesis of sampling patterns with targeted spectral profiles}
 Since the theory expresses estimation error in terms of the spectral density of the integrand, indeed it would be desirable to tailor the sampling strategy to the given integrand. Although many methods have been proposed for obtaining spectral information about the integrand in special cases~\cite{Egan:2009,Soler:2009,Ramamoorthi:2012,bagher:2013} as well as more generally~\cite{Durand:2005,Cov5D}, this information has only been used to adapt sampling rates and to design improved reconstruction filters. There has also been some work in tailoring sampling particularly for the problem of anti-aliasing ~\cite{Ahmed:2015:APP,Heck:2013:BNS}. The next, natural step would be to synthesise customised sampling strategies, adaptively, for general integrands. 
 
 The importance of having \emph{spectral control} on sampling methods has been explored.  Many methods are  able to generate samples that satisfy pre-assigned Fourier characteristics. Parker and colleagues~\cite{parker1991new} were the first to propose an algorithm for manipulating the power spectra of halftone patterns with blue-noise characteristics. They developed an algorithm that could generate samples whose spectral characteristics would match a given (input) step function. Zhou and colleagues~\cite{Zhou:2012} constructed point sets matching given target Fourier power spectra, by performing  gradient-descent optimization on an energy derived from the autocorrelation function. 
 
-\section{Normalizing Periodograms}
-Since periodograms contain essential information regarding the sample distirbution, it is important to find a way to represent different sampling periodograms on a same scale.
-%\paragraph{ periodograms} 
-This is one of the major issues which is normally encountered while comparing periodograms of different sampling patterns. Since there is no well defined metric that could allow a fair comparison betweeen various sampling periodograms, it is not possible to inspect sampling periodograms by simply looking at them. We, therefore, describe one way of normalization that could allow fair comparison between different periodograms. For reference, we use random sampling periodogram for which we have an analytical form given by: $\Norm{\Fourier{\Sampling}(\FreqVar)} = \Dirac(\omega) \Npts^2 + \Npts$, given the sampling function is defined as: $\Sampling(x)=\sum_{k=1}^{\Npts} (x - x_k)$.
-%
-%\begin{align}
-%\label{eq:random}
-%\PowerSpec{\Sampling}(\FreqVar) &= 
-%\begin{dcases*}
-%       \Npts^2  & $ \FreqVar = 0 $\\
-%         \Npts & otherwise
-%        \end{dcases*}
-%\end{align}
-%
-If you divide the random sampling periodogram by $\Npts$ you would obtain: $\Dirac(\omega) \Npts + 1$, which implies that at frequencies other than the DC, the power would be $1$ irrespective of the number of samples. 
-We can use this same approach for the other sampling periodograms and compute the power (magnitude squared Fourier coefficients) by dividing the magnitude square coefficient values by $\Npts$,i.e $\Norm{\Fourier{\Sampling}(\FreqVar)} / \Npts$ (for visualization  purposes only). As a result of this normalization, the periodograms would always converge to the power value of $1$ towards higher frequencies, irrespective of the number of samples. 
 
-%    to make other sampling periodograms look alike, irrespective of the number of samples used $\Npts$. 
-
-\paragraph{Normalizing radially averaged periodograms} 
-Once we obtain the periodograms using above normalization, we can compute the radially averaged periodograms that would have power converging to $1$ towards higher frequencies. 
-However, with the increase in number of samples the low frequency region of the radially averaged periodograms would keep scaling towards high frequencies. % as shown in~\RefFig{}. 
-For comparison sake, we would like to avoid this scaling without compromising the underlying information. For this purpose, we can further divide the \emph{radial frequency variable $\RadialFreq$} by $\frac{1}{\alpha \sqrt[\Dim]{\Npts}}$, where $\Dim$ represents the dimensions and $\alpha > 0$ is a parameter that you can tweak to bring different radially averaged periodograms to the same scale. For regular sampling patterns, $\alpha=1$, because the first Fourier peak (alias) is at a distance $\sqrt[\Dim]{\Npts}$ from the DC peak in the regular sampling periodogram. As a result of this normalization of the radial frequency variable $\RadialFreq$, the radial periodogram shows the first peak at $\RadialFreq=1$ for regular pattern~(\RefFig{powspec-radialmean-deterministic}). All averaged and radially averaged periodograms shown in this chapter are illustrated using the above normalization heuristics.
 
 % %----------------------------------------------------------------------------------------
 % %	CHAPTER 6
