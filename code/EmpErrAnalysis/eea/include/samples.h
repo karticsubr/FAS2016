@@ -3,31 +3,19 @@
 #define __SAMPLESH_ 
 
 #include <ostream>
-
+#include <string>
 #include <vector>
-#include <DataMat.h>
+#include <point2d.h>
+#include <map>
 
+using std::vector ;
+using std::map ;
+using std::string; 
+using std::ostream ;
 
-struct Point2D
-{
-  Point2D(float x0=0, float y0=0) :x(x0), y(y0)
-  { }
+class Sampler ;
 
-  Point2D(float x0, float y0, bool toroidal):x(x0), y(y0)
-  {
-    if (toroidal)
-    {
-      x = x0 - floor(x0) ;
-      y = y0 - floor(y0) ;
-    }
-  }
-  
-  float x, y;
-};
-
-class samples ;
-
-struct Params
+struct SamplerParams
 {
     double sigma ;
 };
@@ -36,141 +24,137 @@ struct Params
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class sampler
+class SamplerPrototype
 {
     public:
-	sampler() ;
+	SamplerPrototype() ;
 
-	static samples* Generate(const string& type, int n,  const Params& param) ;
-	static map<string, samples*> exemplars;
+	static Sampler* Generate(const string& type, int n,  const SamplerParams& param) ;
+	static map<string, Sampler*> exemplars;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class samples
+class Sampler
 {
     public:
-	virtual samples* GenSamples(int n, const Params& param) = 0 ;
-	virtual void PSpectrum(int Resln, DataMat& P) const {}
-	virtual void WriteEPSFile(const string& fname) ;
-	virtual ~samples() ;
+	virtual Sampler* GenSampler(int n, const SamplerParams& param) = 0 ;	
+	virtual vector<Point2D>& Sample(int n, const SamplerParams& param) = 0;	
+	virtual string GetType() const {return SamplingType; } 	
+	virtual vector<Point2D>& GetPoints() {return p;}	
+	virtual ~Sampler() ;
 	
-	virtual string GetType() const {return SamplingType; } 
-	friend ostream& operator << (ostream& os, samples& s) ;
+	friend ostream& operator << (ostream& os, Sampler& s) ;
 	
     protected:
 	vector<Point2D> p ;
 	string SamplingType ;
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Subclasses of Sampler 
 
-
-// 				Subclasses of samples 
-  
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Random
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class randomSamples: public samples
+class randomSampler: public Sampler
 {
     public:
-	virtual samples* GenSamples(int n,  const Params& param)  ;
-	virtual ~randomSamples() {}
+	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
+	virtual vector<Point2D>& Sample(int n, const SamplerParams& param) ;
+	virtual ~randomSampler() {}
 	
     private:
-	randomSamples() {SamplingType = "Random" ;}
-	randomSamples(int n,  const Params& param) ;
-	friend class sampler;
+	randomSampler() {SamplingType = "Random" ;}
+	randomSampler(int n,  const SamplerParams& param) ;
+	friend class SamplerPrototype;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Regular grid
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class gridSamples: public samples
+class gridSampler: public Sampler
 {
     public:
-	virtual samples* GenSamples(int n,  const Params& param)  ;
-	virtual ~gridSamples() {}
+	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
+	virtual vector<Point2D>& Sample(int n, const SamplerParams& param) ;
+	virtual ~gridSampler() {}
 	
     private:
-	gridSamples() {SamplingType = "Grid" ;}
-	gridSamples(int n,  const Params& param) ;
-	friend class sampler;
+	gridSampler() {SamplingType = "Grid" ;}
+	gridSampler(int n,  const SamplerParams& param) ;
+	friend class SamplerPrototype;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Jittered
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class jitteredSamples: public samples
+class jitteredSampler: public Sampler
 {
     public:
-	virtual samples* GenSamples(int n,  const Params& param)  ;
-	virtual ~jitteredSamples() {}
+	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
+	virtual vector<Point2D>& Sample(int n, const SamplerParams& param) ;
+	virtual ~jitteredSampler() {}
 	
     private:
-	jitteredSamples() {SamplingType = "Jittered" ;}
-	jitteredSamples(int n,  const Params& param) ;
-	friend class sampler;
+	jitteredSampler() {SamplingType = "Jittered" ;}
+	jitteredSampler(int n,  const SamplerParams& param) ;
+	friend class SamplerPrototype;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Gaussian jitter
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class gjSamples: public samples
+class gjSampler: public Sampler
 {
     public:
-	virtual samples* GenSamples(int n,  const Params& param)  ;
-	virtual ~gjSamples() {}
+	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
+	virtual vector<Point2D>& Sample(int n, const SamplerParams& param) ;
+	virtual ~gjSampler() {}
 	
     private:
-	gjSamples() {SamplingType = "GJittered" ;}
-	gjSamples(int n,  const Params& param) ;
-	friend class sampler;
+	gjSampler() {SamplingType = "GJittered" ;}
+	gjSampler(int n,  const SamplerParams& param) ;
+	friend class SamplerPrototype;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Poisson-disk
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class pdSamples: public samples
+class pdSampler: public Sampler
 {
     public:
-	virtual samples* GenSamples(int n,  const Params& param)  ;
-	virtual ~pdSamples() {}
+	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
+	virtual vector<Point2D>& Sample(int n, const SamplerParams& param) ;
+	virtual ~pdSampler() {}
 	
     private:
-	pdSamples() {SamplingType = "PDisk" ;}
-	pdSamples(int n,  const Params& param) {} ;
-	friend class sampler;
+	pdSampler() {SamplingType = "PDisk" ;}
+	pdSampler(int n,  const SamplerParams& param) {} ;
+	friend class SamplerPrototype;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Box-jitter
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class bjSamples: public samples
+class bjSampler: public Sampler
 {
     public:
-	virtual samples* GenSamples(int n,  const Params& param)  ;
-	virtual ~bjSamples() {}
+	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
+	virtual vector<Point2D>& Sample(int n, const SamplerParams& param) ;
+	virtual ~bjSampler() {}
 	
     private:
-	bjSamples() {SamplingType = "BJittered" ;}
-	bjSamples(int n,  const Params& param) ;
-	friend class sampler;
+	bjSampler() {SamplingType = "BJittered" ;}
+	bjSampler(int n,  const SamplerParams& param) ;
+	friend class SamplerPrototype;
 };
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 #endif // __SAMPLESH_ 

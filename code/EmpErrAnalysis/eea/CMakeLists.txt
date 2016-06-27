@@ -3,8 +3,8 @@ project(eea)
 
 include_directories(include PSA)
 
-add_executable(eea cpp/main.cpp cpp/samples.cpp cpp/randsampgsl.cpp)
-TARGET_LINK_LIBRARIES(eea gsl blas gomp)
+add_executable(eea cpp/main.cpp cpp/samples.cpp cpp/randsampgsl.cpp cpp/integrand.cpp)
+TARGET_LINK_LIBRARIES(eea gsl blas gomp CGAL gmp)
 
 install(TARGETS eea RUNTIME DESTINATION bin)
 

@@ -3,28 +3,34 @@
 #include <randsampgsl.h>
 #define NDIM 2
 // #include "generator.h"
+#include <stdexcept>
+#include <unistd.h>
+
 
 // using namespace boost; 
+using std::endl ;
+using std::invalid_argument ;
 
 extern RandSampGSL gslSamps;
 
-map<string, samples*> sampler::exemplars ;
-sampler s1;  
+map<string, Sampler*> SamplerPrototype::exemplars ;
+SamplerPrototype s1;  
 
-samples* sampler::Generate(const string& type, int n,  const Params& param) 
+Sampler* SamplerPrototype::Generate(const string& type, int n,  const SamplerParams& param) 
 {
-//     cout << "# exemplars = " << exemplars.size() << endl ;
-    return exemplars[type]->GenSamples(n, param) ;
+    	map<string, Sampler*>::iterator it = exemplars.find(type) ;
+	if (it==exemplars.end()) throw invalid_argument("Unknown sampler type") ;
+	return it->second->GenSampler(n, param) ;
 }
 
-sampler::sampler()
+SamplerPrototype::SamplerPrototype()
 {
-    vector<samples*> vs ;
-    vs.push_back(new randomSamples());
-    vs.push_back(new gridSamples());
-    vs.push_back(new jitteredSamples());
-    vs.push_back(new gjSamples());
-    vs.push_back(new bjSamples());
+    vector<Sampler*> vs ;
+    vs.push_back(new randomSampler());
+    vs.push_back(new gridSampler());
+    vs.push_back(new jitteredSampler());
+    vs.push_back(new gjSampler());
+    vs.push_back(new bjSampler());
     
     for (int i(0); i<vs.size(); i++)
 	exemplars[vs[i]->GetType()] = vs[i] ;
@@ -33,30 +39,33 @@ sampler::sampler()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-ostream& operator << (ostream& os, samples& s)
+ostream& operator << (ostream& os, Sampler& s)
 {
     for (int i(0); i< s.p.size(); i++)
 	os << s.p[i].x << " " << s.p[i].y << endl ; 
 }
 
-void samples::WriteEPSFile(const string& fname) 
-{
-}
 
-samples::~samples() 
+Sampler::~Sampler() 
 {}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Random
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-samples* randomSamples::GenSamples(int n,  const Params& param)  
+Sampler* randomSampler::GenSampler(int n,  const SamplerParams& param)  
 {
-    return new randomSamples(n, param) ;
+    return new randomSampler(n, param) ;
 }
 
-randomSamples::randomSamples(int n,  const Params& param) 
+randomSampler::randomSampler(int n,  const SamplerParams& param) 
+{
+    SamplingType = "Random" ;
+    Sample(n, param) ;
+}
+
+vector<Point2D>& randomSampler::Sample(int n, const SamplerParams& param) 
 {
     #pragma omp parallel for
     for (int i=0; i<n; i++)
@@ -64,19 +73,25 @@ randomSamples::randomSamples(int n,  const Params& param)
 	Point2D p2(drand48(),drand48()) ;
 	p.push_back(p2) ;
     }
-    SamplingType = "Random" ;
+    return p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Regular grid
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-samples* gridSamples::GenSamples(int n,  const Params& param)  
+Sampler* gridSampler::GenSampler(int n,  const SamplerParams& param)  
 {
-    return new gridSamples(n, param) ;
+    return new gridSampler(n, param) ;
 }
 
-gridSamples::gridSamples(int n,  const Params& param) 
+gridSampler::gridSampler(int n,  const SamplerParams& param) 
+{
+    SamplingType = "Grid" ;
+    Sample(n, param) ;
+}
+
+vector<Point2D>& gridSampler::Sample(int n, const SamplerParams& param) 
 {
     double sqrtN (ceil(sqrt(n))) ;
      double dX(1/(sqrtN)), dY(dX) ;
@@ -90,19 +105,25 @@ gridSamples::gridSamples(int n,  const Params& param)
 	    p.push_back(Point2D(x,y)) ;
 	}
     }
-    SamplingType = "Grid" ;
+    return p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Jittered
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-samples* jitteredSamples::GenSamples(int n,  const Params& param)  
+Sampler* jitteredSampler::GenSampler(int n,  const SamplerParams& param)  
 {
-    return new jitteredSamples(n, param) ;
+    return new jitteredSampler(n, param) ;
 }
 
-jitteredSamples::jitteredSamples(int n,  const Params& param) 
+jitteredSampler::jitteredSampler(int n,  const SamplerParams& param) 
+{
+    SamplingType = "Jittered" ;
+    Sample(n, param) ;
+}
+
+vector<Point2D>& jitteredSampler::Sample(int n, const SamplerParams& param) 
 {
     double sqrtN (ceil(sqrt(n))) ;
     double dX(1/(sqrtN)), dY(dX);
@@ -117,19 +138,25 @@ jitteredSamples::jitteredSamples(int n,  const Params& param)
 	    p.push_back(pt) ;
 	}
     }
-    SamplingType = "Jittered" ;
+    return p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Gaussian jitter
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-samples* gjSamples::GenSamples(int n,  const Params& param)  
+Sampler* gjSampler::GenSampler(int n,  const SamplerParams& param)  
 {
-    return new gjSamples(n, param) ;
+    return new gjSampler(n, param) ;
 }
 
-gjSamples::gjSamples(int n,  const Params& param) 
+gjSampler::gjSampler(int n,  const SamplerParams& param) 
+{
+    SamplingType = "GJittered" ;
+    Sample(n, param) ;
+}
+
+vector<Point2D>& gjSampler::Sample(int n, const SamplerParams& param) 
 {
     double sqrtN (ceil(sqrt(n))) ;
     double dX(1/(sqrtN)), dY(dX);
@@ -145,15 +172,25 @@ gjSamples::gjSamples(int n,  const Params& param)
 	    p.push_back(pt) ;
 	}
     }
-    SamplingType = "GJittered" ;
+    return p;
 }
 
-samples* bjSamples::GenSamples(int n,  const Params& param)  
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Box-jitter
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Sampler* bjSampler::GenSampler(int n,  const SamplerParams& param)  
 {
-    return new bjSamples(n, param) ;
+    return new bjSampler(n, param) ;
 }
 
-bjSamples::bjSamples(int n,  const Params& param) 
+bjSampler::bjSampler(int n,  const SamplerParams& param) 
+{
+    SamplingType = "BJittered" ;
+    Sample(n, param) ;
+}
+
+vector<Point2D>& bjSampler::Sample(int n, const SamplerParams& param) 
 {
     double sqrtN (ceil(sqrt(n))) ;
     double dX(1/(sqrtN)), dY(dX);
@@ -169,5 +206,5 @@ bjSamples::bjSamples(int n,  const Params& param)
 	    p.push_back(pt) ;
 	}
     }
-    SamplingType = "BJittered" ;
+    return p;
 }
