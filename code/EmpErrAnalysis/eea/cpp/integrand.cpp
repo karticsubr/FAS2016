@@ -7,6 +7,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib>
+#include <omp.h>
 
 using std::vector ;
 using std::map ;
@@ -43,7 +44,7 @@ IntegrandPrototype::IntegrandPrototype()
 // 				Base class
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-float Integrand::MultipointEval (vector<float>& out, const vector<Point2D>& vp) const 
+void Integrand::MultipointEval (vector<double>& out, const vector<Point2D>& vp) const 
 {
 	const int n (vp.size());
 	out.resize(n) ;
@@ -51,6 +52,7 @@ float Integrand::MultipointEval (vector<float>& out, const vector<Point2D>& vp) 
 	#pragma omp parallel for
 	for (int i=0; i<n; i++)
 	{
+// 		std::cout << "\t\tThread number: " << omp_get_thread_num() << endl;			
 		out[i] = (*this)(vp[i]) ;
 	}
 }
@@ -69,9 +71,9 @@ QuadPixelIntegrand::QuadPixelIntegrand(const IntegrandParams& params)
 	IntegrandType = "QuadPix"; 
 
 	// initialise points
-	float f[4] ;
+	double f[4] ;
 	Randomize = params.RandomPoints || (params.Floats.size()!=4) ;
-	float invrmax(1/static_cast<float>(RAND_MAX)) ;
+	double invrmax(1/static_cast<double>(RAND_MAX)) ;
 	for (int i(0); i<4;i++)
 		f[i] = Randomize ? (rand()*invrmax):params.Floats[i] ;
 	pts[0] = Point(0,f[0]) ;
@@ -79,18 +81,15 @@ QuadPixelIntegrand::QuadPixelIntegrand(const IntegrandParams& params)
 	pts[2] = Point(1,1-f[2]) ;
 	pts[3] = Point(1-f[3],0) ;
 	
-	
-	
-
 	RefVal = 1 - 0.5f*(f[0] + f[1] + f[2] + f[3] - (f[0]*f[1] + 
 				f[1]*f[2] + f[2]*f[3] + f[3]*f[0]) ) ;
 	
-	cout << "Refval = " << RefVal << " " << f[0] << endl ;	
+	cout << "Refval = " << RefVal << endl ;	
 }
 
-float QuadPixelIntegrand::operator () (const Point2D& p) const 
+double QuadPixelIntegrand::operator () (const Point2D& p) const 
 {
-	float eval(0); 
+	double eval(0); 
 	Point pt(p.x, p.y) ;
 	CGAL::Bounded_side test = CGAL::bounded_side_2(pts, pts+4, pt, K()) ;
 	eval =  (test == CGAL::ON_BOUNDED_SIDE) ? 1: 0 ;

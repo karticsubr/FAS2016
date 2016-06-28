@@ -13,7 +13,11 @@ using namespace TCLAP ;
 using namespace std ;
 
 RandSampGSL gslSamps ;
- 
+
+#include <omp.h>
+int target_thread_num = 4;
+// omp_set_num_threads(target_thread_num);
+
 int main(int argc, char* argv[])
 {
 //     unsigned int seed = time (NULL) * getpid();    
@@ -73,7 +77,7 @@ int main(int argc, char* argv[])
 		
 		Sampler* s1 = SamplerPrototype::Generate(stypeArg.getValue(), numArg.getValue(), sparams);
 		Integrand* i1 = IntegrandPrototype::Generate(itypeArg.getValue(), iparams);
-		vector<float> res ;
+		vector<double> res ;
 		i1->MultipointEval(res, s1->GetPoints()) ;
 		
 		float m(0); 
@@ -103,15 +107,20 @@ int main(int argc, char* argv[])
 		Integrand* i1 = IntegrandPrototype::Generate(itypeArg.getValue(), iparams);
 		
 		float mse(0) ;
+		
 		#pragma omp parallel for
 		for (int r=0; r<reps; r++)
 		{
-			vector<float> res ;
-			i1->MultipointEval(res, s1->GetPoints()) ;
+			vector<Point2D> pts ;
+			s1->MTSample(pts, n, sparams) ;
+			vector<double> res ;
+			i1->MultipointEval(res, pts) ;
 			
-			float m(0); 
+			double m(0); 
 			for (int i(0); i<res.size(); i++)
+			{
 				m += res[i] ;
+			}
 			m/=n ;
 			mse += pow((m-i1->ReferenceValue()),2) ;
 		}
@@ -125,5 +134,6 @@ int main(int argc, char* argv[])
 	}		
     }
 
+    
     return 1; 
 }

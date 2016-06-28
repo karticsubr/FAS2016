@@ -18,7 +18,7 @@ class Integrand ;
 ///////////////////////////////////////////////
 struct IntegrandParams
 {
-	vector<float> Floats;
+	vector<double> Floats;
 	vector<Point2D> Points ;
 	bool RandomPoints; 
 };
@@ -40,14 +40,14 @@ class Integrand
 {
      public:
 	virtual Integrand* GenIntegrand(const IntegrandParams& params) = 0 ;
-	virtual float operator () (const Point2D& p) const = 0;
-	virtual float MultipointEval (vector<float>& out, const vector<Point2D>& vp) const ;
-	virtual float ReferenceValue() const {return RefVal;} 
+	virtual double operator () (const Point2D& p) const = 0;
+	virtual void MultipointEval (vector<double>& out, const vector<Point2D>& vp) const ;
+	virtual double ReferenceValue() const {return RefVal;} 
 	virtual string GetType() const {return IntegrandType; } 
 	virtual ~Integrand() {} 
 	
      protected:
-	float RefVal ;
+	double RefVal ;
 	string IntegrandType ;
 
 } ;
@@ -70,7 +70,7 @@ class QuadPixelIntegrand : public Integrand
 {
      public:
 	virtual Integrand* GenIntegrand(const IntegrandParams& params) ;
-	virtual float operator () (const Point2D& p) const ;
+	virtual double operator () (const Point2D& p) const ;
 	virtual ~QuadPixelIntegrand() ;
 	
      protected:
