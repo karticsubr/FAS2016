@@ -2,13 +2,15 @@
 #include <omp.h>
 #include <randsampgsl.h>
 #define NDIM 2
-// #include "generator.h"
 #include <stdexcept>
 #include <unistd.h>
+#include <cmdlnparser.h>
+#include <sstream>
 
 #include <iostream>
 // using namespace boost; 
 using std::cout ;
+using std::stringstream ;
 using std::endl ;
 using std::invalid_argument ;
 
@@ -17,11 +19,19 @@ extern RandSampGSL gslSamps;
 map<string, Sampler*> SamplerPrototype::exemplars ;
 SamplerPrototype s1;  
 
-Sampler* SamplerPrototype::Generate(const string& type, int n,  const SamplerParams& param) 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
+Sampler* SamplerPrototype::Generate(const vector<string>& SamplerString) 
 {
-    	map<string, Sampler*>::iterator it = exemplars.find(type) ;
+	string type = CLParser::FindArgument(SamplerString, CLArg::SamplerType) ;
+	
+	map<string, Sampler*>::iterator it = exemplars.find(type) ;
 	if (it==exemplars.end()) throw invalid_argument("Unknown sampler type") ;
-	return it->second->GenSampler(n, param) ;
+	return it->second->GenSampler(SamplerString) ;
 }
 
 SamplerPrototype::SamplerPrototype()
@@ -38,7 +48,7 @@ SamplerPrototype::SamplerPrototype()
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ostream& operator << (ostream& os, Sampler& s)
 {
@@ -47,9 +57,9 @@ ostream& operator << (ostream& os, Sampler& s)
 }
 
 
-vector<Point2D>& Sampler::Sample(int n, const SamplerParams& param) 
+vector<Point2D>& Sampler::Sample(int n) 
 {
-	MTSample(p, n, param) ;
+	MTSample(p, n) ;
 	return p;
 }
 
@@ -61,18 +71,17 @@ Sampler::~Sampler()
 // 				Random
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Sampler* randomSampler::GenSampler(int n,  const SamplerParams& param)  
+Sampler* randomSampler::GenSampler(const vector<string>& SamplerParams)  
 {
-    return new randomSampler(n, param) ;
+    return new randomSampler(SamplerParams) ;
 }
 
-randomSampler::randomSampler(int n,  const SamplerParams& param) 
+randomSampler::randomSampler(const vector<string>& SamplerParams) 
 {
     SamplingType = "Random" ;
-    MTSample(p, n, param) ;
 }
 
-void randomSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) 
+void randomSampler::MTSample(vector<Point2D>& pts, int n) 
 {
     pts.resize(n) ;
     #pragma omp parallel for
@@ -86,18 +95,17 @@ void randomSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams& p
 // 				Regular grid
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Sampler* gridSampler::GenSampler(int n,  const SamplerParams& param)  
+Sampler* gridSampler::GenSampler(const vector<string>& SamplerParams)  
 {
-    return new gridSampler(n, param) ;
+    return new gridSampler(SamplerParams) ;
 }
 
-gridSampler::gridSampler(int n,  const SamplerParams& param) 
+gridSampler::gridSampler(const vector<string>& SamplerParams) 
 {
     SamplingType = "Grid" ;
-    MTSample(p, n, param) ;
 }
 
-void gridSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) 
+void gridSampler::MTSample(vector<Point2D>& pts, int n) 
 {
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -119,18 +127,17 @@ void gridSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams& par
 // 				Jittered
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Sampler* jitteredSampler::GenSampler(int n,  const SamplerParams& param)  
+Sampler* jitteredSampler::GenSampler(const vector<string>& SamplerParams)  
 {
-    return new jitteredSampler(n, param) ;
+    return new jitteredSampler(SamplerParams) ;
 }
 
-jitteredSampler::jitteredSampler(int n,  const SamplerParams& param) 
+jitteredSampler::jitteredSampler(const vector<string>& SamplerParams) 
 {
     SamplingType = "Jittered" ;
-    MTSample(p, n, param) ;
 }
 
-void jitteredSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) 
+void jitteredSampler::MTSample(vector<Point2D>& pts, int n) 
 {
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -151,19 +158,28 @@ void jitteredSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams&
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 				Gaussian jitter
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const string gjSampler::SigStr = "--sigma" ;
 
-Sampler* gjSampler::GenSampler(int n,  const SamplerParams& param)  
+Sampler* gjSampler::GenSampler(const vector<string>& SamplerParams)  
 {
-    return new gjSampler(n, param) ;
+    return new gjSampler(SamplerParams) ;
 }
 
-gjSampler::gjSampler(int n,  const SamplerParams& param) 
+gjSampler::gjSampler(const vector<string>& SamplerParams) : _sigma (0.5) 
 {
     SamplingType = "GJittered" ;
-    MTSample(p, n, param) ;
+    ParseParameters(SamplerParams) ;
 }
 
-void gjSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) 
+void gjSampler::ParseParameters(const vector<string>& SamplerParams) 
+{
+	string sig = CLParser::FindArgument(SamplerParams, SigStr) ;
+	stringstream ss(sig) ;
+	ss >> _sigma ;
+	cout << "===============>"  << sig << " " << _sigma << endl ;
+}
+
+void gjSampler::MTSample(vector<Point2D>& pts, int n) 
 {
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -175,7 +191,7 @@ void gjSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams& param
 	for (int j=0; j<sqrtN; j++)
 	{
 	    const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
-	    const double r1(gslSamps.GaussianRandSample(param.sigma*dX*.5)), r2(gslSamps.GaussianRandSample(param.sigma*dY*.5)); 
+	    const double r1(gslSamps.GaussianRandSample(_sigma*dX*.5)), r2(gslSamps.GaussianRandSample(_sigma*dY*.5)); 
 	    pts[i*sqrtN+j] = Point2D(x+(r1),y+(r2), true);
 	}
     }
@@ -184,19 +200,26 @@ void gjSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams& param
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 				Box-jitter
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Sampler* bjSampler::GenSampler(int n,  const SamplerParams& param)  
+const string bjSampler::BWStr = "--boxwidth" ;
+Sampler* bjSampler::GenSampler(const vector<string>& SamplerParams) 
 {
-    return new bjSampler(n, param) ;
+    return new bjSampler(SamplerParams) ;
 }
 
-bjSampler::bjSampler(int n,  const SamplerParams& param) 
+bjSampler::bjSampler(const vector<string>& SamplerParams) : _boxWidth(0.5) 
 {
     SamplingType = "BJittered" ;
-    MTSample(p, n, param) ;
+    ParseParameters(SamplerParams) ;
 }
 
-void bjSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) 
+void bjSampler::ParseParameters(const vector<string>& SamplerParams) 
+{
+	string bw = CLParser::FindArgument(SamplerParams, BWStr) ;
+	stringstream ss(bw) ;
+	ss >> _boxWidth ;
+}
+
+void bjSampler::MTSample(vector<Point2D>& pts, int n) 
 {
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -209,7 +232,7 @@ void bjSampler::MTSample(vector<Point2D>& pts, int n, const SamplerParams& param
 	{
 	    const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
 	    const double r1(-.5+drand48()), r2(-.5+drand48()); 
-	    pts[i*sqrtN+j] = Point2D(x+(r1)*param.sigma*dX,y+(r2)*param.sigma*dY, true);
+	    pts[i*sqrtN+j] = Point2D(x+(r1)*_boxWidth*dX,y+(r2)*_boxWidth*dY, true);
 	}
     }
 }

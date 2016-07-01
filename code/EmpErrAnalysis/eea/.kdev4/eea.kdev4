@@ -26,7 +26,7 @@ Name=eea
 Type=Native Application
 
 [Launch][Launch Configuration 0][Data]
-Arguments=-m integrate -s Random -i Gauss -n 100
+Arguments=-m secondaryEstimError -s GJittered --sigma 1 -i QuadPix -n 1600 -r 100
 Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x02\x00\x00\x00\x06\x00e\x00e\x00a\x00\x00\x00\x06\x00e\x00e\x00a)
 Dependency Action=Build
 EnvironmentGroup=

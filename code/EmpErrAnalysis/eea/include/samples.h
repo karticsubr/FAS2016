@@ -7,7 +7,9 @@
 #include <vector>
 #include <point2d.h>
 #include <map>
+#include <tclap/CmdLine.h>
 
+using TCLAP::CmdLine ;
 using std::vector ;
 using std::map ;
 using std::string; 
@@ -15,10 +17,6 @@ using std::ostream ;
 
 class Sampler ;
 
-struct SamplerParams
-{
-    double sigma ;
-};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +27,7 @@ class SamplerPrototype
     public:
 	SamplerPrototype() ;
 
-	static Sampler* Generate(const string& type, int n,  const SamplerParams& param) ;
+	static Sampler* Generate(const vector<string>& SamplingSection) ;
 	static map<string, Sampler*> exemplars;
 };
 
@@ -40,9 +38,9 @@ class SamplerPrototype
 class Sampler
 {
     public:
-	virtual Sampler* GenSampler(int n, const SamplerParams& param) = 0 ;	
-	virtual vector<Point2D>& Sample(int n, const SamplerParams& param) ;
-	virtual void MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) = 0;	
+	virtual Sampler* GenSampler(const vector<string>& SamplerParams) = 0 ;	
+	virtual vector<Point2D>& Sample(int n) ;
+	virtual void MTSample(vector<Point2D>& pts, int n) = 0;	
 	virtual string GetType() const {return SamplingType; } 	
 	virtual vector<Point2D>& GetPoints() {return p;}	
 	virtual ~Sampler() ;
@@ -62,13 +60,13 @@ class Sampler
 class randomSampler: public Sampler
 {
     public:
-	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) ;	
+	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
+	virtual void MTSample(vector<Point2D>& pts, int n) ;	
 	virtual ~randomSampler() {}
 	
     private:
 	randomSampler() {SamplingType = "Random" ;}
-	randomSampler(int n,  const SamplerParams& param) ;
+	randomSampler(const vector<string>& SamplerParams) ;
 	friend class SamplerPrototype;
 };
 
@@ -79,13 +77,13 @@ class randomSampler: public Sampler
 class gridSampler: public Sampler
 {
     public:
-	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) ;	
+	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
+	virtual void MTSample(vector<Point2D>& pts, int n) ;	
 	virtual ~gridSampler() {}
 	
     private:
 	gridSampler() {SamplingType = "Grid" ;}
-	gridSampler(int n,  const SamplerParams& param) ;
+	gridSampler(const vector<string>& SamplerParams) ;
 	friend class SamplerPrototype;
 };
 
@@ -96,13 +94,13 @@ class gridSampler: public Sampler
 class jitteredSampler: public Sampler
 {
     public:
-	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) ;	
+	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
+	virtual void MTSample(vector<Point2D>& pts, int n) ;	
 	virtual ~jitteredSampler() {}
 	
     private:
 	jitteredSampler() {SamplingType = "Jittered" ;}
-	jitteredSampler(int n,  const SamplerParams& param) ;
+	jitteredSampler(const vector<string>& SamplerParams) ;
 	friend class SamplerPrototype;
 };
 
@@ -113,14 +111,20 @@ class jitteredSampler: public Sampler
 class gjSampler: public Sampler
 {
     public:
-	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) ;	
+	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
+	virtual void MTSample(vector<Point2D>& pts, int n) ;	
 	virtual ~gjSampler() {}
-	
+		
     private:
-	gjSampler() {SamplingType = "GJittered" ;}
-	gjSampler(int n,  const SamplerParams& param) ;
+	gjSampler(): _sigma(0.5) {SamplingType = "GJittered" ;}
+	gjSampler(const vector<string>& SamplerParams) ;
 	friend class SamplerPrototype;
+	
+	void ParseParameters(const vector<string>& SamplerParams) ;
+	
+	double _sigma ;
+	static const string SigStr ; // = "--sigma" 
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,13 +134,13 @@ class gjSampler: public Sampler
 class pdSampler: public Sampler
 {
     public:
-	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) ;	
+	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
+	virtual void MTSample(vector<Point2D>& pts, int n) ;	
 	virtual ~pdSampler() {}
 	
     private:
 	pdSampler() {SamplingType = "PDisk" ;}
-	pdSampler(int n,  const SamplerParams& param) {} ;
+	pdSampler(const vector<string>& SamplerParams) {} ;
 	friend class SamplerPrototype;
 };
 
@@ -147,14 +151,19 @@ class pdSampler: public Sampler
 class bjSampler: public Sampler
 {
     public:
-	virtual Sampler* GenSampler(int n,  const SamplerParams& param)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n, const SamplerParams& param) ;	
+	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
+	virtual void MTSample(vector<Point2D>& pts, int n) ;	
 	virtual ~bjSampler() {}
 	
     private:
-	bjSampler() {SamplingType = "BJittered" ;}
-	bjSampler(int n,  const SamplerParams& param) ;
+	bjSampler(): _boxWidth(0.5) {SamplingType = "BJittered" ;}
+	bjSampler(const vector<string>& SamplerParams) ;
 	friend class SamplerPrototype;
+	
+	void ParseParameters(const vector<string>& SamplerParams) ;
+
+	double _boxWidth ;
+	static const string BWStr ; // = "--boxwidth" 	
 };
 
 

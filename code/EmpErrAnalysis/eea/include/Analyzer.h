@@ -21,9 +21,13 @@ class Analyzer
 
 	void AssessSelectedSampler(int samplerID) ;
 	
+	void AssessSelectedSamplerIntegrand(int samplerID, int integrandID) ;
+
 	void WriteResults(const string& path) const ;
 	
     private:
+	int _ns, _ni ; // numbers of samplers and integrands (combinations) to be analysed
+	    
 	void Parse(int argc, char* argv[]) ;
 	
 	DataMat _nSamples ; // samplers (rows) will use different sets samples (columns) 
