@@ -178,7 +178,7 @@ void gjSampler::ParseParameters(const vector<string>& SamplerParams)
 
 void gjSampler::MTSample(vector<Point2D>& pts, int n) const 
 {
-    int sqrtN (ceil(sqrt(n))) ;
+    int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
     pts.resize(n) ;
    
@@ -216,7 +216,7 @@ void bjSampler::ParseParameters(const vector<string>& SamplerParams)
 
 void bjSampler::MTSample(vector<Point2D>& pts, int n) const 
 {
-    int sqrtN (ceil(sqrt(n))) ;
+    int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
     pts.resize(n) ;
    
