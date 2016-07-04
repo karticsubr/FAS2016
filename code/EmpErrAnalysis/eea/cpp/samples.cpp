@@ -174,7 +174,6 @@ gjSampler::gjSampler(const vector<string>& SamplerParams) : _sigma (0.5)
 void gjSampler::ParseParameters(const vector<string>& SamplerParams) 
 {
 	_sigma  = CLParser::FindArgument<double>(SamplerParams, SigStr) ;
-	cout << "===============>"  << _sigma << endl ;
 }
 
 void gjSampler::MTSample(vector<Point2D>& pts, int n) const 

@@ -34,6 +34,7 @@ Analyzer::Analyzer(Sampler* s, Integrand* i, const vector<string> asec) :_sample
 	
 	cout << _atype << " with " << _nReps << " reps and #samps: " << flush ;
 	copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(cout, " ")); 
+	cout << endl ;
 }
 
 	
@@ -69,8 +70,13 @@ void Analyzer::RunAnalysis()
 		_avgV[i] /= _nReps ;
 	}
 
-	copy(_avgM.begin(), _avgM.end(), ostream_iterator<double>(cout, " ")); 
-	cout << endl ;
-	copy(_avgV.begin(), _avgV.end(), ostream_iterator<double>(cout, " ")); 
+// 	cout << " === " << endl ;
+// 	copy(_avgM.begin(), _avgM.end(), ostream_iterator<double>(cout, " ")); 
+// 	cout << endl ;
+// 	copy(_avgV.begin(), _avgV.end(), ostream_iterator<double>(cout, " ")); 
+// 	cout << " === " << endl ;
+
+	
+	
 }
 

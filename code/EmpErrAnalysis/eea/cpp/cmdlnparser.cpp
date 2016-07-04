@@ -41,7 +41,7 @@ void CLParser::IdentifySections()
 	size_t Samp(_argvStr.find(SamplerSecStr)), Integ(_argvStr.find(IntegSecStr)), 
 		Anal(_argvStr.find(AnalSecStr)), Gen(_argvStr.find(GenSecStr));
 
-	cout << Samp << " " << Integ << " " << Anal << " " << Gen << endl ;
+// 	cout << Samp << " " << Integ << " " << Anal << " " << Gen << endl ;
 	if (Samp>=_argvStr.size()) 
 		throw invalid_argument ("No Sampling section in command line.") ;
 	if (Integ<Samp || Anal<Integ || Gen<Anal) 

@@ -126,7 +126,8 @@ bool CLParser::FindMultiArgs(int nargs, vector<T>& argOut, const vector<string>&
 				ss >> ret ;
 				argOut.push_back(ret);
 			}
-			else readingArgs=false; 
+			else 
+				readingArgs=false; 
 			i++ ;
 		}
 		if (argOut.size())
