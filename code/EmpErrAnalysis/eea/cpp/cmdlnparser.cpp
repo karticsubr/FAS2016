@@ -69,21 +69,12 @@ void CLParser::IdentifySections()
 
 }
 
-string  CLParser::FindArgument(const vector<string>& args, const string& argStr) 
+bool CLParser::FindSwitch(const vector<string>& args, const string& argStr) 
 {
-	int found (args.size()) ;
 	for (int i(0); i<args.size(); i++)
-	{
-		if (args[i]==argStr)
-		{
-			found = i ;
-			break ;
-		}
-	}
+		if (args[i]==argStr) return true;
 	
-	if (found<args.size())
-		return args[found+1] ;
-	
-	throw(invalid_argument("Did you forget to specify " + argStr + "?")) ;
-	return string() ;
+	return false  ;
 }
+
+

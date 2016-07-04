@@ -27,7 +27,7 @@ SamplerPrototype s1;
 	
 Sampler* SamplerPrototype::Generate(const vector<string>& SamplerString) 
 {
-	string type = CLParser::FindArgument(SamplerString, CLArg::SamplerType) ;
+	string type = CLParser::FindArgument<string>(SamplerString, CLArg::SamplerType) ;
 	
 	map<string, Sampler*>::iterator it = exemplars.find(type) ;
 	if (it==exemplars.end()) throw invalid_argument("Unknown sampler type") ;
@@ -81,7 +81,7 @@ randomSampler::randomSampler(const vector<string>& SamplerParams)
     SamplingType = "Random" ;
 }
 
-void randomSampler::MTSample(vector<Point2D>& pts, int n) 
+void randomSampler::MTSample(vector<Point2D>& pts, int n) const 
 {
     pts.resize(n) ;
     #pragma omp parallel for
@@ -105,7 +105,7 @@ gridSampler::gridSampler(const vector<string>& SamplerParams)
     SamplingType = "Grid" ;
 }
 
-void gridSampler::MTSample(vector<Point2D>& pts, int n) 
+void gridSampler::MTSample(vector<Point2D>& pts, int n) const 
 {
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -137,7 +137,7 @@ jitteredSampler::jitteredSampler(const vector<string>& SamplerParams)
     SamplingType = "Jittered" ;
 }
 
-void jitteredSampler::MTSample(vector<Point2D>& pts, int n) 
+void jitteredSampler::MTSample(vector<Point2D>& pts, int n) const 
 {
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -173,13 +173,11 @@ gjSampler::gjSampler(const vector<string>& SamplerParams) : _sigma (0.5)
 
 void gjSampler::ParseParameters(const vector<string>& SamplerParams) 
 {
-	string sig = CLParser::FindArgument(SamplerParams, SigStr) ;
-	stringstream ss(sig) ;
-	ss >> _sigma ;
-	cout << "===============>"  << sig << " " << _sigma << endl ;
+	_sigma  = CLParser::FindArgument<double>(SamplerParams, SigStr) ;
+	cout << "===============>"  << _sigma << endl ;
 }
 
-void gjSampler::MTSample(vector<Point2D>& pts, int n) 
+void gjSampler::MTSample(vector<Point2D>& pts, int n) const 
 {
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
@@ -214,12 +212,10 @@ bjSampler::bjSampler(const vector<string>& SamplerParams) : _boxWidth(0.5)
 
 void bjSampler::ParseParameters(const vector<string>& SamplerParams) 
 {
-	string bw = CLParser::FindArgument(SamplerParams, BWStr) ;
-	stringstream ss(bw) ;
-	ss >> _boxWidth ;
+	_boxWidth = CLParser::FindArgument<double>(SamplerParams, BWStr) ;
 }
 
-void bjSampler::MTSample(vector<Point2D>& pts, int n) 
+void bjSampler::MTSample(vector<Point2D>& pts, int n) const 
 {
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);

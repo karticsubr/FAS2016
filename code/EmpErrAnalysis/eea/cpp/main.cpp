@@ -7,6 +7,7 @@
 #include <cmdlnparser.h>
 #include <samples.h>
 #include <integrand.h>
+#include <Analyzer.h>
 
 using namespace std ;
 
@@ -16,13 +17,19 @@ RandSampGSL gslSamps ;
 int target_thread_num = 4;
 // omp_set_num_threads(target_thread_num);
 
+//time ./build/eea -m secondaryEstimError -S --stype GJittered --sigma .5 -I --itype QuadPix --random -A --atype err --nsamps  1 --nreps 50 
+
 int main(int argc, char* argv[])
 {
-	CLParser c(argc, argv) ;
-	c.IdentifySections();
-// 	cout << c.SamplerSection() << endl  << c.IntegSection() << endl  << c.AnalSection() << endl ;
-	Sampler* s1 = SamplerPrototype::Generate(c.SamplerSection());
+	CLParser clarg(argc, argv) ;
+	clarg.IdentifySections();
 	
+	Sampler* s1 = SamplerPrototype::Generate(clarg.SamplerSection());
+	
+	Integrand* i1 = IntegrandPrototype::Generate(clarg.IntegSection()) ;
+	
+	Analyzer a(s1, i1, clarg.AnalSection()) ;
+	a.RunAnalysis();
 }
 
 

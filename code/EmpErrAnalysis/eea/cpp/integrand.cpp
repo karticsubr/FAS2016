@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <omp.h>
+#include <cmdlnparser.h>
 
 using std::vector ;
 using std::map ;
@@ -23,11 +24,13 @@ namespace
 map<string, Integrand*> IntegrandPrototype::exemplars ;
 IntegrandPrototype i1;  
 
-Integrand* IntegrandPrototype::Generate(const string& type, const IntegrandParams& param) 
+Integrand* IntegrandPrototype::Generate(const vector<string>& IntegSection) 
 {
+	string type = CLParser::FindArgument<string>(IntegSection, CLArg::IntegrandType) ;
+
 	map<string, Integrand*>::iterator it = exemplars.find(type) ;
 	if (it==exemplars.end()) throw invalid_argument("Unknown integrand type") ;
-	return it->second->GenIntegrand(param) ;
+	return it->second->GenIntegrand(IntegSection) ;
 }
 
 IntegrandPrototype::IntegrandPrototype()
@@ -61,21 +64,29 @@ void Integrand::MultipointEval (vector<double>& out, const vector<Point2D>& vp) 
 // 				White quad within black pixel
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Integrand* QuadPixelIntegrand::GenIntegrand(const IntegrandParams& params) 
+Integrand* QuadPixelIntegrand::GenIntegrand(const vector<string>& IntegParams) 
 {
-	return new QuadPixelIntegrand(params) ;
+	return new QuadPixelIntegrand(IntegParams) ;
 }
 
-QuadPixelIntegrand::QuadPixelIntegrand(const IntegrandParams& params)
+const string QuadPixelIntegrand::RandStr = "--random" ; 
+const string QuadPixelIntegrand::PointsStr = "--points" ; 
+
+QuadPixelIntegrand::QuadPixelIntegrand(const vector<string>& IntegParams)
 {
 	IntegrandType = "QuadPix"; 
 
+	_randomize = CLParser::FindSwitch(IntegParams, RandStr) ;
+
+	vector<double> MultiArg;
+	CLParser::FindMultiArgs<double>(4, MultiArg, IntegParams, PointsStr) ;
+	
+	
 	// initialise points
 	double f[4] ;
-	Randomize = params.RandomPoints || (params.Floats.size()!=4) ;
 	double invrmax(1/static_cast<double>(RAND_MAX)) ;
 	for (int i(0); i<4;i++)
-		f[i] = Randomize ? (rand()*invrmax):params.Floats[i] ;
+		f[i] = _randomize ? (rand()*invrmax):MultiArg[i] ;
 	pts[0] = Point(0,f[0]) ;
 	pts[1] = Point(f[1],1) ;
 	pts[2] = Point(1,1-f[2]) ;

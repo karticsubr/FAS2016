@@ -1,59 +1,76 @@
 #include <Analyzer.h>
+#include <cmdlnparser.h>
+#include <integrand.h>
+#include <iostream>
+#include <samples.h>
+#include <integrand.h>
+
+using namespace std;
 
 
+const string Analyzer::NSampStr = "--nsamps" ;
+const string Analyzer::NRepsStr = "--nreps" ;
+const string Analyzer::AnalTypeStr = "--atype" ;
 
-Analyzer::Analyzer(int argc, char* argv[]) 
+namespace
 {
-	Parse(argc, argv) ;
-}
-
-void Analyzer::Parse(int argc, char* argv[]) 
-{
-	CmdLine cmd("Spectral profiles of sampling patterns --- Analysis mode ", ' ', "1");
-
-	MultiArg<string> vsArg("S","sampler", "Sampling type(s) to be analyzed",true);
-	cmd.add(vsArg) ;
-
-	MultiArg<string> isArg("I","integrand", "Integrands to be used by analyzer",true);
-	cmd.add(isArg) ;
-	
-	
-	/*ValueArg<string> stypeArg("s","samplingtype", "Sampling type",false, "", "string");
-	cmd.add(stypeArg) ;
-	*/
-	///////////////////////////////////
-	cmd.parse(argc, argv);
-    	
-	const vector<string>& samps = vsArg.getValue() ;
-	_ns = samps.size() ;
-	
-	for (int i(0); i<_ns; i++)
+	inline void MeanAndVar(const vector<double>& v, double& m, double& var)
 	{
-	}
+		m=0;
+		var=0;
+		for(int i(0); i<v.size(); i++) m+=v[i] ;
+		m/=v.size() ;
+		
+		for(int i(0); i<v.size(); i++) var+=(v[i]-m)*(v[i]-m) ;
+		var/=v.size() ;
+	}	
+}
 
-	const vector<string>& integs = isArg.getValue() ;
-	_ni = integs.size() ;
+Analyzer::Analyzer(Sampler* s, Integrand* i, const vector<string> asec) :_sampler(s), _integrand(i)
+{
+	_atype = CLParser::FindArgument<string>(asec, AnalTypeStr) ;
+	_nReps = CLParser::FindArgument<int>(asec, NRepsStr) ;
+	CLParser::FindMultiArgs<int>(-1, _nSamples, asec, NSampStr) ;
 	
-
-	for (int i(0); i<_ni; i++)
-	{
-	}
-	
+	cout << _atype << " with " << _nReps << " reps and #samps: " << flush ;
+	copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(cout, " ")); 
 }
 
-void Analyzer::AssessAll() 
-{
-}
-
-void Analyzer::AssessSelectedIntegrand(int integrandID) 
-{
-}
-
-void Analyzer::AssessSelectedSampler(int samplerID) 
-{
-}
 	
 void Analyzer::WriteResults(const string& path) const 
 {
+}
+
+
+void Analyzer::RunAnalysis() 
+{
+	const double Iref (_integrand->ReferenceValue()) ;
+	_avgM.resize(_nSamples.size()) ;
+	_avgV.resize(_nSamples.size()) ;
+	
+	for (int i=0; i<_nSamples.size(); i++)
+	{
+		const int n(_nSamples[i]) ;
+		for (int r=0; r<_nReps; r++)
+		{
+			vector<Point2D> S; 
+			_sampler->MTSample(S, n) ;
+			
+			vector<double> res ;
+			_integrand->MultipointEval(res, S) ;
+			
+			double m(0), v(0); 
+			MeanAndVar(res, m, v); 
+			
+			_avgM[i] += m ;
+			_avgV[i] += v ;
+		}
+		_avgM[i] /= _nReps ;
+		_avgV[i] /= _nReps ;
+	}
+
+	copy(_avgM.begin(), _avgM.end(), ostream_iterator<double>(cout, " ")); 
+	cout << endl ;
+	copy(_avgV.begin(), _avgV.end(), ostream_iterator<double>(cout, " ")); 
 }
 

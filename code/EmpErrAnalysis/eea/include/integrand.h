@@ -15,13 +15,6 @@ using std::string ;
 
 class Integrand ;
 
-///////////////////////////////////////////////
-struct IntegrandParams
-{
-	vector<double> Floats;
-	vector<Point2D> Points ;
-	bool RandomPoints; 
-};
 
 ///////////////////////////////////////////////
 
@@ -30,7 +23,7 @@ class IntegrandPrototype
     public:
 	IntegrandPrototype() ;
 
-	static Integrand* Generate(const string& type, const IntegrandParams& param) ;
+	static Integrand* Generate(const vector<string>& IntegSection) ;
 	static map<string, Integrand*> exemplars;
 };
 
@@ -39,7 +32,7 @@ class IntegrandPrototype
 class Integrand
 {
      public:
-	virtual Integrand* GenIntegrand(const IntegrandParams& params) = 0 ;
+	virtual Integrand* GenIntegrand(const vector<string>& IntegParams) = 0 ;
 	virtual double operator () (const Point2D& p) const = 0;
 	virtual void MultipointEval (vector<double>& out, const vector<Point2D>& vp) const ;
 	virtual double ReferenceValue() const {return RefVal;} 
@@ -69,18 +62,22 @@ typedef K::Point_2 Point;
 class QuadPixelIntegrand : public Integrand
 {
      public:
-	virtual Integrand* GenIntegrand(const IntegrandParams& params) ;
+	virtual Integrand* GenIntegrand(const vector<string>& IntegParams) ;
 	virtual double operator () (const Point2D& p) const ;
 	virtual ~QuadPixelIntegrand() ;
 	
      protected:
-	QuadPixelIntegrand(): Randomize(false) { RefVal = 0 ; IntegrandType = "QuadPix"; }
-	QuadPixelIntegrand(const IntegrandParams& params);
+	QuadPixelIntegrand(): _randomize(false) { RefVal = 0 ; IntegrandType = "QuadPix"; }
+	QuadPixelIntegrand(const vector<string>& IntegParams);
 	friend class IntegrandPrototype;
 	
      private:
 	Point pts[4]; 
-	bool Randomize ;
+	static const string PointsStr ; // = "--points" 
+
+	
+	bool _randomize ;
+	static const string RandStr ; // = "--rand" 
 } ;
 
 

@@ -40,7 +40,7 @@ class Sampler
     public:
 	virtual Sampler* GenSampler(const vector<string>& SamplerParams) = 0 ;	
 	virtual vector<Point2D>& Sample(int n) ;
-	virtual void MTSample(vector<Point2D>& pts, int n) = 0;	
+	virtual void MTSample(vector<Point2D>& pts, int n) const = 0;	
 	virtual string GetType() const {return SamplingType; } 	
 	virtual vector<Point2D>& GetPoints() {return p;}	
 	virtual ~Sampler() ;
@@ -61,7 +61,7 @@ class randomSampler: public Sampler
 {
     public:
 	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n) ;	
+	virtual void MTSample(vector<Point2D>& pts, int n) const ;	
 	virtual ~randomSampler() {}
 	
     private:
@@ -78,7 +78,7 @@ class gridSampler: public Sampler
 {
     public:
 	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n) ;	
+	virtual void MTSample(vector<Point2D>& pts, int n) const ;	
 	virtual ~gridSampler() {}
 	
     private:
@@ -95,7 +95,7 @@ class jitteredSampler: public Sampler
 {
     public:
 	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n) ;	
+	virtual void MTSample(vector<Point2D>& pts, int n) const ;	
 	virtual ~jitteredSampler() {}
 	
     private:
@@ -112,7 +112,7 @@ class gjSampler: public Sampler
 {
     public:
 	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n) ;	
+	virtual void MTSample(vector<Point2D>& pts, int n) const ;	
 	virtual ~gjSampler() {}
 		
     private:
@@ -135,7 +135,7 @@ class pdSampler: public Sampler
 {
     public:
 	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n) ;	
+	virtual void MTSample(vector<Point2D>& pts, int n) const ;	
 	virtual ~pdSampler() {}
 	
     private:
@@ -152,7 +152,7 @@ class bjSampler: public Sampler
 {
     public:
 	virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
-	virtual void MTSample(vector<Point2D>& pts, int n) ;	
+	virtual void MTSample(vector<Point2D>& pts, int n) const ;	
 	virtual ~bjSampler() {}
 	
     private:
