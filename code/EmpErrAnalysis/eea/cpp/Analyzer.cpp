@@ -15,6 +15,21 @@ const string Analyzer::AnalTypeStr = "--atype" ;
 
 namespace
 {
+	inline double Mean(const vector<double>& v)
+	{
+		double m(0);
+		for(int i(0); i<v.size(); i++) m+=v[i] ;
+		return m/v.size() ;
+	}	
+
+	inline double Var(const vector<double>& v)
+	{
+		double m(Mean(v));
+		double var(0);
+		for(int i(0); i<v.size(); i++) var+=(v[i]-m)*(v[i]-m) ;
+		return var/v.size() ;
+	}	
+
 	inline void MeanAndVar(const vector<double>& v, double& m, double& var)
 	{
 		m=0;
@@ -26,38 +41,27 @@ namespace
 		var/=v.size() ;
 	}	
 	
-	// REPLACE WITH 
-	// http://stackoverflow.com/questions/5083465/fast-efficient-least-squares-fit-algorithm-in-c
 	inline void LogLogLinearFit(const vector<int>& x, const vector<double>& y, double& m, double& b)
 	{
-		vector<double> lx(x.size(),0) ;
-		vector<double> ly(y.size(),0) ;
-		double xbar(0), ybar(0); 
+		double Xsum(0), X2sum(0), Ysum(0), XYsum(0) ;
 		for(int i(0); i<y.size(); i++) 
 		{
-			lx[i]=log(static_cast<double>(x[i])) ;
-			ly[i]=log(y[i]) ;
-			cout << lx[i] << " " << ly[i] << endl ;
-			xbar += lx[i] ;
-			ybar += ly[i] ;
-		}
+			const double lx (log(static_cast<double>(x[i]))) ;
+			const double ly (log(y[i])) ;
 			
-		xbar /= x.size() ;
-		ybar /= y.size() ;
-		double xdsq(0) ;
-		cout << xbar << " " << ybar << endl ;
-		
-		for(int i(0); i<y.size(); i++) 
-		{
-			m += (lx[i]-xbar)*(ly[i]-ybar) ;
-			xdsq += (lx[i]-xbar)*(lx[i]-xbar) ;
+			Xsum += lx ;
+			Ysum += ly ;
+			X2sum += lx*lx ;
+			XYsum += lx*ly ;
 		}
-		m/=xdsq;
-		b= ybar - m*xbar ;
+		
+		const int n(x.size()) ;
+		m = (n*XYsum - Xsum*Ysum) / (n*X2sum - Xsum*Xsum)  ;
+		b=(X2sum*Ysum-Xsum*XYsum)/(X2sum*n-Xsum*Xsum);
 	}
 }
 
-Analyzer::Analyzer(Sampler* s, Integrand* i, const vector<string> asec) :_sampler(s), _integrand(i)
+Analyzer::Analyzer(Sampler* s, Integrand* i, const vector<string> asec) :_sampler(s), _integrand(i), _atype("err") 
 {
 	_atype = CLParser::FindArgument<string>(asec, AnalTypeStr) ;
 	_nReps = CLParser::FindArgument<int>(asec, NRepsStr) ;
@@ -79,11 +83,21 @@ void Analyzer::RunAnalysis()
 	const double Iref (_integrand->ReferenceValue()) ;
 	_avgM.resize(_nSamples.size()) ;
 	_avgV.resize(_nSamples.size()) ;
+	_MSE.resize(_nSamples.size()) ;
 	
+	for (int i=0; i<_nSamples.size(); i++)
+	{
+		_avgM[i]=0;
+		_avgV[i]=0;
+		_MSE[i]=0 ;
+	}
+
 	#pragma omp parallel for
 	for (int i=0; i<_nSamples.size(); i++)
 	{
 		const int n(_nSamples[i]) ;
+		vector<double> ms(_nReps,0) ;
+		
 		for (int r=0; r<_nReps; r++)
 		{
 			vector<Point2D> S; 
@@ -91,28 +105,26 @@ void Analyzer::RunAnalysis()
 			
 			vector<double> res ;
 			_integrand->MultipointEval(res, S) ;
-			
-			double m(0), v(0); 
-			MeanAndVar(res, m, v); 
-			
+			double m = Mean(res); 
+			ms[r] = m ;
 			_avgM[i] += m ;
-			_avgV[i] += v ;
+			_MSE[i] += (Iref-m)*(Iref-m) ;
 		}
+		_avgV[i] = Var(ms) ;
 		_avgM[i] /= _nReps ;
-		_avgV[i] /= _nReps ;
+		_MSE[i] /= _nReps ;
 	}
 
-	cout << " === " << endl ;
-	copy(_avgM.begin(), _avgM.end(), ostream_iterator<double>(cout, " ")); 
-	cout << endl ;
-	copy(_avgV.begin(), _avgV.end(), ostream_iterator<double>(cout, " ")); 
-	cout << endl << " === " << endl ;
-
-	LogLogLinearFit(_nSamples, _avgV, _convRate, _avgError);
-	cout << " Conv rate and error for var: " << _convRate << " " << _avgError << endl ;
-
-	LogLogLinearFit(_nSamples, _avgM, _convRate, _avgError);
-	_avgError = exp(_avgError); 
-	cout << " Conv rate and error for mean: " << _convRate << " " << _avgError << endl ;
+	if (_atype=="var")
+	{
+		LogLogLinearFit(_nSamples, _avgV, _convRate, _YIntError);
+		_YIntError = exp(_YIntError); 
+		cout << " Conv rate and Y-intercept (var): " << _convRate << " " << _YIntError << endl ;
+	}
+	else if (_atype=="err")
+	{
+		LogLogLinearFit(_nSamples, _MSE, _convRate, _YIntError);
+		cout << " Conv rate and Y-intercept (MSE): " << _convRate << " " << _YIntError << endl ;
+	}
 }
 

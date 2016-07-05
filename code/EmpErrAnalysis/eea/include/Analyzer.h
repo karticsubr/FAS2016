@@ -21,7 +21,7 @@ class Analyzer
 	void RunAnalysis() ;
 	
 	double GetConvergenceRate() const {return _convRate;}
-	double GetAverageError() const {return _avgError;}
+	double GetYInterceptError() const {return _YIntError ;}
 
 	void WriteResults(const string& path) const ;
 	
@@ -40,9 +40,9 @@ class Analyzer
 	Sampler* _sampler ;
 	Integrand* _integrand ; 
 	
-	vector<double> _avgM, _avgV ;
+	vector<double> _avgM, _avgV, _MSE ;
 
-	double _convRate, _avgError ;
+	double _convRate, _YIntError ;
 	
 };
 #endif //__ANALYZERH__

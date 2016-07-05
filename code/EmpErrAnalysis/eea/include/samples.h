@@ -28,6 +28,8 @@ class SamplerPrototype
 	SamplerPrototype() ;
 
 	static Sampler* Generate(const vector<string>& SamplingSection) ;
+    
+    private:
 	static map<string, Sampler*> exemplars;
 };
 

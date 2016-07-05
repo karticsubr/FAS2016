@@ -139,7 +139,7 @@ jitteredSampler::jitteredSampler(const vector<string>& SamplerParams)
 
 void jitteredSampler::MTSample(vector<Point2D>& pts, int n) const 
 {
-    int sqrtN (ceil(sqrt(n))) ;
+    int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
     
     pts.resize(n) ;

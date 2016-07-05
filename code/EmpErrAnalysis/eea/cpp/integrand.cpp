@@ -10,6 +10,9 @@
 #include <omp.h>
 #include <cmdlnparser.h>
 
+typedef Triangulation::Face_handle fh;
+typedef Triangulation::Finite_faces_iterator Finite_faces_iterator;
+
 using std::vector ;
 using std::map ;
 using std::cout ;
@@ -19,6 +22,11 @@ using std::invalid_argument ;
 
 namespace
 {	
+	inline double MyRandom()
+	{
+		static const double invrmax(1/static_cast<double>(RAND_MAX)) ;
+		return rand()*invrmax ; 
+	}
 }
 
 map<string, Integrand*> IntegrandPrototype::exemplars ;
@@ -37,6 +45,7 @@ IntegrandPrototype::IntegrandPrototype()
 {
     vector<Integrand*> vi ;
     vi.push_back(new QuadPixelIntegrand());
+    vi.push_back(new PWConstantIntegrand());
     
     for (int i(0); i<vi.size(); i++)
 	    exemplars[vi[i]->GetType()] = vi[i] ;
@@ -84,9 +93,8 @@ QuadPixelIntegrand::QuadPixelIntegrand(const vector<string>& IntegParams)
 	
 	// initialise points
 	double f[4] ;
-	double invrmax(1/static_cast<double>(RAND_MAX)) ;
 	for (int i(0); i<4;i++)
-		f[i] = _randomize ? (rand()*invrmax):MultiArg[i] ;
+		f[i] = _randomize ? MyRandom():MultiArg[i] ;
 	pts[0] = Point(0,f[0]) ;
 	pts[1] = Point(f[1],1) ;
 	pts[2] = Point(1,1-f[2]) ;
@@ -109,3 +117,113 @@ double QuadPixelIntegrand::operator () (const Point2D& p) const
 
 QuadPixelIntegrand::~QuadPixelIntegrand() 
 {}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 			Piecewise constant simplicial complex in 2D
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Integrand* PWConstantIntegrand::GenIntegrand(const vector<string>& IntegParams) 
+{
+	return new PWConstantIntegrand(IntegParams) ;	
+}
+
+const string PWConstantIntegrand::RandStr = "--random" ; 
+const string PWConstantIntegrand::NPtsStr = "--npts" ; 
+
+double PWConstantIntegrand::operator () (const Point2D& p) const 
+{
+	return  _dt.locate(Point(p.x, p.y))->info() ;
+}
+
+PWConstantIntegrand::~PWConstantIntegrand() 
+{}
+	
+PWConstantIntegrand::PWConstantIntegrand(const vector<string>& IntegParams)
+{
+	IntegrandType = "PWConstant"; 
+
+	_randomize=true ; // for now this is the only option
+// 	_randomize = CLParser::FindSwitch(IntegParams, RandStr) ;
+
+	_npts = CLParser::FindSwitch(IntegParams, NPtsStr) ;
+	
+	vector<Point> vp(_npts+4) ;
+	vp[0] =  Point(0, 0) ;
+	vp[1] =  Point(0, 1) ;
+	vp[2] =  Point(1, 0) ;
+	vp[3] =  Point(1, 1) ;
+	for (int i(0); i<_npts; i++)
+	{
+		vp[i+4] = Point(MyRandom(), MyRandom()) ;
+	}
+	_dt.insert(vp.begin(), vp.end()) ;
+	
+
+	for(Finite_faces_iterator fc = _dt.finite_faces_begin(); fc != _dt.finite_faces_end(); ++fc) 
+		fc->info() = MyRandom();
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
