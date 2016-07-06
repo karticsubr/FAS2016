@@ -13,6 +13,7 @@ using std::vector;
 using std::stringstream ;
 using std::invalid_argument ;
 
+///////////////////////////////////////////////////////////////////////////////////////
 namespace CLArg
 {
 	const string SamplerSecStr("-S") ;
@@ -22,8 +23,10 @@ namespace CLArg
 	
 	const string SamplerType("--stype") ;
 	const string IntegrandType("--itype") ;
+	const string OutFile("--ofile") ;
 } ; 
 
+///////////////////////////////////////////////////////////////////////////////////////
 class CLParser
 {
     public:
@@ -34,6 +37,10 @@ class CLParser
 	const vector<string>& SamplerSection() {return _samplerUnit;}
 	const vector<string>& IntegSection() {return _integUnit;}
 	const vector<string>& AnalSection() {return _analUnit;}
+	const vector<string>& GenSection() {return _genUnit;}
+
+	string OutFile() const {return FindArgument<string>(_genUnit, CLArg::OutFile);}
+	
 
 	static bool FindSwitch(const vector<string>& args, const string& switchStr) ;
 
@@ -42,16 +49,18 @@ class CLParser
 
 	template<typename T>
 	static bool FindMultiArgs(int nargs, vector<T>& argOut, const vector<string>& args, const string& MultiArgsStr) ;
-
 private:
 	const int _argc ;
 	char** _argv ;
 	
 	string _argvStr, _execMode ;
-	vector<string> _samplerUnit, _integUnit, _analUnit ;
+	vector<string> _samplerUnit, _integUnit, _analUnit, _genUnit ;
 } ;
 
 
+///////////////////////////////////////////////////////////////////////////////////////
+//		Implementation of templatized members 
+///////////////////////////////////////////////////////////////////////////////////////
 template<typename T>
 T CLParser::FindArgument(const vector<string>& args, const string& argStr) 
 {

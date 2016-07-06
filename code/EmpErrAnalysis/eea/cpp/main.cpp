@@ -15,10 +15,12 @@ int main(int argc, char* argv[])
 	clarg.IdentifySections();
 	
 	Sampler* s1 = SamplerPrototype::Generate(clarg.SamplerSection());
-	
 	Integrand* i1 = IntegrandPrototype::Generate(clarg.IntegSection()) ;
-	
 	Analyzer a(s1, i1, clarg.AnalSection()) ;
 	a.RunAnalysis();
+
+	string ofname(clarg.OutFile()) ;
+	a.WriteResults(ofname);	
+	
 }
 

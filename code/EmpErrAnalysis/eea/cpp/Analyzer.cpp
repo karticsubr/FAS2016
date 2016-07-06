@@ -4,6 +4,7 @@
 #include <iostream>
 #include <samples.h>
 #include <integrand.h>
+#include <fstream>
 #include <omp.h>
 
 using namespace std;
@@ -75,6 +76,16 @@ Analyzer::Analyzer(Sampler* s, Integrand* i, const vector<string> asec) :_sample
 
 void Analyzer::WriteResults(const string& path) const 
 {
+	ofstream ofs(path.c_str(), ofstream::app) ;
+	
+	copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(ofs, " ")); 
+	
+	if (_atype=="var")
+		copy(_avgV.begin(), _avgV.end(), ostream_iterator<double>(ofs, " ")); 
+	else if (_atype=="err")
+		copy(_MSE.begin(), _MSE.end(), ostream_iterator<double>(ofs, " ")); 
+	
+	ofs << endl ;
 }
 
 

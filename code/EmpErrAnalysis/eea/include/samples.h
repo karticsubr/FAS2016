@@ -7,9 +7,8 @@
 #include <vector>
 #include <point2d.h>
 #include <map>
-#include <tclap/CmdLine.h>
+#include <random>
 
-using TCLAP::CmdLine ;
 using std::vector ;
 using std::map ;
 using std::string; 

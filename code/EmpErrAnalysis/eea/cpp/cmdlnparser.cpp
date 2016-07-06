@@ -11,7 +11,8 @@
 using namespace std ;
 using namespace CLArg ;
 
-namespace{
+namespace
+{
 
 	void strToVecStr (const string& str, vector<string>& outvec) 
 	{
@@ -41,7 +42,6 @@ void CLParser::IdentifySections()
 	size_t Samp(_argvStr.find(SamplerSecStr)), Integ(_argvStr.find(IntegSecStr)), 
 		Anal(_argvStr.find(AnalSecStr)), Gen(_argvStr.find(GenSecStr));
 
-// 	cout << Samp << " " << Integ << " " << Anal << " " << Gen << endl ;
 	if (Samp>=_argvStr.size()) 
 		throw invalid_argument ("No Sampling section in command line.") ;
 	if (Integ<Samp || Anal<Integ || Gen<Anal) 
@@ -61,11 +61,16 @@ void CLParser::IdentifySections()
 	
 	if(Anal<_argvStr.size()-3) 
 	{
-		string AS = _argvStr.substr(Anal+3, _argvStr.size()) ;	
+		string AS = _argvStr.substr(Anal+3, Gen) ;	
 		strToVecStr (AS, _analUnit) ;
 		_execMode = "AnalyzeSecondaryEstimator" ;	
 	}
 	
+	if(Gen<_argvStr.size()-3) 
+	{
+		string GS = _argvStr.substr(Gen+3, _argvStr.size()) ;	
+		strToVecStr (GS, _genUnit) ;
+	}
 
 }
 
