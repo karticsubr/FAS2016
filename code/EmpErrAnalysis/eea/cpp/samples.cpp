@@ -1,12 +1,10 @@
 #include <samples.h>
 #include <omp.h>
-#include <randsampgsl.h>
-#define NDIM 2
 #include <stdexcept>
 #include <unistd.h>
 #include <cmdlnparser.h>
 #include <sstream>
-
+#include <random>
 #include <iostream>
 // using namespace boost; 
 using std::cout ;
@@ -14,7 +12,6 @@ using std::stringstream ;
 using std::endl ;
 using std::invalid_argument ;
 
-extern RandSampGSL gslSamps;
 
 map<string, Sampler*> SamplerPrototype::exemplars ;
 SamplerPrototype s1;  
@@ -165,7 +162,7 @@ Sampler* gjSampler::GenSampler(const vector<string>& SamplerParams)
     return new gjSampler(SamplerParams) ;
 }
 
-gjSampler::gjSampler(const vector<string>& SamplerParams) : _sigma (0.5) 
+gjSampler::gjSampler(const vector<string>& SamplerParams) : _sigma (0.5)
 {
     SamplingType = "GJittered" ;
     ParseParameters(SamplerParams) ;
@@ -181,14 +178,15 @@ void gjSampler::MTSample(vector<Point2D>& pts, int n) const
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
     pts.resize(n) ;
-   
+    std::normal_distribution<double> ND(0,1); 
+
     #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
 	for (int j=0; j<sqrtN; j++)
 	{
 	    const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
-	    const double r1(gslSamps.GaussianRandSample(_sigma*dX*.5)), r2(gslSamps.GaussianRandSample(_sigma*dY*.5)); 
+	    const double r1(ND(RGen)*dX*.5), r2(ND(RGen)*dX*.5); 
 	    pts[i*sqrtN+j] = Point2D(x+(r1),y+(r2), true);
 	}
     }

@@ -52,6 +52,8 @@ class Sampler
     protected:
 	vector<Point2D> p ;
 	string SamplingType ;
+	mutable std::default_random_engine RGen;
+
 };
 
 // 				Subclasses of Sampler 
@@ -126,7 +128,6 @@ class gjSampler: public Sampler
 	
 	double _sigma ;
 	static const string SigStr ; // = "--sigma" 
-
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
