@@ -1,5 +1,6 @@
 #include <PWConstIntegrand.h>
 #include <cmdlnparser.h>
+#include <CGAL/Polygon_2_algorithms.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 			Piecewise constant simplicial complex in 2D
@@ -41,7 +42,17 @@ PWConstantIntegrand::PWConstantIntegrand(const vector<string>& IntegParams)
 	_dt.insert(vp.begin(), vp.end()) ;
 	
 
-	for(Finite_faces_iterator fc = _dt.finite_faces_begin(); fc != _dt.finite_faces_end(); ++fc) 
-		fc->info() = MyRandom();
+	double refInt(0);
+	for(Finite_faces_iterator fc = _dt.finite_faces_begin(); fc != _dt.finite_faces_end(); ++fc)
+	{
+		const double r(MyRandom()) ;
+		fc->info() = r;
+		
+		Triangulation::Vertex_handle vh[3] ;		
+		for (int i(0); i<3; i++) vh[i] = fc->vertex(i) ;
+		
+		refInt +=  r*(CGAL::area<K>(vh[0]->point(), vh[1]->point(), vh[2]->point()));
+	}
 	
+	RefVal = refInt ; 
 }

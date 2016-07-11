@@ -68,9 +68,9 @@ Analyzer::Analyzer(Sampler* s, Integrand* i, const vector<string> asec) :_sample
 	_nReps = CLParser::FindArgument<int>(asec, NRepsStr) ;
 	CLParser::FindMultiArgs<int>(-1, _nSamples, asec, NSampStr) ;
 	
-	cout << _atype << " with " << _nReps << " reps and #samps: " << flush ;
-	copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(cout, " ")); 
-	cout << endl ;
+// 	cout << _atype << " with " << _nReps << " reps and #samps: " << flush ;
+// 	copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(cout, " ")); 
+// 	cout << endl ;
 }
 
 
@@ -130,12 +130,12 @@ void Analyzer::RunAnalysis()
 	{
 		LogLogLinearFit(_nSamples, _avgV, _convRate, _YIntError);
 		_YIntError = exp(_YIntError); 
-		cout << " Conv rate and Y-intercept (var): " << _convRate << " " << _YIntError << endl ;
+// 		cout << " Conv rate and Y-intercept (var): " << _convRate << " " << _YIntError << endl ;
 	}
 	else if (_atype=="err")
 	{
 		LogLogLinearFit(_nSamples, _MSE, _convRate, _YIntError);
-		cout << " Conv rate and Y-intercept (MSE): " << _convRate << " " << _YIntError << endl ;
+// 		cout << " Conv rate and Y-intercept (MSE): " << _convRate << " " << _YIntError << endl ;
 	}
 }
 
