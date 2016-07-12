@@ -37,6 +37,8 @@ CLParser::CLParser(int argc, char* argv[]): _argc(argc), _argv(argv)
 
 }
 
+// Assumes that the command line contains strings in the order -S ... -I ... -A ... -G ...
+// separates the sections based on the flags
 void CLParser::IdentifySections() 
 {
 	size_t Samp(_argvStr.find(SamplerSecStr)), Integ(_argvStr.find(IntegSecStr)), 
@@ -74,6 +76,8 @@ void CLParser::IdentifySections()
 
 }
 
+// FindSwitch takes a string and tests if it is present in a given vector of strings
+//            eg. FindSwitch(vec, "-A") returns true if an analysis section is found
 bool CLParser::FindSwitch(const vector<string>& args, const string& argStr) 
 {
 	for (int i(0); i<args.size(); i++)

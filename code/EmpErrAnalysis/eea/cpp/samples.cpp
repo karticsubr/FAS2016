@@ -6,7 +6,7 @@
 #include <sstream>
 #include <random>
 #include <iostream>
-// using namespace boost; 
+
 using std::cout ;
 using std::stringstream ;
 using std::endl ;
@@ -17,20 +17,11 @@ map<string, Sampler*> SamplerPrototype::exemplars ;
 SamplerPrototype s1;  
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	
-Sampler* SamplerPrototype::Generate(const vector<string>& SamplerString) 
-{
-	string type = CLParser::FindArgument<string>(SamplerString, CLArg::SamplerType) ;
-	
-	map<string, Sampler*>::iterator it = exemplars.find(type) ;
-	if (it==exemplars.end()) throw invalid_argument("Unknown sampler type") ;
-	return it->second->GenSampler(SamplerString) ;
-}
-
+/////////////////////////////////////////////
+// When implementing a new type of sampler, 
+//  say MyNewSampler
+// add an extra line to "MODIFY THIS" block
+/////////////////////////////////////////////
 SamplerPrototype::SamplerPrototype()
 {
     vector<Sampler*> vs ;
@@ -39,9 +30,22 @@ SamplerPrototype::SamplerPrototype()
     vs.push_back(new jitteredSampler());
     vs.push_back(new gjSampler());
     vs.push_back(new bjSampler());
+    // vs.push_back(new MyNewSampler()); // add a line like this
     
     for (int i(0); i<vs.size(); i++)
 	exemplars[vs[i]->GetType()] = vs[i] ;
+}
+
+/////////////////////////////////////////////
+// You should not need to modify this 
+/////////////////////////////////////////////
+Sampler* SamplerPrototype::Generate(const vector<string>& SamplerString) 
+{
+	string type = CLParser::FindArgument<string>(SamplerString, CLArg::SamplerType) ;
+	
+	map<string, Sampler*>::iterator it = exemplars.find(type) ;
+	if (it==exemplars.end()) throw invalid_argument("Unknown sampler type") ;
+	return it->second->GenSampler(SamplerString) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,9 @@
 #define __PWCINTEGRANDH_ 
 
 #include <integrand.h>
+
+// CGAL is used to triangulate the piecewise constant integrand
+// and for point location while evaluating the integrand
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Triangulation_euclidean_traits_2.h>
 #include <CGAL/Triangulation_2.h>
@@ -11,12 +14,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 			Piecewise constant simplicial complex in 2D
 // Defined by
-//    1) random points within a [0,1]x[0,1] quad + 4 corners of the quad
-//    2) random weights within the triangles [0,1]
+//    1) random points within unit square along with 4 corners of the quad
+//    2) random weights for each of the triangles each in [0,1]
 // Params 
-//   1) --npts : number of points within the quad
+//   1) --npts : number of points to be triangulated (within the unit square)
 // 
-// Evaluation returns weight of the corresponding triangle 
+// Evaluation at p returns weight associated with the triangle in which p is located
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class PWConstantIntegrand : public Integrand

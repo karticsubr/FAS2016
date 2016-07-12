@@ -13,7 +13,11 @@ using std::string ;
 class Integrand ;
 
 ///////////////////////////////////////////////
-
+//	Basic implementation of the prototype
+//  creational software design pattern, for 
+//  creating the appropriate type of integrand object 
+// given command line arguments for type and parameters.
+///////////////////////////////////////////////
 class IntegrandPrototype
 {
     public:
@@ -26,7 +30,11 @@ class IntegrandPrototype
 };
 
 ///////////////////////////////////////////////
-
+// Abstract base class for Integrands
+// See QPIntegrand for an example of how 
+// to extend this class.
+// All integrands are assumed to be defined on [0,1]x[0x1]
+///////////////////////////////////////////////
 class Integrand
 {
      public:
@@ -38,16 +46,19 @@ class Integrand
 	virtual ~Integrand() {} 
 	
      protected:
-	double RefVal ;
+	double RefVal ; // reference value for the integral. 
 	string IntegrandType ;
 
 } ;
 
-	inline double MyRandom()
-	{
-		static const double invrmax(1/static_cast<double>(RAND_MAX)) ;
-		return rand()*invrmax ; 
-	}
+///////////////////////////////////////////////
+// Old school implementation of random number generator
+///////////////////////////////////////////////
+inline double MyRandom()
+{
+	static const double invrmax(1/static_cast<double>(RAND_MAX)) ;
+	return rand()*invrmax ; 
+}
 
 
 #endif //__INTEGRANDH_ 

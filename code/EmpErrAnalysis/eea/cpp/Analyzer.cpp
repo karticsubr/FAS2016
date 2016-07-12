@@ -14,7 +14,7 @@ const string Analyzer::NSampStr = "--nsamps" ;
 const string Analyzer::NRepsStr = "--nreps" ;
 const string Analyzer::AnalTypeStr = "--atype" ;
 
-namespace
+namespace // some functions to compute simple statistics of vector<double>
 {
 	inline double Mean(const vector<double>& v)
 	{
@@ -29,17 +29,6 @@ namespace
 		double var(0);
 		for(int i(0); i<v.size(); i++) var+=(v[i]-m)*(v[i]-m) ;
 		return var/v.size() ;
-	}	
-
-	inline void MeanAndVar(const vector<double>& v, double& m, double& var)
-	{
-		m=0;
-		var=0;
-		for(int i(0); i<v.size(); i++) m+=v[i] ;
-		m/=v.size() ;
-		
-		for(int i(0); i<v.size(); i++) var+=(v[i]-m)*(v[i]-m) ;
-		var/=v.size() ;
 	}	
 	
 	inline void LogLogLinearFit(const vector<int>& x, const vector<double>& y, double& m, double& b)
@@ -67,10 +56,6 @@ Analyzer::Analyzer(Sampler* s, Integrand* i, const vector<string> asec) :_sample
 	_atype = CLParser::FindArgument<string>(asec, AnalTypeStr) ;
 	_nReps = CLParser::FindArgument<int>(asec, NRepsStr) ;
 	CLParser::FindMultiArgs<int>(-1, _nSamples, asec, NSampStr) ;
-	
-// 	cout << _atype << " with " << _nReps << " reps and #samps: " << flush ;
-// 	copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(cout, " ")); 
-// 	cout << endl ;
 }
 
 
@@ -88,7 +73,8 @@ void Analyzer::WriteResults(const string& path) const
 	ofs << endl ;
 }
 
-
+// Main routine. 
+// 
 void Analyzer::RunAnalysis() 
 {
 	const double Iref (_integrand->ReferenceValue()) ;
@@ -130,12 +116,10 @@ void Analyzer::RunAnalysis()
 	{
 		LogLogLinearFit(_nSamples, _avgV, _convRate, _YIntError);
 		_YIntError = exp(_YIntError); 
-// 		cout << " Conv rate and Y-intercept (var): " << _convRate << " " << _YIntError << endl ;
 	}
 	else if (_atype=="err")
 	{
 		LogLogLinearFit(_nSamples, _MSE, _convRate, _YIntError);
-// 		cout << " Conv rate and Y-intercept (MSE): " << _convRate << " " << _YIntError << endl ;
 	}
 }
 

@@ -14,19 +14,37 @@ using std::stringstream ;
 using std::invalid_argument ;
 
 ///////////////////////////////////////////////////////////////////////////////////////
+// constants used as labels for specifying command line arguments
 namespace CLArg
 {
-	const string SamplerSecStr("-S") ;
-	const string IntegSecStr("-I") ;
-	const string AnalSecStr("-A") ;
-	const string GenSecStr("-G") ;
+	const string SamplerSecStr("-S") ; // Sampling section
+	const string IntegSecStr("-I") ;   // Integrand section
+	const string AnalSecStr("-A") ;    // Analyzer section 
+	const string GenSecStr("-G") ;     // General section (not used)
 	
-	const string SamplerType("--stype") ;
+	const string SamplerType("--stype") ;    
 	const string IntegrandType("--itype") ;
 	const string OutFile("--ofile") ;
 } ; 
 
 ///////////////////////////////////////////////////////////////////////////////////////
+// Very basic Parser that splits the input command line string into a vector of strings
+// Using the constants defined in CLArg, it separate the above vector into four vectors of strings
+// according to the sampling, integrand, analysis and general section labels
+// 
+// FindSwitch takes a string and tests if it is present in a given vector of strings
+//            eg. FindSwitch(vec, "-A") returns true if an analysis section is found
+// FindArgument takes a string and returns the argument immediately succeeding the given string in the vector
+//            eg. if vec contains strings {"-S", "--stype", "Random"} 
+//                     FindArgument<string>(vec, "--stype")  returns "Random"
+// FindMultiArgs returns multiple arguments after the test string until it finds a string of type "-*"
+//            eg. if vec contains strings {"-I", "--itype", "QuadPix" --points .1 .2 .3 .4} 
+//                     FindMultiArgs<double>(vec, "--points")  returns a 
+//  			vector<double> containing {.1, .2, .3, .4}
+// 
+// Important: Requires the command line to contain strings in the order -S ... -I ... -A ... -G ...
+// 
+/////////////////////////////////////////////////////////////////////////////////////// 
 class CLParser
 {
     public:
@@ -61,6 +79,9 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////
 //		Implementation of templatized members 
 ///////////////////////////////////////////////////////////////////////////////////////
+// FindArgument takes a string and returns the argument immediately succeeding the given string in the vector
+//            eg. if vec contains strings {"-S", "--stype", "Random"} 
+//                     FindArgument<string>(vec, "--stype")  returns "Random"
 template<typename T>
 T CLParser::FindArgument(const vector<string>& args, const string& argStr) 
 {
@@ -85,6 +106,10 @@ T CLParser::FindArgument(const vector<string>& args, const string& argStr)
 	return T() ;
 }
 
+// FindMultiArgs returns multiple arguments after the test string until it finds a string of type "-*"
+//            eg. if vec contains strings {"-I", "--itype", "QuadPix" --points .1 .2 .3 .4} 
+//                     FindMultiArgs<double>(vec, "--points")  returns a 
+//  			vector<double> containing {.1, .2, .3, .4}
 template<typename T>
 bool CLParser::FindMultiArgs(int nargs, vector<T>& argOut, const vector<string>& args, const string& MultiArgsStr) 
 {

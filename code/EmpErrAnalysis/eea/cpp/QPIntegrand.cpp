@@ -3,6 +3,9 @@
 #include <iostream>
 using namespace std;
 
+const string QuadPixelIntegrand::RandStr = "--random" ; 
+const string QuadPixelIntegrand::PointsStr = "--points" ; 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 				White quad within black pixel
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,9 +15,12 @@ Integrand* QuadPixelIntegrand::GenIntegrand(const vector<string>& IntegParams)
 	return new QuadPixelIntegrand(IntegParams) ;
 }
 
-const string QuadPixelIntegrand::RandStr = "--random" ; 
-const string QuadPixelIntegrand::PointsStr = "--points" ; 
-
+/////////////////////////////////////////////
+// Constructor:
+//   Either randomly choose 4 points on the edges of a unit square
+//     or use the input values. using --points cmd line option
+//   The reference value is the area of the quad formed by connecting the 4 points
+/////////////////////////////////////////////
 QuadPixelIntegrand::QuadPixelIntegrand(const vector<string>& IntegParams)
 {
 	IntegrandType = "QuadPix"; 
@@ -40,6 +46,9 @@ QuadPixelIntegrand::QuadPixelIntegrand(const vector<string>& IntegParams)
 // 	cout << "Refval = " << RefVal << endl ;	
 }
 
+/////////////////////////////////////////////////////////////
+// Evaluation returns 1 if p is inside the quad and zero otherwise
+/////////////////////////////////////////////////////////////
 double QuadPixelIntegrand::operator () (const Point2D& p) const 
 {
 	double eval(0); 

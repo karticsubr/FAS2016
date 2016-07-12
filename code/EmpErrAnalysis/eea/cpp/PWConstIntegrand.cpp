@@ -14,6 +14,7 @@ Integrand* PWConstantIntegrand::GenIntegrand(const vector<string>& IntegParams)
 const string PWConstantIntegrand::RandStr = "--random" ; 
 const string PWConstantIntegrand::NPtsStr = "--npts" ; 
 
+// Evaluation at p returns weight associated with the triangle in which p is located
 double PWConstantIntegrand::operator () (const Point2D& p) const 
 {
 	return  _dt.locate(Point(p.x, p.y))->info() ;
@@ -21,13 +22,19 @@ double PWConstantIntegrand::operator () (const Point2D& p) const
 
 PWConstantIntegrand::~PWConstantIntegrand() 
 {}
-	
+
+////////////////////////////////////////////////////////////////////////////////
+// Constructor: 
+//     Generates random points within unit square, triangulates them and associates 
+//        random a weight with each of them. 
+// The reference value is the sum of weight times the area
+////////////////////////////////////////////////////////////////////////////////
+
 PWConstantIntegrand::PWConstantIntegrand(const vector<string>& IntegParams)
 {
 	IntegrandType = "PWConstant"; 
 
 	_randomize=true ; // for now this is the only option
-// 	_randomize = CLParser::FindSwitch(IntegParams, RandStr) ;
 
 	_npts = CLParser::FindArgument<double>(IntegParams, NPtsStr) ;
 	
