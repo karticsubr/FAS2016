@@ -20,7 +20,7 @@ namespace CLArg
 	const string SamplerSecStr("-S") ; // Sampling section
 	const string IntegSecStr("-I") ;   // Integrand section
 	const string AnalSecStr("-A") ;    // Analyzer section 
-	const string GenSecStr("-G") ;     // General section (not used)
+	const string GenSecStr("-G") ;     // General section 
 	
 	const string SamplerType("--stype") ;    
 	const string IntegrandType("--itype") ;

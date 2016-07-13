@@ -7,9 +7,11 @@
 using namespace std ;
 
 // example commandline
-//./build/eea -m secondaryEstimError -S --stype GJittered --sigma .5 -I --itype QuadPix --random -A --atype err --nsamps  1 --nreps 50 
 
-
+// ./build/eea -S --stype Jittered  
+//    		-I --itype PWConstant --npts 100  --random 
+// 		-A --atype var --nsamps  9 36 100 512  --nreps 1000 
+// 		-G --ofile test.txt
 int main(int argc, char* argv[])
 {
 	CLParser clarg(argc, argv) ;
