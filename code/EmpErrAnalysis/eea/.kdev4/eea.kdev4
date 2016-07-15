@@ -1,0 +1,41 @@
+[CMake]
+Build Directory Count=1
+Current Build Directory Index=0
+ProjectRootRelative=./
+
+[CMake][CMake Build Directory 0]
+Build Directory Path=file:///home/kartic/Writing/FAS2016/code/EmpErrAnalysis/eea/build
+Build Type=Debug
+CMake Binary=file:///usr/bin/cmake
+Environment Profile=
+Extra Arguments=
+Install Directory=file:///usr/local
+
+[Defines And Includes][Compiler]
+Name=GCC
+Path=gcc
+Type=GCC
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=eea
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=-m secondaryEstimError -s GJittered --sigma 1 -i QuadPix -n 1600 -r 100
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x02\x00\x00\x00\x06\x00e\x00e\x00a\x00\x00\x00\x06\x00e\x00e\x00a)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/kartic/Writing/FAS2016/code/EmpErrAnalysis/eea/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=eea,eea
+Use External Terminal=false
+Working Directory=
+isExecutable=false
+
+[Project]
+VersionControlSupport=kdevgit
