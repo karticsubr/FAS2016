@@ -46,8 +46,8 @@ std::vector<T> PointSampler<Dimension, T>::nrooks_samples(int N, T *bbox, int di
             bins[c] = y;
         }
 
-        if(shuffle)
-            std::random_shuffle(bins.begin(), bins.end() );
+//        if(shuffle)
+//            std::random_shuffle(bins.begin(), bins.end() );
 
         for(int c = 0; c < N; c++){
             samples[2*c+1] = bins[c];
