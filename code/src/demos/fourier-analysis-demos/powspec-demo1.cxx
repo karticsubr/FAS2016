@@ -120,10 +120,14 @@ int main(int argc, char* argv[]){
         else if(samplingpattern == "hammerslay"){
             pointset = pointSampler2dd::hammersley_sequence_samples(nsamples, domain);
         }
+        else if(samplingpattern == "bnot" || samplingpattern == "fpo" || samplingpattern == "step"){
+            pointset = pointSampler2dd::bluenoise_samples(nsamples, domain, samplingpattern, source_dir_path.string());
+        }
         else{
             std::cerr << "Requested sampling pattern not available !!!" << std::endl;
             return 1;
         }
+
         //##########################################################
 
         std::vector<double> finalsamples;
@@ -175,16 +179,16 @@ int main(int argc, char* argv[]){
             //##########################################################
 
             ss.str(std::string());
-            ss << images << "fourier-" << feature << "-" << mode << "-" << samplingpattern << "-n" << N << "-" << s1 << ".png";
+            ss << images << "fourier-" << feature << "-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".png";
             write_exr_grey(ss.str(), power, width, height);
 
             ss.str(std::string());
-            ss << images << "pointset-" << mode << "-" << samplingpattern << "-n" << N << "-" << s1 << ".png";
+            ss << images << "pointset-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".png";
             write_png_grey(ss.str(), gridpoints, width, height,true);
             //##########################################################
 
             ss.str(std::string());
-            ss << datafiles << "radial-mean-" << mode << "-" << samplingpattern << "-n" << N << "-" << s1 << ".txt";
+            ss << datafiles << "radial-mean-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".txt";
             compute_radial_mean_powerspectrum(ss.str(), power, width, height, N);
         }
     }

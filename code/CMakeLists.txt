@@ -23,7 +23,7 @@ IF(homogenization)
     include(${DEMOS_DIRS}/homogenization-demos/homogenization-demos.cmake)
 ELSEIF(pointset)
     include(${DEMOS_DIRS}/pointset-demos/pointset-demos.cmake)
-ELSEIF(fourier-analysis)
+ELSEIF(fourieranalysis)
     include(${DEMOS_DIRS}/fourier-analysis-demos/fourier-analysis-demos.cmake)
 ENDIF(homogenization)
 

@@ -17,8 +17,8 @@ int main(int argc, char* argv[]){
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help", "produce help message")
-        ("n", po::value<int>()->default_value(1024), "int: number of point samples")
-        ("s", po::value<std::string>()->default_value("jitter"), "string: point sampling pattern")
+        ("n", po::value<int>(), "int: number of point samples")
+        ("s", po::value<std::string>(), "string: point sampling pattern: jitter, random, bnot, fpo, step, regular")
         ("mode", po::value<std::string>()->default_value("nohomogenize"), "string: homogenize || nohomogenize");
 
     po::variables_map vm;
@@ -46,6 +46,7 @@ int main(int argc, char* argv[]){
     std::string datafiles, images, graphs;
     ss.str(std::string());
     ss << source_dir_path.string() << "/results/";
+    std::cerr << ss.str() << std::endl;
     std::string resultFolder = ss.str();
     mkdir(resultFolder.c_str() ,0755);
     ss.str(std::string());
@@ -91,6 +92,9 @@ int main(int argc, char* argv[]){
     else if(samplingpattern == "hammerslay"){
         pointset = pointSampler2dd::hammersley_sequence_samples(nsamples, domain);
     }
+    else if(samplingpattern == "bnot" || samplingpattern == "fpo" || samplingpattern == "step"){
+        pointset = pointSampler2dd::bluenoise_samples(nsamples, domain, samplingpattern, source_dir_path.string());
+    }
     else{
         std::cerr << "Requested sampling pattern not available !!!" << std::endl;
         return 1;
@@ -107,10 +111,7 @@ int main(int argc, char* argv[]){
     std::ofstream fpoints;
     ss.str(std::string());
 
-    if(mode == "homogenize")
-        ss << datafiles << "pointset-" << mode <<"-" << samplingpattern << "-n" << nsamples << ".txt";
-    else
-        ss << datafiles << "pointset-" << samplingpattern << "-n" << nsamples << ".txt";
+    ss << datafiles << "pointset-" << mode <<"-" << samplingpattern << "-n" << nsamples << ".txt";
 
     fpoints.open(ss.str().c_str());
 
