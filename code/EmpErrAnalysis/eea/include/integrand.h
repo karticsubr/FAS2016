@@ -5,6 +5,8 @@
 #include <vector>
 #include <map> 
 #include <string> 
+#include <cstdlib>
+#include <stdlib.h>
 
 using std::vector ;
 using std::map ;

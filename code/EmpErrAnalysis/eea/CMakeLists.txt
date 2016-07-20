@@ -22,10 +22,12 @@ endif()
 
 include_directories(include)
 
-add_executable(eea cpp/main.cpp cpp/samples.cpp 
-		cpp/integrand.cpp cpp/cmdlnparser.cpp cpp/Analyzer.cpp 
-		cpp/QPIntegrand.cpp cpp/PWConstIntegrand.cpp)
+FILE ( GLOB SOURCE
+cpp/*.cpp
+)
 
-TARGET_LINK_LIBRARIES(eea blas gomp CGAL gmp)
+add_executable(eea ${SOURCE})
+
+TARGET_LINK_LIBRARIES(eea blas CGAL gmp)
 
 install(TARGETS eea RUNTIME DESTINATION bin)

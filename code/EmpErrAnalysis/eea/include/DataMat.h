@@ -76,7 +76,7 @@ class DataMat
 		friend void     WriteDMatAsImage(const DataMat& Mat, const string& FName) ;
 		friend void  	DMat2EXR(const DataMat& Mat, const string& Fname) ;
 		friend void  	DMat2EXR2(const DataMat& Mat, const string& Fname) ;
-		friend void  	WriteColorEXR(const string& fname, const DataMat& R, const DataMat& G, const DataMat& B, double Gamma=2.2) ;
+//		friend void  	WriteColorEXR(const string& fname, const DataMat& R, const DataMat& G, const DataMat& B, double Gamma=2.2) ;
 		friend ostream& operator <<(ostream& os, const DataMat& Mat) ;
                 
 	private:

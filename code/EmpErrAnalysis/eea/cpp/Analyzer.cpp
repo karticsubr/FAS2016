@@ -5,7 +5,14 @@
 #include <samples.h>
 #include <integrand.h>
 #include <fstream>
+
+#if defined(_OPENMP)
+#ifdef __APPLE__
+#include <libiomp/omp.h>
+#else
 #include <omp.h>
+#endif
+#endif
 
 using namespace std;
 
