@@ -28,6 +28,10 @@ cpp/*.cpp
 
 add_executable(eea ${SOURCE})
 
-TARGET_LINK_LIBRARIES(eea blas CGAL gmp)
+if(APPLE)
+	TARGET_LINK_LIBRARIES(eea blas CGAL gmp)
+else()
+	TARGET_LINK_LIBRARIES(eea blas gomp CGAL gmp)
+endif(APPLE)
 
 install(TARGETS eea RUNTIME DESTINATION bin)
