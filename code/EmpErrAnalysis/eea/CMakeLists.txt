@@ -26,6 +26,10 @@ FILE ( GLOB SOURCE
 cpp/*.cpp
 )
 
+FILE ( GLOB HEADERS
+cpp/*.h
+)
+
 add_executable(eea ${SOURCE})
 
 if(APPLE)
