@@ -32,10 +32,12 @@ int main(int argc, char* argv[])
 
 	
 	a.RunAnalysis();
-
-	
-	string ofname(clarg.OutFile()) ;
-	a.WriteResults(ofname);	
+    string ofname(clarg.OutFile()) ;
+    a.WriteResults(ofname);
+  
+    string ofnameVar(clarg.OutFileVar()) ;
+    string ofnameMean(clarg.OutFileMean()) ;
+    a.WriteMeanVar(ofnameMean, ofnameVar) ;
 	
 	delete i1; 
 	delete s1;

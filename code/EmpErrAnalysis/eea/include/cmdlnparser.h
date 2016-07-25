@@ -25,7 +25,9 @@ namespace CLArg
 	const string SamplerType("--stype") ;    
 	const string IntegrandType("--itype") ;
 	const string OutFile("--ofile") ;
-} ; 
+    const string OutFileVar ("--ovar") ;
+    const string OutFileMean ("--omean") ;
+} ;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // Very basic Parser that splits the input command line string into a vector of strings
@@ -58,6 +60,8 @@ class CLParser
 	const vector<string>& GenSection() {return _genUnit;}
 
 	string OutFile() const {return FindArgument<string>(_genUnit, CLArg::OutFile);}
+    string OutFileVar() const {return FindArgument<string>(_genUnit, CLArg::OutFileVar);}
+    string OutFileMean() const {return FindArgument<string>(_genUnit, CLArg::OutFileMean);}
 	
 
 	static bool FindSwitch(const vector<string>& args, const string& switchStr) ;

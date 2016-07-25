@@ -27,10 +27,10 @@ cpp/*.cpp
 )
 
 FILE ( GLOB HEADERS
-cpp/*.h
+include/*.h
 )
 
-add_executable(eea ${SOURCE})
+add_executable(eea ${SOURCE} ${HEADERS})
 
 if(APPLE)
 	TARGET_LINK_LIBRARIES(eea blas CGAL gmp)

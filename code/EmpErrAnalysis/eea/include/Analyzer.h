@@ -40,11 +40,15 @@ class Analyzer
 	Analyzer(Sampler* s, Integrand* i, const vector<string> asec) ;
 	
 	void RunAnalysis() ;
+  
+    void onlineAnalysis();
 	
 	double GetConvergenceRate() const {return _convRate;}
 	double GetYInterceptError() const {return _YIntError ;}
 
 	void WriteResults(const string& path) const ;
+    void WriteMeanVar(const string& meanPath, const string& varPath) const ;
+    std::string Atype() const { return _atype; }
 	
     private:
 

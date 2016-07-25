@@ -18,6 +18,8 @@
 
 #include <PWConstIntegrand.h>
 #include <QPIntegrand.h>
+#include <DiskIntegrand.h>
+#include <GaussianIntegrand.h>
 
 using std::vector ;
 using std::map ;
@@ -40,6 +42,8 @@ IntegrandPrototype::IntegrandPrototype()
     ////////////// MODIFY THIS /////////////
     vi.push_back(new QuadPixelIntegrand());
     vi.push_back(new PWConstantIntegrand());
+    vi.push_back(new DiskIntegrand());
+    vi.push_back(new GaussianIntegrand());
     // vi.push_back(new MyNewIntegrand());// add a line like this
     
     for (int i(0); i<vi.size(); i++)
