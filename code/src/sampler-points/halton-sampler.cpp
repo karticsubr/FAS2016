@@ -39,7 +39,7 @@ struct Drand48
 };
 
 template<int Dimension, typename T>
-std::vector<T> PointSampler<Dimension, T>::halton_samples(int N, T* bBox, int dim, bool faure){
+std::vector<T> PointSampler<Dimension, T>::halton_samples(int N, T* bBox, int ucomponent, int vcomponent, bool faure){
 
     std::vector<T> result;
     // Initialize the sampler, either with Faure permutations or randomized digit permutations.
@@ -55,8 +55,8 @@ std::vector<T> PointSampler<Dimension, T>::halton_samples(int N, T* bBox, int di
     }
 
     for(int i = 0; i < N; i++){
-        const float sx = halton_sampler.sample(0, i);
-        const float sy = halton_sampler.sample(1, i);
+        const float sx = halton_sampler.sample(ucomponent, i);
+        const float sy = halton_sampler.sample(vcomponent, i);
         result.push_back(sx);
         result.push_back(sy);
     }
@@ -64,7 +64,7 @@ std::vector<T> PointSampler<Dimension, T>::halton_samples(int N, T* bBox, int di
     return result;
 }
 
-template std::vector<double> PointSampler<2, double>::halton_samples(int N, double *bBox, int dim, bool faure);
+template std::vector<double> PointSampler<2, double>::halton_samples(int N, double *bBox, int ucomponent, int vcomponent, bool faure);
 
 //int main(int, char**)
 //{

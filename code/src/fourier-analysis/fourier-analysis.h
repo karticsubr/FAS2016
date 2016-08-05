@@ -8,7 +8,7 @@ template <typename T>
 class FT{
 public:
 
-    static void continuous_fourier_spectrum_parallel(std::complex<T> *complexSpectrum, std::vector<T> &points, int width, int height, T dstep);
+    static void continuous_fourier_spectrum(std::complex<T> *complexSpectrum, std::vector<T> &points, int width, int height, T dstep);
     static void discrete_fourier_spectrum(std::complex<T> *complexSpectrum, const T *mydata, int width, int height);
 
     static std::complex<T> complexcoeff_continuous_fourier_spectrum(T wx, T wy, std::vector<T> &points);

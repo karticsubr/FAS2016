@@ -19,11 +19,15 @@ int main(int argc, char* argv[]){
     desc.add_options()
         ("help", "produce help message")
         ("n", po::value<int>(), "int: number of point samples")
+            ("s", po::value<std::string>(), "string: point sampling pattern")
+        ("u", po::value<int>(), "int: U coordinate component for low discrepancy sampler (u-v projection)")
+        ("v", po::value<int>(), "int: V coordinate component for low discrepancy sampler (u-v projection)")
         ("ntrials", po::value<int>()->default_value(1), "int: number of trials")
         ("step", po::value<int>()->default_value(1), "int: trial step size to output intermediate results")
-        ("s", po::value<std::string>(), "string: point sampling pattern")
         ("feature", po::value<std::string>()->default_value("power"), "string: power || power-logscaled || power-scaled")
-        ("mode", po::value<std::string>()->default_value("homogenize"), "string: homogenize || nohomogenize");
+        ("accum", po::value<bool>()->default_value(true), "0 || 1")
+        ("mode", po::value<std::string>()->default_value("nohomogenize"), "string: homogenize || nohomogenize");
+
 
     po::variables_map vm;
     //##########################################################
@@ -50,10 +54,13 @@ int main(int argc, char* argv[]){
 
     std::stringstream ss;
     int nsamples = vm["n"].as<int>();
+    int ucomponent = vm["u"].as<int>();
+    int vcomponent = vm["v"].as<int>();
     int numTrials = vm["ntrials"].as<int>();
     int stepSize = vm["step"].as<int>();
     std::string samplingpattern = vm["s"].as<std::string>();
     std::string mode = vm["mode"].as<std::string>();
+    bool accumulate = vm["accum"].as<bool>();
     std::string feature = vm["feature"].as<std::string>();
 
     //###############Creating Folders###################################
@@ -94,29 +101,11 @@ int main(int argc, char* argv[]){
 
         std::vector<double> pointset;
 
-        if(samplingpattern == "jitter"){
-            pointset = pointSampler2dd::jitter_samples(nsamples, domain);
+        if(samplingpattern == "halton"){
+            pointset = pointSampler2dd::halton_samples(nsamples, domain, ucomponent, vcomponent, false);
         }
-        else if(samplingpattern == "nrooks"){
-            pointset = pointSampler2dd::nrooks_samples(nsamples, domain);
-        }
-        else if(samplingpattern == "regular"){
-            pointset = pointSampler2dd::regular_samples(nsamples, domain);
-        }
-        else if(samplingpattern == "random"){
-            pointset = pointSampler2dd::random_samples(nsamples, domain);
-        }
-        else if(samplingpattern == "uniformjitter"){
-            pointset = pointSampler2dd::uniformjitter_samples(nsamples, domain);
-        }
-        else if(samplingpattern == "multijitter"){
-            pointset = pointSampler2dd::multijitter_samples(nsamples, domain);
-        }
-        else if(samplingpattern == "dartthrowing"){
-            pointset = pointSampler2dd::darthrowing_samples(nsamples, domain);
-        }
-        else if(samplingpattern == "bnot" || samplingpattern == "fpo" || samplingpattern == "step"){
-            pointset = pointSampler2dd::bluenoise_samples(nsamples, domain, samplingpattern, source_dir_path.string());
+        else if(samplingpattern == "hammerslay"){
+            pointset = pointSampler2dd::hammersley_sequence_samples(nsamples, domain);
         }
         else{
             std::cerr << "Requested sampling pattern not available !!!" << std::endl;
@@ -152,7 +141,7 @@ int main(int argc, char* argv[]){
         }
 
         //##########################################################
-        FT<double>::discrete_fourier_spectrum(complexSpectrum, gridpoints, width, height);
+        FT<double>::continuous_fourier_spectrum(complexSpectrum, finalsamples, width, height,1.0);
         FT<double>::power_fourier_spectrum(power, complexSpectrum, N, width, height);
         //perform_dft(power,gridpoints, N, width, height, "power");
         //##########################################################
@@ -168,25 +157,27 @@ int main(int argc, char* argv[]){
             paddedzerosN(s1, numTrials);
             //##########################################################
 
-            for(int i = 0; i < width*height; i++)
-                power[i] = powerAccum[i] / trial;
+            if(accumulate){
+                for(int i = 0; i < width*height; i++)
+                    power[i] = powerAccum[i] / trial;
+            }
 
             //##########################################################
 
-            FT<double>::swapQuadrants(power, width, height);
+//            FT<double>::swapQuadrants(power, width, height);
 
             //##########################################################
             ss.str(std::string());
-            ss << images << "fourier-" << feature << "-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".png";
+            ss << images << "power-continuous-" << feature << "-" << mode << "-" << samplingpattern << "-u" <<ucomponent << "-v" << vcomponent << "-n" << nsamples << "-" << s1 << ".png";
             write_exr_grey(ss.str(), power, width, height);
 
             ss.str(std::string());
-            ss << images << "pointset-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".png";
+            ss << images << "pointset-" << mode << "-" << samplingpattern << "-u" <<ucomponent << "-v" << vcomponent << "-n" << nsamples << "-" << s1 << ".png";
             write_eps(ss.str(), finalsamples);
             //##########################################################
 
             ss.str(std::string());
-            ss << datafiles << "radial-mean-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".txt";
+            ss << datafiles << "radial-mean-continuous-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".txt";
             FT<double>::compute_radial_mean_powerspectrum(ss.str(), power, width, height, N);
         }
     }
@@ -199,4 +190,5 @@ int main(int argc, char* argv[]){
 
     return 0;
 }
+
 

@@ -23,6 +23,7 @@
 #ifndef HALTON_SAMPLER_H
 #define HALTON_SAMPLER_H
 
+#include <iostream>
 #include <algorithm>
 #include <vector>
 

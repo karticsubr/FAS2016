@@ -5,7 +5,7 @@
 #include <iostream>
 
 template <typename T>
-void FT<T>::continuous_fourier_spectrum_parallel(std::complex<T> *complexSpectrum,
+void FT<T>::continuous_fourier_spectrum(std::complex<T> *complexSpectrum,
                                                  std::vector<T> &points, int width,
                                                  int height, T dstep){
 
@@ -38,7 +38,7 @@ void FT<T>::continuous_fourier_spectrum_parallel(std::complex<T> *complexSpectru
     );
 }
 
-template void FT<double>::continuous_fourier_spectrum_parallel(std::complex<double> *complexSpectrum,
+template void FT<double>::continuous_fourier_spectrum(std::complex<double> *complexSpectrum,
                                                           std::vector<double> &points, int width,
                                                           int height, double dstep);
 

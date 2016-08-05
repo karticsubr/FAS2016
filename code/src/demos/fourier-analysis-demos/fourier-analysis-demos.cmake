@@ -40,6 +40,7 @@ file(GLOB SOURCES
   src/io/*.cpp
   src/core/*.cpp
   src/sampler-points/*.cpp
+#  src/sampler-lowdiscrepancy/*.cpp
   src/fourier-analysis/*.cpp
 )
 
@@ -47,6 +48,7 @@ file(GLOB HEADERS
   src/io/*.h
   src/core/*.h
   src/sampler-points/*.h
+#  src/sampler-lowdiscrepancy/*.h
   src/fourier-analysis/*.h
 #  src/datatypes.h
 )
@@ -67,4 +69,5 @@ endfunction()
 
 ##Create executables by calling functions defined above
 make_exec(powspec-demo1)
+#make_exec(powspec-lowdiscrepancy-demo1)
 
