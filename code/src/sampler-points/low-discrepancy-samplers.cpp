@@ -7,20 +7,10 @@ std::vector<T> PointSampler<Dimension, T>::halton_sequence_samples(const int &N,
 
     T maxRange = bBox[2*dim-1] - bBox[dim-1];
 
-    T scrambler[] = {drand48(), drand48()};
-
     for(int i=0; i<N; i++){
         T x = radicalInverse(i,2);
         T y = radicalInverse(i,3);
 
-//        if(scramble){
-//            x += scrambler[0];
-//            y += scrambler[1];
-//            if(x > 1.0)
-//                x = x-1.0;
-//            if(y > 1.0)
-//                y = y-1.0;
-//        }
         results.push_back(maxRange * x - bBox[dim-1]);
         results.push_back(maxRange * y - bBox[dim-1]);
     }
@@ -33,20 +23,11 @@ std::vector<T> PointSampler<Dimension, T>::hammersley_sequence_samples(const int
 
     T maxRange = bBox[2*dim-1] - bBox[dim-1];
 
-    T scrambler[] = {drand48(), drand48()};
     for(int i=0; i<N; i++){
 
         T x = i / T(N);
         T y = radicalInverse(i,2);
 
-//        if(scramble){
-//            x += scrambler[0];
-//            y += scrambler[1];
-//            if(x > 1.0)
-//                x = x - 1.0;
-//            if(y > 1.0)
-//                y = y - 1.0;
-//        }
         results.push_back(maxRange * x - bBox[dim-1]);
         results.push_back(maxRange * y - bBox[dim-1]);
     }

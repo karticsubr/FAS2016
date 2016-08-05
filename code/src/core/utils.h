@@ -110,17 +110,17 @@ inline float radicalInverse(int n, int base){
     return val;
 }
 
-template <typename T>
-void Shuffle(std::vector<T> &points, int count, int dims){
-    for(uint32_t i = 0; i < count; i++)
-        uint32_t other = i + (lrand48() % (count - i));
-        for(uint32_t j = 0; j < count; j++)
-            std::swap(points[dims*i+j], points[dims*other+j]);
-        }
-    }
-}
-template void Shuffle(std::vector<double> &points, int count, int dims);
-template void Shuffle(std::vector<float> &points, int count, int dims);
+//template <typename T>
+//void Shuffle(std::vector<T> &points, int count, int dims){
+//    for(uint32_t i = 0; i < count; i++)
+//        uint32_t other = i + (lrand48() % (count - i));
+//        for(uint32_t j = 0; j < count; j++)
+//            std::swap(points[dims*i+j], points[dims*other+j]);
+//        }
+//    }
+//}
+//template void Shuffle(std::vector<double> &points, int count, int dims);
+//template void Shuffle(std::vector<float> &points, int count, int dims);
 
 
 inline void addingOffsetForSinusoids(float* data_ptr, int width, int height){

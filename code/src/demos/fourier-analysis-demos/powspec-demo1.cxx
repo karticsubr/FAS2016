@@ -7,7 +7,7 @@
 #include "./../../io/write-image.h"
 #include "./../../core/utils.h"
 #include "./../../sampler-points/sampler-points.h"
-#include "./../../fourier-analysis/fft.h"
+#include "./../../fourier-analysis/fourier-analysis.h"
 
 namespace po = boost::program_options;
 
@@ -84,6 +84,7 @@ int main(int argc, char* argv[]){
     //##########################################################
     int width = 512, height = 512;
 
+    std::complex<double> *complexSpectrum = new std::complex<double>[width*height]();
     double* gridpoints = new double[width*height]();
     double* power = new double[width*height]();
     double* powerAccum = new double[width*height]();
@@ -115,7 +116,7 @@ int main(int argc, char* argv[]){
             pointset = pointSampler2dd::darthrowing_samples(nsamples, domain);
         }
         else if(samplingpattern == "halton"){
-            pointset = pointSampler2dd::halton_sequence_samples(nsamples, domain);
+            pointset = pointSampler2dd::halton_samples(nsamples, domain, 2, false);
         }
         else if(samplingpattern == "hammerslay"){
             pointset = pointSampler2dd::hammersley_sequence_samples(nsamples, domain);
@@ -157,13 +158,13 @@ int main(int argc, char* argv[]){
         }
 
         //##########################################################
-
-        perform_dft(power,gridpoints, N, width, height, "power");
+        FT<double>::discrete_fourier_spectrum(complexSpectrum, gridpoints, width, height);
+        FT<double>::power_fourier_spectrum(power, complexSpectrum, N, width, height);
+        //perform_dft(power,gridpoints, N, width, height, "power");
         //##########################################################
 
         for(int i = 0; i < width*height;i++)
             powerAccum[i] += power[i];
-
 
         if(trial % stepSize == 0 || trial == 1){
 
@@ -178,23 +179,27 @@ int main(int argc, char* argv[]){
 
             //##########################################################
 
+            FT<double>::swapQuadrants(power, width, height);
+
+            //##########################################################
             ss.str(std::string());
             ss << images << "fourier-" << feature << "-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".png";
             write_exr_grey(ss.str(), power, width, height);
 
             ss.str(std::string());
             ss << images << "pointset-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".png";
-            write_png_grey(ss.str(), gridpoints, width, height,true);
+            write_eps(ss.str(), finalsamples);
             //##########################################################
 
             ss.str(std::string());
             ss << datafiles << "radial-mean-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".txt";
-            compute_radial_mean_powerspectrum(ss.str(), power, width, height, N);
+            FT<double>::compute_radial_mean_powerspectrum(ss.str(), power, width, height, N);
         }
     }
 
     std::cerr << std::endl;
 
+    delete [] complexSpectrum;
     delete [] gridpoints;
     delete [] power;
 

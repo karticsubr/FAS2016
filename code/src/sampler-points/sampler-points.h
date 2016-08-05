@@ -24,7 +24,7 @@ public:
     static std::vector<T> multijitter_samples(int N, T *bbox, int dim=2, bool shuffle=true);
     static std::vector<T> darthrowing_samples(int N, T *bBox, int dim=Dimension, bool toroidal=true);
     static std::vector<T> bluenoise_samples(int N, T* bBox, std::string samplingpattern, std::string filepath="", int dim=2);
-
+    static std::vector<T> halton_samples(int N, T *bbox, int dim=Dimension, bool faure=true);
     static std::vector<T> halton_sequence_samples(const int& N, T *bbox, int dim=Dimension, bool shuffle=true);
     static std::vector<T> hammersley_sequence_samples(const int& N, T *bbox, int dim=Dimension, bool shuffle=true);
 

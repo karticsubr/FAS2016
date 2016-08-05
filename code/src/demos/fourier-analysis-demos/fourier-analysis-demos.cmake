@@ -20,6 +20,7 @@ find_package(FreeImage REQUIRED)
 find_package(OpenEXR)
 find_package(IlmBase)
 find_package(FFTW REQUIRED)
+find_package(TBB)
 
 set(CMAKE_CXX_FLAGS " -g -Wall")
 
@@ -59,6 +60,7 @@ function(make_exec exec_name)
                 ${ILMBASE_LIBRARIES}
                 ${Boost_LIBRARIES}
                 ${FFTW_LIBRARIES}
+                ${TBB_LIBRARIES}
         )
         install(PROGRAMS ${BIN_PATH}/${exec_name} DESTINATION bin)
 endfunction()
