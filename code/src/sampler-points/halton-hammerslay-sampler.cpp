@@ -54,9 +54,67 @@ std::vector<T> PointSampler<Dimension, T>::halton_samples(int N, T* bBox, int uc
         halton_sampler.init_random(rng);
     }
 
+    if(ucomponent == 0 || vcomponent == 0){
+        std::cerr << "components index starts from 1 not 0 !!!" << std::endl;
+        exit(-2);
+    }
+    if(ucomponent == vcomponent){
+        std::cerr << "both dimensions must have different index !!!" << std::endl;
+        exit(-2);
+    }
+
     for(int i = 0; i < N; i++){
-        const float sx = halton_sampler.sample(ucomponent, i);
-        const float sy = halton_sampler.sample(vcomponent, i);
+        const float sx = halton_sampler.sample(ucomponent-1, i);
+        const float sy = halton_sampler.sample(vcomponent-1, i);
+        result.push_back(sx);
+        result.push_back(sy);
+    }
+
+    return result;
+}
+
+///Hammerslay sampler uses the same machinary of Halton
+/// sequences with the only exception for the first component
+/// which is i/N.
+template<int Dimension, typename T>
+std::vector<T> PointSampler<Dimension, T>::hammerslay_samples(int N, T* bBox, int ucomponent, int vcomponent, bool faure){
+
+    std::vector<T> result;
+    // Initialize the sampler, either with Faure permutations or randomized digit permutations.
+    Halton_sampler halton_sampler;
+    if (faure)
+    {
+        halton_sampler.init_faure();
+    }
+    else
+    {
+        Drand48 rng;
+        halton_sampler.init_random(rng);
+    }
+
+    if(ucomponent == 0 || vcomponent == 0){
+        std::cerr << "components index starts from 1 not 0 !!!" << std::endl;
+        exit(-2);
+    }
+    if(ucomponent == vcomponent || ucomponent > vcomponent){
+        std::cerr << "both dimensions must have different index with u < v !!!" << std::endl;
+        exit(-2);
+    }
+
+    for(int i = 0; i < N; i++){
+
+        float sx = 0.f, sy = 0.f;
+
+        if(ucomponent == 1){
+            sx = i/float(N);
+//            sy = halton_sampler.sample(vcomponent-2, i);
+        }
+        else{
+            sx = halton_sampler.sample(ucomponent-1, i);
+//            sy = halton_sampler.sample(vcomponent-1, i);
+        }
+        sy = halton_sampler.sample(vcomponent-1, i);
+
         result.push_back(sx);
         result.push_back(sy);
     }
@@ -65,7 +123,7 @@ std::vector<T> PointSampler<Dimension, T>::halton_samples(int N, T* bBox, int uc
 }
 
 template std::vector<double> PointSampler<2, double>::halton_samples(int N, double *bBox, int ucomponent, int vcomponent, bool faure);
-
+template std::vector<double> PointSampler<2, double>::hammerslay_samples(int N, double *bBox, int ucomponent, int vcomponent, bool faure);
 //int main(int, char**)
 //{
 //    test("faure-halton.txt", 1024, false);

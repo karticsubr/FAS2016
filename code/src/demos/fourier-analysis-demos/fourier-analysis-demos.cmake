@@ -68,6 +68,6 @@ function(make_exec exec_name)
 endfunction()
 
 ##Create executables by calling functions defined above
-make_exec(powspec-demo1)
-#make_exec(powspec-lowdiscrepancy-demo1)
+#make_exec(powspec-cft-demo1)
+make_exec(powspec-cft-lowdiscrepancy-demo1)
 

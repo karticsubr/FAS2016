@@ -23,6 +23,7 @@ int main(int argc, char* argv[]){
         ("step", po::value<int>()->default_value(1), "int: trial step size to output intermediate results")
         ("s", po::value<std::string>(), "string: point sampling pattern")
         ("feature", po::value<std::string>()->default_value("power"), "string: power || power-logscaled || power-scaled")
+        ("accum", po::value<std::string>()->default_value("accumulate"), "noaccumulate || accumulate")
         ("mode", po::value<std::string>()->default_value("homogenize"), "string: homogenize || nohomogenize");
 
     po::variables_map vm;
@@ -54,6 +55,7 @@ int main(int argc, char* argv[]){
     int stepSize = vm["step"].as<int>();
     std::string samplingpattern = vm["s"].as<std::string>();
     std::string mode = vm["mode"].as<std::string>();
+    std::string accumulate = vm["accum"].as<std::string>();
     std::string feature = vm["feature"].as<std::string>();
 
     //###############Creating Folders###################################
@@ -85,7 +87,6 @@ int main(int argc, char* argv[]){
     int width = 512, height = 512;
 
     std::complex<double> *complexSpectrum = new std::complex<double>[width*height]();
-    double* gridpoints = new double[width*height]();
     double* power = new double[width*height]();
     double* powerAccum = new double[width*height]();
     //##########################################################
@@ -140,25 +141,18 @@ int main(int argc, char* argv[]){
         //##########################################################
 
         for(int k = 0; k < width*height; k++){
-            gridpoints[k] = 0;
             power[k] = 0;
         }
         //##########################################################
 
-        for(int i = 0; i < N; i++){
-            int col = (pointset[2*i+0]-minDomainX) * (1.0 / maxRangeX) * width;
-            int row = (pointset[2*i+1]-minDomainY) * (1.0 / maxRangeY) * height;
-            gridpoints[row*width+col] = 1;
-        }
-
-        //##########################################################
-        FT<double>::discrete_fourier_spectrum(complexSpectrum, gridpoints, width, height);
+        FT<double>::continuous_fourier_spectrum(complexSpectrum, finalsamples, width, height, 1.0);
         FT<double>::power_fourier_spectrum(power, complexSpectrum, N, width, height);
         //perform_dft(power,gridpoints, N, width, height, "power");
         //##########################################################
 
         for(int i = 0; i < width*height;i++)
             powerAccum[i] += power[i];
+        //##########################################################
 
         if(trial % stepSize == 0 || trial == 1){
 
@@ -168,16 +162,14 @@ int main(int argc, char* argv[]){
             paddedzerosN(s1, numTrials);
             //##########################################################
 
+            if(accumulate == "accumulate"){
             for(int i = 0; i < width*height; i++)
                 power[i] = powerAccum[i] / trial;
-
-            //##########################################################
-
-            FT<double>::swapQuadrants(power, width, height);
+            }
 
             //##########################################################
             ss.str(std::string());
-            ss << images << "fourier-" << feature << "-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".png";
+            ss << images << "power-continuous-" << accumulate << "-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".png";
             write_exr_grey(ss.str(), power, width, height);
 
             ss.str(std::string());
@@ -186,7 +178,7 @@ int main(int argc, char* argv[]){
             //##########################################################
 
             ss.str(std::string());
-            ss << datafiles << "radial-mean-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".txt";
+            ss << datafiles << "radial-mean-continuous-" << accumulate << "-" << mode << "-" << samplingpattern << "-n" << nsamples << "-" << s1 << ".txt";
             FT<double>::compute_radial_mean_powerspectrum(ss.str(), power, width, height, N);
         }
     }
@@ -194,7 +186,6 @@ int main(int argc, char* argv[]){
     std::cerr << std::endl;
 
     delete [] complexSpectrum;
-    delete [] gridpoints;
     delete [] power;
 
     return 0;
