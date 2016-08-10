@@ -51,7 +51,7 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
 // --pixel : pixel coordinates to be rendered from the PBRT code
 // --epath : path to your PBRT executable on your machine
 // --spath : path to your PBRT Scene file (.pbrt)
-// --out : pixel radiance value returned from the PBRT code
+// --out : pixel radiance value returned from your PBRT code
 /////////////////////////////////////////////////////////////
 
 double PBRTIntegrand::operator () (const Point2D& p) const
