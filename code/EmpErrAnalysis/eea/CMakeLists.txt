@@ -28,6 +28,7 @@ cpp/*.cpp
 
 FILE ( GLOB HEADERS
 include/*.h
+
 )
 
 add_executable(eea ${SOURCE} ${HEADERS})
