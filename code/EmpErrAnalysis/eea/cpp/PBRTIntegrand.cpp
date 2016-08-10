@@ -16,7 +16,7 @@ const string PBRTIntegrand::PbrtExePathStr = "--epath" ;
 const string PBRTIntegrand::PbrtScenePathStr = "--spath" ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				White Disk within a black pixel
+// 				PBRT Integrator to render a given pixel
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Integrand* PBRTIntegrand::GenIntegrand(const vector<string>& IntegParams)
@@ -42,7 +42,16 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
 }
 
 /////////////////////////////////////////////////////////////
-// Evaluation returns 1 if p is inside the disk and zero otherwise
+// Evaluation returns the pixel radiance computed from the
+// PBRT that is on your system.
+// User need to modify their PBRT version to render only the
+// given input pixel (_xpixel, _ypixel) and
+// to make PBRT return a value for that pixel instead
+// of an image. Use the following flags:
+// --pixel : pixel coordinates to be rendered from the PBRT code
+// --epath : path to your PBRT executable on your machine
+// --spath : path to your PBRT Scene file (.pbrt)
+// --out : pixel radiance value returned from the PBRT code
 /////////////////////////////////////////////////////////////
 
 double PBRTIntegrand::operator () (const Point2D& p) const
@@ -52,12 +61,10 @@ double PBRTIntegrand::operator () (const Point2D& p) const
     double pixelValue(0);
     std::stringstream ss;
 
-    //ss << _pathexec << "/build/pbrt" << " " << _pathscene << "/killeroo-moving/anim-killeroos.pbrt --nxsamples %d --nysamples %d";
+    //ss << "/user-home/pbrt-v3/build/pbrt" << " " << "/user-home/pbrt-v3-scene/killeroo-moving/anim-killeroos.pbrt" << " --xpixel %d --ypixel %d --out %f";
     
-    ss << _pathexec << "/build/pbrt" << " " << _pathscene << "/killeroo-moving/anim-killeroos.pbrt --xpixel %d --ypixel %d --out %d";
+    ss << _pathexec << " " << _pathscene << " --xpixel %d --ypixel %d --out %f";
     
-    
-    //sprintf (command, ss.str().c_str(), _xpixel, _ypixel);
     sprintf (command, ss.str().c_str(), _xpixel, _ypixel, pixelValue);
     
     std::system(command);
