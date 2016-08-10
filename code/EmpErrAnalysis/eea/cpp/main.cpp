@@ -12,9 +12,10 @@ using namespace std ;
 //    		-I --itype PWConstant --npts 100  --random 
 // 		-A --atype var --nsamps  9 36 100 512  --nreps 1000 
 // 		-G --ofile test.txt
+
 int main(int argc, char* argv[])
 {
-	CLParser clarg(argc, argv) ;
+	CLParser clarg(argc, argv);
 	clarg.IdentifySections();
 	
 	// create sampler object from the -S section of command line

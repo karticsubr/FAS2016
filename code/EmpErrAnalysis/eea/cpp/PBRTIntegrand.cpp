@@ -10,10 +10,18 @@
 #include <PBRTIntegrand.h>
 #include <cmdlnparser.h>
 #include <sstream>
+#include <sys/stat.h>
+#include <unistd.h> //to use getcwd(cwd, sizeof(cwd));
 
-const string PBRTIntegrand::PixelStr = "--pixel" ;
-const string PBRTIntegrand::PbrtExePathStr = "--epath" ;
+#include <ImfRgba.h>
+#include <ImfRgbaFile.h>
+
+
+const string PBRTIntegrand::CropStr = "--crop" ;
+const string PBRTIntegrand::PbrtExecPathStr = "--epath" ;
 const string PBRTIntegrand::PbrtScenePathStr = "--spath" ;
+const string PBRTIntegrand::PythonScriptPathStr = "--pypath" ;
+const string PBRTIntegrand::ExrImgNameStr = "--img" ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 				PBRT Integrator to render a given pixel
@@ -31,14 +39,16 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
 {
     IntegrandType = "Pbrt";
     
-    _pathexec = CLParser::FindArgument<std::string>(IntegParams, PbrtExePathStr) ;
+    _pathexec = CLParser::FindArgument<std::string>(IntegParams, PbrtExecPathStr) ;
     _pathscene = CLParser::FindArgument<std::string>(IntegParams, PbrtScenePathStr) ;
+    _pathpython = CLParser::FindArgument<std::string>(IntegParams, PythonScriptPathStr) ;
+    _imgname = CLParser::FindArgument<std::string>(IntegParams, ExrImgNameStr) ;
     
     std::vector<double> MultiArgs;
-    CLParser::FindMultiArgs<double>(2, MultiArgs, IntegParams, PixelStr) ;
-    
-    _xpixel = MultiArgs[0];
-    _ypixel = MultiArgs[1];
+    CLParser::FindMultiArgs(4, MultiArgs, IntegParams, CropStr) ;
+
+    for(int i = 0; i < 4; i++)
+        _crop[i] = MultiArgs[i];
 }
 
 /////////////////////////////////////////////////////////////
@@ -61,20 +71,124 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
 double PBRTIntegrand::operator () (const Point2D& p) const
 {
     
-    char command [999];
+    char pythonCommand [999], cwd[999];
     double pixelValue(0);
     std::stringstream ss;
-
+    
+    ///
+    /// Here is your python script to update the crop window size in the pbrt scene file (.pbrt) with
+    /// the values provided from the command line.
+    ///
+    ss << "python " << _pathpython << " " << _pathscene << " %f %f %f %f";
+    
+    ///
+    /// Passing arguments to the python script
+    /// Provide x1 x2 y1 y2 from the command line to fill _crop[4]
+    ///
+    sprintf(pythonCommand, ss.str().c_str(), _crop[0], _crop[1], _crop[2], _crop[3]);
+    
+    ///
+    /// Running python script to change the crop window size of the PBRT Scene File
+    ///
+    std::system(pythonCommand);
+    
     //ss << "/user-home/pbrt-v3/build/pbrt" << " " << "/user-home/pbrt-v3-scene/killeroo-moving/anim-killeroos.pbrt" << " --xpixel %d --ypixel %d --out %f";
     
-    ss << _pathexec << " " << _pathscene << " --xpixel %d --ypixel %d --out %f";
+    ///
+    /// reinitialize ss stringstream
+    ///
+    ss.str(std::string());
     
-    sprintf (command, ss.str().c_str(), _xpixel, _ypixel, pixelValue);
+    ///
+    /// prepare stringstream to call the pbrt with the scenefile
+    ///
+    ss << _pathexec << " " << _pathscene << " --outfile " <<  _imgname;
     
-    std::system(command);
+    ///
+    /// Call PBRT
+    ///
+    std::system(ss.str().c_str());
+    
+    ///
+    /// Read the image generated from PBRT
+    ///
+    getcwd(cwd, sizeof(cwd));
+    ss.str(std::string());
+    ss << cwd << "/" << _imgname;
+//    std::cerr << ss.str() << std::endl;
+    int width =0, height =0;
+    float* pixels = ReadImageEXR(ss.str(), &width, &height);
+    WriteImageEXR("test.exr", pixels, width, height);
+    
+    ///
+    /// Average the image over all the pixels to return the output value
+    ///
     
     return pixelValue ;
 }
+
+float* PBRTIntegrand::ReadImageEXR(const std::string &name, int *width, int *height) const{
+    using namespace Imf;
+    using namespace Imath;
+    
+    try {
+        RgbaInputFile file(name.c_str());
+        Box2i dw = file.dataWindow();
+        *width = dw.max.x - dw.min.x + 1;
+        *height = dw.max.y - dw.min.y + 1;
+        std::vector<Rgba> pixels(*width * *height);
+        file.setFrameBuffer(&pixels[0] - dw.min.x - dw.min.y * *width, 1,
+                            *width);
+        file.readPixels(dw.min.y, dw.max.y);
+    
+        float *ret = new float[3 * *width * *height]();
+        //RGBSpectrum *ret = new RGBSpectrum[*width * *height];
+        for (int i = 0; i < *width * *height; ++i) {
+            float frgb[3] = {pixels[i].r, pixels[i].g, pixels[i].b};
+            //ret[i] = RGBSpectrum::FromRGB(frgb);
+            for(int k=0;k<3;k++)
+                ret[3*i+k] = frgb[k];
+        }
+        //Info("Read EXR image %s (%d x %d)", name.c_str(), *width, *height);
+        return ret;
+    } catch (const std::exception &e) {
+        printf("Unable to read image file \"%s\": %s", name.c_str(), e.what());
+    }
+    
+    return NULL;
+}
+
+void PBRTIntegrand::WriteImageEXR(std::string name, const float *pixels, int xRes, int yRes) const {
+    using namespace Imf;
+    using namespace Imath;
+    
+    Rgba *hrgba = new Rgba[xRes * yRes];
+    
+    for(int r = 0; r < yRes; r++)
+        for(int c = 0; c < yRes; c++)
+            hrgba[r*xRes+c] = Rgba(pixels[3*(r*xRes+c)+0], pixels[3*(r*xRes+c)+1], pixels[3*(r*xRes+c)+2], 1);
+    
+    Box2i displayWindow(V2i(0,0), V2i(xRes-1, yRes-1));
+    Box2i dataWindow = displayWindow;
+    
+    if(name.compare(name.size()-4, 4,".exr") != 0){
+        name.erase(name.end()-4, name.end());
+        name += ".exr";
+    }
+    
+    RgbaOutputFile file(name.c_str(), displayWindow, dataWindow, WRITE_RGBA);
+    file.setFrameBuffer(hrgba, 1, xRes);
+    try {
+        file.writePixels(yRes);
+    }
+    catch (const std::exception &e) {
+        fprintf(stderr, "Unable to write image file \"%s\": %s", name.c_str(),
+                e.what());
+    }
+    
+    delete[] hrgba;
+}
+
 
 PBRTIntegrand::~PBRTIntegrand()
 {}
