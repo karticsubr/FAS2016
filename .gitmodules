@@ -1,0 +1,3 @@
+[submodule "code/EmpErrAnalysis/eea/ext/openexr"]
+	path = code/EmpErrAnalysis/eea/ext/openexr
+	url = https://github.com/wjakob/openexr
