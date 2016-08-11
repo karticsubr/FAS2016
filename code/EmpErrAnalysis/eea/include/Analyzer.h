@@ -62,7 +62,7 @@ class Analyzer
 	static const string AnalTypeStr; // --atype ( 'err'<default> 'var') 
 	string _atype ;
 	
-	Sampler* _sampler ;
+    Sampler* _sampler ;
 	Integrand* _integrand ; 
 	
 	vector<double> _avgM, _avgV, _MSE ;

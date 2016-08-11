@@ -34,7 +34,20 @@ CLParser::CLParser(int argc, char* argv[]): _argc(argc), _argv(argv)
 	for (int i(0); i<_argc; i++) 	ss <<_argv[i] << " "  ;
 	
 	_argvStr = ss.str() ;
+    
+    if(argc > 1){
+        std::string help = _argv[1];
 
+        if(help == "-h" || help == "--h" || help == "-help" || help == "--help"){
+            std::cerr << "Usage: ./build/eea -S --stype Jittered -I --itype PWConstant --npts 100  --random -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile test.txt" << std::endl;
+            exit(1);
+        }
+    }
+    else{
+        std::cerr << "Usage: ./build/eea -S --stype Jittered -I --itype PWConstant --npts 100  --random -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile test.txt" << std::endl;
+        exit(1);
+    }
+    
 }
 
 // Assumes that the command line contains strings in the order -S ... -I ... -A ... -G ...

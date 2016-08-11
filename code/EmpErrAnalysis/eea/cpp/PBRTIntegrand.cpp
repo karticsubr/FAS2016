@@ -66,20 +66,22 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
 
 // You can change the format of the PBRT call below according
 // to your coding style.
+
+// NOTE: argument Point2D p is not used in the operator call below
+// PBRTIntegrand uses the samplers directly from the PBRT.
 /////////////////////////////////////////////////////////////
 
 double PBRTIntegrand::operator () (const Point2D& p) const
 {
     
     char pythonCommand [999], cwd[999];
-    double pixelValue(0);
     std::stringstream ss;
     
     ///
     /// Here is your python script to update the crop window size in the pbrt scene file (.pbrt) with
     /// the values provided from the command line.
     ///
-    ss << "python " << _pathpython << " " << _pathscene << " %f %f %f %f";
+    ss << "python " << _pathpython << " " << _pathscene << " " << _pbrtSampler->GetType() << " %f %f %f %f";
     
     ///
     /// Passing arguments to the python script
@@ -115,16 +117,21 @@ double PBRTIntegrand::operator () (const Point2D& p) const
     getcwd(cwd, sizeof(cwd));
     ss.str(std::string());
     ss << cwd << "/" << _imgname;
-//    std::cerr << ss.str() << std::endl;
     int width =0, height =0;
     float* pixels = ReadImageEXR(ss.str(), &width, &height);
-    WriteImageEXR("test.exr", pixels, width, height);
+
+    ///To verify that pixels carry the correct image;
+    //    WriteImageEXR("test.exr", pixels, width, height);
     
     ///
     /// Average the image over all the pixels to return the output value
     ///
+    double integral = 0.0;
+    for(int i=0; i< 3 * width * height; i++){
+        integral += pixels[i];
+    }
     
-    return pixelValue ;
+    return integral;
 }
 
 float* PBRTIntegrand::ReadImageEXR(const std::string &name, int *width, int *height) const{

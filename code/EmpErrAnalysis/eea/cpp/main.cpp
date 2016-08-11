@@ -7,7 +7,7 @@
 using namespace std ;
 
 // example commandline
-
+//-S --stype Jittered -I --itype Pbrt --epath /Users/gsingh/Work/bitbucket/pbrt-v3/build/pbrt --spath /Users/gsingh/Work/bitbucket/pbrt-v3-scenes/killeroos-moving/anim-killeroos.pbrt --img pbrt-eea.exr --pypath /Users/gsingh/Work/Projects/FAS2016/code/EmpErrAnalysis/python/pbrtCropWindow.py --crop 0.25 0.75 0.25 0.75 -A --atype var --nsamps  1 --nreps 1 -G --ofile test.txt
 // ./build/eea -S --stype Jittered  
 //    		-I --itype PWConstant --npts 100  --random 
 // 		-A --atype var --nsamps  9 36 100 512  --nreps 1000 

@@ -11,6 +11,7 @@
 
 
 #include "integrand.h"
+#include <samples.h>
 
 class PBRTIntegrand : public Integrand {
     
@@ -35,6 +36,8 @@ private:
     
     float *ReadImageEXR(const std::string &name, int *width, int *height) const;
     void WriteImageEXR(std::string name, const float *pixels, int xRes, int yRes) const;
+    
+    Sampler* _pbrtSampler ;
 };
 
 #endif
