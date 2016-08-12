@@ -7,6 +7,7 @@
 #include <string> 
 #include <cstdlib>
 #include <stdlib.h>
+#include <samples.h>
 
 using std::vector ;
 using std::map ;
@@ -41,8 +42,8 @@ class Integrand
 {
      public:
 	virtual Integrand* GenIntegrand(const vector<string>& IntegParams) = 0 ;
-	virtual double operator () (const Point2D& p) const = 0;
-	virtual void MultipointEval (vector<double>& out, const vector<Point2D>& vp) const ;
+    virtual double operator () (const Point2D& p, const string &SamplerType) const = 0;
+    virtual void MultipointEval (vector<double>& out, const vector<Point2D>& vp, const string &SamplerType) const ;
 	virtual double ReferenceValue() const {return RefVal;} 
 	virtual string GetType() const {return IntegrandType; } 
 	virtual ~Integrand() {} 

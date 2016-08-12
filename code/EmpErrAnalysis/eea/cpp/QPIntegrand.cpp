@@ -49,7 +49,7 @@ QuadPixelIntegrand::QuadPixelIntegrand(const vector<string>& IntegParams)
 /////////////////////////////////////////////////////////////
 // Evaluation returns 1 if p is inside the quad and zero otherwise
 /////////////////////////////////////////////////////////////
-double QuadPixelIntegrand::operator () (const Point2D& p) const 
+double QuadPixelIntegrand::operator () (const Point2D& p, const string &SamplerType) const
 {
 	double eval(0); 
 	Point pt(p.x, p.y) ;

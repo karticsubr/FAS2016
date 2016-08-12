@@ -72,13 +72,29 @@ Integrand* IntegrandPrototype::Generate(const vector<string>& IntegSection)
 // the evaluation at each Point2D will be as 
 // specified in the derived class
 /////////////////////////////////////////////
-void Integrand::MultipointEval (vector<double>& out, const vector<Point2D>& vp) const 
+void Integrand::MultipointEval (vector<double>& out, const vector<Point2D>& vp, const string &SamplerType) const
 {
-	const int n (vp.size());
-	out.resize(n) ;
+    string currIntegrand = GetType();
+    std::cerr << currIntegrand << std::endl;
+    ///
+    /// For PBRTIntegrand we are using the samples directly provided within Pbrt source code,
+    /// therefore, we use a dummy sample instead.
+    ///
+    if(currIntegrand == "Pbrt"){
+        out.resize(1);
+        //Store the size of the samples as a point to pass to the PBRTIntegrand
+        Point2D dummySample(vp.size(), 0);
+        out[0] = (*this)(dummySample, SamplerType);
+    }
+    else{
+        const  int n (vp.size());
+        out.resize(n) ;
 	
-	#pragma omp parallel for
-	for (int i=0; i<n; i++)
-		out[i] = (*this)(vp[i]) ;
+        #pragma omp parallel for
+        for(int i=0; i<n; i++)
+            out[i] = (*this)(vp[i], SamplerType) ;
+    }
 }
+
+
 

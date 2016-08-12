@@ -11,13 +11,13 @@
 
 
 #include "integrand.h"
-#include <samples.h>
+#include <Analyzer.h>
 
 class PBRTIntegrand : public Integrand {
     
 public:
     virtual Integrand* GenIntegrand(const vector<string>& IntegParams) ;
-    virtual double operator () (const Point2D& p) const ;
+    virtual double operator () (const Point2D& p, const string &SamplerType) const ;
     virtual ~PBRTIntegrand() ;
     
 protected:
@@ -27,7 +27,7 @@ protected:
     
 private:
     double _crop[4];
-    std::string _pathexec, _pathscene, _pathpython, _imgname;
+    std::string _pathexec, _pathscene, _pathpyscript, _imgname;
     static const string CropStr ; // = "--crop"
     static const string PbrtExecPathStr ; // = "--epath"
     static const string PbrtScenePathStr ; // = "-- spath"
@@ -36,8 +36,7 @@ private:
     
     float *ReadImageEXR(const std::string &name, int *width, int *height) const;
     void WriteImageEXR(std::string name, const float *pixels, int xRes, int yRes) const;
-    
-    Sampler* _pbrtSampler ;
+    Analyzer* _analyzer;
 };
 
 #endif

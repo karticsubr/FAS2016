@@ -41,7 +41,7 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
     
     _pathexec = CLParser::FindArgument<std::string>(IntegParams, PbrtExecPathStr) ;
     _pathscene = CLParser::FindArgument<std::string>(IntegParams, PbrtScenePathStr) ;
-    _pathpython = CLParser::FindArgument<std::string>(IntegParams, PythonScriptPathStr) ;
+    _pathpyscript = CLParser::FindArgument<std::string>(IntegParams, PythonScriptPathStr) ;
     _imgname = CLParser::FindArgument<std::string>(IntegParams, ExrImgNameStr) ;
     
     std::vector<double> MultiArgs;
@@ -71,30 +71,33 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
 // PBRTIntegrand uses the samplers directly from the PBRT.
 /////////////////////////////////////////////////////////////
 
-double PBRTIntegrand::operator () (const Point2D& p) const
+double PBRTIntegrand::operator () (const Point2D& p, const string &SamplerType) const
 {
-    
     char pythonCommand [999], cwd[999];
     std::stringstream ss;
+    
+    ///
+    /// For PBRTIntegrand the p argument contains the number of samples information
+    ///
+    int N = p.x;
     
     ///
     /// Here is your python script to update the crop window size in the pbrt scene file (.pbrt) with
     /// the values provided from the command line.
     ///
-    ss << "python " << _pathpython << " " << _pathscene << " " << _pbrtSampler->GetType() << " %f %f %f %f";
+    ss << "python " << _pathpyscript << " " << _pathscene << " " << SamplerType << " %d %f %f %f %f";
+    std::cerr << ss.str() << std::endl;
     
     ///
     /// Passing arguments to the python script
-    /// Provide x1 x2 y1 y2 from the command line to fill _crop[4]
+    /// Provide N x1 x2 y1 y2 from the command line to fill _crop[4]
     ///
-    sprintf(pythonCommand, ss.str().c_str(), _crop[0], _crop[1], _crop[2], _crop[3]);
+    sprintf(pythonCommand, ss.str().c_str(), N, _crop[0], _crop[1], _crop[2], _crop[3]);
     
     ///
     /// Running python script to change the crop window size of the PBRT Scene File
     ///
     std::system(pythonCommand);
-    
-    //ss << "/user-home/pbrt-v3/build/pbrt" << " " << "/user-home/pbrt-v3-scene/killeroo-moving/anim-killeroos.pbrt" << " --xpixel %d --ypixel %d --out %f";
     
     ///
     /// reinitialize ss stringstream
@@ -117,11 +120,14 @@ double PBRTIntegrand::operator () (const Point2D& p) const
     getcwd(cwd, sizeof(cwd));
     ss.str(std::string());
     ss << cwd << "/" << _imgname;
+    std::cerr << ss.str() << std::endl;
     int width =0, height =0;
     float* pixels = ReadImageEXR(ss.str(), &width, &height);
 
+    ///
     ///To verify that pixels carry the correct image;
-    //    WriteImageEXR("test.exr", pixels, width, height);
+    ///
+    //WriteImageEXR("test.exr", pixels,  width, height);
     
     ///
     /// Average the image over all the pixels to return the output value
@@ -130,6 +136,9 @@ double PBRTIntegrand::operator () (const Point2D& p) const
     for(int i=0; i< 3 * width * height; i++){
         integral += pixels[i];
     }
+
+    integral /= float(3.0 * width *height);
+    std::cerr << integral << " "<< width <<" " << height << std::endl;
     
     return integral;
 }
@@ -147,7 +156,7 @@ float* PBRTIntegrand::ReadImageEXR(const std::string &name, int *width, int *hei
         file.setFrameBuffer(&pixels[0] - dw.min.x - dw.min.y * *width, 1,
                             *width);
         file.readPixels(dw.min.y, dw.max.y);
-    
+        
         float *ret = new float[3 * *width * *height]();
         //RGBSpectrum *ret = new RGBSpectrum[*width * *height];
         for (int i = 0; i < *width * *height; ++i) {

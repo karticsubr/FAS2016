@@ -15,7 +15,7 @@ class DiskIntegrand : public Integrand {
   
 public:
   virtual Integrand* GenIntegrand(const vector<string>& IntegParams) ;
-  virtual double operator () (const Point2D& p) const ;
+  virtual double operator () (const Point2D& p, const string &SamplerType) const ;
   virtual ~DiskIntegrand() ;
   
 protected:

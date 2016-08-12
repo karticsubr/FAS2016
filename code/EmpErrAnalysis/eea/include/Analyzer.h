@@ -50,6 +50,8 @@ class Analyzer
     void WriteMeanVar(const string& meanPath, const string& varPath) const ;
     std::string Atype() const { return _atype; }
 	
+    Sampler* GetAnalyzingSampler() { return _sampler; }
+    
     private:
 
 	

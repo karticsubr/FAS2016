@@ -70,7 +70,7 @@ class randomSampler: public Sampler
 	virtual ~randomSampler() {}
 	
     private:
-	randomSampler() {SamplingType = "Random" ;}
+	randomSampler() {SamplingType = "random" ;}
 	randomSampler(const vector<string>& SamplerParams) ;
 	friend class SamplerPrototype;
 };
@@ -104,7 +104,7 @@ class jitteredSampler: public Sampler
 	virtual ~jitteredSampler() {}
 	
     private:
-	jitteredSampler() {SamplingType = "Jittered" ;}
+	jitteredSampler() {SamplingType = "stratified" ;}
 	jitteredSampler(const vector<string>& SamplerParams) ;
 	friend class SamplerPrototype;
 };
@@ -169,6 +169,76 @@ class pdSampler: public Sampler
 	pdSampler(const vector<string>& SamplerParams) {} ;
 	friend class SamplerPrototype;
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				latinhypercube (NOT IMPLEMENTED)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class latinhypercubeSampler: public Sampler
+{
+public:
+    virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
+    virtual void MTSample(vector<Point2D>& pts, int n) const ;
+    virtual ~latinhypercubeSampler() {}
+    
+private:
+    latinhypercubeSampler() {SamplingType = "latinhypercube" ;}
+    latinhypercubeSampler(const vector<string>& SamplerParams);
+    friend class SamplerPrototype;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				halton (NOT IMPLEMENTED)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class haltonSampler: public Sampler
+{
+public:
+    virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
+    virtual void MTSample(vector<Point2D>& pts, int n) const ;
+    virtual ~haltonSampler() {}
+    
+private:
+    haltonSampler() {SamplingType = "halton" ;}
+    haltonSampler(const vector<string>& SamplerParams) ;
+    friend class SamplerPrototype;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				sobol (NOT IMPLEMENTED)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class sobolSampler: public Sampler
+{
+public:
+    virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
+    virtual void MTSample(vector<Point2D>& pts, int n) const ;
+    virtual ~sobolSampler() {}
+    
+private:
+    sobolSampler() {SamplingType = "sobol" ;}
+    sobolSampler(const vector<string>& SamplerParams) ;
+    friend class SamplerPrototype;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				02sequence (NOT IMPLEMENTED)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class zerotwosequenceSampler: public Sampler
+{
+public:
+    virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
+    virtual void MTSample(vector<Point2D>& pts, int n) const ;
+    virtual ~zerotwosequenceSampler() {}
+    
+private:
+    zerotwosequenceSampler() {SamplingType = "02sequence" ;}
+    zerotwosequenceSampler(const vector<string>& SamplerParams) ;
+    friend class SamplerPrototype;
+};
+
+
 
 
 #endif // __SAMPLESH_ 

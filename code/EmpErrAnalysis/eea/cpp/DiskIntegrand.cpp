@@ -41,7 +41,7 @@ DiskIntegrand::DiskIntegrand(const vector<string>& IntegParams)
 // Evaluation returns 1 if p is inside the disk and zero otherwise
 /////////////////////////////////////////////////////////////
 
-double DiskIntegrand::operator () (const Point2D& p) const
+double DiskIntegrand::operator () (const Point2D& p, const string &SamplerType) const
 {
   double eval(0);
   double cx = p.x - _diskCenter.x;

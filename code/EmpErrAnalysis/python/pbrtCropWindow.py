@@ -22,9 +22,8 @@ cropwindowstring = str('"float cropwindow" [' + x1 + ' ' + x2 + ' ' + y1 + ' ' +
 
 
 if sampler == 'stratified':
-    nsamples = float(math.sqrt(float(nsamples)))
-    print nsamples
-    samplerstring = str('Sampler '+ '"' + sampler + '" ' + '"integer xsamples" [' + nsamples )#+'] ' + '"ysamples" [' + nsamples +']')
+    nsamples = int(math.sqrt(float(nsamples)))
+    samplerstring = str('Sampler '+ '"' + sampler + '" ' + '"bool jitter" ["true"] ' + '"integer xsamples" [' + str(nsamples) +'] ' + '"integer ysamples" [' + str(nsamples) +']')
 else:
     samplerstring = str('Sampler '+ '"' + sampler + '" ' + '"integer pixelsamples" [' + nsamples +']')
 

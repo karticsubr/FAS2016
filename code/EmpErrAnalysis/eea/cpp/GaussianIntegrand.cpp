@@ -45,7 +45,7 @@ GaussianIntegrand::GaussianIntegrand(const vector<string>& IntegParams)
 // at a given location p
 /////////////////////////////////////////////////////////////
 
-double GaussianIntegrand::operator () (const Point2D& p) const
+double GaussianIntegrand::operator () (const Point2D& p, const string &SamplerType) const
 {
   double eval(0);
   double cx = p.x - _gaussianCenter.x;

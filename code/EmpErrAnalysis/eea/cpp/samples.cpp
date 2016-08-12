@@ -38,6 +38,10 @@ SamplerPrototype::SamplerPrototype()
     vs.push_back(new jitteredSampler());
     vs.push_back(new gjSampler());
     vs.push_back(new bjSampler());
+    vs.push_back(new latinhypercubeSampler());
+    vs.push_back(new haltonSampler());
+    vs.push_back(new sobolSampler());
+    vs.push_back(new zerotwosequenceSampler());
     // vs.push_back(new MyNewSampler()); // add a line like this
     
     for (int i(0); i<vs.size(); i++)
@@ -87,7 +91,7 @@ Sampler* randomSampler::GenSampler(const vector<string>& SamplerParams)
 
 randomSampler::randomSampler(const vector<string>& SamplerParams) 
 {
-    SamplingType = "Random" ;
+    SamplingType = "random" ;
 }
 
 void randomSampler::MTSample(vector<Point2D>& pts, int n) const 
@@ -133,7 +137,7 @@ void gridSampler::MTSample(vector<Point2D>& pts, int n) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				Jittered
+// 				Stratified/Jittered sampler (with one sample per strata)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Sampler* jitteredSampler::GenSampler(const vector<string>& SamplerParams)  
@@ -143,7 +147,7 @@ Sampler* jitteredSampler::GenSampler(const vector<string>& SamplerParams)
 
 jitteredSampler::jitteredSampler(const vector<string>& SamplerParams) 
 {
-    SamplingType = "Jittered" ;
+    SamplingType = "stratified" ;
 }
 
 void jitteredSampler::MTSample(vector<Point2D>& pts, int n) const 
@@ -241,3 +245,79 @@ void bjSampler::MTSample(vector<Point2D>& pts, int n) const
 	}
     }
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				LatinHyperCube
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Sampler* latinhypercubeSampler::GenSampler(const vector<string>& SamplerParams)
+{
+    return new latinhypercubeSampler(SamplerParams) ;
+}
+
+latinhypercubeSampler::latinhypercubeSampler(const vector<string>& SamplerParams)
+{
+    SamplingType = "latinhypercube" ;
+}
+
+void latinhypercubeSampler::MTSample(vector<Point2D>& pts, int n) const
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Halton
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Sampler* haltonSampler::GenSampler(const vector<string>& SamplerParams)
+{
+    return new haltonSampler(SamplerParams) ;
+}
+
+haltonSampler::haltonSampler(const vector<string>& SamplerParams)
+{
+    SamplingType = "halton" ;
+}
+
+void haltonSampler::MTSample(vector<Point2D>& pts, int n) const
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Sobol
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Sampler* sobolSampler::GenSampler(const vector<string>& SamplerParams)
+{
+    return new sobolSampler(SamplerParams) ;
+}
+
+sobolSampler::sobolSampler(const vector<string>& SamplerParams)
+{
+    SamplingType = "sobol" ;
+}
+
+void sobolSampler::MTSample(vector<Point2D>& pts, int n) const
+{
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				02sequence
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Sampler* zerotwosequenceSampler::GenSampler(const vector<string>& SamplerParams)
+{
+    return new zerotwosequenceSampler(SamplerParams) ;
+}
+
+zerotwosequenceSampler::zerotwosequenceSampler(const vector<string>& SamplerParams)
+{
+    SamplingType = "02sequence" ;
+}
+
+void zerotwosequenceSampler::MTSample(vector<Point2D>& pts, int n) const
+{
+}
+
+
