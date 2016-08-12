@@ -75,7 +75,7 @@ Integrand* IntegrandPrototype::Generate(const vector<string>& IntegSection)
 void Integrand::MultipointEval (vector<double>& out, const vector<Point2D>& vp, const string &SamplerType) const
 {
     string currIntegrand = GetType();
-    std::cerr << currIntegrand << std::endl;
+ 
     ///
     /// For PBRTIntegrand we are using the samples directly provided within Pbrt source code,
     /// therefore, we use a dummy sample instead.

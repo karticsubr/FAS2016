@@ -39,12 +39,12 @@ CLParser::CLParser(int argc, char* argv[]): _argc(argc), _argv(argv)
         std::string help = _argv[1];
 
         if(help == "-h" || help == "--h" || help == "-help" || help == "--help"){
-            std::cerr << "Usage: ./build/eea -S --stype Jittered -I --itype PWConstant --npts 100  --random -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile test.txt" << std::endl;
+            std::cerr << "Usage: ./build/eea -S --stype stratified -I --itype PWConstant --npts 100  --random -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testing" << std::endl;
             exit(1);
         }
     }
     else{
-        std::cerr << "Usage: ./build/eea -S --stype Jittered -I --itype PWConstant --npts 100  --random -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile test.txt" << std::endl;
+        std::cerr << "Usage: ./build/eea -S --stype stratified -I --itype PWConstant --npts 100  --random -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testing" << std::endl;
         exit(1);
     }
     

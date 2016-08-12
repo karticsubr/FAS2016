@@ -154,17 +154,6 @@ void Analyzer::WriteResults(const string& prefix) const
     }
 }
 
-void Analyzer::WriteMeanVar(const string &meanPath, const string &varPath) const
-{
-  ofstream ofsmean(meanPath.c_str(), ofstream::app) ;
-  ofstream ofsvar(varPath.c_str(), ofstream::app) ;
-  
-  for(int i = 0; i < _nSamples.size(); i++){
-    ofsmean << _nSamples[i] << " "<<  _avgM[i] << std::endl;
-    ofsvar << _nSamples[i] << " "<< _avgV[i] << std::endl;
-  }
-}
-
 // Main routine. 
 // 
 void Analyzer::RunAnalysis() 

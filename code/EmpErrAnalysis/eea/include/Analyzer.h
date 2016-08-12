@@ -46,8 +46,7 @@ class Analyzer
 	double GetConvergenceRate() const {return _convRate;}
 	double GetYInterceptError() const {return _YIntError ;}
 
-	void WriteResults(const string& path) const ;
-    void WriteMeanVar(const string& meanPath, const string& varPath) const ;
+	void WriteResults(const string& prefix) const ;
     std::string Atype() const { return _atype; }
 	
     Sampler* GetAnalyzingSampler() { return _sampler; }
