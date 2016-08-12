@@ -19,8 +19,6 @@ y2 = sys.argv[7]
 
 cropwindowstring = str('"float cropwindow" [' + x1 + ' ' + x2 + ' ' + y1 + ' ' + y2 + ']')
 
-
-
 if sampler == 'stratified':
     nsamples = int(math.sqrt(float(nsamples)))
     samplerstring = str('Sampler '+ '"' + sampler + '" ' + '"bool jitter" ["true"] ' + '"integer xsamples" [' + str(nsamples) +'] ' + '"integer ysamples" [' + str(nsamples) +']')
