@@ -107,13 +107,13 @@ std::vector<T> PointSampler<Dimension, T>::hammerslay_samples(int N, T* bBox, in
 
         if(ucomponent == 1){
             sx = i/float(N);
-//            sy = halton_sampler.sample(vcomponent-2, i);
+            sy = halton_sampler.sample(vcomponent-2, i);
         }
         else{
-            sx = halton_sampler.sample(ucomponent-1, i);
-//            sy = halton_sampler.sample(vcomponent-1, i);
+            sx = halton_sampler.sample(ucomponent-2, i);
+            sy = halton_sampler.sample(vcomponent-2, i);
         }
-        sy = halton_sampler.sample(vcomponent-1, i);
+        //sy = halton_sampler.sample(vcomponent-1, i);
 
         result.push_back(sx);
         result.push_back(sy);

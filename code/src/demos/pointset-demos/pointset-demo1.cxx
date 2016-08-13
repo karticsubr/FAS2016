@@ -34,8 +34,8 @@ int main(int argc, char* argv[]){
 //    std::cout << "Current path is : " << source_dir_path << std::endl;
 
     //############################################################
-    srand48(time(NULL));
-//    srand48(123456768);
+//    srand48(time(NULL));
+    srand48(123456768);
 
     std::stringstream ss;
     int nsamples = vm["n"].as<int>();
@@ -60,7 +60,6 @@ int main(int argc, char* argv[]){
     double domain[] = {0,0,1,1};
 
     int width = 512, height = 512;
-    double* testImage = new double[width*height]();
     //##########################################################
 
     std::vector<double> pointset;
@@ -87,10 +86,10 @@ int main(int argc, char* argv[]){
         pointset = pointSampler2dd::darthrowing_samples(nsamples, domain);
     }
     else if(samplingpattern == "halton"){
-        pointset = pointSampler2dd::halton_sequence_samples(nsamples, domain);
+        pointset = pointSampler2dd::halton_samples(nsamples, domain, 3, 4);
     }
     else if(samplingpattern == "hammerslay"){
-        pointset = pointSampler2dd::hammersley_sequence_samples(nsamples, domain);
+        pointset = pointSampler2dd::hammerslay_samples(nsamples, domain,4,5);
     }
     else if(samplingpattern == "bnot" || samplingpattern == "fpo" || samplingpattern == "step"){
         pointset = pointSampler2dd::bluenoise_samples(nsamples, domain, samplingpattern, source_dir_path.string());
@@ -111,7 +110,7 @@ int main(int argc, char* argv[]){
     std::ofstream fpoints;
     ss.str(std::string());
 
-    ss << datafiles << "pointset-" << mode <<"-" << samplingpattern << "-n" << nsamples << ".txt";
+    ss << datafiles << "pointset-" << mode <<"-" << samplingpattern << "-u4-v5-" << "-n" << nsamples << ".txt";
 
     fpoints.open(ss.str().c_str());
 
@@ -123,15 +122,12 @@ int main(int argc, char* argv[]){
 
     for(int i = 0; i < N; i++){
         fpoints << finalsamples[2*i+0] << " "<< finalsamples[2*i+1] << std::endl;
-        int row = finalsamples[2*i+0] * height;
-        int col = finalsamples[2*i+1] * width;
-        testImage[row*width+col] = 1;
     }
 
     fpoints.close();
 
     ss.str(std::string());
-    ss << images << "pointset-" << mode << "-" << samplingpattern << "-n" << N << ".png";
+    ss << images << "pointset-" << mode << "-" << samplingpattern << "-u4-v5-" << "-n" << N << ".png";
     write_eps(ss.str(), finalsamples);
 
     return 0;
