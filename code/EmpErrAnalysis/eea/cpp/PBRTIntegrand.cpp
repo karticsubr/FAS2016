@@ -61,14 +61,12 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
 // --pixel : pixel coordinates to be rendered from the PBRT code
 // --epath : path to your PBRT executable on your machine
 // --spath : path to your PBRT Scene file (.pbrt)
-// --out : pixel radiance value returned from your PBRT code which
-// will be stored in the pixelValue variable.
+// --pypath: path to the python script to modify .pbrt file according to 
+// command line arguments provided
 
-// You can change the format of the PBRT call below according
-// to your coding style.
-
-// NOTE: argument Point2D p is not used in the operator call below
-// PBRTIntegrand uses the samplers directly from the PBRT.
+// NOTE: argument Point2D p is used to get the number of samples 
+// in the operator call below.
+// PBRTIntegrand uses the samplers directly from the PBRT code.
 /////////////////////////////////////////////////////////////
 
 double PBRTIntegrand::operator () (const Point2D& p, const string &SamplerType) const
