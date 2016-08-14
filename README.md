@@ -34,11 +34,11 @@ user can directly call pbrt from the provided Analysis code (look for PBRTIntegr
 
 Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in.
 
-Example to call PBRTIntegrand:
+Example to call PBRTIntegrand (all in one line):
 
-./build/eea -S --stype stratified \
+./build/eea -S --stype stratified 
 
--I --itype Pbrt \
+-I --itype Pbrt 
 
 --epath path-to-pbrt-v3-executable/pbrt 
 
@@ -48,8 +48,8 @@ Example to call PBRTIntegrand:
 
 --crop 0.25 0.75 0.25 0.75 
 
---img pbrt-eea.exr \
+--img pbrt-eea.exr 
 
--A --atype var --nsamps 9 16 25 36 64 --nreps 200 \
+-A --atype var --nsamps 9 16 25 36 64 --nreps 200 
 
 -G --ofile pbrt-killeroos
