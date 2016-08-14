@@ -22,7 +22,7 @@ Example to call PBRTIntegrand:
 -I --itype Pbrt 
 --epath path-to-pbrt-v3-executable/pbrt 
 --spath path-to-pbrt-v3-scenes/anim-killeroos.pbrt 
---pypath path-to-pythonScript/FAS2016/code/EmpErrAnalysis/python/pbrtCropWindow.py 
+--pypath path-to-pythonScript/FAS2016/code/EmpErrAnalysis/python/pbrt-cl.py 
 --crop 0.25 0.75 0.25 0.75 
 --img pbrt-eea.exr \
 -A --atype var --nsamps 9 16 25 36 64 --nreps 200 \
