@@ -2,7 +2,7 @@
 
 ACM SIGGRAPH Courses 2016
 
-Fourier analysis of numerical integration in Monte Carlo rendering: Theory and Practice
+Fourier analysis of numerical integration in Monte Carlo rendering: Theory and Practice, authored by Kartic Subr, Gurprit Singh, Wojciech Jarosz
 
 Avaiable on: http://dl.acm.org/citation.cfm?id=2927356
 
