@@ -1,3 +1,6 @@
 [submodule "code/EmpErrAnalysis/eea/ext/openexr"]
 	path = code/EmpErrAnalysis/eea/ext/openexr
 	url = https://github.com/wjakob/openexr
+[submodule "code/Analysis/tinyexr"]
+	path = code/Analysis/ext/tinyexr
+	url = https://github.com/syoyo/tinyexr
