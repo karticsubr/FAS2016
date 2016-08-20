@@ -79,6 +79,7 @@ void Integrand::MultipointEval (vector<double>& out, const vector<Point2d>& vp, 
     ///
     if(currIntegrand == "Pbrt"){
         out.resize(1);
+
         //Store the size of the samples as a point to pass to the PBRTIntegrand
         Point2d dummySample(vp.size(), 0);
         out[0] = (*this)(dummySample, SamplerType);
