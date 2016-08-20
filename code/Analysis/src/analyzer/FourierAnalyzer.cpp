@@ -7,8 +7,13 @@
 
 #include <FourierAnalyzer.h>
 #include <cmdlnparser.h>
+#include <common.h>
 
-const string FourierAnalyzer::ShearStr = "--shear" ;
+#define USE_TBB
+///
+/// \brief FourierAnalyzer::trialStepStr
+///
+
 const string FourierAnalyzer::trialStepStr = "--tstep" ;
 const string FourierAnalyzer::freqStepStr = "--wstep" ;
 
@@ -24,9 +29,7 @@ FourierAnalyzer::FourierAnalyzer(Sampler* s, const vector<string>& AnalyzerParam
 
     AnalyzerType = "fourier";
     _sampler = s;
-    _shear = CLParser::FindArgument<double>(AnalyzerParams, ShearStr) ;
     CLParser::FindMultiArgs<int>(-1, _nSamples, AnalyzerParams, NSampStr) ;
-    //CLParser::FindMultiArgs<int>(-1, _nSamples, asec, NSampStr) ;
     _nTrials = CLParser::FindArgument<int>(AnalyzerParams, nTrialsStr) ;
     _trialStepOut = CLParser::FindArgument<int>(AnalyzerParams, trialStepStr) ;
     _frequencyStep = CLParser::FindArgument<float>(AnalyzerParams, freqStepStr) ;
@@ -47,6 +50,11 @@ void FourierAnalyzer::continuous_fourier_spectrum(){
     int half_yRes = _yRes * 0.5;
     int npoints = _pts.size();
 
+ ///
+ /// Comment out this code if don't want to use TBB Intel parallel threading
+ /// and Uncooment the code at the end to use OpenMP for parallelization
+ /// (OpenMP doesn't compile on some Mac OS systems)
+ ///
     //tbb::tick_count t0 = tbb::tick_count::now();
     tbb::task_scheduler_init init(8);
     tbb::parallel_for(
@@ -59,7 +67,7 @@ void FourierAnalyzer::continuous_fourier_spectrum(){
                 T wy = (row-half_yRes)*_frequencyStep;;
 
                 for (int i = 0; i < npoints; ++i) {
-                    T exp = -twopi * (wx * _pts[i].x() + wy * _pts[i].y());
+                    T exp = - (2*PI) * (wx * _pts[i].x + wy * _pts[i].y);
                     fx += cos(exp);
                     fy += sin(exp);
                 }
@@ -70,6 +78,33 @@ void FourierAnalyzer::continuous_fourier_spectrum(){
         }
     }
     );
+
+    ///
+    /// Uncomment this code if you want to use OpenMP for parallelization
+    ///
+//#ifdef _OPENMP
+//#pragma omp parallel
+//#endif
+//{
+//#ifdef _OPENMP
+//#pragma omp for schedule(static)
+//#endif
+//    for (int x = 0; x < _xRes; ++x) {
+//        for (int y = 0; y < _yRes; ++y) {
+//            float fx = 0.f, fy = 0.f;
+//            float wx = x - (half_xRes)*_frequencyStep;
+//            float wy = y - (half_yRes)*_frequencyStep;
+//            for (int i = 0; i < npoints; ++i) {
+//                float exp = -2*PI * (wx * _pts[i].x + wy * _pts[i].y);
+//                fx += cosf(exp);
+//                fy += sinf(exp);
+//            }
+//            _complexSpectrum[x + y*_xRes].real(fx); ///real part
+//            _complexSpectrum[x + y*_xRes].imag(fy);  ///imaginary part
+//        }
+//    }
+//}
+
 }
 
 //template void FourierAnalyzer::continuous_fourier_spectrum(double dstep);
@@ -87,8 +122,6 @@ void FourierAnalyzer::power_fourier_spectrum(){
         }
     }
 }
-
-void FourierAnalyzer::WriteFile(string &filename) const{}
 
 void FourierAnalyzer::RunAnalysis(string& prefix){
 
@@ -142,7 +175,7 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
                 //##########################################################
                 ss.str(std::string());
                 ss << prefix << "-" << s1 << ".exr";
-                WriteEXRgrey(ss.str(), _powerSpectrum, _xRes, _yRes);
+                IO::WriteEXRgrey(ss.str(), _powerSpectrum, _xRes, _yRes);
             }
         }
     }

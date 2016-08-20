@@ -1,10 +1,12 @@
 #ifndef __VarianceAnalyzerH__
 #define __VarianceAnalyzerH__
 
+#include <iostream>
 #include <vector>
 #include <string>
 #include <point2d.h>
 #include <sampler.h>
+
 
 using std::string ;
 using std::cout ;
@@ -54,71 +56,26 @@ private:
 class Analyzer{
 public:
     virtual void RunAnalysis(string& prefix) = 0;
-    virtual ~Analyzer();
-    virtual void WriteFile(string& filename) const = 0;
+    //virtual void WriteFile(string& filename) const = 0;
     virtual Analyzer* createAnalyzer(Sampler *s, const vector<string>& SamplerParams, const vector<string>& IntegString) = 0 ;
     virtual string GetType() const {return AnalyzerType; }
     void create_folders(std::string homedir, std::string &data, std::string &images, std::string &graphs);
+    virtual ~Analyzer();
 
 protected:
-    static const string nTrialsStr; // --t
+    static const string nTrialsStr; // --nreps
     int _nTrials;
 
-    //std::unique_ptr<Sampler[]> _sampler;
-    Sampler* _sampler ;
-
     static const string NSampStr; // --nsamps
-    vector<int> _nSamples ; // secondary estimator sample sizes (for convergence)
+    vector<int> _nSamples ; // secondary estimator sample sizes
 
     std::vector<Point2d> _pts;
+
+    Sampler* _sampler ;
 
     string AnalyzerType;
 
     void WriteEPS(string& filename, double radius=2.0, double scale=512.0) const;
-
-    template <typename T>
-    void WriteEXRgrey(std::string name, const T* pixels, int xRes, int yRes) const;
 };
 
-
-
-/*
-class VarianceAnalyzer : public Analyzer
-{
-    public:
-    VarianceAnalyzer(Sampler* s, Integrand* i, const vector<string> asec) ;
-
-    void RunAnalysis() ;
-
-    void onlineAnalysis();
-
-    double GetConvergenceRate() const {return _convRate;}
-    double GetYInterceptError() const {return _YIntError ;}
-
-    void WriteResults(const string& path) const ;
-    void WriteMeanVar(const string& meanPath, const string& varPath) const ;
-    std::string Atype() const { return _atype; }
-
-    private:
-
-
-    static const string NSampStr; // --nsamps
-    vector<int> _nSamples ; // secondary estimator sample sizes (for convergence)
-
-    static const string NRepsStr; // --nreps
-    int _nReps ; // iterations
-
-    static const string AnalTypeStr; // --atype ( 'err'<default> 'var')
-    string _atype ;
-
-    Sampler* _sampler ;
-    Integrand* _integrand ;
-
-    vector<double> _avgM, _avgV, _MSE ;
-
-    double _convRate, _YIntError ;
-
-};
-*/
-
-#endif //__VarianceAnalyzerH__
+#endif //__AnalyzerH__

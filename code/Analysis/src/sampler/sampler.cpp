@@ -52,7 +52,7 @@ Sampler* SamplerPrototype::Generate(const vector<string>& SamplerString)
 ostream& operator << (ostream& os, Sampler& s)
 {
     for (int i(0); i< s.p.size(); i++)
-    os << s.p[i].x() << " " << s.p[i].y() << endl ;
+    os << s.p[i].x << " " << s.p[i].y << endl ;
 }
 
 
@@ -78,18 +78,18 @@ std::vector<Point2d> Sampler::toroidalWrapping(std::vector<Point2d> &inSamples){
 
     for(int i=0; i < nPoints; i++){
 
-            if(inSamples[i].x() < domain[0])
-                inSamples[i].x() = domain[2] + inSamples[i].x() - domain[0];
-            else if(inSamples[i].x() > domain[2]){
-                //std::cerr << i << " " << inSamples[i].x() << std::endl;
-                inSamples[i].x() = domain[0] + inSamples[i].x() - domain[2];
-                //std::cerr << i << " " << inSamples[i].x() << std::endl;
+            if(inSamples[i].x < domain[0])
+                inSamples[i].x = domain[2] + inSamples[i].x - domain[0];
+            else if(inSamples[i].x > domain[2]){
+                //std::cerr << i << " " << inSamples[i].x << std::endl;
+                inSamples[i].x = domain[0] + inSamples[i].x - domain[2];
+                //std::cerr << i << " " << inSamples[i].x << std::endl;
             }
 
-            if(inSamples[i].y() < domain[1])
-                inSamples[i].y() = domain[3] + inSamples[i].y() - domain[1];
-            else if(inSamples[i].y() > domain[3])
-                inSamples[i].y() = domain[1] + inSamples[i].y() - domain[3];
+            if(inSamples[i].y < domain[1])
+                inSamples[i].y = domain[3] + inSamples[i].y - domain[1];
+            else if(inSamples[i].y > domain[3])
+                inSamples[i].y = domain[1] + inSamples[i].y - domain[3];
     }
     return inSamples;
 }

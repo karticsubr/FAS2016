@@ -1,23 +1,19 @@
 #ifndef VARIANCEANALYZER_H
 #define VARIANCEANALYZER_H
 
-#include "Analyzer.h"
-#include "./../integrand/integrand.h"
+#include <Analyzer.h>
+#include <integrand.h>
 #include <fstream>
 
 class VarianceAnalyzer : public Analyzer{
 
 public:
-    virtual void RunAnalysis(string& prefix);
-    virtual void WriteFile(string& filename) const;
-    virtual Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
-    virtual ~VarianceAnalyzer();
+      void RunAnalysis(string& prefix);
+      Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
+    ~VarianceAnalyzer();
 private:
     VarianceAnalyzer() { AnalyzerType = "var" ;}
     VarianceAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
-
-    static const string IntegrandStr; // --i
-    string _integrandType;
 
     Integrand* _integrand;
 

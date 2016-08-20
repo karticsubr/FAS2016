@@ -6,12 +6,19 @@
 #include <iomanip>
 #include <iostream>
 
+///
+/// \brief VarianceAnalyzer::createAnalyzer
+/// \param s
+/// \param AnalyzerParams
+/// \param IntegString
+/// \return
+///
+
 Analyzer* VarianceAnalyzer::createAnalyzer(Sampler *s, const vector<string> &AnalyzerParams, const vector<std::string> &IntegString){
     return new VarianceAnalyzer(s, AnalyzerParams, IntegString);
 }
 
 VarianceAnalyzer::~VarianceAnalyzer(){
-//    std::cerr << "integrand need not be deleted !!!" << std::endl;
     //delete [] _integrand;
 }
 
@@ -19,7 +26,6 @@ VarianceAnalyzer::VarianceAnalyzer(Sampler* s, const vector<string>& AnalyzerPar
 
     AnalyzerType = "Variance";
     _sampler = s;
-//    _shear = CLParser::FindArgument<double>(AnalyzerParams, ShearStr) ;
     CLParser::FindMultiArgs<int>(-1, _nSamples, AnalyzerParams, NSampStr) ;
     _nTrials = CLParser::FindArgument<int>(AnalyzerParams, nTrialsStr) ;
 
@@ -68,9 +74,6 @@ namespace progressive {
   }
 }
 
-
-void VarianceAnalyzer::WriteFile(string& filename) const{}
-
 void VarianceAnalyzer::RunAnalysis(string& prefix){
 
     //########################################################################################################
@@ -81,12 +84,20 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
     /// prefix-var.txt contains variance data vertically to plot in GNU or Mathematica
     ///
     std::stringstream ss;
+
+    ss.str(std::string());
+    ss << prefix << "-variance-matlab.txt";
+    std::ofstream ofs(ss.str().c_str(), std::ofstream::app) ;
+
+    ss.str(std::string());
     ss << prefix << "-mean.txt";
     std::ofstream ofsmean(ss.str().c_str(), std::ofstream::app) ;
+
     ss.str(std::string());
     ss << prefix << "-variance.txt";
     std::ofstream ofsvar(ss.str().c_str(), std::ofstream::app) ;
 
+    ofs << std::fixed << std::setprecision(15);
     ofsmean << std::fixed << std::setprecision(15);
     ofsvar << std::fixed << std::setprecision(15);
     //########################################################################################################
@@ -110,7 +121,7 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
            _pts.resize(0);
            _sampler->MTSample(_pts, n) ;
 
-           vector<double> res ;
+           vector<double> res;
            _integrand->MultipointEval(res, _pts, _sampler->GetType()) ;
            double integralVal = progressive::MCEstimator(res);
 
@@ -124,6 +135,17 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
        ofsmean << n << " "<< _avgM[i] << std::endl;
        ofsvar << n << " "<< _avgV[i] << std::endl;
      }
+
+     std::copy(_nSamples.begin(), _nSamples.end(), std::ostream_iterator<int>(ofs, " "));
+
+     std::copy(_avgV.begin(), _avgV.end(), std::ostream_iterator<double>(ofs, " "));
+
+
+     ofs << endl ;
+
+
+     std::cerr << std::endl;
+     ofs.close();
      ofsmean.close();
      ofsvar.close();
 }

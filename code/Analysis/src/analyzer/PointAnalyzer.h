@@ -15,16 +15,12 @@
 class PointAnalyzer : public Analyzer{
 
 public:
-    virtual void RunAnalysis(string& prefix);
-    virtual void WriteFile(string& filename) const;
-    virtual Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
-
+     void RunAnalysis(string& prefix);
+     Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
+    ~PointAnalyzer();
 private:
     PointAnalyzer() { AnalyzerType = "pts" ;}
     PointAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
-
-    static const string ShearStr; // --shear
-    double _shear;
 
     friend class AnalyzerPrototype;
 

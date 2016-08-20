@@ -8,9 +8,8 @@
 class FourierAnalyzer : public Analyzer{
 
 public:
-    virtual void RunAnalysis(std::string &prefix);
-    virtual Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
-    virtual void WriteFile(string& filename) const;
+     void RunAnalysis(std::string &prefix);
+     Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
 
 private:
     FourierAnalyzer() { AnalyzerType = "fourier" ;}
@@ -34,9 +33,6 @@ private:
 
     static const string freqStepStr; // --wstep
     float _frequencyStep;
-
-    static const string ShearStr; // --shear
-    double _shear;
 
     int _xRes, _yRes;
     float* _powerSpectrum;

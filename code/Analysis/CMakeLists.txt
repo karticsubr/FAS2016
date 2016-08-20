@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
+cmake_policy(SET CMP0037 OLD)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")
+##############################################################################
+
 project(eea)
 
 include(CheckCXXCompilerFlag)
@@ -12,7 +16,6 @@ else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-
 find_package(OpenMP)
 if(OPENMP_FOUND)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
@@ -20,11 +23,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
-#ADD_SUBDIRECTORY(ext/tinyexr)
-
-include_directories(ext)
+find_package(TBB)
 
 include_directories(
+ext
 src/core
 src/analyzer
 src/integrand
@@ -49,9 +51,9 @@ src/sampler/*.h
 add_executable(eea ${SOURCE} ${HEADERS})
 
 if(APPLE)
-TARGET_LINK_LIBRARIES(eea blas CGAL gmp)
+TARGET_LINK_LIBRARIES(eea blas CGAL gmp  ${TBB_LIBRARIES} )
 else()
-TARGET_LINK_LIBRARIES(eea blas gomp CGAL gmp)
+TARGET_LINK_LIBRARIES(eea blas gomp CGAL gmp   ${TBB_LIBRARIES} )
 endif(APPLE)
 
 install(TARGETS eea RUNTIME DESTINATION bin)

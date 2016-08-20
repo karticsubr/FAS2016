@@ -29,7 +29,7 @@ Integrand* DiskIntegrand::GenIntegrand(const vector<string>& IntegParams)
 DiskIntegrand::DiskIntegrand(const vector<string>& IntegParams)
 {
   IntegrandType = "Disk";
-
+  RefVal = 0.0;
   _diskRadius = CLParser::FindArgument<double>(IntegParams, RadiusStr) ;
 
   std::vector<double> MultiArgs;

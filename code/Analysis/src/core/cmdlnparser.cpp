@@ -26,6 +26,13 @@ namespace
     }
 }
 
+void usage(){
+    std::cerr << "Usage for different analyzers: " << std::endl;
+    std::cerr << "Variance:  ./build/eea -S --stype stratified -I --itype Gaussian --sigma 0.25 0.25 --center 0.5 0.5 -A --atype var --nsamps 1024 16384  --nreps 200 -G --ofile gaussian" << std::endl;
+    std::cerr << "PointAnalyzer: ./build/eea -S --stype stratified -A --atype pts --nsamps 1024 --nreps 1 -G --ofile pointset" << std::endl;
+    std::cerr << "FourierAnalyzer: ./build/eea -S --stype stratified -A --atype fourier --nsamps 4096 --nreps 10 --tstep 2 --wstep 1 -G --ofile powerspectrum" << std::endl;
+}
+
 CLParser::CLParser(int argc, char* argv[]): _argc(argc), _argv(argv)
 {
     stringstream ss;
@@ -40,18 +47,12 @@ CLParser::CLParser(int argc, char* argv[]): _argc(argc), _argv(argv)
         std::string help = _argv[1];
 
         if(help == "-h" || help == "--h" || help == "-help" || help == "--help"){
-            std::cerr << "Usage for different analyzers: " << std::endl;
-            std::cerr << "Variance: ./build/main -S --stype stratified -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testing" << std::endl;
-            std::cerr << "PointAnalyzer:./build/main -S --stype stratified -A --atype pts --shear 0 --n 1024 --t 1 -G --ofile pointset" << std::endl;
-            std::cerr << "FourierAnalyzer:./build/main -S --stype stratified -A --atype fourier --n 4096 --t 10 --tstep 2 --wstep 1 -G --ofile powerspectrum" << std::endl;
+            usage();
             exit(1);
         }
     }
     else{
-        std::cerr << "Usage for different analyzers: " << std::endl;
-        std::cerr << "Variance: ./build/main -S --stype stratified -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testing" << std::endl;
-        std::cerr << "PointAnalyzer:./build/main -S --stype stratified -A --atype pts --shear 0 --n 1024 --t 1 -G --ofile pointset" << std::endl;
-        std::cerr << "FourierAnalyzer:./build/main -S --stype stratified -A --atype fourier --n 4096 --t 10 --tstep 2 --wstep 1 -G --ofile powerspectrum" << std::endl;
+        usage();
         exit(1);
     }
 }
