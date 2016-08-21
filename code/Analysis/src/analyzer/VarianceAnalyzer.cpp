@@ -6,6 +6,26 @@
 #include <iomanip>
 #include <iostream>
 
+///////////////////////////////////////////////
+// VarianceAnalyzer class
+// requires (pointers to) sampler and integrand objects
+// and the portion of the commandline meant for the VarianceAnalyzer
+//
+// It uses the sampler and the integrand to estimate the estimator's
+// convergence rate and the y-intercept of the convergence plot (log-log)
+// The data is not in log-log, you can use ListLogLogPlot from mathematica
+///////////////////////////////////////////////
+
+// expected format for the analysis section is
+// -A --nsamps n1 n2 n3 n4 ... --nreps r --atype a
+//
+// n1 n2 n3 n4 are integers eg. 10 100 500 1000 to be used as sample counts
+// r is an integer specifying the number of n1-sample estimates to be averaged for computing
+//    error at n1 (equal to number of n2-sample estimates to be averaged for error at n2, etc.)
+// a is a string that can be "var" and is used to output the variance at n1, n2 ...
+//
+//
+
 ///
 /// \brief VarianceAnalyzer::createAnalyzer
 /// \param s
@@ -79,7 +99,7 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
     //########################################################################################################
     ///
     /// We output three files:
-    /// prefix-xxx-matlab.txt contains variance data horizontally to plot directly from matlab
+    /// prefix-xxx-matlab.txt contains variance data written horizontally to plot directly from matlab
     /// prefix-mean.txt contains the mean value for each N as reference
     /// prefix-var.txt contains variance data vertically to plot in GNU or Mathematica
     ///
@@ -140,9 +160,7 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
 
      std::copy(_avgV.begin(), _avgV.end(), std::ostream_iterator<double>(ofs, " "));
 
-
      ofs << endl ;
-
 
      std::cerr << std::endl;
      ofs.close();

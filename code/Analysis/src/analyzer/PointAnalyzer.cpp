@@ -8,6 +8,9 @@
 
 using namespace std;
 using namespace eea;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 			PointAnalyzer to visualize points that are written directly in EPS format.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///
 /// \brief PointAnalyzer::~PointAnalyzer
@@ -43,7 +46,7 @@ void PointAnalyzer::RunAnalysis(string &prefix){
         std::stringstream ss;
         ss << prefix << "-" << _sampler->GetType() << "-n" << n << ".txt";
         string filename = ss.str();
-        WriteEPS(filename);
+        IO::WriteEPS(filename, _pts);
     }
 }
 

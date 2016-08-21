@@ -1,10 +1,3 @@
-
-#include <tbb/tbb.h>
-#include <tbb/blocked_range.h>
-#include <tbb/parallel_for.h>
-#include <tbb/parallel_reduce.h>
-#include <tbb/task_scheduler_init.h>
-
 #include <FourierAnalyzer.h>
 #include <cmdlnparser.h>
 #include <common.h>
@@ -16,6 +9,11 @@
 
 const string FourierAnalyzer::trialStepStr = "--tstep" ;
 const string FourierAnalyzer::freqStepStr = "--wstep" ;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Fourier Power spectrum computation using continuous Fourier Transform
+// Parallelization is done using OpenMP
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 FourierAnalyzer::~FourierAnalyzer(){
     delete [] _powerSpectrum;
@@ -50,61 +48,31 @@ void FourierAnalyzer::continuous_fourier_spectrum(){
     int half_yRes = _yRes * 0.5;
     int npoints = _pts.size();
 
- ///
- /// Comment out this code if don't want to use TBB Intel parallel threading
- /// and Uncooment the code at the end to use OpenMP for parallelization
- /// (OpenMP doesn't compile on some Mac OS systems)
- ///
-    //tbb::tick_count t0 = tbb::tick_count::now();
-    tbb::task_scheduler_init init(8);
-    tbb::parallel_for(
-                tbb::blocked_range2d<int>(0,_xRes, 16, 0, _yRes, 16),
-                [=](const tbb::blocked_range2d<int>& imgblock ) {
-        for( int row = imgblock.rows().begin(); row != imgblock.rows().end(); ++row ){
-            for( int col = imgblock.cols().begin(); col != imgblock.cols().end(); ++col ) {
-                T fx = 0.f, fy = 0.f;
-                T wx = (col-half_xRes)*_frequencyStep;;
-                T wy = (row-half_yRes)*_frequencyStep;;
-
-                for (int i = 0; i < npoints; ++i) {
-                    T exp = - (2*PI) * (wx * _pts[i].x + wy * _pts[i].y);
-                    fx += cos(exp);
-                    fy += sin(exp);
-                }
-
-                _complexSpectrum[row*_xRes+col].real(fx); ///real part
-                _complexSpectrum[row*_xRes+col].imag(fy);  ///imaginary part
-            }
-        }
-    }
-    );
-
     ///
     /// Uncomment this code if you want to use OpenMP for parallelization
     ///
-//#ifdef _OPENMP
-//#pragma omp parallel
-//#endif
-//{
-//#ifdef _OPENMP
-//#pragma omp for schedule(static)
-//#endif
-//    for (int x = 0; x < _xRes; ++x) {
-//        for (int y = 0; y < _yRes; ++y) {
-//            float fx = 0.f, fy = 0.f;
-//            float wx = x - (half_xRes)*_frequencyStep;
-//            float wy = y - (half_yRes)*_frequencyStep;
-//            for (int i = 0; i < npoints; ++i) {
-//                float exp = -2*PI * (wx * _pts[i].x + wy * _pts[i].y);
-//                fx += cosf(exp);
-//                fy += sinf(exp);
-//            }
-//            _complexSpectrum[x + y*_xRes].real(fx); ///real part
-//            _complexSpectrum[x + y*_xRes].imag(fy);  ///imaginary part
-//        }
-//    }
-//}
-
+#ifdef _OPENMP
+#pragma omp parallel
+#endif
+    {
+#ifdef _OPENMP
+#pragma omp for schedule(static)
+#endif
+        for (int x = 0; x < _xRes; ++x) {
+            for (int y = 0; y < _yRes; ++y) {
+                float fx = 0.f, fy = 0.f;
+                float wx = x - (half_xRes)*_frequencyStep;
+                float wy = y - (half_yRes)*_frequencyStep;
+                for (int i = 0; i < npoints; ++i) {
+                    float exp = -2*PI * (wx * _pts[i].x + wy * _pts[i].y);
+                    fx += cosf(exp);
+                    fy += sinf(exp);
+                }
+                _complexSpectrum[x + y*_xRes].real(fx); ///real part
+                _complexSpectrum[x + y*_xRes].imag(fy);  ///imaginary part
+            }
+        }
+    }
 }
 
 //template void FourierAnalyzer::continuous_fourier_spectrum(double dstep);

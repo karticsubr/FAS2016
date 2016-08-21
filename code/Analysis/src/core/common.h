@@ -10,6 +10,8 @@
 #define SamplingAnalysis_common_h
 
 #include <iostream>
+#include <vector>
+#include <point2d.h>
 
 #define PI 3.14159265358979323846264338
 #define deg2rad (PI / 180.0)
@@ -29,8 +31,10 @@ inline void paddedzerosN(std::string &s1, int fileNumber){
     }while(s1.length() != 6);
 }
 
+using namespace eea;
 class IO{
 public:
+    static void WriteEPS(std::string &filename, const std::vector<Point2d>& pts, double radius=2.0, double scale=512.0);
     static void WriteEXRrgba(const std::string& filename, const float* rgb, int width, int height);
     static void WriteEXRrgb(const std::string& filename, const float* rgb, int width, int height);
     static void WriteEXRgrey(const std::string &filename, const float *rgb, int width, int height);

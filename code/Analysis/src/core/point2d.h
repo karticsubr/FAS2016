@@ -4,6 +4,7 @@
 #include <cmath>
 
 namespace eea{
+
 //////////////////////////////////////////////////////////
 //	Simple structure to abstract 2D points
 //////////////////////////////////////////////////////////
@@ -24,6 +25,7 @@ struct Point2d
 
     float x, y;
 };
+
 }
 
 #endif // __Point2dH_
