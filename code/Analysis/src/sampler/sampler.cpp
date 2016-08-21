@@ -1,5 +1,5 @@
-#include "sampler.h"
-#include "./../core/cmdlnparser.h"
+#include <sampler.h>
+#include <cmdlnparser.h>
 
 #include <stdexcept>
 #include <unistd.h>
@@ -98,7 +98,6 @@ std::vector<Point2d> Sampler::toroidalWrapping(std::vector<Point2d> &inSamples){
     }
     return inSamples;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 				Random
