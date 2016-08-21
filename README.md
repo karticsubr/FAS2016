@@ -14,6 +14,8 @@ CGAL (used for PWConstant and QuadPixel integrands in the interface)
 
 OpenMP (can be made optional)
 
+Python (only required for PBRTIntegrand, the source code still compiles and run for other integrands without Python)
+
 -Use recursive tag to clone from git to add the Openexr submodule:
 ```
 git clone —-recursive url-to-the-repo.git
