@@ -12,7 +12,7 @@
 // and the portion of the commandline meant for the VarianceAnalyzer
 //
 // It uses the sampler and the integrand to estimate the estimator's
-// convergence rate and the y-intercept of the convergence plot (log-log)
+// convergence rate.
 // The data is not in log-log, you can use ListLogLogPlot from mathematica
 ///////////////////////////////////////////////
 

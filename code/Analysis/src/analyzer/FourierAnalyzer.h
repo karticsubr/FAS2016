@@ -16,17 +16,13 @@ private:
     ~FourierAnalyzer();
     FourierAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
 
-    template <typename T>
     void continuous_fourier_spectrum();
+    void discrete_fourier_spectrum(const double *mydata);
 
-    void discrete_fourier_spectrum(std::complex<double> *complexSpectrum,
-                                   const double *mydata, int width, int height);
-
-    template <typename T>
-    std::complex<T> complexcoeff_continuous_fourier_spectrum(T wx, T wy);
-
-    template <typename T>
     void power_fourier_spectrum();
+
+    void compute_radial_mean_powerspectrum(const std::string& filename);
+
 
     static const string trialStepStr; // --tstep
     int _trialStepOut;

@@ -1,6 +1,8 @@
 #include <FourierAnalyzer.h>
 #include <cmdlnparser.h>
 #include <common.h>
+#include <fstream>
+#include <iomanip>
 
 #define USE_TBB
 ///
@@ -40,8 +42,6 @@ FourierAnalyzer::FourierAnalyzer(Sampler* s, const vector<string>& AnalyzerParam
     //    std::cerr << _nSamples << " " << _shear << " "<< _nTrials<< std::endl;
 }
 
-
-template <typename T>
 void FourierAnalyzer::continuous_fourier_spectrum(){
 
     int half_xRes = _xRes * 0.5;
@@ -75,21 +75,64 @@ void FourierAnalyzer::continuous_fourier_spectrum(){
     }
 }
 
-//template void FourierAnalyzer::continuous_fourier_spectrum(double dstep);
-
-template<typename T>
 void FourierAnalyzer::power_fourier_spectrum(){
 
     for(int r = 0; r < _yRes; r++){
         for(int c = 0; c < _xRes; c++){
-            T real = _complexSpectrum[(r*_xRes+c)].real();
-            T imag = _complexSpectrum[(r*_xRes+c)].imag();
+            double real = _complexSpectrum[(r*_xRes+c)].real();
+            double imag = _complexSpectrum[(r*_xRes+c)].imag();
 
-            T powerVal = (real*real + imag*imag) / (_pts.size());
+            double powerVal = (real*real + imag*imag) / (_pts.size());
             _powerSpectrum[(r*_xRes+c)] = powerVal;
         }
     }
 }
+
+void FourierAnalyzer::compute_radial_mean_powerspectrum(const std::string& filename){
+
+
+    if(_xRes != _yRes){
+        std::cerr << "We assume square images for radial mean power computation !!!" << std::endl;
+        exit(-2);
+    }
+    ///Radial Power spectrum
+    int halfwidth = _xRes*0.5;
+
+    double* radialHistogram = new double[halfwidth]();
+    int* histoCounter = new int[halfwidth]();
+    int xcenter = halfwidth;
+    int ycenter = halfwidth;
+    for(int r = 0; r < _yRes; r++){
+        for(int c = 0; c < _xRes; c++){
+            double dx = xcenter-c;
+            double dy = ycenter-r;
+            double distance = sqrt(dx*dx+dy*dy);
+
+            int imgIndex = r*_xRes+c;
+            int index = distance;
+            if(distance > halfwidth-1)
+                continue;
+            else{
+                radialHistogram[index] += _powerSpectrum[imgIndex];
+                histoCounter[index] += 1;
+            }
+        }
+    }
+
+    for(int i = 0; i < halfwidth; i++)
+        radialHistogram[i] /= double(histoCounter[i]);
+
+    std::ofstream file;
+    file.open(filename.c_str());
+
+    for(int i = 0; i < halfwidth-5; i++)
+        file << i << " " << std::fixed << std::setprecision(15) <<  radialHistogram[i] << std::endl;
+    file.close();
+
+    delete [] histoCounter;
+    delete [] radialHistogram;
+}
+
 
 void FourierAnalyzer::RunAnalysis(string& prefix){
 
@@ -106,11 +149,13 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
 
             _sampler->MTSample(_pts, n);
 
+            fprintf(stderr, "\r trial/N:  %d / %d", trial, int(_pts.size()));
+
             for(int i=0; i<_xRes*_yRes; i++)
                 _powerSpectrum[i] = 0.;
 
-            continuous_fourier_spectrum<float>();
-            power_fourier_spectrum<float>();
+            continuous_fourier_spectrum();
+            power_fourier_spectrum();
 
             for(int r=0; r < _yRes; r++){
                 for(int c=0; c < _xRes; c++){
@@ -142,12 +187,18 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
                 paddedzerosN(s1, _nTrials);
                 //##########################################################
                 ss.str(std::string());
-                ss << prefix << "-" << s1 << ".exr";
+                ss << prefix << _sampler->GetType() << "-n" << n << "-" << s1 << ".exr";
                 IO::WriteEXRgrey(ss.str(), _powerSpectrum, _xRes, _yRes);
+
+                ss.str(std::string());
+                ss << prefix << "-radial-mean-" << _sampler->GetType() << "-n" << n << "-" << s1 << ".txt";
+                compute_radial_mean_powerspectrum(ss.str());
             }
         }
     }
     delete [] powerAccum;
     powerAccum = 0;
 }
+
+
 
