@@ -22,7 +22,11 @@ If you accidentally already cloned FAS2016 without this flag, run the following 
 ````
 git submodule update --init --recursive
 ````
--The interface supports different types of integrand. Example to call Disk Integrand:
+-The interface supports different types of integrand. You can hit:
+````
+./build/eea or ./build/eea -h
+````
+to see the command line usage. Example to call Disk Integrand for variance analysis is as follows:
 ````
 ./build/exec -S --stype stratified -I Disk --rad 0.25 --center 0.5 0.5 -A --atype var --nsamps  9 36 100 512  --nreps 1000 -G --ofile testDisk
 ````
