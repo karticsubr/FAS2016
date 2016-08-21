@@ -6,7 +6,7 @@ Fourier analysis of numerical integration in Monte Carlo rendering: Theory and P
 
 Avaiable on: http://dl.acm.org/citation.cfm?id=2927356
 
-Source code for variance and error analysis.
+Source code includes Fourier/variance/mse analyzers for different sampling patterns.
 
 -Dependencies:
 
