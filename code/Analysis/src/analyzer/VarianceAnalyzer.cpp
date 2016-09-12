@@ -5,6 +5,10 @@
 
 #include <iomanip>
 #include <iostream>
+#include <fstream>
+#include <iterator>
+
+using namespace std;
 
 ///////////////////////////////////////////////
 // VarianceAnalyzer class
@@ -157,9 +161,9 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
        ofsvar << n << " "<< _avgV[i] << std::endl;
      }
 
-     std::copy(_nSamples.begin(), _nSamples.end(), std::ostream_iterator<int>(ofs, " "));
+     copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(ofs, " "));
 
-     std::copy(_avgV.begin(), _avgV.end(), std::ostream_iterator<double>(ofs, " "));
+     copy(_avgV.begin(), _avgV.end(), ostream_iterator<double>(ofs, " "));
 
      ofs << endl ;
 

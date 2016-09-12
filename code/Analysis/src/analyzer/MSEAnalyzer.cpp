@@ -4,6 +4,10 @@
 
 #include <iomanip>
 #include <iostream>
+#include <fstream>
+#include <iterator>
+
+using namespace std;
 
 ///////////////////////////////////////////////
 // MSEAnalyzer class
@@ -160,11 +164,11 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
         _MSE[i] /= float(_nTrials) ;
     }
 
-    std::copy(_nSamples.begin(), _nSamples.end(), std::ostream_iterator<int>(ofs, " "));
-    std::copy(_MSE.begin(), _MSE.end(), std::ostream_iterator<double>(ofs, " "));
+    copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(ofs, " "));
+    copy(_MSE.begin(), _MSE.end(), ostream_iterator<double>(ofs, " "));
 
-    std::copy(_nSamples.begin(), _nSamples.end(), std::ostream_iterator<int>(ofsmean, " "));
-    std::copy(_avgM.begin(), _avgM.end(), std::ostream_iterator<double>(ofsmean, " "));
+    copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(ofsmean, " "));
+    copy(_avgM.begin(), _avgM.end(), ostream_iterator<double>(ofsmean, " "));
 
     LogLogLinearFit(_nSamples, _MSE, _convRate, _YIntError);
 }
