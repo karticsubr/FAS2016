@@ -140,6 +140,7 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
            fprintf(stderr, "\r trial/N:  %d / %d", trial, n);
            _pts.resize(0);
            _sampler->MTSample(_pts, n) ;
+           _sampler->homogenize_samples(_pts);
 
            vector<double> res;
            _integrand->MultipointEval(res, _pts, _sampler->GetType()) ;
