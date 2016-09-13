@@ -654,6 +654,8 @@ The importance of having \emph{spectral control} on sampling methods has been ex
  \chapter{Software package}
 % In this chapter, we will present a suite of tests that may be used to compare the efficacy of sampling patterns when used in numerical integration. We will then tabulate this comparison, identifying the strengths and weaknesses of the different sampling strategies described in chapter~\ref{ch:stateoftheart}. Our test suite will encompass a variety of integrands of various dimensionalities as well as smoothness criteria. We will make our code available to facilitate the comparison of any sampling patterns that may be proposed in the future with methods in our chosen set of algorithms. 
  
+ Give an outline here...
+ 
  \section{Command line input}
  Depending on the analyzer, there can be maximum four sections with the following flags (in the given order):
  %
@@ -676,7 +678,7 @@ For example, the PointAnalyzer have the following:
 ./build/eea \cdash{S} \cdashs{stype} stratified \cdash{A} \cdashs{atype} pts \cdashs{nsamps} 1024 \cdashs{nreps} 1 \cdash{G} \cdashs{ofile} prefix
 \tcblower
 Here, \\
-\cdashs{stype}e to give the sampler type. \\
+\cdashs{stype} to give the sampler type. \\
 \cdashs{atype} to give the Analyzer type, \\
 \cdashs{nsamps} to give the number of samples \\
 \cdashs{nreps} gives the number of trials or realizations \\
@@ -685,6 +687,23 @@ Here, \\
 %
 \section{Fourier Analyzer}
  
+ %
+Fourier analyzer doesn't need an integrand substring (\cdash{I} $\cdots$).Each analyzer can have different set of subflags (starting with \cdashs). \
+For example, the FourierAnalyzer have the following:
+%
+\begin{tcolorbox}
+./build/eea \cdash{S} \cdashs{stype} stratified \cdash{A} \cdashs{atype} pts \cdashs{nsamps} 4096 \cdashs{nreps} 1 \cdashs{tstep}  2 \cdashs{wstep} 1 \cdash{G} \cdashs{ofile} prefix
+\tcblower
+Here, \\
+\cdashs{stype}: to give the sampler type. \\
+\cdashs{atype}: to give the Analyzer type, \\
+\cdashs{nsamps}: to give the number of samples \\
+\cdashs{nreps}: gives the number of trials or realizations \\
+\cdashs{tstep}: intermediate output after that many steps (it could be fractional) \\
+\cdashs{wstep}: frequency step \\
+\cdashs{ofile}: to give a prefix to your output filename
+\end{tcolorbox}
+%
 % 
 % \section{1D integrands}
 % \TBC 
