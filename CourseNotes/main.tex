@@ -656,7 +656,7 @@ The importance of having \emph{spectral control} on sampling methods has been ex
  
  Give an outline here...
  
- \section{Command line input}
+ \section{Command line}
  Depending on the analyzer, there can be maximum four sections with the following flags (in the given order):
  %
 \begin{tcolorbox}
@@ -675,33 +675,33 @@ Point analyzer doesn't need an integrand substring (\cdash{I} $\cdots$).Each ana
 For example, the PointAnalyzer have the following:
 %
 \begin{tcolorbox}
-./build/eea \cdash{S} \cdashs{stype} stratified \cdash{A} \cdashs{atype} pts \cdashs{nsamps} 1024 \cdashs{nreps} 1 \cdash{G} \cdashs{ofile} prefix
+./build/eea \cdash{S} \cdashs{stype} stratified \cdash{A} \cdashs{atype} pts \cdashs{nsamps} 1024 \cdashs{nreps} 1 \cdash{G} \cdashs{ofile} points
 \tcblower
 Here, \\
-\cdashs{stype} to give the sampler type. \\
-\cdashs{atype} to give the Analyzer type, \\
-\cdashs{nsamps} to give the number of samples \\
-\cdashs{nreps} gives the number of trials or realizations \\
-\cdashs{ofile} to give a prefix to your output filename
+\cdashs{stype}: sampler type (stratified, random, etc.). \\
+\cdashs{atype}:  Analyzer type (pts) \\
+\cdashs{nsamps}: Number of samples (1024) \\
+\cdashs{nreps}: Number of trials or realizations (10) \\
+\cdashs{ofile}: Prefix for your output filename (pointset)
 \end{tcolorbox}
 %
-\section{Fourier Analyzer}
+\subsection{Fourier Analyzer}
  
  %
-Fourier analyzer doesn't need an integrand substring (\cdash{I} $\cdots$).Each analyzer can have different set of subflags (starting with \cdashs). \
+Fourier analyzer doesn't need an integrand substring (\cdash{I} $\cdots$). Each analyzer can have different set of subflags (starting with \cdashs). \
 For example, the FourierAnalyzer have the following:
 %
 \begin{tcolorbox}
-./build/eea \cdash{S} \cdashs{stype} stratified \cdash{A} \cdashs{atype} pts \cdashs{nsamps} 4096 \cdashs{nreps} 1 \cdashs{tstep}  2 \cdashs{wstep} 1 \cdash{G} \cdashs{ofile} prefix
+./build/eea \cdash{S} \cdashs{stype} stratified \cdash{A} \cdashs{atype} fourier \cdashs{nsamps} 4096 \cdashs{nreps} 1 \cdashs{tstep}  2 \cdashs{wstep} 1 \cdash{G} \cdashs{ofile} powerspectrum
 \tcblower
 Here, \\
-\cdashs{stype}: to give the sampler type. \\
-\cdashs{atype}: to give the Analyzer type, \\
-\cdashs{nsamps}: to give the number of samples \\
-\cdashs{nreps}: gives the number of trials or realizations \\
-\cdashs{tstep}: intermediate output after that many steps (it could be fractional) \\
-\cdashs{wstep}: frequency step \\
-\cdashs{ofile}: to give a prefix to your output filename
+\cdashs{stype}: sampler type (stratified, random, etc.). \\
+\cdashs{atype}:  Analyzer type (fourier) \\
+\cdashs{nsamps}: Number of samples (4096) \\
+\cdashs{nreps}: Number of trials or realizations (10) \\
+\cdashs{tstep}: Intermediate output after given number of trials  \\
+\cdashs{wstep}: Frequency step which is 1 for integer frequencies (it can be fractional)\\
+\cdashs{ofile}: Prefix for your output filename (could be anything)
 \end{tcolorbox}
 %
 % 
