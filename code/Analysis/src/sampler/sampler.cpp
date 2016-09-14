@@ -115,10 +115,7 @@ randomSampler::randomSampler(const vector<string>& SamplerParams)
 
 void randomSampler::MTSample(vector<Point2d>& pts, int n) const
 {
-    std::cerr << "hellow 1"  << std::endl;
     pts.resize(n) ;
-    std::cerr << "hellow "  << std::endl;
-    std::cerr << pts.size() << std::endl;
     double maxRange = bBoxMax - bBoxMin;
     for (int i=0; i<n; i++)
     {

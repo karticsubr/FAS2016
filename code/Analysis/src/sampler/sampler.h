@@ -74,7 +74,7 @@ class randomSampler: public Sampler
     virtual ~randomSampler() {}
 
     private:
-    randomSampler() {SamplingType = "random" ;}
+    randomSampler() {SamplingType = "Random" ;}
     randomSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
 };
@@ -91,7 +91,7 @@ class jitteredSampler: public Sampler
     virtual ~jitteredSampler() {}
 
     private:
-    jitteredSampler() {SamplingType = "stratified" ;}
+    jitteredSampler() {SamplingType = "Jittered" ;}
     jitteredSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
 };

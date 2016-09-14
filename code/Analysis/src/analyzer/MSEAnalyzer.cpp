@@ -116,17 +116,14 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
     std::stringstream ss;
 
     ss.str(std::string());
-    ss << prefix << "-mse-matlab.txt";
-    std::ofstream ofs(ss.str().c_str(), std::ofstream::app) ;
-
-    ss.str(std::string());
     ss << prefix << "-mean.txt";
     std::ofstream ofsmean(ss.str().c_str(), std::ofstream::app) ;
 
-    ofs << std::fixed << std::setprecision(15);
-    ofsmean << std::fixed << std::setprecision(15);
-    //########################################################################################################
+    ss.str(std::string());
+    ss << prefix << "-mse.txt";
+    std::ofstream ofsmse(ss.str().c_str(), std::ofstream::app) ;
 
+    //########################################################################################################
 
     const double Iref (_integrand->ReferenceValue()) ;
 
@@ -162,14 +159,13 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
         //_avgV[i] = Var(ms) ;
         _avgM[i] /= _nTrials ;
         _MSE[i] /= float(_nTrials) ;
+
+       ofsmean << n << " "<< _avgM[i] << std::endl;
+       ofsmse << n << " "<< _MSE[i] << std::endl;
+
     }
 
-    copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(ofs, " "));
-    copy(_MSE.begin(), _MSE.end(), ostream_iterator<double>(ofs, " "));
-
-    copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(ofsmean, " "));
-    copy(_avgM.begin(), _avgM.end(), ostream_iterator<double>(ofsmean, " "));
-
+   
     LogLogLinearFit(_nSamples, _MSE, _convRate, _YIntError);
 }
 

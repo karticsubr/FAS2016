@@ -110,18 +110,13 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
     std::stringstream ss;
 
     ss.str(std::string());
-    ss << prefix << "-variance-matlab.txt";
-    std::ofstream ofs(ss.str().c_str(), std::ofstream::app) ;
-
-    ss.str(std::string());
     ss << prefix << "-mean.txt";
     std::ofstream ofsmean(ss.str().c_str(), std::ofstream::app) ;
 
     ss.str(std::string());
-    ss << prefix << "-variance.txt";
+    ss << prefix << "-var.txt";
     std::ofstream ofsvar(ss.str().c_str(), std::ofstream::app) ;
 
-    ofs << std::fixed << std::setprecision(15);
     ofsmean << std::fixed << std::setprecision(15);
     ofsvar << std::fixed << std::setprecision(15);
     //########################################################################################################
@@ -141,7 +136,6 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
        double mean = 0.0, variance = 0.0;
        for (int trial=1; trial <= _nTrials; trial++)
        {
-           fprintf(stderr, "\r trial/N:  %d / %d", trial, n);
            _pts.resize(0);
            _sampler->MTSample(_pts, n) ;
 
@@ -160,14 +154,6 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
        ofsvar << n << " "<< _avgV[i] << std::endl;
      }
 
-     copy(_nSamples.begin(), _nSamples.end(), ostream_iterator<int>(ofs, " "));
-
-     copy(_avgV.begin(), _avgV.end(), ostream_iterator<double>(ofs, " "));
-
-     ofs << endl ;
-
-     std::cerr << std::endl;
-     ofs.close();
      ofsmean.close();
      ofsvar.close();
 }
