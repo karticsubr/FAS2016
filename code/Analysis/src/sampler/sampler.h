@@ -52,7 +52,8 @@ public:
     Sampler(){bBoxMin = 0; bBoxMax = 1;}
     friend ostream& operator << (ostream& os, Sampler& s);
 
-    std::vector<Point2d> toroidalWrapping(std::vector<Point2d> &p);
+    void toroidal_wrapping(std::vector<Point2d> &inSamples);
+    void homogenize_samples(std::vector<Point2d> &inSamples);
 
 protected:
     vector<Point2d> p ;

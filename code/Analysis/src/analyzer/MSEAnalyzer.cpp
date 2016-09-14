@@ -165,7 +165,7 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
 
     }
 
-   
+
     LogLogLinearFit(_nSamples, _MSE, _convRate, _YIntError);
 }
 

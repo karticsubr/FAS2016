@@ -71,33 +71,77 @@ Sampler::~Sampler()
 {}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				Toroidal wrapping of samples
+// 				Homogenize samples
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+///
+/// \brief Sampler::homogenize_samples
+/// \param inSamples
+///
+void Sampler::homogenize_samples(std::vector<Point2d>& inSamples){
 
-std::vector<Point2d> Sampler::toroidalWrapping(std::vector<Point2d> &inSamples){
-//std::vector<double> homogenize_pointsamples(std::vector<double> &vec, double* domain, int nDims){
+//    int nPoints = inSamples.size();
+//    double domain[] = {bBoxMin, bBoxMin, bBoxMax, bBoxMax};
+
+//    Point2d random_shift_vector = Point2d((2*drand48()-1)*domain[2], (2*drand48()-1)*domain[3]);
+
+//    for(int i=0; i < nPoints; i++){
+
+//        inSamples[i].x() = inSamples[i].x() + random_shift_vector.x();
+//        inSamples[i].y() = inSamples[i].y() + random_shift_vector.y();
+
+//        if(inSamples[i].x() < domain[0])
+//            inSamples[i].x() = domain[2] + inSamples[i].x() - domain[0];
+//        else if(inSamples[i].x() > domain[2])
+//            inSamples[i].x() = domain[0] + inSamples[i].x() - domain[2];
+
+//        if(inSamples[i].y() < domain[1])
+//            inSamples[i].y() = domain[3] + inSamples[i].y() - domain[1];
+//        else if(inSamples[i].y() > domain[3])
+//            inSamples[i].y() = domain[1] + inSamples[i].y() - domain[3];
+//    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 				Toroidal wrapping of samples
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// \brief Sampler::toroidalWrapping between [0,1)
+/// \param inSamples
+///
+
+void Sampler::toroidal_wrapping(std::vector<Point2d> &inSamples){
 
     int nPoints = inSamples.size();
-    double domain[] = {bBoxMin, bBoxMin, bBoxMax, bBoxMax};
 
-    for(int i=0; i < nPoints; i++){
+//    for(int i=0; i < nPoints; i++){
 
-            if(inSamples[i].x < domain[0])
-                inSamples[i].x = domain[2] + inSamples[i].x - domain[0];
-            else if(inSamples[i].x > domain[2]){
-                //std::cerr << i << " " << inSamples[i].x << std::endl;
-                inSamples[i].x = domain[0] + inSamples[i].x - domain[2];
-                //std::cerr << i << " " << inSamples[i].x << std::endl;
-            }
+//        if(inSamples[i].x() < 0){
+//            double temp = - inSamples[i].x();
+//            int itemp = floor(temp);
+//            double frac = temp - itemp;
+//            inSamples[i].x() = 1 - frac;
+//        }
+//        else if(inSamples[i].x() > 1){
+//            int itemp = floor(inSamples[i].x());
+//            double frac = inSamples[i].x() - itemp;
+//            inSamples[i].x() = frac;
+//        }
 
-            if(inSamples[i].y < domain[1])
-                inSamples[i].y = domain[3] + inSamples[i].y - domain[1];
-            else if(inSamples[i].y > domain[3])
-                inSamples[i].y = domain[1] + inSamples[i].y - domain[3];
-    }
-    return inSamples;
+//        if(inSamples[i].y() < 0){
+//            double temp = - inSamples[i].y();
+//            int itemp = floor(temp);
+//            double frac = temp - itemp;
+//            inSamples[i].y() = 1 - frac;
+//        }
+//        else if(inSamples[i].y() > 1){
+//            int itemp = floor(inSamples[i].y());
+//            double frac = inSamples[i].y() - itemp;
+//            inSamples[i].y() = frac;
+//        }
+//    }
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 				Random
@@ -115,7 +159,7 @@ randomSampler::randomSampler(const vector<string>& SamplerParams)
 
 void randomSampler::MTSample(vector<Point2d>& pts, int n) const
 {
-    pts.resize(n) ;
+    //pts.resize(n) ;
     double maxRange = bBoxMax - bBoxMin;
     for (int i=0; i<n; i++)
     {
@@ -127,7 +171,8 @@ void randomSampler::MTSample(vector<Point2d>& pts, int n) const
         x = (maxRange * x) + bBoxMin;
         y = (maxRange * y) + bBoxMin;
 
-    pts[i] = Point2d(x,y) ;
+        //pts[i] = Point2d(x,y) ;
+        pts.push_back(Point2d(x,y));
     }
 }
 
@@ -150,7 +195,7 @@ void jitteredSampler::MTSample(vector<Point2d> &pts, int n) const
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
 
-    pts.resize(n) ;
+    //pts.resize(n) ;
 
     double maxRange = bBoxMax - bBoxMin;
 
@@ -165,7 +210,8 @@ void jitteredSampler::MTSample(vector<Point2d> &pts, int n) const
             x = (maxRange * x) + bBoxMin;
             y = (maxRange * y) + bBoxMin;
 
-            pts[r*sqrtN+c] = Point2d(x, y);
+            //pts[r*sqrtN+c] = Point2d(x, y);
+            pts.push_back(Point2d(x,y));
         }
     }
 }
@@ -189,15 +235,16 @@ void gridSampler::MTSample(vector<Point2d>& pts, int n) const
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
 
-    pts.resize(n) ;
+//    pts.resize(n) ;
 
-    #pragma omp parallel for
+//    #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
     {
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
-        pts[i*sqrtN+j] =  Point2d(x,y) ;
+        //pts[i*sqrtN+j] =  Point2d(x,y) ;
+        pts.push_back(Point2d(x,y));
     }
     }
 }
@@ -227,7 +274,7 @@ void gjSampler::MTSample(vector<Point2d>& pts, int n) const
 {
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
-    pts.resize(n) ;
+//    pts.resize(n) ;
     std::normal_distribution<double> ND(0,1);
 
     #pragma omp parallel for
@@ -237,7 +284,8 @@ void gjSampler::MTSample(vector<Point2d>& pts, int n) const
     {
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
         const double r1(ND(RGen)*dX*.5), r2(ND(RGen)*dX*.5);
-        pts[i*sqrtN+j] = Point2d(x+(r1),y+(r2), true);
+        //pts[i*sqrtN+j] = Point2d(x+(r1),y+(r2), true);
+        pts.push_back(Point2d(x+(r1),y+(r2), true));
     }
     }
 }
@@ -266,16 +314,17 @@ void bjSampler::MTSample(vector<Point2d>& pts, int n) const
 {
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
-    pts.resize(n) ;
+//    pts.resize(n) ;
 
-    #pragma omp parallel for
+//    #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
     {
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
         const double r1(-.5+drand48()), r2(-.5+drand48());
-        pts[i*sqrtN+j] = Point2d(x+(r1)*_boxWidth*dX,y+(r2)*_boxWidth*dY, true);
+        //pts[i*sqrtN+j] = Point2d(x+(r1)*_boxWidth*dX,y+(r2)*_boxWidth*dY, true);
+        pts.push_back(Point2d(x+(r1)*_boxWidth*dX,y+(r2)*_boxWidth*dY, true));
     }
     }
 }

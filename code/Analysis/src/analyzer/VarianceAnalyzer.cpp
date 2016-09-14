@@ -138,6 +138,7 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
        {
            _pts.resize(0);
            _sampler->MTSample(_pts, n) ;
+           _sampler->homogenize_samples(_pts);
 
            vector<double> res;
            _integrand->MultipointEval(res, _pts, _sampler->GetType()) ;
