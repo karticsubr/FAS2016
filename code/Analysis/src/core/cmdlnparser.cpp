@@ -28,9 +28,10 @@ namespace
 
 void usage(){
     std::cerr << "Usage for different analyzers: " << std::endl;
-    std::cerr << "Variance:  ./build/eea -S --stype stratified -I --itype Gaussian --sigma 0.25 0.25 --center 0.5 0.5 -A --atype var --nsamps 1024 16384  --nreps 200 -G --ofile gaussian" << std::endl;
-    std::cerr << "PointAnalyzer: ./build/eea -S --stype stratified -A --atype pts --nsamps 1024 --nreps 1 -G --ofile pointset" << std::endl;
-    std::cerr << "FourierAnalyzer: ./build/eea -S --stype stratified -A --atype fourier --nsamps 4096 --nreps 10 --tstep 2 --wstep 1 -G --ofile powerspectrum" << std::endl;
+    std::cerr << "Variance:  eea -S --stype Jittered -I --itype Gaussian --sigma 0.25 0.25 --center 0.5 0.5 -A --atype var --nsamps 1024 16384  --nreps 200 -G --ofile gaussian" << std::endl;
+    std::cerr << "MSE:  eea -S --stype Jittered -I --itype Gaussian --sigma 0.25 0.25 --center 0.5 0.5 -A --atype mse --nsamps 1024 16384  --nreps 200 -G --ofile gaussian" << std::endl;
+    std::cerr << "PointAnalyzer: eea -S --stype Jittered -A --atype pts --nsamps 1024 --nreps 1 -G --ofile pointset" << std::endl;
+    std::cerr << "FourierAnalyzer: eea -S --stype Jittered -A --atype fourier --nsamps 4096 --nreps 10 --tstep 2 --wstep 1 -G --ofile powerspectrum" << std::endl;
 }
 
 CLParser::CLParser(int argc, char* argv[]): _argc(argc), _argv(argv)
