@@ -48,6 +48,12 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
 
     for(int i = 0; i < 4; i++)
         _crop[i] = MultiArgs[i];
+    
+    std::stringstream ss;
+    char cwd[999];
+    getcwd(cwd, sizeof(cwd));
+    ss << cwd << "/" << _imgname;
+    _PBRTOutImgStr = ss.str() ;
 }
 
 /////////////////////////////////////////////////////////////
@@ -70,69 +76,44 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
 
 double PBRTIntegrand::operator () (const Point2d& p, const string &SamplerType) const
 {
-    char pythonCommand [999], cwd[999];
-    std::stringstream ss;
+     std::stringstream ss;
 
-    ///
     /// For PBRTIntegrand the p argument contains the number of samples information
-    ///
     int N = p.x;
 
-    ///
-    /// Here is your python script to update the crop window size in the pbrt scene file (.pbrt) with
+    /// Python script to update the crop window size in the pbrt scene file (.pbrt) with
     /// the values provided from the command line.
-    ///
-    ss << "python " << _pathpyscript << " " << _pathscene << " " << SamplerType << " %d %f %f %f %f";
-
-    ///
     /// Passing arguments to the python script
     /// Provide N x1 x2 y1 y2 from the command line to fill _crop[4]
-    ///
-    sprintf(pythonCommand, ss.str().c_str(), N, _crop[0], _crop[1], _crop[2], _crop[3]);
+    ss << "python " << _pathpyscript << " " << _pathscene << " " << "stratified "
+//     ss << "python " << _pathpyscript << " " << _pathscene << " " << SamplerType 
+        << N << " " << _crop[0] << " " << _crop[1] << " " << _crop[2] << " " <<  _crop[3];
 
-    ///
     /// Running python script to change the crop window size of the PBRT Scene File
-    ///
-    std::system(pythonCommand);
-
-    ///
-    /// reinitialize ss stringstream
-    ///
-    ss.str(std::string());
-
-    ///
-    /// prepare stringstream to call the pbrt with the scenefile
-    ///
-    ss << _pathexec << " " << _pathscene << " --outfile " <<  _imgname;
-
-    ///
-    /// Call PBRT
-    ///
     std::system(ss.str().c_str());
 
-    ///
-    /// Read the image generated from PBRT
-    ///
-    getcwd(cwd, sizeof(cwd));
+    /// reinitialize ss stringstream
     ss.str(std::string());
-    ss << cwd << "/" << _imgname;
 
+    /// prepare stringstream to call the pbrt with the scenefile
+    ss << _pathexec << " " << _pathscene << " --outfile " <<  _imgname;
+    
+    /// Call PBRT
+    std::system(ss.str().c_str());
+
+    /// Read the image generated from PBRT
     int width =0, height =0;
     float *pixels;
-    if(!IO::LoadEXRrgba(ss.str().c_str(), &pixels, &width, &height)){
+    if(!IO::LoadEXRrgba(_PBRTOutImgStr.c_str(), &pixels, &width, &height)){
         std::cerr << "PBRTIntegrand: Couldn't load the pbrt-eea.exr file !!!" << std::endl;
         std::cerr << "aborting..." << std::endl;
         exit(-1);
     }
 
-    ///
     ///Uncomment to verify that *pixels carry the correct image;
-    ///
     //IO::WriteEXRrgba("test.exr", pixels, width, height);
 
-    ///
     /// Average the image over all the pixels to return the output value
-    ///
     double integral = 0.0;
     for(int i=0; i< 3 * width * height; i++){
         integral += pixels[i];

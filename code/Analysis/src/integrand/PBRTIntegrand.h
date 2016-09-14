@@ -12,6 +12,8 @@
 
 #include "integrand.h"
 #include <Analyzer.h>
+#include <string>
+using std::string;
 
 class PBRTIntegrand : public Integrand {
 
@@ -35,6 +37,7 @@ private:
     static const string ExrImgNameStr ; // = "--img"
 
     Analyzer* _analyzer;
+    string _PBRTExecStr, _PBRTOutImgStr ;
 };
 
 #endif

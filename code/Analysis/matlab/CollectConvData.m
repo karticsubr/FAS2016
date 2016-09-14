@@ -17,8 +17,8 @@ for i=1:nstypes
         iarg = istructs(j).iarg ;
         dispstr = ['     on integrand ' itype ' ' iarg '...'] ; 
         disp(dispstr) ;
-        execstr = [binfile ' -S --stype ' stype ' ' sarg ' -I --itype ' itype ' ' iarg ' -A --atype ' atype ' --nsamps  ' nsamps ' --nreps ' nreps ' -G --ofile ' ofile] ; 
-        system(execstr);
+        execstr = [binfile ' -S --stype ' stype ' ' sarg ' -I --itype ' itype ' ' iarg ' -A --atype ' atype ' --nsamps  ' nsamps ' --nreps ' nreps ' -G --ofile ' ofile]  
+%         system(execstr);
     end
 end
 
