@@ -23,6 +23,7 @@ for i=1:h
     snum = (floor((i-1)/ni)) + 1;
     inum = mod(i-1,ni)+1 ;
     mk=marker(mod(inum,length(marker))) ;
+    [i snum inum]
     col = cmap(snum,:) ;
 
     x = S(i,:) ; 
@@ -56,18 +57,18 @@ xlabel('log-#samples')
 ylabel('log-variance')
 set(gca, 'fontsize', fsz) ;
 title('Convergence plot') ;
-print('../out/convs.pdf', '-dpdf') ;
+print([dout.ofile '-convs.pdf'], '-dpdf') ;
 
 figure(hf2) ;
 xlabel('convergence rate')
 ylabel('log-variance at low sampling')
-dummsh1 = plot(avg(1), avg(2), 'color', '[1 1 1]') ;
-dummsh2 = plot(avg(1), avg(2), 'color', '[1 1 1]') ;
-dummsh3 = plot(avg(1), avg(2), 'color', '[1 1 1]') ;
+dummsh1 = plot(avg(1), avg(2), 'color', [1 1 1]) ;
+dummsh2 = plot(avg(1), avg(2), 'color', [1 1 1]) ;
+dummsh3 = plot(avg(1), avg(2), 'color', [1 1 1]) ;
 title('Scatter plot') ;
 set(gca, 'fontsize', fsz) ;
 legend([dummsh1 sp(spidx) dummsh2 dummsh3 sp2(spidx2)], ['    Sampling (colour) ' legstr ' ' ' Integrands (marker style) ' legstr2], 'location', 'NorthEastOutside', 'Fontsize', fsz) ;
-print('../out/scatter.pdf', '-dpdf') ;
+print([dout.ofile '-scatter.pdf'], '-dpdf') ;
 
 close all ;
 end

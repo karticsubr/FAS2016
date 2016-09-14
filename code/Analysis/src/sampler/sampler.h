@@ -52,7 +52,7 @@ public:
     Sampler(){bBoxMin = 0; bBoxMax = 1;}
     friend ostream& operator << (ostream& os, Sampler& s);
 
-    std::vector<Point2d> toroidal_wrapping(std::vector<Point2d> &inSamples);
+    void toroidal_wrapping(std::vector<Point2d> &inSamples);
     void homogenize_samples(std::vector<Point2d> &inSamples);
 
 protected:
@@ -75,7 +75,7 @@ class randomSampler: public Sampler
     virtual ~randomSampler() {}
 
     private:
-    randomSampler() {SamplingType = "random" ;}
+    randomSampler() {SamplingType = "Random" ;}
     randomSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
 };
@@ -92,7 +92,7 @@ class jitteredSampler: public Sampler
     virtual ~jitteredSampler() {}
 
     private:
-    jitteredSampler() {SamplingType = "stratified" ;}
+    jitteredSampler() {SamplingType = "Jittered" ;}
     jitteredSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
 };

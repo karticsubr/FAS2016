@@ -50,10 +50,10 @@ src/sampler/*.h
 
 add_executable(eea ${SOURCE} ${HEADERS})
 
-#if(APPLE)
-#TARGET_LINK_LIBRARIES(eea blas CGAL gmp ) #${TBB_LIBRARIES}
-#else()
+if(APPLE)
+TARGET_LINK_LIBRARIES(eea blas CGAL gmp ) #${TBB_LIBRARIES}
+else()
 TARGET_LINK_LIBRARIES(eea blas gomp CGAL gmp ) #${TBB_LIBRARIES}
-#endif(APPLE)
+endif(APPLE)
 
 install(TARGETS eea RUNTIME DESTINATION bin)

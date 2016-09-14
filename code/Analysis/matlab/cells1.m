@@ -14,12 +14,13 @@ i(3) = GenIntegStruct('PWConstant', '--npts 100 --random') ;
 i(4) = GenIntegStruct('PWConstant', '--npts 1000 --random') ;
 
 %%%%%%%%%%% Analysis Parameters
-ns = [9 36 100 1024 1600] ;
-nr = 500;
-ofile = '../out/test.txt';
-binfile = '../eea/build/eea' ;
-atype = 'err' ;
+ns = [9 36 100 1024] ;
+nr =  50;
+ofile = '../out/test';
+binfile = '../build/eea' ;
+atype = 'var' ;
 
+system (['rm ' ofile '*.txt']) ;
 data = CollectConvData(ns, nr, ofile, binfile, s, i, atype) ;
 
 

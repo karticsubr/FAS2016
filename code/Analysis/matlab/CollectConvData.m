@@ -22,13 +22,22 @@ for i=1:nstypes
     end
 end
 
-M = csvread(ofile) ;
-[h w] = size(M) ;
+% M = csvread([ofile '-' atype '-matlab.txt']) ;
+% [h w] = size(M) ;
+% [h w]
+% if h*w==1
+%     disp ('.') ;
+%     testdbg = 1;
+% end
+% out.S = M(:, 1:w/2) ;
+% out.V = M(:,w/2+1:w) ;
+
+M = dlmread([ofile '-' atype '.txt']) ;
+out.S = reshape(M(:,1)', size(ns,2) ,size(M,1)/size(ns,2))' ;
+out.V = reshape(M(:,2)', size(ns,2), size(M,1)/size(ns,2))' ;
 
 out.ns = ns ;
 out.nr = nr ;
 out.ofile = ofile; 
-out.S = M(:, 1:w/2) ;
-out.V = M(:,w/2+1:w) ;
 out.sstructs = sstructs ; 
 out.istructs = istructs ;

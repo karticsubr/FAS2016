@@ -147,6 +147,7 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
 
         for(int trial = 1; trial <= _nTrials; trial++){
 
+            _pts.resize(0);
             _sampler->MTSample(_pts, n);
 
             fprintf(stderr, "\r trial/N:  %d / %d", trial, int(_pts.size()));

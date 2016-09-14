@@ -9,7 +9,6 @@
 int main(int argc, char* argv[]){
 
     srand48(time(NULL));
-    //srand48(1234566);
     CLParser clarg(argc, argv) ;
     clarg.IdentifySections();
 
@@ -25,7 +24,6 @@ int main(int argc, char* argv[]){
     string ofname(clarg.OutFile()) ;
     a->RunAnalysis(ofname);
 
-    //a->WriteFile(ofname);
 
     delete s1;
     delete a;

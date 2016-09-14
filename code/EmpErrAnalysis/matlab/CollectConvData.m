@@ -22,9 +22,9 @@ for i=1:nstypes
     end
 end
 
-M = csvread(ofile) ;
+M = csvread([ofile '-' atype '-matlab.txt']) ;
 [h w] = size(M) ;
-
+w
 out.ns = ns ;
 out.nr = nr ;
 out.ofile = ofile; 
