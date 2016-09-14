@@ -51,6 +51,7 @@
 \usepackage[final]{pdfpages}
 \usepackage{microtype}
 \usepackage{nicefrac}
+\usepackage{tcolorbox}
 
 % \newcommand{\TBC} {\vspace {1em} \noindent [TO BE COMPLETED IN THE FINAL VERSION.] \vspace {1em}}
 % \newcommand{\TBC} {\noindent [TO BE COMPLETED IN THE FINAL VERSION.] }
@@ -646,12 +647,63 @@ The importance of having \emph{spectral control} on sampling methods has been ex
 
 
 
-% %----------------------------------------------------------------------------------------
-% %	CHAPTER 6
-% %----------------------------------------------------------------------------------------
-% \chapterimage{ch6.pdf} % Chapter heading image
-% \chapter{Case studies}
+ %----------------------------------------------------------------------------------------
+ %	CHAPTER 6
+ %----------------------------------------------------------------------------------------
+ \chapterimage{ch6.pdf} % Chapter heading image
+ \chapter{Software package}
 % In this chapter, we will present a suite of tests that may be used to compare the efficacy of sampling patterns when used in numerical integration. We will then tabulate this comparison, identifying the strengths and weaknesses of the different sampling strategies described in chapter~\ref{ch:stateoftheart}. Our test suite will encompass a variety of integrands of various dimensionalities as well as smoothness criteria. We will make our code available to facilitate the comparison of any sampling patterns that may be proposed in the future with methods in our chosen set of algorithms. 
+ 
+ Give an outline here...
+ 
+ \section{Command line}
+ Depending on the analyzer, there can be maximum four sections with the following flags (in the given order):
+ %
+\begin{tcolorbox}
+./build/eea \cdash{S} $\cdots$ \cdash{I} $\cdots$ \cdash{A} $\cdots$  \cdash{G} $\cdots$
+\tcblower
+Here, \\
+\cdash{S} flag is used to describe sampler name and  parameters. \\
+\cdash{I} flag is used to describe the integrand name and parameters \\
+\cdash{A} flag is used to describe analyzer name and parameters \\
+\cdash{G} flag is used to give the prefix that you would like to add to your output files.
+\end{tcolorbox}
+ %
+ 
+\subsection{Point Analyzer}
+Point analyzer doesn't need an integrand substring (\cdash{I} $\cdots$).Each analyzer can have different set of subflags (starting with \cdashs). \
+For example, the PointAnalyzer have the following:
+%
+\begin{tcolorbox}
+./build/eea \cdash{S} \cdashs{stype} stratified \cdash{A} \cdashs{atype} pts \cdashs{nsamps} 1024 \cdashs{nreps} 1 \cdash{G} \cdashs{ofile} points
+\tcblower
+Here, \\
+\cdashs{stype}: sampler type (stratified, random, etc.). \\
+\cdashs{atype}:  Analyzer type (pts) \\
+\cdashs{nsamps}: Number of samples (1024) \\
+\cdashs{nreps}: Number of trials or realizations (10) \\
+\cdashs{ofile}: Prefix for your output filename (pointset)
+\end{tcolorbox}
+%
+\subsection{Fourier Analyzer}
+ 
+ %
+Fourier analyzer doesn't need an integrand substring (\cdash{I} $\cdots$). Each analyzer can have different set of subflags (starting with \cdashs). \
+For example, the FourierAnalyzer have the following:
+%
+\begin{tcolorbox}
+./build/eea \cdash{S} \cdashs{stype} stratified \cdash{A} \cdashs{atype} fourier \cdashs{nsamps} 4096 \cdashs{nreps} 1 \cdashs{tstep}  2 \cdashs{wstep} 1 \cdash{G} \cdashs{ofile} powerspectrum
+\tcblower
+Here, \\
+\cdashs{stype}: sampler type (stratified, random, etc.). \\
+\cdashs{atype}:  Analyzer type (fourier) \\
+\cdashs{nsamps}: Number of samples (4096) \\
+\cdashs{nreps}: Number of trials or realizations (10) \\
+\cdashs{tstep}:  Output intermediate result after given number of trials  \\
+\cdashs{wstep}: Frequency step which is 1 for integer frequencies (it can be fractional)\\
+\cdashs{ofile}: Prefix for your output filename (could be anything)
+\end{tcolorbox}
+%
 % 
 % \section{1D integrands}
 % \TBC 
