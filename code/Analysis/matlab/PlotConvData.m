@@ -23,7 +23,6 @@ for i=1:h
     snum = (floor((i-1)/ni)) + 1;
     inum = mod(i-1,ni)+1 ;
     mk=marker(mod(inum,length(marker))) ;
-    [i snum inum]
     col = cmap(snum,:) ;
 
     x = S(i,:) ; 
