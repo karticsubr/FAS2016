@@ -48,7 +48,7 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
 
     for(int i = 0; i < 4; i++)
         _crop[i] = MultiArgs[i];
-    
+
     std::stringstream ss;
     char cwd[999];
     getcwd(cwd, sizeof(cwd));
@@ -85,9 +85,8 @@ double PBRTIntegrand::operator () (const Point2d& p, const string &SamplerType) 
     /// the values provided from the command line.
     /// Passing arguments to the python script
     /// Provide N x1 x2 y1 y2 from the command line to fill _crop[4]
-    ss << "python " << _pathpyscript << " " << _pathscene << " " << "stratified "
-//     ss << "python " << _pathpyscript << " " << _pathscene << " " << SamplerType 
-        << N << " " << _crop[0] << " " << _crop[1] << " " << _crop[2] << " " <<  _crop[3];
+        ss << "python " << _pathpyscript << " " << _pathscene << " " << SamplerType  << " "
+           << N << " " << _crop[0] << " " << _crop[1] << " " << _crop[2] << " " <<  _crop[3];
 
     /// Running python script to change the crop window size of the PBRT Scene File
     std::system(ss.str().c_str());
@@ -97,7 +96,7 @@ double PBRTIntegrand::operator () (const Point2d& p, const string &SamplerType) 
 
     /// prepare stringstream to call the pbrt with the scenefile
     ss << _pathexec << " " << _pathscene << " --outfile " <<  _imgname;
-    
+
     /// Call PBRT
     std::system(ss.str().c_str());
 
