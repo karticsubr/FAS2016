@@ -112,9 +112,26 @@ double PBRTIntegrand::operator () (const Point2d& p, const string &SamplerType) 
     ///Uncomment to verify that *pixels carry the correct image;
     //IO::WriteEXRrgba("test.exr", pixels, width, height);
 
+    float* testPixels = new float[4*width*height]();
+
+    for(int r=0;r < height; r++)
+        for(int c=0;c<width;c++){
+            int index = r*width+c;
+            for(int i=0;i<4;i++)
+                testPixels[4*index+i] = pixels[4*index+i];
+        }
+    IO::WriteEXRrgba("test.exr", testPixels, width, height);
+    delete [] testPixels;
+
+    ///
     /// Average the image over all the pixels to return the output value
+    /// There are four channels RGBA, we don't consider the A channel
+    ///
     double integral = 0.0;
-    for(int i=0; i< 3 * width * height; i++){
+    for(int i=0; i< 4 * width * height; i++){
+        if(i%4 == 3){
+            continue;
+        }
         integral += pixels[i];
     }
 
