@@ -110,7 +110,7 @@ double PBRTIntegrand::operator () (const Point2d& p, const string &SamplerType) 
     }
 
     ///Uncomment to verify that *pixels carry the correct image;
-    //IO::WriteEXRrgba("test.exr", pixels, width, height);
+    //IO::WriteEXRrgba("loadedImage.exr", pixels, width, height);
 
     float* testPixels = new float[4*width*height]();
 

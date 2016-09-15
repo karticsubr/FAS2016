@@ -27,8 +27,10 @@ else:
 
 # Read in the file
 filedata = None
-with open(filename, 'r') as file :
+with open(filename, 'r+') as file :
     filedata = file.read()
+#    file.seek(0)
+#    file.write(cropwindowstring + '\n' + filedata)
 
 # Replace the cropwindow with the input values in the .pbrt file
 filedata = re.sub(r'"float cropwindow".+',cropwindowstring, filedata)
