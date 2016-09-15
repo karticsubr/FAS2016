@@ -17,8 +17,6 @@ x2 = sys.argv[5]
 y1 = sys.argv[6]
 y2 = sys.argv[7]
 
-print y2
-
 cropwindowstring = str('"float cropwindow" [' + x1 + ' ' + x2 + ' ' + y1 + ' ' + y2 + ']')
 
 if sampler == 'stratified':

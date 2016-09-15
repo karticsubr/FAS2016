@@ -95,7 +95,7 @@ double PBRTIntegrand::operator () (const Point2d& p, const string &SamplerType) 
     ss.str(std::string());
 
     /// prepare stringstream to call the pbrt with the scenefile
-    ss << _pathexec << " " << _pathscene << " --outfile " <<  _imgname;
+    ss << _pathexec << " " << _pathscene << " --outfile " <<  _imgname << " --quiet";
 
     /// Call PBRT
     std::system(ss.str().c_str());
@@ -119,7 +119,7 @@ double PBRTIntegrand::operator () (const Point2d& p, const string &SamplerType) 
     }
 
     integral /= float(3.0 * width *height);
-    std::cerr << integral << " "<< width <<" " << height << std::endl;
+    //std::cerr << integral << " "<< width <<" " << height << std::endl;
 
     return integral;
 }
