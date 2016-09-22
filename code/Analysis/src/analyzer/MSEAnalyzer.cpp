@@ -164,7 +164,7 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
             _MSE[i] += (Iref-m)*(Iref-m) ;
         }
         //_avgV[i] = Var(ms) ;
-        _avgM[i] /= _nTrials ;
+        _avgM[i] /= float(_nTrials) ;
         _MSE[i] /= float(_nTrials) ;
 
        ofsmean << n << " "<< _avgM[i] << std::endl;
