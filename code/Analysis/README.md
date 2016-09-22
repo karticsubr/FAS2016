@@ -33,7 +33,7 @@ Example to call PBRTIntegrand (all in one line):
 -I --itype Pbrt 
 --epath path-to-pbrt-v3-executable/pbrt 
 --spath path-to-pbrt-v3-scenes/anim-killeroos.pbrt 
---pypath path-to-pythonScript/FAS2016/code/Analysis/python/pbrt-cl.py 
+--pypath path-to-FAS2016/code/Analysis/python/pbrt-cl.py 
 --crop 0.25 0.75 0.25 0.75 
 --pbrtstype stratified
 --refnspp 0
@@ -49,7 +49,7 @@ Example to call PBRTIntegrand (all in one line):
 -I --itype Pbrt 
 --epath path-to-pbrt-v3-executable/pbrt 
 --spath path-to-pbrt-v3-scenes/anim-killeroos.pbrt 
---pypath path-to-pythonScript/FAS2016/code/Analysis/python/pbrt-cl.py 
+--pypath path-to-FAS2016/code/Analysis/python/pbrt-cl.py 
 --crop 0.25 0.75 0.25 0.75 
 --pbrtstype stratified
 --refnspp 1000
