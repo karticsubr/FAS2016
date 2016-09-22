@@ -65,7 +65,7 @@ double GaussianIntegrand::operator () (const Point2d& p) const
     double cx = p.x - _gaussianCenter.x;
     double cy = p.y - _gaussianCenter.y;
 
-    double normalizationFactor = 1.0/(2*PI*_xsigma*_ysigma);
+    double normalizationFactor = 1.0/(2*M_PI*_xsigma*_ysigma);
     double xRatio = cx / _xsigma;
     double yRatio = cy / _ysigma;
     eval  = normalizationFactor * exp(-0.5*(xRatio*xRatio + yRatio*yRatio));

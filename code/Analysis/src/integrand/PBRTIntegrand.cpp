@@ -57,70 +57,65 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
     getcwd(cwd, sizeof(cwd));
     ss << cwd << "/" << _imgname;
     _PBRTOutImgStr = ss.str() ;
+
+    RefVal = computePBRTIntegral("reference.exr", 1000, "halton");
+    std::cerr << RefVal << std::endl;
 }
 
-double PBRTIntegrand::computeReferenceValue(){
+double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::string Sampler){
 
     std::stringstream ss;
 
-    /// Python script to update the crop window size in the pbrt scene file (.pbrt) with
-    /// the values provided from the command line.
-    /// Passing arguments to the python script
-    /// Provide N x1 x2 y1 y2 from the command line to fill _crop[4]
-        ss << "python " << _pathpyscript << " " << _pathscene << " " << SamplerType  << " "
-           << 1000 << " " << _crop[0] << " " << _crop[1] << " " << _crop[2] << " " <<  _crop[3];
+   /// For PBRTIntegrand the p argument contains the number of samples information
+//    int N = _nspp;
 
-    /// Running python script to change the crop window size of the PBRT Scene File
-    std::system(ss.str().c_str());
+   /// Python script to update the crop window size in the pbrt scene file (.pbrt) with
+   /// the values provided from the command line.
+   /// Passing arguments to the python script
+   /// Provide N x1 x2 y1 y2 from the command line to fill _crop[4]
+       ss << "python " << _pathpyscript << " " << _pathscene << " " << Sampler  << " "
+          << NSPP << " " << _crop[0] << " " << _crop[1] << " " << _crop[2] << " " <<  _crop[3];
 
-    /// reinitialize ss stringstream
-    ss.str(std::string());
-    string refImg = "reference.exr";
-    /// prepare stringstream to call the pbrt with the scenefile
-    ss << _pathexec << " " << _pathscene << " --outfile " <<  refImg << " --quiet";
+   /// Running python script to change the crop window size of the PBRT Scene File
+   std::system(ss.str().c_str());
 
-    /// Call PBRT
-    std::system(ss.str().c_str());
+   /// reinitialize ss stringstream
+   ss.str(std::string());
 
-    /// Read the image generated from PBRT
-    int width =0, height =0;
-    float *pixels;
-    if(!IO::LoadEXRrgba(refImg.c_str(), &pixels, &width, &height)){
-        std::cerr << "PBRTIntegrand: Couldn't load the pbrt-eea.exr file !!!" << std::endl;
-        std::cerr << "aborting..." << std::endl;
-        exit(-1);
-    }
+   /// prepare stringstream to call the pbrt with the scenefile
+   ss << _pathexec << " " << _pathscene << " --outfile " <<  imageName;// << " --quiet";
 
-    ///Uncomment to verify that *pixels carry the correct image;
-    IO::WriteEXRrgba("loadedImage.exr", pixels, width, height);
+   /// Call PBRT
+   std::system(ss.str().c_str());
 
-    float* testPixels = new float[4*width*height]();
+   /// Read the image generated from PBRT
+   int width =0, height =0;
+   float *pixels;
+   if(!IO::LoadEXRrgba(imageName.c_str(), &pixels, &width, &height)){
+       std::cerr << "PBRTIntegrand: Couldn't load the pbrt-eea.exr file !!!" << std::endl;
+       std::cerr << "aborting..." << std::endl;
+       exit(-1);
+   }
 
-    for(int r=0;r < height; r++)
-        for(int c=0;c<width;c++){
-            int index = r*width+c;
-            for(int i=0;i<4;i++)
-                testPixels[4*index+i] = pixels[4*index+i];
-        }
-    IO::WriteEXRrgba("test.exr", testPixels, width, height);
-    delete [] testPixels;
+   ///Uncomment to verify that *pixels carry the correct image;
+   IO::WriteEXRrgba("loadedImage.exr", pixels, width, height);
 
-    ///
-    /// Average the image over all the pixels to return the output value
-    /// There are four channels RGBA, we don't consider the A channel
-    ///
-    double integral = 0.0;
-    for(int i=0; i< 4 * width * height; i++){
-        if(i%4 == 3){
-            continue;
-        }
-        integral += pixels[i];
-    }
+   ///
+   /// Average the image over all the pixels to return the output value
+   /// There are four channels RGBA, we don't consider the A channel
+   ///
+   double integral = 0.0;
+   for(int i=0; i< 4 * width * height; i++){
+       if(i%4 == 3){
+           continue;
+       }
+       integral += pixels[i];
+   }
 
-    integral /= float(3.0 * width *height);
-    //std::cerr << integral << " "<< width <<" " << height << std::endl;
+   integral /= float(3.0 * width *height);
+   //std::cerr << integral << " "<< width <<" " << height << std::endl;
 
-    return integral;
+   return integral;
 }
 
 /////////////////////////////////////////////////////////////
@@ -143,6 +138,10 @@ double PBRTIntegrand::computeReferenceValue(){
 
 double PBRTIntegrand::operator () (const Point2d& p) const
 {
+    return 0;
+    //computePBRTIntegral()
+    /*
+    return 0;
      std::stringstream ss;
 
     /// For PBRTIntegrand the p argument contains the number of samples information
@@ -196,6 +195,7 @@ double PBRTIntegrand::operator () (const Point2d& p) const
     //std::cerr << integral << " "<< width <<" " << height << std::endl;
 
     return integral;
+    */
 }
 
 PBRTIntegrand::~PBRTIntegrand()

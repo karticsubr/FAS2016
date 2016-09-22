@@ -46,7 +46,7 @@ private:
     Analyzer* _analyzer;
     string _PBRTExecStr, _PBRTOutImgStr ;
 
-    double computeReferenceValue();
+    double computePBRTIntegral(std::string imageName, int NSPP, std::string Sampler);
 };
 
 #endif
