@@ -35,6 +35,9 @@ private:
     std::string _pbrtSampler;
     static const string PbrtSamplerStr; // "--pbrtstype"
 
+    int _ReferenceNspp;
+    static const string RefNsppStr; // "--refnspp"
+
     double _crop[4];
     std::string _pathexec, _pathscene, _pathpyscript, _imgname;
     static const string CropStr ; // = "--crop"

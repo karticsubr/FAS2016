@@ -16,6 +16,7 @@
 #include <common.h>
 
 const string PBRTIntegrand::PbrtSamplerStr = "--pbrtstype";
+const string PBRTIntegrand::RefNsppStr = "--refnspp";
 //const string PBRTIntegrand::NsppStr = "--nspp";
 
 const string PBRTIntegrand::CropStr = "--crop" ;
@@ -45,6 +46,7 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
     _pathpyscript = CLParser::FindArgument<std::string>(IntegParams, PythonScriptPathStr) ;
     _imgname = CLParser::FindArgument<std::string>(IntegParams, ExrImgNameStr) ;
     _pbrtSampler = CLParser::FindArgument<std::string>(IntegParams, PbrtSamplerStr) ;
+    _ReferenceNspp = CLParser::FindArgument<int>(IntegParams, RefNsppStr) ;
 
     std::vector<double> MultiArgs;
     CLParser::FindMultiArgs(4, MultiArgs, IntegParams, CropStr) ;
@@ -58,7 +60,9 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
     ss << cwd << "/" << _imgname;
     _PBRTOutImgStr = ss.str() ;
 
-      RefVal = computePBRTIntegral("reference.exr", 1000, "halton");
+    std::cerr << "Computing PBRT reference image using " << _ReferenceNspp << " samples..." << std::endl;
+    RefVal = computePBRTIntegral("reference.exr", _ReferenceNspp, "halton");
+    std::cerr << "reference image computed!!!" << std::endl;
 //    std::cerr << RefVal << std::endl;
 }
 

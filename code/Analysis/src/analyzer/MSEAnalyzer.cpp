@@ -171,9 +171,8 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
        ofsmse << n << " "<< _MSE[i] << std::endl;
 
     }
-
-
     LogLogLinearFit(_nSamples, _MSE, _convRate, _YIntError);
+    std::cerr << std::endl;
 }
 
 
