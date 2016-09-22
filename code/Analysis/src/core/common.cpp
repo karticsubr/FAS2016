@@ -87,7 +87,7 @@ void IO::WriteEXRrgba(const std::string& filename, const float* rgb, int width, 
         fprintf(stderr, "Save EXR err: %s\n", err);
         //return ret;
     }
-    printf("Saved exr file. [ %s ] \n", filename.c_str());
+    //printf("Saved exr file. [ %s ] \n", filename.c_str());
 
     free(header.channels);
     free(header.pixel_types);

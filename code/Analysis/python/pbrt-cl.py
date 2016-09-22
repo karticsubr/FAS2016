@@ -3,7 +3,7 @@ import sys
 import math
 
 #arguments
-#filename.pbrt pbrtSampler cropwindowCoordinates
+#filename.pbrt pbrtSampler nspp cropwindowCoordinates
 
 #input .pbrt file
 filename = sys.argv[1]
@@ -24,6 +24,7 @@ if sampler == 'stratified':
     samplerstring = str('Sampler '+ '"' + sampler + '" ' + '"bool jitter" ["true"] ' + '"integer xsamples" [' + str(nsamples) +'] ' + '"integer ysamples" [' + str(nsamples) +']')
 else:
     samplerstring = str('Sampler '+ '"' + sampler + '" ' + '"integer pixelsamples" [' + nsamples +']')
+
 
 # Read in the file
 filedata = None

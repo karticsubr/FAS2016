@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <iterator>
+#include <iomanip>
 
 using namespace std;
 
@@ -122,6 +123,8 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
     ss << prefix << "-mse.txt";
     std::ofstream ofsmse(ss.str().c_str(), std::ofstream::app) ;
 
+    ofsmean << std::fixed << std::setprecision(15);
+    ofsmse << std::fixed << std::setprecision(15);
     //########################################################################################################
 
     const double Iref (_integrand->ReferenceValue()) ;
@@ -143,8 +146,13 @@ void MSEAnalyzer::RunAnalysis(string& prefix)
         const int n(_nSamples[i]) ;
         vector<double> ms(_nTrials,0) ;
 
+        std::stringstream progress;
         for (int r=0; r<_nTrials; r++)
         {
+            progress << "\r trials: " << r << "/" << _nTrials << " N: " << n;
+            std::cerr << progress.str();
+            progress.clear();
+
             vector<Point2d> S;
             _sampler->MTSample(S, n) ;
 

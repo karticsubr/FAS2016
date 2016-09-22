@@ -132,9 +132,14 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
      for (int i=0; i<_nSamples.size(); i++){
        const int n(_nSamples[i]) ;
 
+       std::stringstream progress;
        double mean = 0.0, variance = 0.0;
        for (int trial=1; trial <= _nTrials; trial++)
        {
+           progress << "\r trials: " << trial << "/" << _nTrials << " N: " << n;
+           std::cerr << progress.str();
+           progress.clear();
+
            _pts.resize(0);
            _sampler->MTSample(_pts, n) ;
            //_sampler->homogenize_samples(_pts);
@@ -156,6 +161,6 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
 
      ofsmean.close();
      ofsvar.close();
-
+     std::cerr << std::endl;
 }
 
