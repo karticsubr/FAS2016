@@ -29,7 +29,7 @@ to see the command line usage. Example to call Disk Integrand for variance analy
  * To perform Variance analysis for pbrt-v3 generated images, user can directly call pbrt from the provided Analysis code (look for PBRTIntegrand in the code). Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in. Variance is computed in an online fashion without any reference image. To save time use --refnspp 0.
 Example to call PBRTIntegrand (all in one line):
 ````
-./build/eea -S --stype stratified 
+./build/eea -S --stype Random 
 -I --itype Pbrt 
 --epath path-to-pbrt-v3-executable/pbrt 
 --spath path-to-pbrt-v3-scenes/anim-killeroos.pbrt 
@@ -45,7 +45,7 @@ Example to call PBRTIntegrand (all in one line):
 * MSE analyzer works the same as variance analyzer but you need a reference value. For pbrt-v3, you need to compute the reference image (ReferenceSampler used Halton) with huge number of samples per pixel (--refnspp 1000). Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in.
 Example to call PBRTIntegrand (all in one line):
 ````
-./build/eea -S --stype stratified 
+./build/eea -S --stype Random 
 -I --itype Pbrt 
 --epath path-to-pbrt-v3-executable/pbrt 
 --spath path-to-pbrt-v3-scenes/anim-killeroos.pbrt 
