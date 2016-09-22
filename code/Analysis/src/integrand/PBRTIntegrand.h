@@ -38,6 +38,8 @@ private:
 
     Analyzer* _analyzer;
     string _PBRTExecStr, _PBRTOutImgStr ;
+
+    double computeReferenceValue();
 };
 
 #endif

@@ -36,6 +36,8 @@ DiskIntegrand::DiskIntegrand(const vector<string>& IntegParams)
   CLParser::FindMultiArgs<double>(2, MultiArgs, IntegParams, CenterStr) ;
 
   _diskCenter = Point2d(MultiArgs[0], MultiArgs[1]);
+
+  RefVal = M_PI * _diskRadius * _diskRadius;
 }
 
 /////////////////////////////////////////////////////////////
