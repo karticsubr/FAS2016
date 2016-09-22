@@ -15,6 +15,8 @@
 
 #include <common.h>
 
+const string PBRTIntegrand::PbrtSamplerStr = "--pbrtstype";
+//const string PBRTIntegrand::NsppStr = "--nspp";
 
 const string PBRTIntegrand::CropStr = "--crop" ;
 const string PBRTIntegrand::PbrtExecPathStr = "--epath" ;
@@ -42,6 +44,7 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
     _pathscene = CLParser::FindArgument<std::string>(IntegParams, PbrtScenePathStr) ;
     _pathpyscript = CLParser::FindArgument<std::string>(IntegParams, PythonScriptPathStr) ;
     _imgname = CLParser::FindArgument<std::string>(IntegParams, ExrImgNameStr) ;
+    _pbrtSampler = CLParser::FindArgument<std::string>(IntegParams, PbrtSamplerStr) ;
 
     std::vector<double> MultiArgs;
     CLParser::FindMultiArgs(4, MultiArgs, IntegParams, CropStr) ;
@@ -138,18 +141,19 @@ double PBRTIntegrand::computeReferenceValue(){
 // PBRTIntegrand uses the samplers directly from the PBRT code.
 /////////////////////////////////////////////////////////////
 
-double PBRTIntegrand::operator () (const Point2d& p, const string &SamplerType) const
+double PBRTIntegrand::operator () (const Point2d& p) const
 {
      std::stringstream ss;
 
     /// For PBRTIntegrand the p argument contains the number of samples information
     int N = p.x;
+//    int N = _nspp;
 
     /// Python script to update the crop window size in the pbrt scene file (.pbrt) with
     /// the values provided from the command line.
     /// Passing arguments to the python script
     /// Provide N x1 x2 y1 y2 from the command line to fill _crop[4]
-        ss << "python " << _pathpyscript << " " << _pathscene << " " << SamplerType  << " "
+        ss << "python " << _pathpyscript << " " << _pathscene << " " << _pbrtSampler  << " "
            << N << " " << _crop[0] << " " << _crop[1] << " " << _crop[2] << " " <<  _crop[3];
 
     /// Running python script to change the crop window size of the PBRT Scene File
@@ -175,17 +179,6 @@ double PBRTIntegrand::operator () (const Point2d& p, const string &SamplerType) 
 
     ///Uncomment to verify that *pixels carry the correct image;
     //IO::WriteEXRrgba("loadedImage.exr", pixels, width, height);
-
-    float* testPixels = new float[4*width*height]();
-
-    for(int r=0;r < height; r++)
-        for(int c=0;c<width;c++){
-            int index = r*width+c;
-            for(int i=0;i<4;i++)
-                testPixels[4*index+i] = pixels[4*index+i];
-        }
-    IO::WriteEXRrgba("test.exr", testPixels, width, height);
-    delete [] testPixels;
 
     ///
     /// Average the image over all the pixels to return the output value
