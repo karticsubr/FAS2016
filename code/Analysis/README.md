@@ -42,7 +42,7 @@ Example to call PBRTIntegrand (all in one line):
 -G --ofile pbrt-killeroos
 ````
 
-* MSE analyzer works the same but for pbrt-v3, you need to compute the reference image (ReferenceSampler used Halton) with huge number of samples per pixel (--refnspp 1000). Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in.
+* MSE analyzer works the same as variance analyzer but you need a reference value. For pbrt-v3, you need to compute the reference image (ReferenceSampler used Halton) with huge number of samples per pixel (--refnspp 1000). Make sure you have a cropwindow defined in the .pbrt scene file to select the region you are interested in.
 Example to call PBRTIntegrand (all in one line):
 ````
 ./build/eea -S --stype stratified 
