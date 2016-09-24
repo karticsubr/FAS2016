@@ -19,8 +19,11 @@ const string Analyzer::nTrialsStr = "--nreps" ;
 map<string, Analyzer*> AnalyzerPrototype::exemplars ;
 AnalyzerPrototype a1;
 
-Analyzer::~Analyzer()
-{}
+Analyzer::~Analyzer(){
+    if(_integrand){
+        _integrand.reset(nullptr);
+    }
+}
 
 /////////////////////////////////////////////
 // When implementing a new type of analyzer,

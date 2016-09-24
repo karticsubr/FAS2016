@@ -7,6 +7,7 @@
 #include <point2d.h>
 #include <sampler.h>
 
+#include <integrand.h>
 
 using std::string ;
 using std::cout ;
@@ -50,6 +51,8 @@ protected:
     std::vector<Point2d> _pts;
 
     Sampler* _sampler ;
+
+    std::unique_ptr<Integrand> _integrand;
 
     string AnalyzerType;
 };

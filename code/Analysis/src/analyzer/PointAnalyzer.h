@@ -19,7 +19,7 @@ public:
      Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
     ~PointAnalyzer();
 private:
-    PointAnalyzer() { AnalyzerType = "pts" ;}
+    PointAnalyzer() { AnalyzerType = "pts" ; }
     PointAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
 
     friend class AnalyzerPrototype;

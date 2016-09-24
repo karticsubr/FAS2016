@@ -12,10 +12,10 @@ public:
       Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
     ~VarianceAnalyzer();
 private:
-    VarianceAnalyzer() { AnalyzerType = "var" ;}
+    VarianceAnalyzer() { AnalyzerType = "var" ; }
     VarianceAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
 
-    Integrand* _integrand;
+    //Integrand* _integrand;
 
     vector<double> _avgM, _avgV, _MSE ;
 

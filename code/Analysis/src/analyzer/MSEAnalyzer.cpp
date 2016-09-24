@@ -59,7 +59,7 @@ MSEAnalyzer::MSEAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const
     // create integrand object from the -I section of command line
     // implemented as a virtual constructor
     // treat this as a call to the new operator, and delete the object integrand responsibly
-    _integrand = IntegrandPrototype::Generate(IntegString) ;
+    _integrand = std::unique_ptr<Integrand>(IntegrandPrototype::Generate(IntegString)) ;
 }
 
 namespace // some functions to compute simple statistics of vector<double>

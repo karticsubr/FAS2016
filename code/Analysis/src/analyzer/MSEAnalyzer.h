@@ -15,7 +15,7 @@ private:
     MSEAnalyzer() { AnalyzerType = "mse" ;}
     MSEAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
 
-    Integrand* _integrand;
+    //Integrand* _integrand;
 
     vector<double> _avgM, _avgV, _MSE ;
 

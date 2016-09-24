@@ -12,7 +12,7 @@ public:
      Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
 
 private:
-    FourierAnalyzer() { AnalyzerType = "fourier" ;}
+    FourierAnalyzer() { AnalyzerType = "fourier" ; }
     ~FourierAnalyzer();
     FourierAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
 

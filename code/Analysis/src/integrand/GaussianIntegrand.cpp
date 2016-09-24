@@ -30,7 +30,6 @@ Integrand* GaussianIntegrand::GenIntegrand(const vector<string>& IntegParams)
 GaussianIntegrand::GaussianIntegrand(const vector<string>& IntegParams)
 {
     IntegrandType = "Gaussian";
-
     std::vector<double> MultiArgCenter, MultiArgSigma;
     CLParser::FindMultiArgs<double>(2, MultiArgCenter, IntegParams, CenterStr) ;
     CLParser::FindMultiArgs<double>(2, MultiArgSigma, IntegParams, SigmaStr) ;
@@ -72,6 +71,6 @@ double GaussianIntegrand::operator () (const Point2d& p) const
     return eval ;
 }
 
-GaussianIntegrand::~GaussianIntegrand()
-{}
+GaussianIntegrand::~GaussianIntegrand(){
+}
 

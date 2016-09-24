@@ -55,7 +55,7 @@ VarianceAnalyzer::VarianceAnalyzer(Sampler* s, const vector<string>& AnalyzerPar
     // create integrand object from the -I section of command line
     // implemented as a virtual constructor
     // treat this as a call to the new operator, and delete the object integrand responsibly
-    _integrand = IntegrandPrototype::Generate(IntegString) ;
+    _integrand = std::unique_ptr<Integrand>(IntegrandPrototype::Generate(IntegString)) ;
 }
 
 namespace progressive {
@@ -142,7 +142,7 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
 
            _pts.resize(0);
            _sampler->MTSample(_pts, n) ;
-           //_sampler->homogenize_samples(_pts);
+           _sampler->homogenize_samples(_pts);
 
            vector<double> res;
            _integrand->MultipointEval(res, _pts) ;
