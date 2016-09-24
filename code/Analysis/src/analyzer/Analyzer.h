@@ -52,7 +52,7 @@ protected:
 
     Sampler* _sampler ;
 
-    std::unique_ptr<Integrand> _integrand;
+    Integrand* _integrand;
 
     string AnalyzerType;
 };

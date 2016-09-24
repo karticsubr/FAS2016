@@ -10,6 +10,7 @@
 #include <cmdlnparser.h>
 
 #include <iostream>
+#include <memory>
 
 const string DiskIntegrand::RadiusStr = "--rad" ;
 const string DiskIntegrand::CenterStr = "--center" ;

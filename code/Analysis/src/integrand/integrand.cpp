@@ -52,7 +52,7 @@ IntegrandPrototype::IntegrandPrototype()
 /////////////////////////////////////////////
 // You should not need to modify this
 /////////////////////////////////////////////
-Integrand* IntegrandPrototype::Generate(const vector<string>& IntegSection)
+Integrand *IntegrandPrototype::Generate(const vector<string>& IntegSection)
 {
     string type = CLParser::FindArgument<string>(IntegSection, CLArg::IntegrandType) ;
 

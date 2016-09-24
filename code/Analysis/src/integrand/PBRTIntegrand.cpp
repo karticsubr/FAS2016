@@ -29,7 +29,7 @@ const string PBRTIntegrand::ExrImgNameStr = "--img" ;
 // 				PBRT Integrator to render a given pixel
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Integrand* PBRTIntegrand::GenIntegrand(const vector<string>& IntegParams)
+Integrand *PBRTIntegrand::GenIntegrand(const vector<string>& IntegParams)
 {
     return new PBRTIntegrand(IntegParams) ;
 }

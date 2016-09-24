@@ -8,6 +8,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <point2d.h>
+#include <memory>
 
 using namespace eea;
 
