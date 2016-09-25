@@ -27,7 +27,6 @@ int main(int argc, char* argv[]){
     }
     else{
         i1 = 0;
-        std::cerr << "no integrand assigned !!!" << std::endl;
     }
 
     // create analyzer object from the -A section of command line
