@@ -42,14 +42,15 @@ using namespace std;
 /// MSEAnalyzer should only be used if the Reference Value (RefVal) of the integrand is known
 ///
 
-Analyzer* MSEAnalyzer::createAnalyzer(Sampler *s, const vector<string> &AnalyzerParams, const vector<std::string> &IntegString){
-    return new MSEAnalyzer(s, AnalyzerParams, IntegString);
+Analyzer* MSEAnalyzer::createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams){
+    return new MSEAnalyzer(s, I, AnalyzerParams);
 }
 
 MSEAnalyzer::~MSEAnalyzer(){
 }
 
-MSEAnalyzer::MSEAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const vector<std::string> &IntegString) {
+MSEAnalyzer::MSEAnalyzer(Sampler* s, Integrand *I, const vector<string>& AnalyzerParams)
+    : _integrand(I){
 
     AnalyzerType = "mse";
     _sampler = s;
@@ -59,7 +60,7 @@ MSEAnalyzer::MSEAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const
     // create integrand object from the -I section of command line
     // implemented as a virtual constructor
     // treat this as a call to the new operator, and delete the object integrand responsibly
-    _integrand = (IntegrandPrototype::Generate(IntegString)) ;
+    //_integrand = (IntegrandPrototype::Generate(IntegString)) ;
 }
 
 namespace // some functions to compute simple statistics of vector<double>

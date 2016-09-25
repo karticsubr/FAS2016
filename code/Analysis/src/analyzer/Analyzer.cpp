@@ -39,7 +39,7 @@ AnalyzerPrototype::AnalyzerPrototype()
     exemplars[vs[i]->GetType()] = vs[i] ;
 }
 
-Analyzer* AnalyzerPrototype::Generate(Sampler* s, const vector<string>& AnalyzerString, const vector<std::string> &IntegString)
+Analyzer* AnalyzerPrototype::Generate(Sampler* s, Integrand *I, const vector<string>& AnalyzerString)
 {
     string type = CLParser::FindArgument<string>(AnalyzerString, CLArg::AnalyzerType) ;
 
@@ -47,7 +47,7 @@ Analyzer* AnalyzerPrototype::Generate(Sampler* s, const vector<string>& Analyzer
 
     map<string, Analyzer*>::iterator it = exemplars.find(type) ;
     if (it==exemplars.end()) throw invalid_argument("Unknown analyzer type") ;
-    return it->second->createAnalyzer(s, AnalyzerString, IntegString) ;
+    return it->second->createAnalyzer(s, I, AnalyzerString) ;
 }
 
 

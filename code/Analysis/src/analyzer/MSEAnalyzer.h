@@ -9,13 +9,13 @@ class MSEAnalyzer : public Analyzer
 {
 public:
     virtual void RunAnalysis(string& prefix);
-    virtual Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
+    virtual Analyzer* createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams) ;
     ~MSEAnalyzer();
 private:
     MSEAnalyzer() { AnalyzerType = "mse" ;}
-    MSEAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
+    MSEAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams);
 
-    //Integrand* _integrand;
+    Integrand* _integrand;
 
     vector<double> _avgM, _avgV, _MSE ;
 

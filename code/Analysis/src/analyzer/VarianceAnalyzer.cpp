@@ -38,14 +38,15 @@ using namespace std;
 /// \return
 ///
 
-Analyzer* VarianceAnalyzer::createAnalyzer(Sampler *s, const vector<string> &AnalyzerParams, const vector<std::string> &IntegString){
-    return new VarianceAnalyzer(s, AnalyzerParams, IntegString);
+Analyzer* VarianceAnalyzer::createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams) {
+    return new VarianceAnalyzer(s, I, AnalyzerParams);
 }
 
 VarianceAnalyzer::~VarianceAnalyzer(){
 }
 
-VarianceAnalyzer::VarianceAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const vector<std::string> &IntegString) {
+VarianceAnalyzer::VarianceAnalyzer(Sampler* s, Integrand *I, const vector<string>& AnalyzerParams)
+    : _integrand(I){
 
     AnalyzerType = "Variance";
     _sampler = s;
@@ -55,7 +56,7 @@ VarianceAnalyzer::VarianceAnalyzer(Sampler* s, const vector<string>& AnalyzerPar
     // create integrand object from the -I section of command line
     // implemented as a virtual constructor
     // treat this as a call to the new operator, and delete the object integrand responsibly
-    _integrand = (IntegrandPrototype::Generate(IntegString)) ;
+//    _integrand = (IntegrandPrototype::Generate(IntegString)) ;
 }
 
 namespace progressive {

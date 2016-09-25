@@ -21,11 +21,12 @@ FourierAnalyzer::~FourierAnalyzer(){
     delete [] _powerSpectrum;
 }
 
-Analyzer* FourierAnalyzer::createAnalyzer(Sampler *s, const vector<string> &AnalyzerParams, const vector<std::string> &IntegString){
-    return new FourierAnalyzer(s, AnalyzerParams, IntegString);
+Analyzer* FourierAnalyzer::createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams){
+    return new FourierAnalyzer(s, AnalyzerParams);
 }
 
-FourierAnalyzer::FourierAnalyzer(Sampler* s, const vector<string>& AnalyzerParams, const vector<std::string> &IntegString) : _trialStepOut(1), _frequencyStep(1.0) {
+FourierAnalyzer::FourierAnalyzer(Sampler* s, const vector<string>& AnalyzerParams)
+    : _trialStepOut(1), _frequencyStep(1.0) {
 
     AnalyzerType = "fourier";
     _sampler = s;

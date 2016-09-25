@@ -9,13 +9,13 @@ class VarianceAnalyzer : public Analyzer{
 
 public:
       void RunAnalysis(string& prefix);
-      Analyzer* createAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
+      Analyzer* createAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams) ;
     ~VarianceAnalyzer();
 private:
     VarianceAnalyzer() { AnalyzerType = "var" ; }
-    VarianceAnalyzer(Sampler *s, const vector<string>& AnalyzerParams, const vector<string>& IntegString);
+    VarianceAnalyzer(Sampler *s, Integrand* I, const vector<string>& AnalyzerParams);
 
-    //Integrand* _integrand;
+    Integrand* _integrand;
 
     vector<double> _avgM, _avgV, _MSE ;
 
