@@ -53,8 +53,6 @@ protected:
 
     Sampler* _sampler ;
 
-    Integrand* _integrand;
-
     string AnalyzerType;
 };
 
