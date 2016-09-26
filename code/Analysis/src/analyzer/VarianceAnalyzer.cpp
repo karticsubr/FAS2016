@@ -110,11 +110,12 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
     std::stringstream ss;
 
     ss.str(std::string());
-    ss << prefix << "-mean.txt";
+    ss << prefix << "-mean-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
+    //ss << prefix << "-mean.txt";
     std::ofstream ofsmean(ss.str().c_str(), std::ofstream::app) ;
 
     ss.str(std::string());
-    ss << prefix << "-var.txt";
+    ss << prefix << "-variance-" << _integrand->GetType() << "-" << _sampler->GetType() << ".txt";
     std::ofstream ofsvar(ss.str().c_str(), std::ofstream::app) ;
 
     ofsmean << std::fixed << std::setprecision(15);
