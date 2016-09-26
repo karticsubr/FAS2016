@@ -27,7 +27,6 @@ int main(int argc, char* argv[]){
     }
     else{
         i1 = 0;
-        std::cerr << "no integrand assigned !!!" << std::endl;
     }
 
     // create analyzer object from the -A section of command line
@@ -38,12 +37,13 @@ int main(int argc, char* argv[]){
     a->RunAnalysis(ofname);
 
 
-    delete s1;
     delete a;
 
    //delete the object i1 responsibly
     if(clarg.IntegSection().size() > 3)
         delete i1;
+
+    delete s1;
 
     return 0;
 }
