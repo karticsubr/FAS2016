@@ -37,12 +37,13 @@ int main(int argc, char* argv[]){
     a->RunAnalysis(ofname);
 
 
-    delete s1;
     delete a;
 
    //delete the object i1 responsibly
     if(clarg.IntegSection().size() > 3)
         delete i1;
+
+    delete s1;
 
     return 0;
 }
