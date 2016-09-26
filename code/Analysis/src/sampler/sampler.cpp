@@ -171,7 +171,6 @@ void randomSampler::MTSample(vector<Point2d>& pts, int n) const
         x = (maxRange * x) + bBoxMin;
         y = (maxRange * y) + bBoxMin;
 
-        //pts[i] = Point2d(x,y) ;
         pts.push_back(Point2d(x,y));
     }
 }
