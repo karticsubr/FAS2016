@@ -37,7 +37,7 @@ with open(filename, 'r+') as file :
 filedata = re.sub(r'"float cropwindow".+',cropwindowstring, filedata)
 
 # Remove string with the filename in the .pbrt file
-filedata = re.sub(r'"string filename".+','', filedata)
+filedata = re.sub(r'"string filename".+','', filedata, 1)
 
 # Replace the Sampler
 filedata = re.sub(r'Sampler.+',samplerstring, filedata)
