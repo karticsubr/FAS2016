@@ -36,8 +36,15 @@ with open(filename, 'r+') as file :
 # Replace the cropwindow with the input values in the .pbrt file
 filedata = re.sub(r'"float cropwindow".+',cropwindowstring, filedata)
 
-# Remove string with the filename in the .pbrt file
-filedata = re.sub(r'"string filename".+','', filedata, 1)
+stringFileNameLocation = re.search("string filename", filedata).start()
+WorldBeginLocation = re.search("WorldBegin", filedata).start()
+
+# Remove .exr or .png output-image filename from the .pbrt file.
+# To Make sure not to remove .exr images used for Textures/EnvironmentMaps extra,
+# only the first occurence of the "string filename" (.exr) declared before the "WorldBegin" 
+# is removed from the .pbrt file.
+if stringFileNameLocation < WorldBeginLocation:
+    filedata = re.sub('"string filename" .+','', filedata, 1)
 
 # Replace the Sampler
 filedata = re.sub(r'Sampler.+',samplerstring, filedata)
