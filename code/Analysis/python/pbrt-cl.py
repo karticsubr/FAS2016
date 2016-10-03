@@ -1,3 +1,4 @@
+
 import re
 import sys
 import math
@@ -30,21 +31,20 @@ else:
 filedata = None
 with open(filename, 'r+') as file :
     filedata = file.read()
-#    file.seek(0)
-#    file.write(cropwindowstring + '\n' + filedata)
+
+stringFileNameLocation = re.search("string filename", filedata)
+WorldBeginLocation = re.search("WorldBegin", filedata).start()
+
+with open(filename, 'r+') as file :
+    if stringFileNameLocation is not None:
+        stringFileNameLocation = stringFileNameLocation.start()
+        if stringFileNameLocation < WorldBeginLocation:
+            filedata = re.sub('"string filename" .+',' ', filedata, 1)
+#    file.seek(0);
+#    file.write('"string filename" "pbrt-eea.exr"\n' + filedata);
 
 # Replace the cropwindow with the input values in the .pbrt file
 filedata = re.sub(r'"float cropwindow".+',cropwindowstring, filedata)
-
-stringFileNameLocation = re.search("string filename", filedata).start()
-WorldBeginLocation = re.search("WorldBegin", filedata).start()
-
-# Remove .exr or .png output-image filename from the .pbrt file.
-# To Make sure not to remove .exr images used for Textures/EnvironmentMaps extra,
-# only the first occurence of the "string filename" (.exr) declared before the "WorldBegin" 
-# is removed from the .pbrt file.
-if stringFileNameLocation < WorldBeginLocation:
-    filedata = re.sub('"string filename" .+','', filedata, 1)
 
 # Replace the Sampler
 filedata = re.sub(r'Sampler.+',samplerstring, filedata)

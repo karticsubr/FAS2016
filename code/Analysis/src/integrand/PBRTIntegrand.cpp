@@ -12,7 +12,8 @@
 #include <sstream>
 #include <sys/stat.h>
 #include <unistd.h> //to use getcwd(cwd, sizeof(cwd));
-
+#include <write-exr.h>
+#include <read-image.h>
 #include <common.h>
 
 const string PBRTIntegrand::PbrtSamplerStr = "--pbrtstype";
@@ -44,7 +45,7 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
     _pathexec = CLParser::FindArgument<std::string>(IntegParams, PbrtExecPathStr) ;
     _pathscene = CLParser::FindArgument<std::string>(IntegParams, PbrtScenePathStr) ;
     _pathpyscript = CLParser::FindArgument<std::string>(IntegParams, PythonScriptPathStr) ;
-    _imgname = CLParser::FindArgument<std::string>(IntegParams, ExrImgNameStr) ;
+    _imageName = CLParser::FindArgument<std::string>(IntegParams, ExrImgNameStr) ;
     _pbrtSampler = CLParser::FindArgument<std::string>(IntegParams, PbrtSamplerStr) ;
     _ReferenceNspp = CLParser::FindArgument<int>(IntegParams, RefNsppStr) ;
 
@@ -57,7 +58,7 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
     std::stringstream ss;
     char cwd[999];
     getcwd(cwd, sizeof(cwd));
-    ss << cwd << "/" << _imgname;
+    ss << cwd << "/" << _imageName;
     _PBRTOutImgStr = ss.str() ;
 
     std::cerr << "Computing PBRT reference image using " << _ReferenceNspp << " samples..." << std::endl;
@@ -81,7 +82,6 @@ double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::
     /// Running python script to change the crop window size of the PBRT Scene File
     std::system(ss.str().c_str());
 
-
     /// reinitialize ss stringstream
     ss.str(std::string());
 
@@ -94,28 +94,53 @@ double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::
     /// Read the image generated from PBRT
     int width =0, height =0;
     float *pixels;
-    if(!IO::LoadEXRrgba(imageName.c_str(), &pixels, &width, &height)){
-        std::cerr << "PBRTIntegrand: Couldn't load the pbrt-eea.exr file !!!" << std::endl;
-        std::cerr << "aborting..." << std::endl;
-        exit(-1);
-    }
-
-    ///Uncomment to verify that *pixels carry the correct image;
-    //IO::WriteEXRrgba("loadedImage.exr", pixels, width, height);
-
-    ///
-    /// Average the image over all the pixels to return the output value
-    /// There are four channels RGBA, we don't consider the A channel
-    ///
-    double integral = 0.0;
-    for(int i=0; i< 4 * width * height; i++){
-        if(i%4 == 3){
-            continue;
+    if(!read_exr_rgb(imageName, pixels, width, height)){
+            std::cerr << "PBRTIntegrand: Couldn't load the pbrt-eea.exr file !!!" << std::endl;
+            std::cerr << "aborting..." << std::endl;
+            exit(-1);
         }
-        integral += pixels[i];
-    }
 
-    integral /= float(3.0 * width *height);
+        ///
+        ///Uncomment to verify that *pixels carry the correct image;
+        ///
+    //    write_exr_rgb("test.exr", pixels, width, height);
+
+        ///
+        /// Average the image over all the pixels to return the output value
+        /// There are four channels RGBA, we don't consider the A channel
+        ///
+        double integral = 0.0;
+        for(int i=0; i< 3 * width * height; i++){
+            integral += pixels[i];
+        }
+
+        integral /= float(3.0 * width *height);
+
+///
+/// Removing tinyexr dependency
+///
+//    if(!IO::LoadEXRrgba(imageName.c_str(), &pixels, &width, &height)){
+//        std::cerr << "PBRTIntegrand: Couldn't load the pbrt-eea.exr file !!!" << std::endl;
+//        std::cerr << "aborting..." << std::endl;
+//        exit(-1);
+//    }
+
+//    ///Uncomment to verify that *pixels carry the correct image;
+//    IO::WriteEXRrgba("loadedImage.exr", pixels, width, height);
+
+//    ///
+//    /// Average the image over all the pixels to return the output value
+//    /// There are four channels RGBA, we don't consider the A channel
+//    ///
+//    double integral = 0.0;
+//    for(int i=0; i< 4 * width * height; i++){
+//        if(i%4 == 3){
+//            continue;
+//        }
+//        integral += pixels[i];
+//    }
+
+//    integral /= float(3.0 * width *height);
 
     return integral;
 }
@@ -143,7 +168,7 @@ double PBRTIntegrand::operator () (const Point2d& p) const
     /// For PBRTIntegrand the p argument contains the number of samples information
     //    int N = _nspp;
 
-    double integral = computePBRTIntegral(_PBRTOutImgStr, p.x, _pbrtSampler);
+    double integral = computePBRTIntegral(_imageName, p.x, _pbrtSampler);
     return integral;
 }
 

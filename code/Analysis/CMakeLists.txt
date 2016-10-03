@@ -23,6 +23,23 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
+SET(ILMBASE_NAMESPACE_VERSIONING OFF CACHE BOOL " " FORCE)
+SET(OPENEXR_NAMESPACE_VERSIONING OFF CACHE BOOL " " FORCE)
+SET(OPENEXR_BUILD_SHARED_LIBS    OFF CACHE BOOL " " FORCE)
+SET(ILMBASE_BUILD_SHARED_LIBS    OFF CACHE BOOL " " FORCE)
+ADD_SUBDIRECTORY(ext/openexr)
+SET_PROPERTY(TARGET IexMath eLut toFloat b44ExpLogTable dwaLookups CopyIlmBaseLibs IlmThread Half Iex Imath IlmImf PROPERTY FOLDER "dependencies")
+INCLUDE_DIRECTORIES (
+  ext/openexr/IlmBase/Imath
+  ext/openexr/IlmBase/Half
+  ext/openexr/IlmBase/Iex
+  ext/openexr/OpenEXR/IlmImf
+  ${CMAKE_BINARY_DIR}/ext/openexr/IlmBase/config
+  ${CMAKE_BINARY_DIR}/ext/openexr/OpenEXR/config
+)
+
+SET(OPENEXR_LIBS IlmImf Imath Half)
+
 #find_package(TBB)
 
 include_directories(
@@ -51,9 +68,9 @@ src/sampler/*.h
 add_executable(eea ${SOURCE} ${HEADERS})
 
 if(APPLE)
-TARGET_LINK_LIBRARIES(eea blas CGAL gmp ) #${TBB_LIBRARIES}
+TARGET_LINK_LIBRARIES(eea blas CGAL gmp  ${OPENEXR_LIBS}) #${TBB_LIBRARIES}
 else()
-TARGET_LINK_LIBRARIES(eea blas gomp CGAL gmp ) #${TBB_LIBRARIES}
+TARGET_LINK_LIBRARIES(eea blas gomp CGAL gmp ${OPENEXR_LIBS}) #${TBB_LIBRARIES}
 endif(APPLE)
 
 install(TARGETS eea RUNTIME DESTINATION bin)

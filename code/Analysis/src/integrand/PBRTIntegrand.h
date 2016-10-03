@@ -39,7 +39,7 @@ private:
     static const string RefNsppStr; // "--refnspp"
 
     double _crop[4];
-    std::string _pathexec, _pathscene, _pathpyscript, _imgname;
+    std::string _pathexec, _pathscene, _pathpyscript, _imageName;
     static const string CropStr ; // = "--crop"
     static const string PbrtExecPathStr ; // = "--epath"
     static const string PbrtScenePathStr ; // = "-- spath"
