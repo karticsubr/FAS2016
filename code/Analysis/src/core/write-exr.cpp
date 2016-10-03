@@ -106,27 +106,6 @@ void write_exr_rgba(std::string name, const T* pixels, int xRes, int yRes){
     delete[] hrgba;
 }
 
-//template <typename T>
-//void write_exr_float(std::string name, const T pixels, int xRes, int yRes){
-//    Header header (xRes, yRes);
-//    header.channels().insert ("Z", Channel (FLOAT));
-
-//    if(name.compare(name.size()-4, 4,".exr") != 0){
-//        name.erase(name.end()-4, name.end());
-//        name += ".exr";
-//    }
-
-//    OutputFile file(name.c_str(), header);
-
-//    FrameBuffer frameBuffer;
-
-//    //frameBuffer.insert ("G", Slice (HALF, (char *) pixels, sizeof (*pixels) * 1, sizeof (*pixels) * xRes));
-//    frameBuffer.insert ("Z", Slice (FLOAT, (char *) pixels, sizeof (*pixels) * 1, sizeof (*pixels) * xRes));
-
-//    file.setFrameBuffer (frameBuffer);
-//    file.writePixels (yRes);
-//}
-
 template void write_exr_grey(std::string name, const float *pixels, int xRes, int yRes);
 template void write_exr_rgb(std::string name, const float *pixels, int xRes, int yRes);
 template void write_exr_rgba(std::string name, const float *pixels, int xRes, int yRes);
