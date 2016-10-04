@@ -59,7 +59,7 @@ title('Convergence plot') ;
 print([dout.ofile '-convs.pdf'], '-dpdf') ;
 
 figure(hf2) ;
-xlabel('convergence rate')
+xlabel('convergence rate (of squared error) ')
 ylabel('log-variance at low sampling')
 dummsh1 = plot(avg(1), avg(2), 'color', [1 1 1]) ;
 dummsh2 = plot(avg(1), avg(2), 'color', [1 1 1]) ;
