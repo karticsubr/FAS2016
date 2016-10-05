@@ -55,18 +55,35 @@ PBRTIntegrand::PBRTIntegrand(const vector<string>& IntegParams)
     for(int i = 0; i < 4; i++)
         _crop[i] = MultiArgs[i];
 
-    std::stringstream ss;
-    char cwd[999];
-    getcwd(cwd, sizeof(cwd));
-    ss << cwd << "/" << _imageName;
-    _PBRTOutImgStr = ss.str() ;
-
     std::cerr << "Computing PBRT reference image using " << _ReferenceNspp << " samples..." << std::endl;
     RefVal = computePBRTIntegral("reference.exr", _ReferenceNspp, "halton");
     std::cerr << "reference image computed!!!" << std::endl;
-//    std::cerr << RefVal << std::endl;
 }
 
+
+/////////////////////////////////////////////////////////////
+//` Evaluation returns the pixel radiance computed from the
+// PBRT that is on your system.
+// User need to modify their PBRT version to render only the
+// given input pixel (_xpixel, _ypixel) and
+// to make PBRT return a value for that pixel instead
+// of an image. Use the following flags:
+// --pixel : pixel coordinates to be rendered from the PBRT code
+// --epath : path to your PBRT executable on your machine
+// --spath : path to your PBRT Scene file (.pbrt)
+// --pypath: path to the python script to modify .pbrt file according to
+// command line arguments provided
+
+// NOTE: argument Point2d p is used to get the number of samples
+// in the operator call below.
+// PBRTIntegrand uses the samplers directly from the PBRT code.
+/////////////////////////////////////////////////////////////
+/// \brief PBRTIntegrand::computePBRTIntegral
+/// \param imageName
+/// \param NSPP
+/// \param samplerName
+/// \return
+///
 double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::string samplerName) const{
 
     std::stringstream ss;
@@ -95,73 +112,30 @@ double PBRTIntegrand::computePBRTIntegral(std::string imageName, int NSPP, std::
     int width =0, height =0;
     float *pixels;
     if(!read_exr_rgb(imageName, pixels, width, height)){
-            std::cerr << "PBRTIntegrand: Couldn't load the pbrt-eea.exr file !!!" << std::endl;
-            std::cerr << "aborting..." << std::endl;
-            exit(-1);
-        }
+        std::cerr << "PBRTIntegrand: Couldn't load the pbrt-eea.exr file !!!" << std::endl;
+        std::cerr << "aborting..." << std::endl;
+        exit(-1);
+    }
 
-        ///
-        ///Uncomment to verify that *pixels carry the correct image;
-        ///
+    ///
+    ///Uncomment to verify that *pixels carry the correct image;
+    ///
     //    write_exr_rgb("test.exr", pixels, width, height);
 
-        ///
-        /// Average the image over all the pixels to return the output value
-        /// There are four channels RGBA, we don't consider the A channel
-        ///
-        double integral = 0.0;
-        for(int i=0; i< 3 * width * height; i++){
-            integral += pixels[i];
-        }
+    ///
+    /// Average the image over all the pixels to return the output value
+    /// There are four channels RGBA, we don't consider the A channel
+    ///
+    double integral = 0.0;
+    for(int i=0; i< 3 * width * height; i++){
+        integral += pixels[i];
+    }
 
-        integral /= float(3.0 * width *height);
-
-///
-/// Removing tinyexr dependency
-///
-//    if(!IO::LoadEXRrgba(imageName.c_str(), &pixels, &width, &height)){
-//        std::cerr << "PBRTIntegrand: Couldn't load the pbrt-eea.exr file !!!" << std::endl;
-//        std::cerr << "aborting..." << std::endl;
-//        exit(-1);
-//    }
-
-//    ///Uncomment to verify that *pixels carry the correct image;
-//    IO::WriteEXRrgba("loadedImage.exr", pixels, width, height);
-
-//    ///
-//    /// Average the image over all the pixels to return the output value
-//    /// There are four channels RGBA, we don't consider the A channel
-//    ///
-//    double integral = 0.0;
-//    for(int i=0; i< 4 * width * height; i++){
-//        if(i%4 == 3){
-//            continue;
-//        }
-//        integral += pixels[i];
-//    }
-
-//    integral /= float(3.0 * width *height);
+    integral /= float(3.0 * width *height);
 
     return integral;
 }
 
-/////////////////////////////////////////////////////////////
-// Evaluation returns the pixel radiance computed from the
-// PBRT that is on your system.
-// User need to modify their PBRT version to render only the
-// given input pixel (_xpixel, _ypixel) and
-// to make PBRT return a value for that pixel instead
-// of an image. Use the following flags:
-// --pixel : pixel coordinates to be rendered from the PBRT code
-// --epath : path to your PBRT executable on your machine
-// --spath : path to your PBRT Scene file (.pbrt)
-// --pypath: path to the python script to modify .pbrt file according to
-// command line arguments provided
-
-// NOTE: argument Point2d p is used to get the number of samples
-// in the operator call below.
-// PBRTIntegrand uses the samplers directly from the PBRT code.
-/////////////////////////////////////////////////////////////
 
 double PBRTIntegrand::operator () (const Point2d& p) const
 {
@@ -174,5 +148,4 @@ double PBRTIntegrand::operator () (const Point2d& p) const
 
 PBRTIntegrand::~PBRTIntegrand()
 {}
-
 

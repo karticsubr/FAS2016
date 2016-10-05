@@ -47,7 +47,6 @@ private:
     static const string ExrImgNameStr ; // = "--img"
 
     Analyzer* _analyzer;
-    string _PBRTExecStr, _PBRTOutImgStr ;
 
     double computePBRTIntegral(std::string imageName, int NSPP, std::string samplerName) const;
 };
