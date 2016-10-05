@@ -39,7 +39,7 @@ SamplerLocation = re.search("Sampler", filedata)
 if IntegratorMLTLocation is not None:
     if SamplerLocation is None and sampler == 'stratified':
         nsamples = nsamples*nsamples
-    filedata = re.sub('Integrator "mlt" .+','Integrator "mlt" "integer mutationsperpixel" ' + str(nsamples), filedata, 1)
+    filedata = re.sub('Integrator "mlt" .+','Integrator "mlt" "integer mutationsperpixel" ' + str(nsamples), filedata)
 
 
 #with open(filename, 'r+') as file :
