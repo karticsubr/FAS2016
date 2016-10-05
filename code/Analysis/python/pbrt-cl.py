@@ -26,7 +26,6 @@ if sampler == 'stratified':
 else:
     samplerstring = str('Sampler '+ '"' + sampler + '" ' + '"integer pixelsamples" [' + nsamples +']')
 
-
 # Read in the file
 filedata = None
 with open(filename, 'r+') as file :
@@ -34,14 +33,20 @@ with open(filename, 'r+') as file :
 
 stringFileNameLocation = re.search("string filename", filedata)
 WorldBeginLocation = re.search("WorldBegin", filedata).start()
+IntegratorMLTLocation = re.search("mlt", filedata)
+SamplerLocation = re.search("Sampler", filedata)
 
-with open(filename, 'r+') as file :
-    if stringFileNameLocation is not None:
-        stringFileNameLocation = stringFileNameLocation.start()
-        if stringFileNameLocation < WorldBeginLocation:
-            filedata = re.sub('"string filename" .+',' ', filedata, 1)
-#    file.seek(0);
-#    file.write('"string filename" "pbrt-eea.exr"\n' + filedata);
+if IntegratorMLTLocation is not None:
+    if SamplerLocation is None and sampler == 'stratified':
+        nsamples = nsamples*nsamples
+    filedata = re.sub('Integrator "mlt" .+','Integrator "mlt" "integer mutationsperpixel" ' + str(nsamples), filedata, 1)
+
+
+#with open(filename, 'r+') as file :
+if stringFileNameLocation is not None:
+    stringFileNameLocation = stringFileNameLocation.start()
+    if stringFileNameLocation < WorldBeginLocation:
+        filedata = re.sub('"string filename" .+',' ', filedata, 1)
 
 # Replace the cropwindow with the input values in the .pbrt file
 filedata = re.sub(r'"float cropwindow".+',cropwindowstring, filedata)
