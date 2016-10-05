@@ -46,6 +46,9 @@ for i=1:h
     legstr{snum}=[ dout.sstructs(snum).stype ' ' sa(1:min(length(sa), maxlegwidth)) '...'];
     spidx(snum) = i ;
     ia = dout.istructs(inum).iarg ;
+    if isfield(dout.istructs(inum), 'leg')
+        ia = dout.istructs(inum).leg ;
+    end
     legstr2{inum}=[dout.istructs(inum).itype ' '  ia(1:min(length(ia), maxlegwidth)) '...'] ;
     spidx2(inum) = i ;
 end
