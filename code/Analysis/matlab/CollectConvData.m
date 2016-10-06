@@ -23,8 +23,7 @@ for i=1:nstypes
              iarg = strrep(iarg, '$$SAMP$$', PBRTSamplerTypes(stype)) ;
          end
         end
-        execstr = [binfile ' -S --stype ' stype ' ' sarg ' -I --itype ' itype ' ' iarg ' -A --atype ' atype ' --nsamps  ' nsamps ' --nreps ' nreps ' -G --ofile ' ofile] ; 
-
+        execstr = [binfile ' -S --stype ' stype ' ' sarg ' -I --itype ' itype ' ' iarg ' -A --atype ' atype ' --nsamps  ' nsamps ' --nreps ' nreps ' -G --ofile ' ofile]  ;
         system(execstr);
     end
 end

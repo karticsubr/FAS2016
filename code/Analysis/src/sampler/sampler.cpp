@@ -159,7 +159,7 @@ randomSampler::randomSampler(const vector<string>& SamplerParams)
 
 void randomSampler::MTSample(vector<Point2d>& pts, int n) const
 {
-    //pts.resize(n) ;
+    pts.resize(n) ;
     double maxRange = bBoxMax - bBoxMin;
     for (int i=0; i<n; i++)
     {
@@ -171,7 +171,7 @@ void randomSampler::MTSample(vector<Point2d>& pts, int n) const
         x = (maxRange * x) + bBoxMin;
         y = (maxRange * y) + bBoxMin;
 
-        pts.push_back(Point2d(x,y));
+        pts[i] = Point2d(x,y);
     }
 }
 
@@ -194,10 +194,11 @@ void jitteredSampler::MTSample(vector<Point2d> &pts, int n) const
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
 
-    //pts.resize(n) ;
+    pts.resize(n) ;
 
     double maxRange = bBoxMax - bBoxMin;
 
+    #pragma omp parallel for
     for (int r=0; r<sqrtN; r++){
         for (int c=0; c<sqrtN; c++){
             double x = (c + drand48()) * dX;
@@ -209,8 +210,7 @@ void jitteredSampler::MTSample(vector<Point2d> &pts, int n) const
             x = (maxRange * x) + bBoxMin;
             y = (maxRange * y) + bBoxMin;
 
-            //pts[r*sqrtN+c] = Point2d(x, y);
-            pts.push_back(Point2d(x,y));
+            pts[r*sqrtN+c] = Point2d(x, y);
         }
     }
 }
@@ -234,16 +234,15 @@ void gridSampler::MTSample(vector<Point2d>& pts, int n) const
     int sqrtN (ceil(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
 
-//    pts.resize(n) ;
+    pts.resize(n) ;
 
-//    #pragma omp parallel for
+   #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
     {
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
-        //pts[i*sqrtN+j] =  Point2d(x,y) ;
-        pts.push_back(Point2d(x,y));
+        pts[i*sqrtN+j] =  Point2d(x,y) ;
     }
     }
 }
@@ -273,7 +272,7 @@ void gjSampler::MTSample(vector<Point2d>& pts, int n) const
 {
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
-//    pts.resize(n) ;
+    pts.resize(n) ;
     std::normal_distribution<double> ND(0,1);
 
     #pragma omp parallel for
@@ -283,8 +282,7 @@ void gjSampler::MTSample(vector<Point2d>& pts, int n) const
     {
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
         const double r1(ND(RGen)*dX*.5), r2(ND(RGen)*dX*.5);
-        //pts[i*sqrtN+j] = Point2d(x+(r1),y+(r2), true);
-        pts.push_back(Point2d(x+(r1),y+(r2), true));
+        pts[i*sqrtN+j] = Point2d(x+(r1),y+(r2), true);
     }
     }
 }
@@ -313,17 +311,16 @@ void bjSampler::MTSample(vector<Point2d>& pts, int n) const
 {
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
-//    pts.resize(n) ;
+    pts.resize(n) ;
 
-//    #pragma omp parallel for
+    #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
     {
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
         const double r1(-.5+drand48()), r2(-.5+drand48());
-        //pts[i*sqrtN+j] = Point2d(x+(r1)*_boxWidth*dX,y+(r2)*_boxWidth*dY, true);
-        pts.push_back(Point2d(x+(r1)*_boxWidth*dX,y+(r2)*_boxWidth*dY, true));
+        pts[i*sqrtN+j] = Point2d(x+(r1)*_boxWidth*dX,y+(r2)*_boxWidth*dY, true);
     }
     }
 }

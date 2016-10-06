@@ -51,8 +51,8 @@ s(2) = GenSamplStruct('Random', '') ;
 s(3) = GenSamplStruct('BJittered', '--boxwidth .3') ;
 s(4) = GenSamplStruct('BJittered', '--boxwidth .5') ;
 s(5) = GenSamplStruct('GJittered', '--sigma .3') ;
-%s(6) = GenSamplStruct('GJittered', '--sigma .5') ;
-s(6) = GenSamplStruct('Grid', '') ;
+s(6) = GenSamplStruct('GJittered', '--sigma .5') ;
+s(7) = GenSamplStruct('Grid', '') ;
 
 %%%%%%%%%%% Integrands
 i(1) = GenIntegStruct('QuadPix', ['--points ' num2str(rand(1,4))]) ;
