@@ -1,7 +1,4 @@
-
-
-
-%% Does jittered have poor convergence compared to random?
+%% PBRT integrands
 tic; 
 clear ;
 s(1) = GenSamplStruct('Jittered', '') ;
@@ -45,7 +42,7 @@ toc
 PlotConvData(data) ;
 
 
-%%
+%% Other integrands
 
 clear; 
 %%%%%%%%%%% samplers 
@@ -54,13 +51,15 @@ s(2) = GenSamplStruct('Random', '') ;
 s(3) = GenSamplStruct('BJittered', '--boxwidth .3') ;
 s(4) = GenSamplStruct('BJittered', '--boxwidth .5') ;
 s(5) = GenSamplStruct('GJittered', '--sigma .3') ;
-s(6) = GenSamplStruct('GJittered', '--sigma .5') ;
+%s(6) = GenSamplStruct('GJittered', '--sigma .5') ;
+s(6) = GenSamplStruct('Grid', '') ;
 
 %%%%%%%%%%% Integrands
 i(1) = GenIntegStruct('QuadPix', ['--points ' num2str(rand(1,4))]) ;
-% i(2) = GenIntegStruct('PWConstant', '--npts 10 --random') ;
-% i(3) = GenIntegStruct('PWConstant', '--npts 100 --random') ;
-% i(4) = GenIntegStruct('PWConstant', '--npts 1000 --random') ;
+i(2) = GenIntegStruct('PWConstant', '--npts 100 --random') ;
+i(3) = GenIntegStruct('Gaussian', '--center .5 .5 --sigma .2 .4') ;
+i(4) = GenIntegStruct('Disk', '--center .5 .5 --rad .3') ;
+i(4) = GenIntegStruct('Disk', '--center .5 .5 --rad .3') ;
 
 %%%%%%%%%%% Analysis Parameters
 ns = [9 36 100 1024] ;
@@ -68,8 +67,6 @@ nr =  50;
 ofile = '../out/test';
 binfile = '../build/eea' ;
 atype = 'var' ;
-
-%%
 
 system (['rm ' ofile '*.txt']) ;
 data = CollectConvData(ns, nr, ofile, binfile, s, i, atype) ;

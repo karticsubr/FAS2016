@@ -152,9 +152,9 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
             _pts.resize(0);
             _sampler->MTSample(_pts, n);
 
-            progress << "\r trials: " << trial << "/" << _nTrials << " N: " << _pts.size();
-            std::cerr << progress.str();
-            progress.clear();
+            //progress << "\r trials: " << trial << "/" << _nTrials << " N: " << _pts.size();
+            //std::cerr << progress.str();
+            //progress.clear();
 
             for(int i=0; i<_xRes*_yRes; i++)
                 _powerSpectrum[i] = 0.;

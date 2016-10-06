@@ -139,9 +139,9 @@ void VarianceAnalyzer::RunAnalysis(string& prefix){
        double mean = 0.0, variance = 0.0;
        for (int trial=1; trial <= _nTrials; trial++)
        {
-           progress << "\r trials: " << trial << "/" << _nTrials << " N: " << n;
-           std::cerr << progress.str();
-           progress.clear();
+           //progress << "\r trials: " << trial << "/" << _nTrials << " N: " << n;
+           //std::cerr << progress.str();
+           //progress.clear();
 
            _pts.resize(0);
            _sampler->MTSample(_pts, n) ;
