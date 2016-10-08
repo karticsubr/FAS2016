@@ -5,7 +5,18 @@
 #include <unistd.h>
 #include <sstream>
 #include <random>
+#include <thread>
 #include <iostream>
+
+#if HAS_CXX11_THREAD_LOCAL
+    #define ATTRIBUTE_TLS thread_local
+#elif defined (__GNUC__)
+    #define ATTRIBUTE_TLS __thread
+#elif defined (_MSC_VER)
+    #define ATTRIBUTE_TLS __declspec(thread)
+#else // !C++11 && !__GNUC__ && !_MSC_VER
+    #error "Define a thread local storage qualifier for your compiler/platform!"
+#endif
 
 using std::cout ;
 using std::stringstream ;
@@ -163,6 +174,13 @@ void randomSampler::MTSample(vector<Point2d>& pts, int n) const
     double maxRange = bBoxMax - bBoxMin;
     for (int i=0; i<n; i++)
     {
+        ///
+        /// \brief Thread safe version of random number generator
+        ///
+//        static thread_local std::mt19937 generatorX;
+//        std::uniform_real_distribution<double> distribution(0,1);
+//        double x = distribution(generatorX);
+//        double y = distribution(generatorY);
         double x = drand48();
         double y = drand48();
         ///
