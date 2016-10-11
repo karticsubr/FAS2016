@@ -48,7 +48,7 @@ out.nr = nr ;
 out.ofile = ofile; 
 out.sstructs = sstructs ; 
 out.istructs = istructs ;
-
+out.atype = atype ;
 end
 
 function out = PBRTSamplerTypes(stype)
