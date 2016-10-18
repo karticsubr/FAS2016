@@ -47,6 +47,7 @@ public:
     virtual void MTSample(vector<Point2d>& pts, int n) const = 0;   // thread-safe version
     virtual string GetType() const {return SamplingType; }
     virtual vector<Point2d>& GetPoints() {return p;}
+
     virtual ~Sampler();
 
     Sampler(){bBoxMin = 0; bBoxMax = 1;}
@@ -75,6 +76,7 @@ class randomSampler: public Sampler
     virtual ~randomSampler() {}
 
     private:
+
     randomSampler() {SamplingType = "Random" ;}
     randomSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
@@ -108,6 +110,7 @@ class gridSampler: public Sampler
     virtual ~gridSampler() {}
 
     private:
+
     gridSampler() {SamplingType = "Grid" ;}
     gridSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
@@ -125,6 +128,7 @@ class gjSampler: public Sampler
     virtual ~gjSampler() {}
 
     private:
+
     gjSampler(): _sigma(0.5) {SamplingType = "GJittered" ;}
     gjSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
@@ -147,6 +151,7 @@ class bjSampler: public Sampler
     virtual ~bjSampler() {}
 
     private:
+
     bjSampler(): _boxWidth(0.5) {SamplingType = "BJittered" ;}
     bjSampler(const vector<string>& SamplerParams) ;
     friend class SamplerPrototype;
@@ -169,76 +174,9 @@ class pdSampler: public Sampler
     virtual ~pdSampler() {}
 
     private:
+
     pdSampler() {SamplingType = "PDisk" ;}
-    pdSampler(const vector<string>& SamplerParams) {} ;
-    friend class SamplerPrototype;
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				latinhypercube (NOT IMPLEMENTED)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class latinhypercubeSampler: public Sampler
-{
-public:
-    virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
-    virtual void MTSample(vector<Point2d>& pts, int n) const ;
-    virtual ~latinhypercubeSampler() {}
-
-private:
-    latinhypercubeSampler() {SamplingType = "LatinHypercube" ;}
-    latinhypercubeSampler(const vector<string>& SamplerParams);
-    friend class SamplerPrototype;
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				halton (NOT IMPLEMENTED)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class haltonSampler: public Sampler
-{
-public:
-    virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
-    virtual void MTSample(vector<Point2d>& pts, int n) const ;
-    virtual ~haltonSampler() {}
-
-private:
-    haltonSampler() {SamplingType = "Halton" ;}
-    haltonSampler(const vector<string>& SamplerParams) ;
-    friend class SamplerPrototype;
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				sobol (NOT IMPLEMENTED)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class sobolSampler: public Sampler
-{
-public:
-    virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
-    virtual void MTSample(vector<Point2d>& pts, int n) const ;
-    virtual ~sobolSampler() {}
-
-private:
-    sobolSampler() {SamplingType = "Sobol" ;}
-    sobolSampler(const vector<string>& SamplerParams) ;
-    friend class SamplerPrototype;
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				02sequence (NOT IMPLEMENTED)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class zerotwosequenceSampler: public Sampler
-{
-public:
-    virtual Sampler* GenSampler(const vector<string>& SamplerParams)  ;
-    virtual void MTSample(vector<Point2d>& pts, int n) const ;
-    virtual ~zerotwosequenceSampler() {}
-
-private:
-    zerotwosequenceSampler() {SamplingType = "02sequence" ;}
-    zerotwosequenceSampler(const vector<string>& SamplerParams) ;
+    pdSampler(const vector<string>& SamplerParams) {}
     friend class SamplerPrototype;
 };
 

@@ -8,16 +8,6 @@
 #include <thread>
 #include <iostream>
 
-#if HAS_CXX11_THREAD_LOCAL
-    #define ATTRIBUTE_TLS thread_local
-#elif defined (__GNUC__)
-    #define ATTRIBUTE_TLS __thread
-#elif defined (_MSC_VER)
-    #define ATTRIBUTE_TLS __declspec(thread)
-#else // !C++11 && !__GNUC__ && !_MSC_VER
-    #error "Define a thread local storage qualifier for your compiler/platform!"
-#endif
-
 using std::cout ;
 using std::stringstream ;
 using std::endl ;
@@ -36,15 +26,11 @@ SamplerPrototype::SamplerPrototype()
 {
     vector<Sampler*> vs ;
     vs.push_back(new randomSampler());
-        vs.push_back(new gridSampler());
-        vs.push_back(new jitteredSampler());
-        vs.push_back(new gjSampler());
-        vs.push_back(new bjSampler());
-        vs.push_back(new latinhypercubeSampler());
-        vs.push_back(new haltonSampler());
-        vs.push_back(new sobolSampler());
-        vs.push_back(new zerotwosequenceSampler());
-        // vs.push_back(new MyNewSampler()); // add a line like this
+    vs.push_back(new gridSampler());
+    vs.push_back(new jitteredSampler());
+    vs.push_back(new gjSampler());
+    vs.push_back(new bjSampler());
+    // vs.push_back(new MyNewSampler()); // add a line like this
 
     for (int i(0); i<vs.size(); i++)
     exemplars[vs[i]->GetType()] = vs[i] ;
@@ -172,24 +158,24 @@ void randomSampler::MTSample(vector<Point2d>& pts, int n) const
 {
     pts.resize(n) ;
     double maxRange = bBoxMax - bBoxMin;
+    std::random_device rd;
+
     for (int i=0; i<n; i++)
     {
         ///
         /// \brief Thread safe version of random number generator
         ///
-//        static thread_local std::mt19937 generatorX;
-//        std::uniform_real_distribution<double> distribution(0,1);
-//        double x = distribution(generatorX);
-//        double y = distribution(generatorY);
-        double x = drand48();
-        double y = drand48();
+        static thread_local std::mt19937 generator(rd());
+        std::uniform_real_distribution<double> distribution(0,1);
+        double tx = distribution(generator);
+        double ty = distribution(generator);
         ///
         /// Change the range of (x,y) from [0,1) to [bBoxMin, bBoxMax)
         ///
-        x = (maxRange * x) + bBoxMin;
-        y = (maxRange * y) + bBoxMin;
+        double px = (maxRange * tx) + bBoxMin;
+        double py = (maxRange * ty) + bBoxMin;
 
-        pts[i] = Point2d(x,y);
+        pts[i] = Point2d(px,py);
     }
 }
 
@@ -215,12 +201,21 @@ void jitteredSampler::MTSample(vector<Point2d> &pts, int n) const
     pts.resize(n) ;
 
     double maxRange = bBoxMax - bBoxMin;
+    std::random_device rd;
 
-    #pragma omp parallel for
+#pragma omp parallel for
     for (int r=0; r<sqrtN; r++){
         for (int c=0; c<sqrtN; c++){
-            double x = (c + drand48()) * dX;
-            double y = (r + drand48()) * dY;
+            ///
+            /// \brief Thread safe version of random number generator
+            ///
+            static thread_local std::mt19937 generator(rd());
+            std::uniform_real_distribution<double> distribution(0,1);
+            double tx = distribution(generator);
+            double ty = distribution(generator);
+
+            double x = (c + tx) * dX;
+            double y = (r + ty) * dY;
 
             ///
             /// Change the range of (x,y) from [0,1) to [bBoxMin, bBoxMax)
@@ -293,13 +288,22 @@ void gjSampler::MTSample(vector<Point2d>& pts, int n) const
     pts.resize(n) ;
     std::normal_distribution<double> ND(0,1);
 
+    std::random_device rd;
     #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
     {
+        ///
+        /// \brief Thread safe version of random number generator
+        ///
+        static thread_local std::mt19937 generator(rd());
+        std::uniform_real_distribution<double> distribution(0,1);
+        double tx = distribution(generator);
+        double ty = distribution(generator);
+
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
-        const double r1(ND(RGen)*dX*.5), r2(ND(RGen)*dX*.5);
+        const double r1(tx*dX*.5), r2(ty*dX*.5);
         pts[i*sqrtN+j] = Point2d(x+(r1),y+(r2), true);
     }
     }
@@ -330,100 +334,29 @@ void bjSampler::MTSample(vector<Point2d>& pts, int n) const
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
     pts.resize(n) ;
+    std::random_device rd;
 
     #pragma omp parallel for
     for (int i=0; i<sqrtN; i++)
     {
     for (int j=0; j<sqrtN; j++)
     {
+        ///
+        /// \brief Thread safe version of random number generator
+        ///
+        static thread_local std::mt19937 generator(rd()  );
+        std::uniform_real_distribution<double> distribution(0,1);
+        double tx = distribution(generator);
+        double ty = distribution(generator);
+
         const double x(dX/2.0 + i*dX), y(dY/2.0 + j*dY) ;
-        const double r1(-.5+drand48()), r2(-.5+drand48());
+        const double r1(-.5+tx), r2(-.5+ty);
         pts[i*sqrtN+j] = Point2d(x+(r1)*_boxWidth*dX,y+(r2)*_boxWidth*dY, true);
     }
     }
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				LatinHyperCube
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Sampler* latinhypercubeSampler::GenSampler(const vector<string>& SamplerParams)
-{
-    return new latinhypercubeSampler(SamplerParams) ;
-}
-
-latinhypercubeSampler::latinhypercubeSampler(const vector<string>& SamplerParams)
-{
-    SamplingType = "latinhypercube" ;
-}
-
-void latinhypercubeSampler::MTSample(vector<Point2d>& pts, int n) const
-{
-    for (int i=0; i<n; i++)
-        pts.push_back(Point2d(0.,0.));
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				Halton
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Sampler* haltonSampler::GenSampler(const vector<string>& SamplerParams)
-{
-    return new haltonSampler(SamplerParams) ;
-}
-
-haltonSampler::haltonSampler(const vector<string>& SamplerParams)
-{
-    SamplingType = "halton" ;
-}
-
-void haltonSampler::MTSample(vector<Point2d>& pts, int n) const
-{
-    for (int i=0; i<n; i++)
-        pts.push_back(Point2d(0.,0.));
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				Sobol
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Sampler* sobolSampler::GenSampler(const vector<string>& SamplerParams)
-{
-    return new sobolSampler(SamplerParams) ;
-}
-
-sobolSampler::sobolSampler(const vector<string>& SamplerParams)
-{
-    SamplingType = "sobol" ;
-}
-
-void sobolSampler::MTSample(vector<Point2d>& pts, int n) const
-{
-    for (int i=0; i<n; i++)
-        pts.push_back(Point2d(0.,0.));
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 				02sequence
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Sampler* zerotwosequenceSampler::GenSampler(const vector<string>& SamplerParams)
-{
-    return new zerotwosequenceSampler(SamplerParams) ;
-}
-
-zerotwosequenceSampler::zerotwosequenceSampler(const vector<string>& SamplerParams)
-{
-    SamplingType = "02sequence" ;
-}
-
-void zerotwosequenceSampler::MTSample(vector<Point2d>& pts, int n) const
-{
-    for (int i=0; i<n; i++)
-        pts.push_back(Point2d(0.,0.));
-}
 
 
 

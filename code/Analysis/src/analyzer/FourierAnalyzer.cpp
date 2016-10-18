@@ -3,6 +3,7 @@
 #include <common.h>
 #include <fstream>
 #include <iomanip>
+#include <write-exr.h>
 
 #define USE_TBB
 ///
@@ -190,7 +191,7 @@ void FourierAnalyzer::RunAnalysis(string& prefix){
                 //##########################################################
                 ss.str(std::string());
                 ss << prefix << _sampler->GetType() << "-n" << n << "-" << s1 << ".exr";
-                IO::WriteEXRgrey(ss.str(), _powerSpectrum, _xRes, _yRes);
+                write_exr_grey(ss.str(), _powerSpectrum, _xRes, _yRes);
 
                 ss.str(std::string());
                 ss << prefix << "-radial-mean-" << _sampler->GetType() << "-n" << n << "-" << s1 << ".txt";
