@@ -14,8 +14,14 @@ Sampling is performed on 2D domains only (unit square) and therfore integrands a
 
 \section{The C++ tool}
 \subsection{Set up (Ubuntu)}
-The source code may be downloaded from the git repository \url{git:} \KARTIC{put repo here}.
- To compile the code, create a build subdirectory. Next, run cmake and make within the build directory. The bash commands are shown below. 
+The source code may be downloaded from the git repository \url{git:} \KARTIC{put repo here}. Before building the tool the following need
+to be installed: cmake, CGAL, ZLIB. On Ubuntu, they may be installed using apt-get. 
+\begin{tcolorbox}
+ sudo apt-get install cmake \\
+ sudo apt-get install libcgal-dev \\
+ sudo apt-get install zlib1g-dev 
+\end{tcolorbox}
+ To build the tool first create a build subdirectory; then run cmake and make within the build directory. The bash commands are shown below. 
 \begin{tcolorbox}
   git clone --recursive  git:// \\
   cd NAME OF REPO\\
@@ -23,7 +29,7 @@ The source code may be downloaded from the git repository \url{git:} \KARTIC{put
   cd build\\
   cmake ../ \\
   make\\
-  cd ..\\
+  cd ..
 \end{tcolorbox}
 The binary for empirical error analysis, `eea', is located in the build directory. The `--recursive' argument automatically clones submodules that are dependencies of the toolkit. Currently the dependencies are: \KARTIC{List dependencies.} Executing the binary without any arguments will display a list of options that need to be specified. The command line arguments for eea are divided into four sections in the following order:
  %
