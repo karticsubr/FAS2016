@@ -141,3 +141,6 @@
 \newcommand{\txtblue}[1]{\textcolor{blue}{#1}} 
 \newcommand{\txtgreen}[1]{\textcolor{green}{#1}} 
 \newcommand{\txtred}[1]{\textcolor{red}{#1}}
+
+%TikzPicture
+\newcommand\tikimage[2]{{\begin{tikzpicture}\node[anchor=south west,inner sep=0] (image) at (0,0){\pdfliteral{ 1 w}\includegraphics[#1]{#2}};\end{tikzpicture}}}
