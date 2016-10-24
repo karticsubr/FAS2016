@@ -260,7 +260,7 @@ For visualizing point sets produced by different sampling strategies, no integra
 \end{tikzpicture}
 
 \end{tabular}
-\caption{\label{fig:expbrtint} Example output point sets for the code in sec.~\ref{subsec:ptanalyzer}}
+\caption{\label{fig:expbrtint} Example output point sets for the command line in sec.~\ref{subsec:ptanalyzer}}
 \end{figure}
 
 
@@ -270,8 +270,8 @@ For visualizing point sets produced by different sampling strategies, no integra
 Here, \\
 \cdashs{stype}: sampler type (`Jittered'). \\
 \cdashs{atype}:  Analyzer type (`pts') \\
-\cdashs{nsamps}: Number of samples (`1024') \\
-\cdashs{nreps}: Number of trials or realizations (`1') \\
+\cdashs{nsamps}: Number of samples (`4096') \\
+\cdashs{nreps}: Number of trials or realizations (`3') \\
 \cdashs{ofile}: Prefix for your output filename (`points')
 \end{tcolorbox}
 
@@ -285,12 +285,12 @@ For visualizing expected power spectra produced by different sampling strategies
 \tcblower
 Here, \\
 \cdashs{stype}: sampler type (stratified, random, etc.). \\
-\cdashs{atype}:  Analyzer type (fourier) \\
-\cdashs{nsamps}: Number of samples (4096) \\
-\cdashs{nreps}: Number of trials or realizations (10) \\
-\cdashs{tstep}:  Output intermediate result after given number of trials  \\
+\cdashs{atype}:  Analyzer type (`fourier') \\
+\cdashs{nsamps}: Number of samples (`4096') \\
+\cdashs{nreps}: Number of trials or realizations (`10') \\
+\cdashs{tstep}:  Output intermediate result after given number of trial steps (`2`) \\
 \cdashs{wstep}: Frequency step which is 1 for integer frequencies (it can be fractional)\\
-\cdashs{ofile}: Prefix for your output filename (could be anything)
+\cdashs{ofile}: Prefix for your output filename (`powerspectrum') (could be anything)
 \end{tcolorbox}
 %
 
