@@ -286,7 +286,6 @@ void gjSampler::MTSample(vector<Point2d>& pts, int n) const
     int sqrtN (floor(sqrt(n))) ;
     double dX(1.0f/(sqrtN)), dY(dX);
     pts.resize(n) ;
-    std::normal_distribution<double> ND(0,1);
 
     std::random_device rd;
     #pragma omp parallel for
@@ -298,7 +297,7 @@ void gjSampler::MTSample(vector<Point2d>& pts, int n) const
         /// \brief Thread safe version of random number generator
         ///
         static thread_local std::mt19937 generator(rd());
-        std::uniform_real_distribution<double> distribution(0,1);
+        std::normal_distribution<double> distribution(0,1);
         double tx = distribution(generator);
         double ty = distribution(generator);
 
@@ -355,6 +354,7 @@ void bjSampler::MTSample(vector<Point2d>& pts, int n) const
     }
     }
 }
+
 
 
 
