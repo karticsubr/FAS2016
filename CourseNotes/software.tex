@@ -44,6 +44,11 @@ Here, \\
 \cdash{G} is a general section.~e.~g.~to specify output filenames.
 \end{tcolorbox}
  We will refer to these blocks of the command line as sampling, integrand, analysis and general sections. The integrand section is only needed for some types of analyzers.
+
+\subsection{Set up on Mac OS X}
+The source code is tested on Mac OS El Capitan (10.11) and Sierra (10.12). The \emph{CMakeLists.txt} 
+is currently set to not compile OpenMP on Mac OS X. The source code still compiles but it doesn't use parallelization on Mac OS X. This is due to the fact that the \emph{clang-omp} is removed in newer Mac OS version and is directly shipped in \emph{LLVM} compiler, users can directly \emph{symlink} to the OpenMP on their local machine by installing \emph{LLVM}. This would also require modifying the \emph{CMakeLists.txt}  file accordingly. The major performance bottleneck is the Fourier analyzer that computes the sampling power
+spectra for which parallelization is highly recommended. 
  
 \subsection{Sampling section}
 \label{subsec:ptanalyzer}
