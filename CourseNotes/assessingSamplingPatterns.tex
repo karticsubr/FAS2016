@@ -22,10 +22,10 @@ More recently, the focus has been on quantification of estimation error in the F
 % Monte Carlo integration has been only recently unfolded in a step by step manner starting from Durand~\cite{durand2011frequency}, Subr and Kautz~\cite{Subr:2013:FAS}, and then by 
 % shortcite
 Durand~\cite{FredoTR} derived MSE as the inner product of the spectral densities of the integrand and sampling function
-\GURPRIT{For consistency, we should choose whether to keep Sampling part on the left or right side of the integrand, within the variance integral}, 
-\KARTIC{Agree: fixed. I kept Fredo's original equation and then switched it in the second expression involving the PS.}
+%\GURPRIT{For consistency, we should choose whether to keep Sampling part on the left or right side of the integrand, within the variance integral}, 
+%\KARTIC{Agree: fixed. I kept Fredo's original equation and then switched it in the second expression involving the PS.}
 \begin{equation} \label{eq:durand11}
-   \Exp{(I-\estim{1})^2} = \DefInt{\Omega}{}{|\IFn|^2 \; \Exp{|\SF|^2}}{\fv} = \DefInt{\Omega}{} {\Exp{\PowerSpec{\sfsym}(\fv)} \PowerSpec{\ifsym}(\fv)} {\fv} ,
+   \Exp{(I-\estim{1})^2} = \DefInt{\Omega}{}{\Exp{|\SF|^2} \; |\IFn|^2 }{\fv} = \DefInt{\Omega}{} {\Exp{\PowerSpec{\sfsym}(\fv)} \PowerSpec{\ifsym}(\fv)} {\fv} ,
 \end{equation}
 and verified that the convergence rate of the MSE of \estim{\N}\ is indeed $1/\N$. While Durand's work focused on the case of random sampling, more recently, Pilleboue et al~\cite{Pilleboue:2015:VAM} showed that this holds for an entire class of (homogenized) sampling patterns. Further, they showed that since homogenization eliminates bias, that this error is exactly the variance of the $N$-sample homogenized estimator.~i.e.
 \begin{equation} \label{eq:pillebouevar}
