@@ -380,7 +380,7 @@ To execute a Pbrt integrand, you can use the following command line:
 \cdash{I} \cdashs{itype} Pbrt 
 \cdashs{epath} \emph{path-to-pbrt-v3-executable}/pbrt 
 \cdashs{spath} \emph{path-to-pbrt-v3-scenes}/anim-killeroos.pbrt 
-\cdashs{pypath} \emph{path-to-python-script}/python/pbrt-cl.py 
+\cdashs{pypath} \emph{path-to-python-script}/pbrt-cl.py 
 \cdashs{crop} 0.25 0.75 0.25 0.75 
 \cdashs{pbrtstype} stratified
 \cdashs{refnspp} 1
@@ -400,7 +400,7 @@ Here, \\
 %
 Note that, the `\cdashs{refnspp} 1' is kept to be minimum since reference image is not used to perform 
 variance analysis. Variance computation is performed using an online algorithm that takes as input 
-the mean value from the previous iteration.
+the mean value from the previous iteration. The \emph{python script} is provided in the package in the `src/python/' folder.
 %
 
 For MSE analyzer, the reference samples per pixel should be kept higher `\cdashs{refnspp} 4096':
@@ -410,7 +410,7 @@ For MSE analyzer, the reference samples per pixel should be kept higher `\cdashs
 \cdash{I} \cdashs{itype} Pbrt 
 \cdashs{epath} \emph{path-to-pbrt-v3-executable}/pbrt 
 \cdashs{spath} \emph{path-to-pbrt-v3-scenes}/anim-killeroos.pbrt 
-\cdashs{pypath} \emph{path-to-python-script}/python/pbrt-cl.py 
+\cdashs{pypath} \emph{path-to-python-script}/pbrt-cl.py 
 \cdashs{crop} 0.25 0.75 0.25 0.75 
 \cdashs{pbrtstype} stratified
 \cdashs{refnspp} 4096
