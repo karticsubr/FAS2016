@@ -7,7 +7,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = visualizer
 TEMPLATE = app
-
+INCLUDEPATH += /usr/local/Cellar/boost/1.60.0_2/include/
 #DESTDIR=./build-visualization/ #Target file directory
 #OBJECTS_DIR=./build-visualization/ #Intermediate object files directory
 #MOC_DIR=./build-visualization/ #Intermediate moc files directory
@@ -39,7 +39,7 @@ macx {
 #    include(common.pri)
 #    _BOOST_PATH = /usr/local/Cellar/boost/1.60.0_1
 #    INCLUDEPATH += "$${_BOOST_PATH}/include/"
-#    LIBS += -L$${_BOOST_PATH}/lib
+    LIBS += -L/usr/local/lib
     LIBS += -lboost_chrono -lboost_system -lboost_program_options -lboost_filesystem -lboost_date_time -lboost_iostreams # using dynamic lib (not sure if you need that "-mt" at the end or not)
     #LIBS += $${_BOOST_PATH}/lib/libboost_chrono-mt.a # using static lib
 }
