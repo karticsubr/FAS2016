@@ -206,7 +206,7 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     customPlot->xAxis->setTicks(false);
     customPlot->xAxis->setTickStep(strataLength);
     customPlot->xAxis->setSubTickCount(sqrt(N)-1);
-    //customPlot->xAxis->setSubTickLength(subStrataLength);
+//    customPlot->xAxis->setSubTickLength(subStrataLength);//
     customPlot->xAxis->grid()->setVisible(gridVisualize);
     customPlot->xAxis->grid()->setSubGridVisible(gridVisualize);
 
@@ -219,7 +219,7 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     customPlot->yAxis->setTickStep(strataLength);
     customPlot->yAxis->setTickLength(strataLength);
     customPlot->yAxis->setSubTickCount(sqrt(N)-1);
-    //customPlot->yAxis->setSubTickLength(subStrataLength);
+//    customPlot->yAxis->setSubTickLength(subStrataLength);//
     customPlot->yAxis->grid()->setVisible(gridVisualize);
     customPlot->yAxis->grid()->setSubGridVisible(gridVisualize);
 
@@ -233,8 +233,10 @@ void MainWindow::showPointsDemo(QString &outfile, std::vector<double> &samples, 
     customPlot->yAxis2->setAutoTickStep(false);
     customPlot->yAxis2->setAutoSubTicks(false);
     customPlot->yAxis2->setTicks(false);
-    customPlot->xAxis2->setVisible(true);
-    customPlot->yAxis2->setVisible(true);
+    customPlot->xAxis->setVisible(gridVisualize);
+    customPlot->yAxis->setVisible(gridVisualize);
+    customPlot->xAxis2->setVisible(gridVisualize);
+    customPlot->yAxis2->setVisible(gridVisualize);
 //    customPlot->xAxis2->grid()->setVisible(true);
 //    customPlot->yAxis2->grid()->setVisible(true);
 
